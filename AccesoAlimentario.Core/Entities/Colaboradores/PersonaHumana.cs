@@ -1,4 +1,6 @@
-﻿namespace AccesoAlimentario.Core.Entities.Persona;
+﻿using AccesoAlimentario.Core.Entities.Direcciones;
+
+namespace AccesoAlimentario.Core.Entities.Colaboradores;
 
 public class PersonaHumana
 {

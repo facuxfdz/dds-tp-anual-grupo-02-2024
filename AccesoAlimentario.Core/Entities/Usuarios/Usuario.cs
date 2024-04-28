@@ -1,4 +1,4 @@
-﻿namespace AccesoAlimentario.Core.Entities;
+﻿namespace AccesoAlimentario.Core.Entities.Usuarios;
 
 public class Usuario
 {

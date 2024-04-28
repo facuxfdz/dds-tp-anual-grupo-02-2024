@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Enums\" />
+      <Folder Include="Entities\MediosContacto\" />
     </ItemGroup>
 
 </Project>
