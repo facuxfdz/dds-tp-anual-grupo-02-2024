@@ -2,16 +2,15 @@
 
 public class Usuario
 {
-    private string _userName;
+    private string _nombre;
     private string _password;
-    private string _email;
-    // private DateOffSet _fechaAlta;
     private bool _administrador;
 
-    public Usuario(string userName, string password, string email)
+    public Usuario(string userName, string password, bool administrador)
     {
-        _userName = userName;
+        _nombre = userName;
         _password = password;
-        _email = email;
+        _administrador = _administrador;
+
     }
 }

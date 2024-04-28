@@ -2,18 +2,27 @@
 
 namespace AccesoAlimentario.Core.Entities.Colaboradores;
 
-public class PersonaJuridica : Colaborador
+public class PersonaJuridica
 {
     private string _razonSocial;
     private TipoJuridico _tipo;
     private string _rubro;
-    // private List<MedioDeContacto> mediosDeContacto;
-    private Heladera heladera;
 
-    public PersonaJuridica(string razonSocial, TipoJuridico tipoJuridico)
+    public PersonaJuridica(string razonSocial, TipoJuridico tipoJuridico, string rubro)
     {
         _razonSocial = razonSocial;
         _tipo = tipoJuridico;
+        _rubro = rubro;
+    }
+
+    public void Colaborar()
+    {
+        
+    }
+
+    public void Contactar()
+    {
+        
     }
 
 }

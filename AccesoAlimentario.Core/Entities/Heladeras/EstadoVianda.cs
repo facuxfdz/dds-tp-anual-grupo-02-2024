@@ -2,8 +2,6 @@
 
 public enum EstadoVianda
 {
-    Ok,
-    Desperfecto,
-    Entregado,
-    NoEntregado
+    Disponible,
+    Consumida,
 }

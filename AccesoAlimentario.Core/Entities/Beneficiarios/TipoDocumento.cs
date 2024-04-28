@@ -5,5 +5,6 @@ public enum TipoDocumento
     DNI,
     LE,
     LC,
-    CUIT
+    CUIT,
+    SinDocumento,
 }
