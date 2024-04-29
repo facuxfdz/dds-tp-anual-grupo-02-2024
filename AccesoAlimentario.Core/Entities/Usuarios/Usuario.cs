@@ -11,6 +11,6 @@ public class Usuario
         _nombre = userName;
         _password = password;
         _administrador = _administrador;
-
     }
+    
 }

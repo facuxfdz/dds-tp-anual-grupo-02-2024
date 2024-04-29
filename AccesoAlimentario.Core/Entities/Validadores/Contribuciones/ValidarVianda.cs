@@ -1,14 +1,11 @@
-using AccesoAlimentario.Core.Entities.Colaboradores;
 using AccesoAlimentario.Core.Entities.Contribuciones;
 
-namespace AccesoAlimentario.Core.Entities.Vaildadores;
+namespace AccesoAlimentario.Core.Entities.Validadores.Contribuciones;
 
-public class ValidarDistribucionVianda
+public class ValidarVianda : IValidadorContribuciones
 {
     private List<TipoColaborador> _colaboradoresValidos;
-
-
-    public ValidarDistribucionVianda(List<TipoColaborador> colaboradoresValidos)
+    public ValidarVianda(List<TipoColaborador> colaboradoresValidos)
     {
         _colaboradoresValidos = colaboradoresValidos;
     }
@@ -16,4 +13,5 @@ public class ValidarDistribucionVianda
     {
         
     }
+    
 }

@@ -1,11 +1,11 @@
 using AccesoAlimentario.Core.Entities.Contribuciones;
 
-namespace AccesoAlimentario.Core.Entities.Vaildadores;
+namespace AccesoAlimentario.Core.Entities.Validadores.Contribuciones;
 
-public class ValidarHeladera
+public class ValidarPeriodica : IValidadorContribuciones
 {
     private List<TipoColaborador> _colaboradoresValidos;
-    public ValidarHeladera(List<TipoColaborador> colaboradoresValidos)
+    public ValidarPeriodica(List<TipoColaborador> colaboradoresValidos)
     {
         _colaboradoresValidos = colaboradoresValidos;
     }

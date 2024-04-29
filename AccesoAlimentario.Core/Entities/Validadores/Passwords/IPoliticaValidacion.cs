@@ -1,4 +1,4 @@
-namespace AccesoAlimentario.Core.Entities.Usuarios;
+namespace AccesoAlimentario.Core.Entities.Validadores.Passwords;
 
 public interface IPoliticaValidacion
 {

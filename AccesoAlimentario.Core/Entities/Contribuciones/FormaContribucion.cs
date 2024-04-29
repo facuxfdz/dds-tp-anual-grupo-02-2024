@@ -1,18 +1,18 @@
 using AccesoAlimentario.Core.Entities.Colaboradores;
-using AccesoAlimentario.Core.Entities.Vaildadores;
+using AccesoAlimentario.Core.Entities.Validadores.Contribuciones;
 
 namespace AccesoAlimentario.Core.Entities.Contribuciones;
 
 public abstract class FormaContribucion
 {
     private Colaborador _colaborador;
-    private IValidador _validador;
+    private IValidadorContribuciones _validadorContribuciones;
     private DateTime _fechaContribucion;
 
-    public FormaContribucion(Colaborador colaborador, IValidador validador, DateTime fechaContribucion)
+    public FormaContribucion(Colaborador colaborador, IValidadorContribuciones validadorContribuciones, DateTime fechaContribucion)
     {
         _colaborador = colaborador;
-        _validador = validador;
+        _validadorContribuciones = validadorContribuciones;
         _fechaContribucion = fechaContribucion;
     }
 
