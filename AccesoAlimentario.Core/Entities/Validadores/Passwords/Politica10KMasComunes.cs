@@ -1,10 +1,13 @@
 namespace AccesoAlimentario.Core.Entities.Validadores.Passwords;
 
+using System.IO;
+
 public class Politica10KMasComunes : IPoliticaValidacion
 {
-    private String _pathArchivo = "Resources/10k-most-common.txt";
+    private string _pathArchivo = "Resources/10mil-mas-comunes.txt";
+    
     public bool Valida(string password)
     {
-        return true;
+        return !File.ReadAllText(_pathArchivo).Contains(password);
     }
 }

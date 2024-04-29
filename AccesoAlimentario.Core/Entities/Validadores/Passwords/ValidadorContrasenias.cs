@@ -8,16 +8,19 @@ public class ValidadorContrasenias
     {
         _validaciones = validaciones;
     }
+
+    public ValidadorContrasenias()
+    {
+        _validaciones = new List<IPoliticaValidacion>
+        {
+            new PoliticaLongitud(),
+            new Politica10KMasComunes(),
+            new PoliticaComplejidad()
+        };
+    }
     
     public bool Validar(string password)
     {
-        foreach (var validacion in _validaciones)
-        {
-            if (!validacion.Valida(password))
-            {
-                return false;
-            }
-        }
-        return true;
+        return _validaciones.All(validacion => validacion.Valida(password));
     }
 }

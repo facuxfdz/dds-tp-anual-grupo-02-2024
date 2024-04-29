@@ -10,4 +10,11 @@
       <Folder Include="Resources\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="Resources\10mil-mas-comunes.txt" />
+      <EmbeddedResource Include="Resources\10mil-mas-comunes.txt">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </EmbeddedResource>
+    </ItemGroup>
+
 </Project>
