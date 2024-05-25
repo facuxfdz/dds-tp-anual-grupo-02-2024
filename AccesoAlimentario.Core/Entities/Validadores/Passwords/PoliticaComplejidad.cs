@@ -2,7 +2,7 @@ namespace AccesoAlimentario.Core.Entities.Validadores.Passwords;
 
 public class PoliticaComplejidad : IPoliticaValidacion
 {
-    public bool Valida(string password)
+    public bool Validar(string password)
     {
         return password.All(EsCaracterValido);
     }

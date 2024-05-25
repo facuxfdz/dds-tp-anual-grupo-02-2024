@@ -1,4 +1,6 @@
-﻿namespace AccesoAlimentario.Core.Entities.Usuarios;
+﻿using AccesoAlimentario.Core.Entities.Validadores.Passwords;
+
+namespace AccesoAlimentario.Core.Entities.Usuarios;
 
 public class Usuario
 {
@@ -12,5 +14,9 @@ public class Usuario
         _password = password;
         _administrador = _administrador;
     }
-    
+
+    public void Validar(IPoliticaValidacion politica)
+    {
+        politica.Validar(_password);
+    }
 }

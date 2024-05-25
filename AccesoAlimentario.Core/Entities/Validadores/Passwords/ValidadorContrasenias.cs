@@ -21,6 +21,6 @@ public class ValidadorContrasenias
     
     public bool Validar(string password)
     {
-        return _validaciones.All(validacion => validacion.Valida(password));
+        return _validaciones.All(validacion => validacion.Validar(password));
     }
 }

@@ -1,11 +1,11 @@
 namespace AccesoAlimentario.Core.Entities.MediosContacto;
 
-public class Telefono
+public class Telefono : IMedioContacto
 {
-    private int _numero;
+    private string _numero;
 
     public void Contactar()
     {
-        
+        throw new NotImplementedException();
     }
 }

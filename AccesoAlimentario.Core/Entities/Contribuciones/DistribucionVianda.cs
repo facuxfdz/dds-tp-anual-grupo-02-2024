@@ -1,16 +1,21 @@
+using AccesoAlimentario.Core.Entities.Colaboradores;
 using AccesoAlimentario.Core.Entities.Heladeras;
+using AccesoAlimentario.Core.Entities.Validadores.Contribuciones;
 
 namespace AccesoAlimentario.Core.Entities.Contribuciones;
 
-public class DistribucionVianda
+public class DistribucionVianda : FormaContribucion
 {
     private Heladera _heladeraOrigen;
     private Heladera _heladeraDestino;
     private int _cantViandas;
     private MotivoDistribucion _motivoDistribucion;
 
-    public DistribucionVianda(Heladera heladeraOrigen, Heladera heladeraDestino, int cantViandas,
+
+    public DistribucionVianda(Colaborador colaborador, IValidadorContribuciones validadorContribuciones,
+        DateTime fechaContribucion, Heladera heladeraOrigen, Heladera heladeraDestino, int cantViandas,
         MotivoDistribucion motivoDistribucion)
+        : base(colaborador, validadorContribuciones, fechaContribucion)
     {
         _heladeraOrigen = heladeraOrigen;
         _heladeraDestino = heladeraDestino;
@@ -18,9 +23,8 @@ public class DistribucionVianda
         _motivoDistribucion = motivoDistribucion;
     }
 
-    public void Colaborar()
+    public override void Colaborar()
     {
-        
+        throw new NotImplementedException();
     }
-
 }

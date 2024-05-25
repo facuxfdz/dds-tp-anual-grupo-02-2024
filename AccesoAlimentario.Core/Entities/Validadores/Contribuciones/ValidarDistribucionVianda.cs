@@ -11,8 +11,9 @@ public class ValidarDistribucionVianda : IValidadorContribuciones
     {
         _colaboradoresValidos = colaboradoresValidos;
     }
+
     public void Validar(FormaContribucion formaContribucion)
     {
-        
+        throw new NotImplementedException();
     }
 }

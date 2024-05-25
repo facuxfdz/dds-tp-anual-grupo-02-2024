@@ -11,7 +11,6 @@ public class DonacionMonetaria
 
     public void Colaborar()
     {
-        
+        throw new NotImplementedException();
     }
-
 }

@@ -6,4 +6,4 @@ using AccesoAlimentario.Core.Entities.Validadores.Passwords;
 
 Politica10KMasComunes politica10KMasComunes = new Politica10KMasComunes();
 
-Console.WriteLine(politica10KMasComunes.Valida("admin123"));
+Console.WriteLine(politica10KMasComunes.Validar("admin123"));

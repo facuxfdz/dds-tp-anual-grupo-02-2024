@@ -15,7 +15,6 @@ public class ViandaEstandar
 
     public void Actualizar()
     {
-        
+        throw new NotImplementedException();
     }
-
 }

@@ -1,17 +1,18 @@
 using AccesoAlimentario.Core.Entities.Colaboradores;
-using AccesoAlimentario.Core.Entities.Heladeras;
+using AccesoAlimentario.Core.Entities.Premios;
 using AccesoAlimentario.Core.Entities.Validadores.Contribuciones;
 
 namespace AccesoAlimentario.Core.Entities.Contribuciones;
 
-public class AdministracionHeladera : FormaContribucion
+public class OfertaPremio : FormaContribucion
 {
-    private Heladera _heladera;
+    private Premio _premio;
 
-    public AdministracionHeladera(Colaborador colaborador, IValidadorContribuciones validadorContribuciones, DateTime fechaContribucion, Heladera heladera)
+    public OfertaPremio(Colaborador colaborador, IValidadorContribuciones validadorContribuciones,
+        DateTime fechaContribucion, Premio premio)
         : base(colaborador, validadorContribuciones, fechaContribucion)
     {
-        _heladera = heladera;
+        _premio = premio;
     }
 
     public override void Colaborar()

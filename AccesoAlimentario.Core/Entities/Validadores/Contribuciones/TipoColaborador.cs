@@ -4,5 +4,4 @@ public enum TipoColaborador
 {
     PersonaJuridica,
     PersonaHumana,
-    
 }

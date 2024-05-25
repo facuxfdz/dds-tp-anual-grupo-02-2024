@@ -1,11 +1,11 @@
 namespace AccesoAlimentario.Core.Entities.MediosContacto;
 
-public class Email
+public class Email : IMedioContacto
 {
-    private string _correoElectronico;
+    private string _direccion;
     
     public void Contactar()
     {
-        
+        throw new NotImplementedException();
     }
 }
