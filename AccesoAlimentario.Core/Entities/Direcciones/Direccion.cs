@@ -3,13 +3,13 @@
 public class Direccion
 {
     private string _calle;
-    private int _numero;
+    private string _numero;
     private string _localidad;
     private int? _piso;
     private int? _departamento;
-    private int _codigoPostal;
+    private string _codigoPostal;
 
-    public Direccion(string calle, int numero, string localidad, int? piso, int? departamento, int codigoPostal)
+    public Direccion(string calle, string numero, string localidad, int? piso, int? departamento, string codigoPostal)
     {
         _calle = calle;
         _numero = numero;
@@ -19,7 +19,7 @@ public class Direccion
         _codigoPostal = codigoPostal;
     }
 
-    public void Actulizar(string calle, int numero, string localidad, int piso, int departamento, int codigoPostal)
+    public void Actulizar(string calle, string numero, string localidad, int piso, int departamento, string codigoPostal)
     {
         _calle = calle;
         _numero = numero;

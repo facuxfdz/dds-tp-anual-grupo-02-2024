@@ -11,4 +11,9 @@
       <ProjectReference Include="..\AccesoAlimentario.Core\AccesoAlimentario.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+      <PackageReference Include="RestSharp" Version="111.0.1-alpha.0.5" />
+    </ItemGroup>
+
 </Project>
