@@ -20,4 +20,5 @@ public sealed class AppSettings
     }
     
     public List<string> Contrasenias => _contrasenias;
+ 
 }
