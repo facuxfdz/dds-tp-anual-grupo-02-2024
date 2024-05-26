@@ -21,4 +21,9 @@ public class DonacionVianda : FormaContribucion
     {
         throw new NotImplementedException();
     }
+
+    public override float CalcularPuntos()
+    {
+        return Config.ViandasDonadasCoef;
+    }
 }

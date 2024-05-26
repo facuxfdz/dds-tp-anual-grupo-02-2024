@@ -8,9 +8,10 @@ public class DonacionMonetaria
     {
         _monto = monto;
     }
-
+    
     public void Colaborar()
     {
         throw new NotImplementedException();
     }
+
 }

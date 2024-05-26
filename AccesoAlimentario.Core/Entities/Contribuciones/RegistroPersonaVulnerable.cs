@@ -20,4 +20,9 @@ public class RegistroPersonaVulnerable : FormaContribucion
     {
         throw new NotImplementedException();
     }
+
+    public override float CalcularPuntos()
+    {
+        return Config.TarjetasRepartidasCoef * _tarjetas.Count;
+    }
 }

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using AccesoAlimentario.Core.Entities.Colaboradores;
 using AccesoAlimentario.Core.Entities.Validadores.Contribuciones;
 
@@ -8,6 +9,7 @@ public class DonacionPeriodica : FormaContribucion
     private float _monto;
     private int _frecuencia;
     private bool _activo;
+    private List<DonacionMonetaria> _donacionesRealizadas;
 
 
     public DonacionPeriodica(Colaborador colaborador, IValidadorContribuciones validadorContribuciones,
@@ -22,5 +24,10 @@ public class DonacionPeriodica : FormaContribucion
     public override void Colaborar()
     {
         throw new NotImplementedException();
+    }
+
+    public override float CalcularPuntos()
+    {
+        return Config.PesoDonadosCoef * _monto;
     }
 }

@@ -18,4 +18,9 @@ public class AdministracionHeladera : FormaContribucion
     {
         throw new NotImplementedException();
     }
+
+    public override float CalcularPuntos()
+    {
+        throw new NotImplementedException();
+    }
 }

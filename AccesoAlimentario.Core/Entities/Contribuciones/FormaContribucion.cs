@@ -17,5 +17,7 @@ public abstract class FormaContribucion
     }
 
     public abstract void Colaborar();
+    public abstract float CalcularPuntos();
+
 
 }

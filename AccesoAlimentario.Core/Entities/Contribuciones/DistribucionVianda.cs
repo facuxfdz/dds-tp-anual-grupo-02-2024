@@ -27,4 +27,9 @@ public class DistribucionVianda : FormaContribucion
     {
         throw new NotImplementedException();
     }
+
+    public override float CalcularPuntos()
+    {
+        return Config.ViandasDistribuidasCoef * _cantViandas;
+    }
 }

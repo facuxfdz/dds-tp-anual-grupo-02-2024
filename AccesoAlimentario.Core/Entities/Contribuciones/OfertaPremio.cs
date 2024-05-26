@@ -19,4 +19,9 @@ public class OfertaPremio : FormaContribucion
     {
         throw new NotImplementedException();
     }
+
+    public override float CalcularPuntos()
+    {
+        throw new NotImplementedException();
+    }
 }
