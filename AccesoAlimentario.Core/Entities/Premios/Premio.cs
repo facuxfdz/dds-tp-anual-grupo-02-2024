@@ -1,3 +1,5 @@
+using AccesoAlimentario.Core.Entities.Colaboradores;
+
 namespace AccesoAlimentario.Core.Entities.Premios;
 
 public class Premio
@@ -15,8 +17,17 @@ public class Premio
         _reclamado = false;
     }
 
-    public void Reclamar()
+    public void Reclamar(Colaborador reclamante)
     {
-        throw new NotImplementedException();
+        if(reclamante.obtenerPuntos() >= _puntosNecesarios)
+        {
+            _reclamado = true;
+            reclamante.descontarPuntos(_puntosNecesarios);
+        }
+        else
+        {
+            throw new Exception("No tienes suficientes puntos para reclamar este premio");
+        }
+        
     }
 }

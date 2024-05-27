@@ -20,4 +20,9 @@ public abstract class Colaborador
     {
         return _formasDeContribucion.Sum(contribucion => contribucion.CalcularPuntos());
     }
+
+    public void descontarPuntos(float valor)
+    {
+        _puntos -= valor;
+    }
 }
