@@ -1,0 +1,6 @@
+﻿{
+        "PesoDonadosCoef": 0.5,
+        "ViandasDistribuidasCoef": 1,
+        "ViandasDonadasCoef": 1.5,
+        "TarjetasRepartidasCoef": 2
+        }

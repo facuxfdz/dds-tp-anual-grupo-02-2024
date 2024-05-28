@@ -17,12 +17,12 @@ public class Premio
         _reclamado = false;
     }
 
-    public void Reclamar(Colaborador reclamante)
+    public void reclamar(Colaborador reclamante)
     {
-        if(reclamante.obtenerPuntos() >= _puntosNecesarios)
+        if(reclamante.ObtenerPuntos() >= _puntosNecesarios)
         {
             _reclamado = true;
-            reclamante.descontarPuntos(_puntosNecesarios);
+            reclamante.DescontarPuntos(_puntosNecesarios);
         }
         else
         {

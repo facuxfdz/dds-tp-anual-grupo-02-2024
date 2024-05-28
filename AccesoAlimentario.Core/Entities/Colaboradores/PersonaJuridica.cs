@@ -1,8 +1,9 @@
-﻿using AccesoAlimentario.Core.Entities.Heladeras;
+﻿using AccesoAlimentario.Core.Entities.Contribuciones;
+using AccesoAlimentario.Core.Entities.Heladeras;
 
 namespace AccesoAlimentario.Core.Entities.Colaboradores;
 
-public class PersonaJuridica
+public class PersonaJuridica : Colaborador
 {
     private string _razonSocial;
     private TipoJuridico _tipo;
@@ -15,12 +16,7 @@ public class PersonaJuridica
         _rubro = rubro;
     }
 
-    public void Colaborar()
-    {
-        
-    }
-
-    public void Contactar()
+    public override void Contactar()
     {
         
     }

@@ -25,7 +25,8 @@ public class DistribucionVianda : FormaContribucion
 
     public override void Colaborar()
     {
-        throw new NotImplementedException();
+        Console.WriteLine("Estoy colaborando haciendo nada");
+       // throw new NotImplementedException();
     }
 
     public override float CalcularPuntos()

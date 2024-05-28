@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace AccesoAlimentario.Core.ApiRestConsultoraExterna
 {
-    public class ApiRestConsultoraExterna
+    public class ConsultoraExternaApi
     {
         private readonly string _url = "https://d75bfa97eb02d0219b7537f2d6a286b7.m.pipedream.net/";
 

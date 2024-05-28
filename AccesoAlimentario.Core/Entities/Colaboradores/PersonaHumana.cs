@@ -1,8 +1,9 @@
-﻿using AccesoAlimentario.Core.Entities.Direcciones;
+﻿using AccesoAlimentario.Core.Entities.Contribuciones;
+using AccesoAlimentario.Core.Entities.Direcciones;
 
 namespace AccesoAlimentario.Core.Entities.Colaboradores;
 
-public class PersonaHumana
+public class PersonaHumana : Colaborador
 {
     private string _nombre;
     private string _apellido;
@@ -15,14 +16,10 @@ public class PersonaHumana
         _apellido = apellido;
         _fechaNacimiento = fechaNacimiento;
         _direccion = direccion;
+        _formasDeContribucion = new List<FormaContribucion>();
     }
 
-    public void Colaborar()
-    {
-        
-    }
-
-    public void Contactar()
+    public override void Contactar()
     {
         
     }

@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Configuration;
+using Microsoft.Extensions.Configuration;
+using ConfigurationManager = System.Configuration.ConfigurationManager;
 
 public static class Config
 {
@@ -10,9 +11,11 @@ public static class Config
 
     static Config()
     {
-        PesoDonadosCoef = float.Parse(ConfigurationManager.AppSettings["PesoDonadosCoef"]);
-        ViandasDistribuidasCoef = float.Parse(ConfigurationManager.AppSettings["ViandasDistribuidasCoef"]);
-        ViandasDonadasCoef = float.Parse(ConfigurationManager.AppSettings["ViandasDonadasCoef"]);
-        TarjetasRepartidasCoef = float.Parse(ConfigurationManager.AppSettings["TarjetasRepartidasCoef"]);
+        var config = new ConfigurationBuilder()
+            .AddJsonFile("Resources\\CoeficientesPuntos.json", optional: true, reloadOnChange: true).Build();
+        PesoDonadosCoef = float.Parse(config["PesoDonadosCoef"]);
+        ViandasDistribuidasCoef = float.Parse(config["ViandasDistribuidasCoef"]);
+        ViandasDonadasCoef = float.Parse(config["ViandasDonadasCoef"]);
+        TarjetasRepartidasCoef = float.Parse(config["TarjetasRepartidasCoef"]);
     }
 }
