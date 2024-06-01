@@ -1,6 +1,4 @@
-using Newtonsoft.Json;
-
-namespace ApiRestConsultoraExterna.Models;
+namespace AccesoAlimentario.Infraestructura.RecomendacionUbicacionHeladeras.Models;
 
 public class DatosResponse
 {

@@ -1,6 +1,6 @@
 using AccesoAlimentario.Core.Entities.Contribuciones;
 
-namespace AccesoAlimentario.Core.Entities.Validadores.Contribuciones;
+namespace AccesoAlimentario.Core.Interfaces.Validadores;
 
 public interface IValidadorContribuciones
 {

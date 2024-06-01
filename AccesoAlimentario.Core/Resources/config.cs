@@ -1,6 +1,6 @@
-﻿using System;
-using Microsoft.Extensions.Configuration;
-using ConfigurationManager = System.Configuration.ConfigurationManager;
+﻿using Microsoft.Extensions.Configuration;
+
+namespace AccesoAlimentario.Core.Resources;
 
 public static class Config
 {

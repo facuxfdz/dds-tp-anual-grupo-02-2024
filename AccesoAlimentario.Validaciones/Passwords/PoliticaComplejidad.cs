@@ -1,4 +1,6 @@
-namespace AccesoAlimentario.Core.Entities.Validadores.Passwords;
+using AccesoAlimentario.Core.Interfaces.Validadores;
+
+namespace AccesoAlimentario.Validaciones.Passwords;
 
 public class PoliticaComplejidad : IPoliticaValidacion
 {

@@ -1,7 +1,4 @@
-﻿using AccesoAlimentario.Core.Entities.Contribuciones;
-using AccesoAlimentario.Core.Entities.Heladeras;
-
-namespace AccesoAlimentario.Core.Entities.Colaboradores;
+﻿namespace AccesoAlimentario.Core.Entities.Colaboradores;
 
 public class PersonaJuridica : Colaborador
 {

@@ -1,9 +1,4 @@
-using System.Runtime.InteropServices.JavaScript;
-using AccesoAlimentario.Core.Entities.Beneficiarios;
-using AccesoAlimentario.Core.Entities.DocumentosIdentidad;
-using CsvHelper.Configuration.Attributes;
-
-namespace AccesoAlimentario.Core.Entities.CSV;
+namespace AccesoAlimentario.Infraestructura.ImportacionColaboradores;
 
 public class Colaboracion
 {
@@ -15,6 +10,4 @@ public class Colaboracion
     public string FechaColaboracion { get; set; }
     public string FormaColaboracion { get; set; }
     public int Cantidad { get; set; }
-
-    
 }

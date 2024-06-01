@@ -2,7 +2,7 @@ using System.Globalization;
 using CsvHelper;
 using CsvHelper.Configuration;
 
-namespace AccesoAlimentario.Core.Entities.CSV;
+namespace AccesoAlimentario.Infraestructura.ImportacionColaboradores;
 
 public class LecturaCsv
 {
@@ -10,7 +10,7 @@ public class LecturaCsv
     
     public List<Colaboracion> LecturaCsvFile()
     {
-        List<Colaboracion> colaboraciones = new List<Colaboracion>(); 
+        var colaboraciones = new List<Colaboracion>(); 
         var configuration = new CsvConfiguration(CultureInfo.InvariantCulture)
         {
             Delimiter = ",",

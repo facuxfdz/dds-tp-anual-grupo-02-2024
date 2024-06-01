@@ -1,12 +1,10 @@
-using System;
 using AccesoAlimentario.Core.Entities.Direcciones;
 using AccesoAlimentario.Core.Entities.Heladeras;
-using ApiRestConsultoraExterna.Models;
-using RestSharp;
+using AccesoAlimentario.Infraestructura.RecomendacionUbicacionHeladeras.Models;
 using Newtonsoft.Json;
+using RestSharp;
 
-
-namespace AccesoAlimentario.Core.ApiRestConsultoraExterna
+namespace AccesoAlimentario.Infraestructura.RecomendacionUbicacionHeladeras
 {
     public class ConsultoraExternaApi
     {
@@ -17,9 +15,10 @@ namespace AccesoAlimentario.Core.ApiRestConsultoraExterna
             var client = new RestClient(_url);
             var request = new RestRequest($"longitud={longitud}&latitud={latitud}&radio={radio}", Method.Get);
             var response = client.Get(request);
-            var recomendacionesUbicacionResponse = JsonConvert.DeserializeObject<RecomendacionesUbicacionResponse>(response.Content);
-            return recomendacionesUbicacionResponse.data.Select((d,Index) => new PuntoEstrategico(
-                $"opcion {Index + 1}",
+            var recomendacionesUbicacionResponse =
+                JsonConvert.DeserializeObject<RecomendacionesUbicacionResponse>(response.Content);
+            return recomendacionesUbicacionResponse?.data.Select((d, i) => new PuntoEstrategico(
+                $"opcion {i + 1}",
                 float.Parse(d.Longitud),
                 float.Parse(d.Latitud),
                 new Direccion(
@@ -29,8 +28,7 @@ namespace AccesoAlimentario.Core.ApiRestConsultoraExterna
                     null,
                     null,
                     d.Direccion.CodigoPostal)
-                )).ToList();
+            )).ToList();
         }
     }
-    
 }

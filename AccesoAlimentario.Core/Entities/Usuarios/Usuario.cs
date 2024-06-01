@@ -1,4 +1,4 @@
-﻿using AccesoAlimentario.Core.Entities.Validadores.Passwords;
+﻿using AccesoAlimentario.Core.Interfaces.Validadores;
 
 namespace AccesoAlimentario.Core.Entities.Usuarios;
 

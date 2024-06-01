@@ -1,6 +1,8 @@
 using AccesoAlimentario.Core.Entities.Contribuciones;
+using AccesoAlimentario.Core.Interfaces;
+using AccesoAlimentario.Core.Interfaces.Validadores;
 
-namespace AccesoAlimentario.Core.Entities.Validadores.Contribuciones;
+namespace AccesoAlimentario.Validaciones.Contribuciones;
 
 public class ValidarPeriodica : IValidadorContribuciones
 {

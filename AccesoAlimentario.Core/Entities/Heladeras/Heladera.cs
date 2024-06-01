@@ -24,7 +24,21 @@ public class Heladera
 
     public void IngresarViandas(Heladera heladeraOrigen, List<Vianda> viandas)
     {
-        throw new NotImplementedException();
+        if (_estadoHeladera == EstadoHeladera.Funcionando)
+        {
+            if (_viandas.Count + viandas.Count <= _capacidad)
+            {
+                _viandas.AddRange(viandas);
+            }
+            else
+            {
+                throw new Exception("No hay espacio suficiente en la heladera");
+            }
+        }
+        else
+        {
+            throw new Exception("La heladera no está funcionando");
+        }
     }
 
     public void RetirarViandas(int cantidad)
@@ -47,4 +61,6 @@ public class Heladera
         _temperaturaMinima = temperaturaMinima;
         _temperaturaMaxima = temperaturaMaxima;
     }
+    
+    public EstadoHeladera EstadoHeladera => _estadoHeladera;
 }

@@ -1,6 +1,7 @@
-using System.Diagnostics.CodeAnalysis;
 using AccesoAlimentario.Core.Entities.Colaboradores;
-using AccesoAlimentario.Core.Entities.Validadores.Contribuciones;
+using AccesoAlimentario.Core.Interfaces;
+using AccesoAlimentario.Core.Interfaces.Validadores;
+using AccesoAlimentario.Core.Resources;
 
 namespace AccesoAlimentario.Core.Entities.Contribuciones;
 
