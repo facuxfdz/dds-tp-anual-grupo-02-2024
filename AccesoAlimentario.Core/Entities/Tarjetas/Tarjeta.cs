@@ -11,10 +11,11 @@ public class Tarjeta
     private Colaborador _responsable;
     private List<TarjetaConsumo> _consumos;
     
-    public Tarjeta(string codigo, Colaborador colaborador)
+    public Tarjeta(string codigo, PersonaVulnerable propietario, Colaborador responsable)
     {
         _codigo = codigo;
-        _responsable = colaborador;
+        _propietario = propietario;
+        _responsable = responsable;
         _consumos = new List<TarjetaConsumo>();
     }
     

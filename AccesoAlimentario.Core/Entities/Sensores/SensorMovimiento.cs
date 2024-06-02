@@ -4,7 +4,7 @@ namespace AccesoAlimentario.Core.Entities.Sensores;
 
 public class SensorMovimiento : Sensor
 {
-    private List<RegistroMovimiento> _registrosMovimiento;
+    private readonly List<RegistroMovimiento> _registrosMovimiento;
 
     public SensorMovimiento(string codigo, Heladera heladera) : base(codigo, heladera)
     {

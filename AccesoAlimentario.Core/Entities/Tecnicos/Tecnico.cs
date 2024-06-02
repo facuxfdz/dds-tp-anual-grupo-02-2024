@@ -9,10 +9,10 @@ public class Tecnico
     private string _apellido;
     private DocumentoIdentidad _documentoIdentidad;
     private int _cuil;
-    private IMedioContacto _medioContacto;
+    private MedioContacto _medioContacto;
     private AreaCobertura _areaCobertura;
     
-    public Tecnico(string nombre, string apellido, DocumentoIdentidad documentoIdentidad, int cuil, IMedioContacto medioContacto, AreaCobertura areaCobertura)
+    public Tecnico(string nombre, string apellido, DocumentoIdentidad documentoIdentidad, int cuil, MedioContacto medioContacto, AreaCobertura areaCobertura)
     {
         _nombre = nombre;
         _apellido = apellido;

@@ -2,12 +2,14 @@ using AccesoAlimentario.Core.Entities.Colaboradores;
 using AccesoAlimentario.Core.Entities.Heladeras;
 using AccesoAlimentario.Core.Interfaces;
 using AccesoAlimentario.Core.Interfaces.Validadores;
+using AccesoAlimentario.Core.Validadores.Contribuciones;
 
 namespace AccesoAlimentario.Core.Entities.Contribuciones;
 
 public class AdministracionHeladera : FormaContribucion
 {
     private Heladera _heladera;
+    protected readonly IValidadorContribuciones _validadorContribuciones = new ValidarHeladera();
 
     public AdministracionHeladera(Colaborador colaborador, IValidadorContribuciones validadorContribuciones, DateTime fechaContribucion, Heladera heladera)
         : base(colaborador, validadorContribuciones, fechaContribucion)

@@ -8,16 +8,18 @@ public class Premio
     private float _puntosNecesarios;
     private string _imagen;
     private bool _reclamado;
+    private TipoRubro _tipoRubro;
     
-    public Premio(string nombre, float puntosNecesarios, string imagen)
+    public Premio(string nombre, float puntosNecesarios, string imagen, TipoRubro tipoRubro)
     {
         _nombre = nombre;
         _puntosNecesarios = puntosNecesarios;
         _imagen = imagen;
         _reclamado = false;
+        _tipoRubro = tipoRubro;
     }
 
-    public void reclamar(Colaborador reclamante)
+    public void Reclamar(Colaborador reclamante)
     {
         if(reclamante.ObtenerPuntos() >= _puntosNecesarios)
         {
@@ -28,6 +30,5 @@ public class Premio
         {
             throw new Exception("No tienes suficientes puntos para reclamar este premio");
         }
-        
     }
 }
