@@ -1,19 +1,17 @@
 using AccesoAlimentario.Core.Entities.Heladeras;
-using AccesoAlimentario.Core.Entities.Personas;
-using AccesoAlimentario.Core.Interfaces;
-using AccesoAlimentario.Core.Interfaces.Validadores;
-using AccesoAlimentario.Core.Resources;
+using AccesoAlimentario.Core.Settings;
+using AccesoAlimentario.Core.Validadores.Contribuciones;
 
 namespace AccesoAlimentario.Core.Entities.Contribuciones;
 
 public class DonacionVianda : FormaContribucion
 {
+    protected readonly ValidadorContribuciones _validadorContribuciones = new ValidadorDonacionVianda();
     private Heladera _heladera;
     private Vianda _vianda;
 
-    public DonacionVianda(Colaborador colaborador, IValidadorContribuciones validadorContribuciones,
-        DateTime fechaContribucion, Heladera heladera, Vianda vianda)
-        : base(colaborador, fechaContribucion)
+    public DonacionVianda(DateTime fechaContribucion, Heladera heladera, Vianda vianda)
+        : base(fechaContribucion)
     {
         _heladera = heladera;
         _vianda = vianda;
@@ -21,6 +19,6 @@ public class DonacionVianda : FormaContribucion
 
     public override float CalcularPuntos()
     {
-        return Config.ViandasDonadasCoef;
+        return AppSettings.Instance.ViandasDonadasCoef;
     }
 }

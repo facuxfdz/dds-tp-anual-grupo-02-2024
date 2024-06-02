@@ -1,4 +1,4 @@
-﻿using AccesoAlimentario.Core.Interfaces.Validadores;
+﻿using AccesoAlimentario.Core.Validadores.Usuarios;
 
 namespace AccesoAlimentario.Core.Entities.Usuarios;
 
@@ -13,10 +13,10 @@ public class Usuario
         _nombre = userName;
         _password = password;
         _administrador = _administrador;
-    }
-
-    public void Validar(IPoliticaValidacion politica)
-    {
-        politica.Validar(_password);
+        var politica = new ValidadorContrasenias();
+        if (!politica.Validar(_password))
+        {
+            throw new ArgumentException("La contraseña no cumple con las políticas de seguridad.");
+        }
     }
 }

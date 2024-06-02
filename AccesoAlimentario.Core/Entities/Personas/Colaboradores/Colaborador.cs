@@ -5,34 +5,41 @@ using AccesoAlimentario.Core.Entities.Personas.DocumentosIdentidad;
 using AccesoAlimentario.Core.Entities.Scoring;
 using AccesoAlimentario.Core.Entities.Usuarios;
 
-namespace AccesoAlimentario.Core.Entities.Personas;
+namespace AccesoAlimentario.Core.Entities.Personas.Colaboradores;
 
 public abstract class Colaborador : Persona
 {
     protected Usuario _usuario;
-    protected List<TipoContribucion> _tiposDeContribucionesElegidas; // solo para front
+    protected List<TipoContribucion> _tiposDeContribucionesElegidas;
     protected List<FormaContribucion> _contribucionesRealizadas;
-    protected List<IMedioContacto> _mediosDeContacto;
+    protected List<MedioContacto> _mediosDeContacto;
     protected float _puntos;
 
-    public Colaborador(string nombre, Direccion? direccion, DocumentoIdentidad? documentoIdentidad, Usuario usuario)
+    public Colaborador(string nombre, Direccion? direccion, DocumentoIdentidad? documentoIdentidad, Usuario usuario,
+        List<TipoContribucion> tiposDeContribucionesElegidas)
         : base(nombre, direccion, documentoIdentidad)
     {
         _usuario = usuario;
+        _tiposDeContribucionesElegidas = tiposDeContribucionesElegidas;
         _contribucionesRealizadas = new List<FormaContribucion>();
-        _mediosDeContacto = new List<IMedioContacto>();
+        _mediosDeContacto = new List<MedioContacto>();
         _puntos = 0;
     }
-    
+
     public void Colaborar(FormaContribucion formaContribucion)
     {
-        formaContribucion.AsignarColaborador(this);
-        _contribucionesRealizadas.Add(formaContribucion);
-        var score = new Score();
-        score.Calcular(this, formaContribucion);
+        if (formaContribucion.EsValido(this))
+        {
+            _contribucionesRealizadas.Add(formaContribucion);
+            var score = new Score();
+            score.Calcular(this, formaContribucion);
+        }
     }
 
-    public abstract void Contactar();
+    public void Contactar(Notificacion notificacion)
+    {
+        _mediosDeContacto.FirstOrDefault()?.Enviar(notificacion);
+    }
 
     public float ObtenerPuntos()
     {

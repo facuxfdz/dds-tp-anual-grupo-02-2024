@@ -9,7 +9,7 @@ public class Email : MedioContacto
         _direccion = direccion;
     }
 
-    public override void Contactar(Notificacion notificacion)
+    public override void Enviar(Notificacion notificacion)
     {
         throw new NotImplementedException();
     }

@@ -13,8 +13,10 @@ public class ViandaEstandar
         _profundidad = profundidad;
     }
 
-    public void Actualizar()
+    public void Actualizar(float largo, float ancho, float profundidad)
     {
-        throw new NotImplementedException();
+        _largo = largo;
+        _ancho = ancho;
+        _profundidad = profundidad;
     }
 }

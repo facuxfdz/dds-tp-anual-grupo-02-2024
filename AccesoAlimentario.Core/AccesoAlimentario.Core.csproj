@@ -36,7 +36,6 @@
 
     <ItemGroup>
       <Folder Include="Entities\Tecnicos\" />
-      <Folder Include="Validadores\" />
     </ItemGroup>
 
 </Project>

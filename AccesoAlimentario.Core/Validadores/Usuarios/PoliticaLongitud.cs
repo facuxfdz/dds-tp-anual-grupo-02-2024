@@ -1,6 +1,4 @@
-using AccesoAlimentario.Core.Interfaces.Validadores;
-
-namespace AccesoAlimentario.Core.Validadores.Passwords;
+namespace AccesoAlimentario.Core.Validadores.Usuarios;
 
 public class PoliticaLongitud : IPoliticaValidacion
 {

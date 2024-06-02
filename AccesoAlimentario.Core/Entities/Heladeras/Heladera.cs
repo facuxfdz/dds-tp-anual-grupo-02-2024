@@ -43,18 +43,16 @@ public class Heladera
 
     public List<Vianda> RetirarViandas(int cantidad)
     {
-            if (_viandas.Count - cantidad >= 0)
-            {
-                var viandas = _viandas.GetRange(0, cantidad);
-                _viandas.RemoveRange(0, cantidad);
-                return viandas;
-            }
-            else
-            {
-                throw new Exception("No hay suficientes viandas en la heladera");
-            }
-        
-
+        if (_viandas.Count - cantidad >= 0)
+        {
+            var viandas = _viandas.GetRange(0, cantidad);
+            _viandas.RemoveRange(0, cantidad);
+            return viandas;
+        }
+        else
+        {
+            throw new Exception("No hay suficientes viandas en la heladera");
+        }
     }
 
     public void ActualizarEstado(EstadoHeladera estadoHeladera)
@@ -62,9 +60,9 @@ public class Heladera
         _estadoHeladera = estadoHeladera;
     }
 
-    public void VerificarTemperatura(float temperatura)
+    public bool VerificarTemperatura(float temperatura)
     {
-        throw new NotImplementedException();
+        return temperatura >= _temperaturaMinima && temperatura <= _temperaturaMaxima;
     }
 
     public void ActualizarRangoTemperatura(float temperaturaMinima, float temperaturaMaxima)
@@ -72,6 +70,6 @@ public class Heladera
         _temperaturaMinima = temperaturaMinima;
         _temperaturaMaxima = temperaturaMaxima;
     }
-    
+
     public EstadoHeladera EstadoHeladera => _estadoHeladera;
 }

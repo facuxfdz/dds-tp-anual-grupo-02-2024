@@ -3,11 +3,11 @@ using AccesoAlimentario.Core.Entities.Personas.Colaboradores;
 
 namespace AccesoAlimentario.Core.Validadores.Contribuciones;
 
-public class ValidarDistribucionVianda : ValidadorContribuciones
+public class ValidadorAdministracionHeladera : ValidadorContribuciones
 {
     private new readonly List<TipoColaborador> _colaboradoresValidos =
     [
-        TipoColaborador.PersonaHumana
+        TipoColaborador.PersonaJuridica
     ];
 
     public override bool Validar(FormaContribucion formaContribucion, Colaborador colaborador)

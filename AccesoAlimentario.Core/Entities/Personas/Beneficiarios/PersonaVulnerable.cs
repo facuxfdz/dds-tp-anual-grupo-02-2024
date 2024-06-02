@@ -1,7 +1,7 @@
 ﻿using AccesoAlimentario.Core.Entities.Direcciones;
 using AccesoAlimentario.Core.Entities.Personas.DocumentosIdentidad;
 
-namespace AccesoAlimentario.Core.Entities.Personas;
+namespace AccesoAlimentario.Core.Entities.Personas.Beneficiarios;
 
 public class PersonaVulnerable : Persona
 {

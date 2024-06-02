@@ -1,6 +1,8 @@
+using AccesoAlimentario.Core.Entities.Personas.Colaboradores;
+
 namespace AccesoAlimentario.Infraestructura.ImportacionColaboradores;
 
 public abstract class FormaImportacion
 {
-    public abstract List<DatosColaboracion> leerArchivo(String file);
+    public abstract List<Colaborador> ImportarColaboradores(string file);
 }

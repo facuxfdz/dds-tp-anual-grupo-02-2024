@@ -12,7 +12,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\AccesoAlimentario.Core\AccesoAlimentario.Core.csproj" />
-      <ProjectReference Include="..\AccesoAlimentario.Validaciones\AccesoAlimentario.Validaciones.csproj" />
     </ItemGroup>
 
 </Project>

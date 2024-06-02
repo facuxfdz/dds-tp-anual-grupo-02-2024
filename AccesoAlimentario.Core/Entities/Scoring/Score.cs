@@ -1,5 +1,5 @@
 ﻿using AccesoAlimentario.Core.Entities.Contribuciones;
-using AccesoAlimentario.Core.Entities.Personas;
+using AccesoAlimentario.Core.Entities.Personas.Colaboradores;
 
 namespace AccesoAlimentario.Core.Entities.Scoring;
 

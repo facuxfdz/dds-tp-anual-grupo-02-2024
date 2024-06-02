@@ -1,4 +1,4 @@
-﻿namespace AccesoAlimentario.Core.Entities.Personas;
+﻿namespace AccesoAlimentario.Core.Entities.Personas.Colaboradores;
 
 public enum TipoJuridico
 {

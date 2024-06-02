@@ -16,7 +16,7 @@ public class PuntoEstrategico
         _latitud = latitud;
         _direccion = direccion;
     }
-    
+
     public void Actualizar(string nombre, float longitud, float latitud, Direccion direccion)
     {
         _nombre = nombre;
@@ -24,5 +24,4 @@ public class PuntoEstrategico
         _latitud = latitud;
         _direccion = direccion;
     }
-
 }

@@ -3,7 +3,7 @@ using AccesoAlimentario.Core.Entities.Personas.Colaboradores;
 
 namespace AccesoAlimentario.Core.Validadores.Contribuciones;
 
-public class ValidarDistribucionVianda : ValidadorContribuciones
+public class ValidadorRegistroPersonaVulnerable : ValidadorContribuciones
 {
     private new readonly List<TipoColaborador> _colaboradoresValidos =
     [

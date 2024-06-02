@@ -1,5 +1,6 @@
 using AccesoAlimentario.Core.Entities.Heladeras;
-using AccesoAlimentario.Core.Entities.Personas;
+using AccesoAlimentario.Core.Entities.Personas.Beneficiarios;
+using AccesoAlimentario.Core.Entities.Personas.Colaboradores;
 
 namespace AccesoAlimentario.Core.Entities.Tarjetas;
 

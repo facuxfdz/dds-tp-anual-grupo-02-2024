@@ -1,8 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using AccesoAlimentario.Core.Entities.Contribuciones;
-using AccesoAlimentario.Core.Entities.Personas;
-using AccesoAlimentario.Core.Validadores.Passwords;
+using AccesoAlimentario.Core.Validadores.Usuarios;
 
 Politica10KMasComunes politica10KMasComunes = new Politica10KMasComunes();
 

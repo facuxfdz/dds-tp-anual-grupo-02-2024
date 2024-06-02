@@ -1,4 +1,4 @@
-using AccesoAlimentario.Core.Entities.Personas;
+using AccesoAlimentario.Core.Entities.Personas.Colaboradores;
 
 namespace AccesoAlimentario.Core.Entities.Premios;
 
@@ -21,6 +21,10 @@ public class Premio
 
     public void Reclamar(Colaborador reclamante)
     {
+        if (_reclamado)
+        {
+            throw new Exception("Este premio ya fue reclamado");
+        }
         if(reclamante.ObtenerPuntos() >= _puntosNecesarios)
         {
             _reclamado = true;

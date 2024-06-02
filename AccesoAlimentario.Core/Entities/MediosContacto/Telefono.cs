@@ -9,7 +9,7 @@ public class Telefono : MedioContacto
         _numero = numero;
     }
     
-    public override void Contactar(Notificacion notificacion)
+    public override void Enviar(Notificacion notificacion)
     {
         throw new NotImplementedException();
     }

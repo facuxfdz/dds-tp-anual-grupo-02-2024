@@ -15,5 +15,4 @@ public abstract class Persona
         _direccion = direccion;
         _documentoIdentidad = documentoIdentidad;
     }
-    
 }

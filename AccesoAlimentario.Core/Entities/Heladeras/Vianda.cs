@@ -1,4 +1,4 @@
-using AccesoAlimentario.Core.Entities.Personas;
+using AccesoAlimentario.Core.Entities.Personas.Colaboradores;
 
 namespace AccesoAlimentario.Core.Entities.Heladeras;
 
@@ -14,7 +14,8 @@ public class Vianda
     private EstadoVianda _estadoVianda;
     private ViandaEstandar _unidadEstandar;
 
-    public Vianda(string comida, DateTime fechaDonacion, DateTime fechaCaducidad, Colaborador colaborador, Heladera heladera, float calorias, float peso, EstadoVianda estadoVianda, ViandaEstandar unidadEstandar)
+    public Vianda(string comida, DateTime fechaDonacion, DateTime fechaCaducidad, Colaborador colaborador,
+        Heladera heladera, float calorias, float peso, EstadoVianda estadoVianda, ViandaEstandar unidadEstandar)
     {
         _comida = comida;
         _fechaDonacion = fechaDonacion;
