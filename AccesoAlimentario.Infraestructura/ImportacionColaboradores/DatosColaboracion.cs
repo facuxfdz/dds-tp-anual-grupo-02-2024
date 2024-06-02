@@ -2,12 +2,12 @@ namespace AccesoAlimentario.Infraestructura.ImportacionColaboradores;
 
 public class DatosColaboracion
 {
-    public string TipoDoc { get; set; }
+    public string TipoDoc { get; set; } = null!;
     public int Documento { get; set; }
-    public string Nombre { get; set; }
-    public string Apellido { get; set; }
-    public string Mail { get; set; }
-    public string FechaColaboracion { get; set; }
-    public string FormaColaboracion { get; set; }
+    public string Nombre { get; set; } = null!;
+    public string Apellido { get; set; } = null!;
+    public string Mail { get; set; } = null!;
+    public string FechaColaboracion { get; set; } = null!;
+    public string FormaColaboracion { get; set; } = null!;
     public int Cantidad { get; set; }
 }

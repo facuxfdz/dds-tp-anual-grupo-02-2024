@@ -41,10 +41,7 @@ public abstract class Colaborador : Persona
         _mediosDeContacto.FirstOrDefault()?.Enviar(notificacion);
     }
 
-    public float ObtenerPuntos()
-    {
-        return _contribucionesRealizadas.Sum(contribucion => contribucion.CalcularPuntos());
-    }
+    public float ObtenerPuntos() => _puntos;
 
     public void DescontarPuntos(float valor)
     {

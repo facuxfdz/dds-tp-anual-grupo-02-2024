@@ -1,4 +1,5 @@
 using System.Globalization;
+using AccesoAlimentario.Core.Entities.Contribuciones;
 using AccesoAlimentario.Core.Entities.Personas.Colaboradores;
 using AccesoAlimentario.Core.Entities.Personas.DocumentosIdentidad;
 using AccesoAlimentario.Core.Entities.Usuarios;
@@ -15,15 +16,23 @@ public class ImportadorCsv : FormaImportacion
     public override List<Colaborador> ImportarColaboradores(string file)
     {
         var colaboraciones = LeerCsv(file);
+        var colaboracionesValidas = colaboraciones.Where(c =>
+            _validador.Validar(c.TipoDoc, c.Documento, c.Nombre, c.Apellido, c.Mail, c.FechaColaboracion,
+                c.FormaColaboracion, c.Cantidad)).ToList();
+
         var colaboradores = new List<Colaborador>();
-        foreach (var datos in colaboraciones)
+        var colaboracionesPorColaborador = colaboracionesValidas.GroupBy(c => new { c.TipoDoc, c.Documento });
+
+        foreach (var colaborador in colaboracionesPorColaborador)
         {
-            if (_validador.Validar(datos.TipoDoc, datos.Documento, datos.Nombre, datos.Apellido, datos.Mail,
-                    datos.FechaColaboracion, datos.FormaColaboracion, datos.Cantidad))
-            {
-                colaboradores.Add(Parsear(datos));
-            }
+            var c = colaborador.ToList().Select(datos => Parsear(datos)).ToList();
+            var col = c.FirstOrDefault();
+            if (col == null) continue;
+            c.RemoveAt(0);
+            col.AgregarPuntos(c.Sum(x => x.ObtenerPuntos()));
+            colaboradores.Add(col);
         }
+
         return colaboradores;
     }
 
@@ -48,7 +57,46 @@ public class ImportadorCsv : FormaImportacion
         var tipoDoc = (TipoDocumento)Enum.Parse(typeof(TipoDocumento), datos.TipoDoc);
         var documento = new DocumentoIdentidad(tipoDoc, datos.Documento, SexoDocumento.Otro);
         var usuario = new Usuario(datos.Mail, CrearPassword(), false);
-        var colaborador = new PersonaHumana(datos.Nombre, datos.Apellido,null, null, documento, usuario, []);
+        var colaborador = new PersonaHumana(datos.Nombre, datos.Apellido, null, null, documento, usuario, []);
+        var tipoContribucion = (TipoContribucion)Enum.Parse(typeof(TipoContribucion), datos.FormaColaboracion);
+        var contribucion = new List<FormaContribucion>();
+
+        switch (tipoContribucion)
+        {
+            case TipoContribucion.DINERO:
+            {
+                contribucion.Add(new DonacionMonetaria(DateTime.Parse(datos.FechaColaboracion), datos.Cantidad));
+                break;
+            }
+            case TipoContribucion.DONACION_VIANDAS:
+            {
+                for (var i = 0; i < datos.Cantidad; i++)
+                {
+                    contribucion.Add(new DonacionVianda(DateTime.Parse(datos.FechaColaboracion), null, null));
+                }
+
+                break;
+            }
+            case TipoContribucion.REDISTRIBUCION_VIANDAS:
+            {
+                contribucion.Add(new DistribucionViandas(DateTime.Parse(datos.FechaColaboracion), null, null,
+                    datos.Cantidad, MotivoDistribucion.Desperfecto));
+                break;
+            }
+            case TipoContribucion.ENTREGA_TARJETAS:
+            {
+                for (var i = 0; i < datos.Cantidad; i++)
+                {
+                    contribucion.Add(new RegistroPersonaVulnerable(DateTime.Parse(datos.FechaColaboracion), null));
+                }
+
+                break;
+            }
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+
+        contribucion.ForEach(c => colaborador.Colaborar(c));
         return colaborador;
     }
 

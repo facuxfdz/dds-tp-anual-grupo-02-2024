@@ -2,21 +2,21 @@ namespace AccesoAlimentario.Infraestructura.RecomendacionUbicacionHeladeras.Mode
 
 public class DatosResponse
 {
-    public string Longitud { get; set; }
-    public string Latitud { get; set; }
-    public DireccionResponse Direccion { get; set; }
+    public string Longitud { get; set; } = null!;
+    public string Latitud { get; set; } = null!;
+    public DireccionResponse Direccion { get; set; } = null!;
 }
 
 public class DireccionResponse
 {
-    public string Calle { get; set; }
-    public string Numero { get; set; }
-    public string Localidad { get; set; }
-    public string CodigoPostal { get; set; }
+    public string Calle { get; set; } = null!;
+    public string Numero { get; set; } = null!;
+    public string Localidad { get; set; } = null!;
+    public string CodigoPostal { get; set; } = null!;
 }
 
 public class RecomendacionesUbicacionResponse
 {
-    public List<DatosResponse> data { get; set; }
+    public List<DatosResponse> data { get; set; } = null!;
 }
 
