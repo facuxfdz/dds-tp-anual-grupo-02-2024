@@ -10,8 +10,8 @@ public class PersonaHumana : Colaborador
     private string _apellido;
     private DateOnly? _fechaNacimiento;
 
-    public PersonaHumana(string nombre, Direccion? direccion, DocumentoIdentidad? documentoIdentidad, Usuario usuario,
-        List<TipoContribucion> tiposDeContribucionesElegidas, string apellido, DateOnly? fechaNacimiento)
+    public PersonaHumana(string nombre, string apellido, DateOnly? fechaNacimiento, Direccion? direccion, DocumentoIdentidad? documentoIdentidad, Usuario usuario,
+        List<TipoContribucion> tiposDeContribucionesElegidas)
         : base(nombre, direccion, documentoIdentidad, usuario, tiposDeContribucionesElegidas)
     {
         _apellido = apellido;

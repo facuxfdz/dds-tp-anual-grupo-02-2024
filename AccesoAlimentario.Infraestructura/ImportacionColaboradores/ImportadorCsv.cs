@@ -48,7 +48,7 @@ public class ImportadorCsv : FormaImportacion
         var tipoDoc = (TipoDocumento)Enum.Parse(typeof(TipoDocumento), datos.TipoDoc);
         var documento = new DocumentoIdentidad(tipoDoc, datos.Documento, SexoDocumento.Otro);
         var usuario = new Usuario(datos.Mail, CrearPassword(), false);
-        var colaborador = new PersonaHumana(datos.Nombre, null, documento, usuario, [], datos.Apellido, null);
+        var colaborador = new PersonaHumana(datos.Nombre, datos.Apellido,null, null, documento, usuario, []);
         return colaborador;
     }
 
