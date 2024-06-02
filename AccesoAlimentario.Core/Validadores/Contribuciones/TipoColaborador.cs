@@ -1,4 +1,4 @@
-namespace AccesoAlimentario.Validaciones.Contribuciones;
+namespace AccesoAlimentario.Core.Validadores.Contribuciones;
 
 public enum TipoColaborador
 {

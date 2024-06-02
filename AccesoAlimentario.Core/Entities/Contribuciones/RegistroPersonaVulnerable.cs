@@ -8,23 +8,18 @@ namespace AccesoAlimentario.Core.Entities.Contribuciones;
 
 public class RegistroPersonaVulnerable : FormaContribucion
 {
-    private List<Tarjeta> _tarjetas;
+    private Tarjeta _tarjeta;
 
 
     public RegistroPersonaVulnerable(Colaborador colaborador, IValidadorContribuciones validadorContribuciones,
-        DateTime fechaContribucion, List<Tarjeta> tarjetas)
+        DateTime fechaContribucion, Tarjeta tarjeta)
         : base(colaborador, validadorContribuciones, fechaContribucion)
     {
-        _tarjetas = tarjetas;
-    }
-
-    public override void Colaborar()
-    {
-        throw new NotImplementedException();
+        _tarjeta = tarjeta;
     }
 
     public override float CalcularPuntos()
     {
-        return Config.TarjetasRepartidasCoef * _tarjetas.Count;
+        return Config.TarjetasRepartidasCoef;
     }
 }

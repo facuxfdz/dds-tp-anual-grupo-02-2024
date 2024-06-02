@@ -19,11 +19,6 @@ public class DonacionVianda : FormaContribucion
         _vianda = vianda;
     }
 
-    public override void Colaborar()
-    {
-        throw new NotImplementedException();
-    }
-
     public override float CalcularPuntos()
     {
         return Config.ViandasDonadasCoef;

@@ -1,6 +1,6 @@
 ﻿using AccesoAlimentario.Core.Interfaces.Validadores;
 
-namespace AccesoAlimentario.Validaciones.Passwords;
+namespace AccesoAlimentario.Core.Validadores.Passwords;
 
 public class ValidadorContrasenias
 {

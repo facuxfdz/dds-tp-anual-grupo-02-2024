@@ -2,7 +2,7 @@
 
 using AccesoAlimentario.Core.Entities.Colaboradores;
 using AccesoAlimentario.Core.Entities.Contribuciones;
-using AccesoAlimentario.Validaciones.Passwords;
+using AccesoAlimentario.Core.Validadores.Passwords;
 
 Politica10KMasComunes politica10KMasComunes = new Politica10KMasComunes();
 

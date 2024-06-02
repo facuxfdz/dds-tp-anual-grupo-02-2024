@@ -15,11 +15,6 @@ public class AdministracionHeladera : FormaContribucion
         _heladera = heladera;
     }
 
-    public override void Colaborar()
-    {
-        throw new NotImplementedException();
-    }
-
     public override float CalcularPuntos()
     {
         throw new NotImplementedException();

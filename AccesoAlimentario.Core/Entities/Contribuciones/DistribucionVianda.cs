@@ -25,11 +25,6 @@ public class DistribucionVianda : FormaContribucion
         _motivoDistribucion = motivoDistribucion;
     }
 
-    public override void Colaborar()
-    {
-        Console.WriteLine("Estoy colaborando haciendo nada");
-       // throw new NotImplementedException();
-    }
 
     public override float CalcularPuntos()
     {

@@ -1,8 +1,7 @@
 using AccesoAlimentario.Core.Entities.Contribuciones;
-using AccesoAlimentario.Core.Interfaces;
 using AccesoAlimentario.Core.Interfaces.Validadores;
 
-namespace AccesoAlimentario.Validaciones.Contribuciones;
+namespace AccesoAlimentario.Core.Validadores.Contribuciones;
 
 public class ValidarHeladera : IValidadorContribuciones
 {

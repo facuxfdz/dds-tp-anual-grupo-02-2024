@@ -16,7 +16,7 @@ public class PersonaHumana : Colaborador
         _apellido = apellido;
         _fechaNacimiento = fechaNacimiento;
         _direccion = direccion;
-        _formasDeContribucion = new List<FormaContribucion>();
+        _contribucionesRealizadas = new List<FormaContribucion>();
     }
 
     public override void Contactar()

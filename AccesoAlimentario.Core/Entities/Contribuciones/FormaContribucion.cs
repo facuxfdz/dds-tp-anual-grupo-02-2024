@@ -10,14 +10,12 @@ public abstract class FormaContribucion
     private IValidadorContribuciones _validadorContribuciones;
     private DateTime _fechaContribucion;
 
-    public FormaContribucion(Colaborador colaborador, IValidadorContribuciones validadorContribuciones, DateTime fechaContribucion)
+    public FormaContribucion(Colaborador colaborador, DateTime fechaContribucion)
     {
         _colaborador = colaborador;
-        _validadorContribuciones = validadorContribuciones;
         _fechaContribucion = fechaContribucion;
     }
 
-    public abstract void Colaborar();
     public abstract float CalcularPuntos();
 
     public void AsignarColaborador(Colaborador colaborador)

@@ -16,11 +16,6 @@ public class OfertaPremio : FormaContribucion
         _premio = premio;
     }
 
-    public override void Colaborar()
-    {
-        throw new NotImplementedException();
-    }
-
     public override float CalcularPuntos()
     {
         throw new NotImplementedException();

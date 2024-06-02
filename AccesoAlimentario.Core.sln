@@ -4,8 +4,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccesoAlimentario.Core", "A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccesoAlimentario.Console", "AccesoAlimentario.Console\AccesoAlimentario.Console.csproj", "{29467E11-3E8D-4852-813E-04A82550268D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccesoAlimentario.Validaciones", "AccesoAlimentario.Validaciones\AccesoAlimentario.Validaciones.csproj", "{21B37563-0509-49C1-93B2-DC656AC793D5}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccesoAlimentario.Infraestructura", "AccesoAlimentario.Infraestructura\AccesoAlimentario.Infraestructura.csproj", "{F4675AEE-7B2F-47C6-B3AE-56C3173895F8}"
 EndProject
 Global
@@ -22,10 +20,6 @@ Global
 		{29467E11-3E8D-4852-813E-04A82550268D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29467E11-3E8D-4852-813E-04A82550268D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29467E11-3E8D-4852-813E-04A82550268D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{21B37563-0509-49C1-93B2-DC656AC793D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{21B37563-0509-49C1-93B2-DC656AC793D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{21B37563-0509-49C1-93B2-DC656AC793D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{21B37563-0509-49C1-93B2-DC656AC793D5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F4675AEE-7B2F-47C6-B3AE-56C3173895F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F4675AEE-7B2F-47C6-B3AE-56C3173895F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4675AEE-7B2F-47C6-B3AE-56C3173895F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
