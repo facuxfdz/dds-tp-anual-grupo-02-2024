@@ -1,4 +1,4 @@
-using AccesoAlimentario.Core.Entities.Colaboradores;
+using AccesoAlimentario.Core.Entities.Personas;
 using AccesoAlimentario.Core.Interfaces;
 using AccesoAlimentario.Core.Interfaces.Validadores;
 
@@ -22,6 +22,4 @@ public abstract class FormaContribucion
     {
         _colaborador = colaborador;
     }
-
-
 }

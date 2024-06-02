@@ -1,4 +1,4 @@
-namespace AccesoAlimentario.Core.Entities.Tecnicos;
+namespace AccesoAlimentario.Core.Entities.Personas;
 
 public class AreaCobertura
 {

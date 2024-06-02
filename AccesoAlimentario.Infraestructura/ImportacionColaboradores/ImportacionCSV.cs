@@ -1,6 +1,5 @@
 using System.Globalization;
 using AccesoAlimentario.Core.Interfaces.Validadores;
-using AccesoAlimentario.Validaciones.CargaMasiva;
 using CsvHelper;
 using CsvHelper.Configuration;
 

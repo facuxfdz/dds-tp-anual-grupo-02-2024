@@ -1,4 +1,4 @@
-using AccesoAlimentario.Core.Entities.Colaboradores;
+using AccesoAlimentario.Core.Entities.Personas;
 using AccesoAlimentario.Core.Interfaces;
 using AccesoAlimentario.Core.Interfaces.Validadores;
 using AccesoAlimentario.Core.Resources;
@@ -12,12 +12,12 @@ public class DonacionPeriodica : FormaContribucion
     private int _frecuencia;
     private bool _activo;
     private List<DonacionMonetaria> _donacionesRealizadas;
-    private readonly IValidadorContribuciones validadorContribuciones = new ValidarPeriodica();
+    // private readonly IValidadorContribuciones validadorContribuciones = new ValidarPeriodica();
 
 
     public DonacionPeriodica(Colaborador colaborador,
         DateTime fechaContribucion, float monto, int frecuencia, bool activo)
-        : base(colaborador, validadorContribuciones, fechaContribucion)
+        : base(colaborador, fechaContribucion)
     {
         _monto = monto;
         _frecuencia = frecuencia;

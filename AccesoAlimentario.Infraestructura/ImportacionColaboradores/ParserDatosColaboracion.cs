@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices.JavaScript;
-using AccesoAlimentario.Core.Entities.Colaboradores;
-using AccesoAlimentario.Core.Entities.DocumentosIdentidad;
+using AccesoAlimentario.Core.Entities.Personas;
+using AccesoAlimentario.Core.Entities.Personas.DocumentosIdentidad;
 
 namespace AccesoAlimentario.Infraestructura.ImportacionColaboradores;
 

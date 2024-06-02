@@ -1,4 +1,4 @@
-using AccesoAlimentario.Core.Entities.Colaboradores;
+using AccesoAlimentario.Core.Entities.Personas;
 using AccesoAlimentario.Core.Entities.Tarjetas;
 using AccesoAlimentario.Core.Interfaces;
 using AccesoAlimentario.Core.Interfaces.Validadores;
@@ -13,7 +13,7 @@ public class RegistroPersonaVulnerable : FormaContribucion
 
     public RegistroPersonaVulnerable(Colaborador colaborador, IValidadorContribuciones validadorContribuciones,
         DateTime fechaContribucion, Tarjeta tarjeta)
-        : base(colaborador, validadorContribuciones, fechaContribucion)
+        : base(colaborador, fechaContribucion)
     {
         _tarjeta = tarjeta;
     }

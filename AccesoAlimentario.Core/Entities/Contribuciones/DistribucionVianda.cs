@@ -1,5 +1,5 @@
-using AccesoAlimentario.Core.Entities.Colaboradores;
 using AccesoAlimentario.Core.Entities.Heladeras;
+using AccesoAlimentario.Core.Entities.Personas;
 using AccesoAlimentario.Core.Interfaces;
 using AccesoAlimentario.Core.Interfaces.Validadores;
 using AccesoAlimentario.Core.Resources;
@@ -17,7 +17,7 @@ public class DistribucionVianda : FormaContribucion
     public DistribucionVianda(Colaborador colaborador, IValidadorContribuciones validadorContribuciones,
         DateTime fechaContribucion, Heladera heladeraOrigen, Heladera heladeraDestino, int cantViandas,
         MotivoDistribucion motivoDistribucion)
-        : base(colaborador, validadorContribuciones, fechaContribucion)
+        : base(colaborador, fechaContribucion)
     {
         _heladeraOrigen = heladeraOrigen;
         _heladeraDestino = heladeraDestino;

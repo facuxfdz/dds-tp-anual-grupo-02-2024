@@ -24,7 +24,7 @@ public class Heladera
 
     public void IngresarViandas(Heladera heladeraOrigen, List<Vianda> viandas)
     {
-        if (_estadoHeladera == EstadoHeladera.Funcionando)
+        if (_estadoHeladera == EstadoHeladera.Activa)
         {
             if (_viandas.Count + viandas.Count <= _capacidad)
             {
@@ -41,9 +41,20 @@ public class Heladera
         }
     }
 
-    public void RetirarViandas(int cantidad)
+    public List<Vianda> RetirarViandas(int cantidad)
     {
-        throw new NotImplementedException();
+            if (_viandas.Count - cantidad >= 0)
+            {
+                var viandas = _viandas.GetRange(0, cantidad);
+                _viandas.RemoveRange(0, cantidad);
+                return viandas;
+            }
+            else
+            {
+                throw new Exception("No hay suficientes viandas en la heladera");
+            }
+        
+
     }
 
     public void ActualizarEstado(EstadoHeladera estadoHeladera)
