@@ -1,25 +1,25 @@
 using System.Globalization;
+using AccesoAlimentario.Core.Interfaces.Validadores;
+using AccesoAlimentario.Validaciones.CargaMasiva;
 using CsvHelper;
 using CsvHelper.Configuration;
 
 namespace AccesoAlimentario.Infraestructura.ImportacionColaboradores;
 
-public class LecturaCsv
+public class ImportacionCSV : FormaImportacion
 {
-    private string _pathArchivo = "Resources/csvE2.csv";
-    
-    public List<Colaboracion> LecturaCsvFile()
+    public override List<DatosColaboracion> leerArchivo(String file)
     {
-        var colaboraciones = new List<Colaboracion>(); 
+        var colaboraciones = new List<DatosColaboracion>();
         var configuration = new CsvConfiguration(CultureInfo.InvariantCulture)
         {
             Delimiter = ",",
             HasHeaderRecord = true,
         };
-        using (var reader = new StreamReader(_pathArchivo))
+        using (var reader = new StreamReader(file))
         using (var csv = new CsvReader(reader, configuration))
         {
-            var records = csv.GetRecords<Colaboracion>();
+            var records = csv.GetRecords<DatosColaboracion>();
             colaboraciones = records.ToList();
         }
         
@@ -40,5 +40,4 @@ public class LecturaCsv
 
     }*/
     }
-    
 }

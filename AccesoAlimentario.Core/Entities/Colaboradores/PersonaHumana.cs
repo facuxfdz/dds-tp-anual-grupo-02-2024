@@ -7,10 +7,10 @@ public class PersonaHumana : Colaborador
 {
     private string _nombre;
     private string _apellido;
-    private DateOnly _fechaNacimiento;
-    private Direccion _direccion;
+    private DateOnly? _fechaNacimiento;
+    private Direccion? _direccion;
 
-    public PersonaHumana(string nombre, string apellido, DateOnly fechaNacimiento, Direccion direccion)
+    public PersonaHumana(string nombre, string apellido, DateOnly? fechaNacimiento, Direccion? direccion)
     {
         _nombre = nombre;
         _apellido = apellido;
