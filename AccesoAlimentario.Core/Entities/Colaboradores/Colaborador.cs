@@ -1,4 +1,5 @@
 ﻿using AccesoAlimentario.Core.Entities.Contribuciones;
+using AccesoAlimentario.Core.Entities.DocumentosIdentidad;
 using AccesoAlimentario.Core.Entities.MediosContacto;
 using AccesoAlimentario.Core.Entities.Scoring;
 using AccesoAlimentario.Core.Entities.Usuarios;
@@ -12,6 +13,7 @@ public abstract class Colaborador
     public List<FormaContribucion> _contribucionesRealizadas;
     private List<IMedioContacto> _mediosDeContacto;
     private float _puntos;
+    private DocumentoIdentidad _documentosIdentidad;
 
     public void Colaborar(FormaContribucion formaContribucion)
     {
