@@ -1,7 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using AccesoAlimentario.Core.Entities.Colaboradores;
 using AccesoAlimentario.Core.Entities.Contribuciones;
+using AccesoAlimentario.Core.Entities.Personas;
 using AccesoAlimentario.Core.Validadores.Passwords;
 
 Politica10KMasComunes politica10KMasComunes = new Politica10KMasComunes();
@@ -20,7 +20,3 @@ foreach (var colaboracion in colaboraciones)
 }
 */
 //
-DateOnly fechaNacimiento = new DateOnly(1990, 1, 1);
-PersonaHumana unColaborador = new PersonaHumana("pepita","pepa",fechaNacimiento,null);
-DistribucionVianda formaContribucion1 = new DistribucionVianda(null, null, DateTime.Now, null, null, 10, MotivoDistribucion.Desperfecto);
-unColaborador.Colaborar(formaContribucion1);

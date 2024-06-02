@@ -1,4 +1,4 @@
-namespace AccesoAlimentario.Core.Entities.DocumentosIdentidad;
+namespace AccesoAlimentario.Core.Entities.Personas.DocumentosIdentidad;
 
 public class DocumentoIdentidad
 {

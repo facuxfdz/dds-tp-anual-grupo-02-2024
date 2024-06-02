@@ -1,4 +1,4 @@
-using AccesoAlimentario.Core.Entities.Colaboradores;
+using AccesoAlimentario.Core.Entities.Personas;
 using AccesoAlimentario.Core.Entities.Premios;
 using AccesoAlimentario.Core.Interfaces;
 using AccesoAlimentario.Core.Interfaces.Validadores;
@@ -11,7 +11,7 @@ public class OfertaPremio : FormaContribucion
 
     public OfertaPremio(Colaborador colaborador, IValidadorContribuciones validadorContribuciones,
         DateTime fechaContribucion, Premio premio)
-        : base(colaborador, validadorContribuciones, fechaContribucion)
+        : base(colaborador, fechaContribucion)
     {
         _premio = premio;
     }

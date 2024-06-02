@@ -1,4 +1,4 @@
-using AccesoAlimentario.Core.Entities.Colaboradores;
+using AccesoAlimentario.Core.Entities.Personas;
 
 namespace AccesoAlimentario.Core.Entities.Premios;
 

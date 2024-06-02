@@ -2,7 +2,7 @@ namespace AccesoAlimentario.Core.Entities.Heladeras;
 
 public enum EstadoHeladera
 {
-    Funcionando,
+    Activa,
     Desperfecto,
     FueraServicio,
 }
