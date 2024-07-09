@@ -1,18 +1,19 @@
-namespace AccesoAlimentario.Infraestructura.ImportacionColaboradores;
-
-public class ImportadorColaboraciones
+namespace AccesoAlimentario.Infraestructura.ImportacionColaboradores
 {
-    private FormaImportacion _formaImportacion;
-    
-    public ImportadorColaboraciones(FormaImportacion formaImportacion)
+    public class ImportadorColaboraciones
     {
-        _formaImportacion = formaImportacion;
-    }
+        private readonly FormaImportacion _formaImportacion;
 
-    public void Importar(string file)
-    {
-        var colaboradores = _formaImportacion.ImportarColaboradores(file);
-        // TODO Buscar colaboradores existentes
-        // TODO Guardar colaboradores nuevos y colaboraciones realizadas
+        public ImportadorColaboraciones(FormaImportacion formaImportacion)
+        {
+            _formaImportacion = formaImportacion;
+        }
+
+        public void Importar(Stream fileStream)
+        {
+            var colaboradores = _formaImportacion.ImportarColaboradores(fileStream);
+            // TODO Buscar colaboradores existentes
+            // TODO Guardar colaboradores nuevos y colaboraciones realizadas
+        }
     }
 }
