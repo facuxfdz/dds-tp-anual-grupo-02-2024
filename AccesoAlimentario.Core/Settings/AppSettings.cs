@@ -1,3 +1,4 @@
+using AccesoAlimentario.Core.Email;
 using Microsoft.Extensions.Configuration;
 
 namespace AccesoAlimentario.Core.Settings;
@@ -5,24 +6,34 @@ namespace AccesoAlimentario.Core.Settings;
 public sealed class AppSettings
 {
     public static readonly AppSettings Instance = Instance ?? new AppSettings();
-    private string _pathPasswordMasComunes = "Resources/10mil-mas-comunes.txt";
-    private List<string> _contrasenias;
-    private float _pesoDonadosCoef;
-    private float _viandasDistribuidasCoef;
-    private float _viandasDonadasCoef;
-    private float _tarjetasRepartidasCoef;
+    public string PathPasswordMasComunes = "Resources/10mil-mas-comunes.txt";
+    public List<string> Contrasenias { get; set; } = new List<string>();
+    public float PesoDonadosCoef { get; set; }
+    public float ViandasDistribuidasCoef { get; set; }
+    public float ViandasDonadasCoef { get; set; }
+    public float TarjetasRepartidasCoef { get; set; }
+    public SmtpConfiguration SmtpConfig { get; set; }
 
     private AppSettings()
     {
         try
         {
-            _contrasenias = File.ReadAllLines(_pathPasswordMasComunes).ToList();
+            Contrasenias = File.ReadAllLines(PathPasswordMasComunes).ToList();
             var build = new ConfigurationBuilder()
-                .AddJsonFile("Resources\\CoeficientesPuntos.json", optional: true, reloadOnChange: true).Build();
-            _pesoDonadosCoef = float.Parse(build["PesoDonadosCoef"]);
-            _viandasDistribuidasCoef = float.Parse(build["ViandasDistribuidasCoef"]);
-            _viandasDonadasCoef = float.Parse(build["ViandasDonadasCoef"]);
-            _tarjetasRepartidasCoef = float.Parse(build["TarjetasRepartidasCoef"]);
+                .AddJsonFile("Resources\\CoeficientesPuntos.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("Resources\\appsettings.json")
+                .Build();
+            PesoDonadosCoef = float.Parse(build["PesoDonadosCoef"]);
+            ViandasDistribuidasCoef = float.Parse(build["ViandasDistribuidasCoef"]);
+            ViandasDonadasCoef = float.Parse(build["ViandasDonadasCoef"]);
+            TarjetasRepartidasCoef = float.Parse(build["TarjetasRepartidasCoef"]);
+            SmtpConfig = new SmtpConfiguration
+            {
+                Host = build["Smtp:Host"],
+                Port = int.Parse(build["Smtp:Port"]),
+                Username = build["Smtp:Username"],
+                Password = build["Smtp:Password"]
+            };
         }
         catch (Exception e)
         {
@@ -30,11 +41,5 @@ public sealed class AppSettings
             throw;
         }
     }
-
-    public List<string> Contrasenias => _contrasenias;
-
-    public float PesoDonadosCoef => _pesoDonadosCoef;
-    public float ViandasDistribuidasCoef => _viandasDistribuidasCoef;
-    public float ViandasDonadasCoef => _viandasDonadasCoef;
-    public float TarjetasRepartidasCoef => _tarjetasRepartidasCoef;
+    
 }
