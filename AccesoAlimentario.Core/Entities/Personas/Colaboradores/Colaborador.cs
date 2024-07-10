@@ -9,17 +9,20 @@ namespace AccesoAlimentario.Core.Entities.Personas.Colaboradores;
 
 public abstract class Colaborador : Persona
 {
-    public int Id { get; set; }
     protected Usuario _usuario;
     protected List<TipoContribucion> _tiposDeContribucionesElegidas;
     protected List<FormaContribucion> _contribucionesRealizadas;
     protected List<MedioContacto> _mediosDeContacto;
     protected float _puntos;
-
-    public Colaborador(string nombre, Direccion? direccion, DocumentoIdentidad? documentoIdentidad, Usuario usuario,
-        List<TipoContribucion> tiposDeContribucionesElegidas)
-        : base(nombre, direccion, documentoIdentidad)
+    
+    public Colaborador()
     {
+    }
+    public Colaborador(int id, string nombre, Direccion? direccion, DocumentoIdentidad? documentoIdentidad, Usuario usuario,
+        List<TipoContribucion> tiposDeContribucionesElegidas)
+        : base(id,nombre, direccion, documentoIdentidad)
+    {
+        Id = id;
         _usuario = usuario;
         _tiposDeContribucionesElegidas = tiposDeContribucionesElegidas;
         _contribucionesRealizadas = new List<FormaContribucion>();

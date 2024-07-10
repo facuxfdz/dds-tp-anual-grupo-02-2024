@@ -10,9 +10,13 @@ public class Tecnico : Persona
     private MedioContacto _medioContacto;
     private AreaCobertura _areaCobertura;
 
-    public Tecnico(string nombre, string apellido, Direccion? direccion, DocumentoIdentidad? documentoIdentidad, MedioContacto medioContacto, AreaCobertura areaCobertura) 
-        : base(nombre, direccion, documentoIdentidad)
+    public Tecnico()
     {
+    }
+    public Tecnico(int id, string nombre, string apellido, Direccion? direccion, DocumentoIdentidad? documentoIdentidad, MedioContacto medioContacto, AreaCobertura areaCobertura) 
+        : base(id, nombre, direccion, documentoIdentidad)
+    {
+        Id = id;
         _apellido = apellido;
         _medioContacto = medioContacto;
         _areaCobertura = areaCobertura;

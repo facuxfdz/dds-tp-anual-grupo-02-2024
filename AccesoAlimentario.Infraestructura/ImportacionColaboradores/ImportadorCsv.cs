@@ -58,7 +58,7 @@ namespace AccesoAlimentario.Infraestructura.ImportacionColaboradores
             var tipoDoc = (TipoDocumento)Enum.Parse(typeof(TipoDocumento), datos.TipoDoc);
             var documento = new DocumentoIdentidad(tipoDoc, datos.Documento, SexoDocumento.Otro);
             var usuario = new Usuario(datos.Mail, CrearPassword(), false);
-            var colaborador = new PersonaHumana(datos.Nombre, datos.Apellido, null, null, documento, usuario, []);
+            var colaborador = new PersonaHumana( 0, datos.Nombre, datos.Apellido, null, null, documento, usuario, []);
             var tipoContribucion = (TipoContribucion)Enum.Parse(typeof(TipoContribucion), datos.FormaColaboracion);
             var contribucion = new List<FormaContribucion>();
 

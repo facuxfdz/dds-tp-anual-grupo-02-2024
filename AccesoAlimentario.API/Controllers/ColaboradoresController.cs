@@ -3,6 +3,7 @@ using AccesoAlimentario.Core.Entities.Personas.Colaboradores;
 using AccesoAlimentario.Infraestructura.ImportacionColaboradores;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using Moq;
 using AppContext = AccesoAlimentario.Core.DAL.AppContext;
 
@@ -24,12 +25,15 @@ public class ColaboradoresController : ControllerBase
     }
     // POST: api/colaboradores/csv
     [HttpPost]
+    [Route("csv")]
     public IActionResult ImportarColaboradores([FromForm] IFormFile file)
     {
         // Create stream from file
         using var stream = file.OpenReadStream();
         var importador = new ImportadorColaboraciones(new ImportadorCsv(), _colaboradorRepository);
         importador.Importar(stream);
+        var res = _colaboradorRepository.Get();
+        var t = 1;
         return Ok();
     }
     

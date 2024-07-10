@@ -4,24 +4,30 @@ namespace AccesoAlimentario.Core.Entities.Heladeras;
 
 public class PuntoEstrategico
 {
-    private string _nombre;
-    private float _longitud;
-    private float _latitud;
-    private Direccion _direccion;
-
-    public PuntoEstrategico(string nombre, float longitud, float latitud, Direccion direccion)
+    public int Id { get; private set; }
+    public string Nombre { get; private set; }
+    public float Longitud { get; private set; }
+    public float Latitud { get; private set; }
+    public Direccion Direccion { get; private set; }
+    
+    public PuntoEstrategico()
     {
-        _nombre = nombre;
-        _longitud = longitud;
-        _latitud = latitud;
-        _direccion = direccion;
+    }
+
+    public PuntoEstrategico(int id, string nombre, float longitud, float latitud, Direccion direccion)
+    {
+        Id = id;
+        Nombre = nombre;
+        Longitud = longitud;
+        Latitud = latitud;
+        Direccion = direccion;
     }
 
     public void Actualizar(string nombre, float longitud, float latitud, Direccion direccion)
     {
-        _nombre = nombre;
-        _longitud = longitud;
-        _latitud = latitud;
-        _direccion = direccion;
+        Nombre = nombre;
+        Longitud = longitud;
+        Latitud = latitud;
+        Direccion = direccion;
     }
 }

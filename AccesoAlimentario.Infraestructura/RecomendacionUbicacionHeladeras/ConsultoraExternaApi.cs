@@ -18,10 +18,13 @@ public class ConsultoraExternaApi
         var recomendacionesUbicacionResponse =
             JsonConvert.DeserializeObject<RecomendacionesUbicacionResponse>(response.Content);
         return recomendacionesUbicacionResponse?.data.Select((d, i) => new PuntoEstrategico(
+            i + 1,
             $"opcion {i + 1}",
             float.Parse(d.Longitud),
             float.Parse(d.Latitud),
+            
             new Direccion(
+                0,    
                 d.Direccion.Calle,
                 d.Direccion.Numero,
                 d.Direccion.Localidad,

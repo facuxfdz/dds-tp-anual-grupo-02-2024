@@ -40,7 +40,7 @@ public class GenericRepository<TEntity> where TEntity : class
             return query.ToList();
         }
     }
-
+    
     public virtual TEntity? GetById(object id)
     {
         try
@@ -57,7 +57,9 @@ public class GenericRepository<TEntity> where TEntity : class
 
     public virtual void Insert(TEntity entity)
     {
-        _dbSet.Add(entity);
+        _context.Entry(entity).State = EntityState.Added;
+        var res = _dbSet.Add(entity);
+        Console.WriteLine(res);
     }
 
     public virtual void Delete(object id)

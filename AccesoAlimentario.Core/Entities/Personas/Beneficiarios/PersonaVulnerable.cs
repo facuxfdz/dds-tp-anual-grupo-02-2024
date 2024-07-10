@@ -8,11 +8,15 @@ public class PersonaVulnerable : Persona
     private DateOnly _fechaNacimiento;
     private DateTime _fechaRegistroSistema;
     private int _cantidadDeMenores;
-
-    public PersonaVulnerable(string nombre, DateOnly fechaNacimiento, DateTime fechaRegistroSistema,
-        Direccion? direccion, DocumentoIdentidad? documentoIdentidad, int cantidadDeMenores) 
-        : base(nombre, direccion, documentoIdentidad)
+    
+    public PersonaVulnerable()
     {
+    }
+    public PersonaVulnerable(int id, string nombre, DateOnly fechaNacimiento, DateTime fechaRegistroSistema,
+        Direccion? direccion, DocumentoIdentidad? documentoIdentidad, int cantidadDeMenores) 
+        : base(id, nombre, direccion, documentoIdentidad)
+    {
+        Id = id;
         _fechaNacimiento = fechaNacimiento;
         _fechaRegistroSistema = fechaRegistroSistema;
         _cantidadDeMenores = cantidadDeMenores;

@@ -25,6 +25,8 @@ namespace AccesoAlimentario.Infraestructura.ImportacionColaboradores
                  if (colaborador == null)
                  {
                      _colaboradorRepository.Insert(colaboradorCsv);
+                     Console.WriteLine("Colaborador insertado");
+                     Console.WriteLine(colaboradorCsv);
                  }
                  else
                  {

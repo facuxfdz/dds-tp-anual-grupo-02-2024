@@ -2,35 +2,38 @@
 
 public class Heladera
 {
-    public int Id { get; set; } 
-    private PuntoEstrategico _puntoEstrategico;
-    private int _capacidad;
-    private List<Vianda> _viandas;
-    private EstadoHeladera _estadoHeladera;
-    private DateTime _fechaInstalacion;
-    private float _temperaturaMinima;
-    private float _temperaturaMaxima;
-
+    public int Id { get; set; }
+    public PuntoEstrategico PuntoEstrategico { get; private set; }
+    public int Capacidad { get; private set; }
+    public List<Vianda> Viandas { get; private set; }
+    public EstadoHeladera EstadoHeladera { get; private set; }
+    public DateTime FechaInstalacion { get; private set; }
+    public float TemperaturaMinima { get; private set; }
+    public float TemperaturaMaxima { get; private set; }
+    
+    public Heladera()
+    {
+    }
     public Heladera(int id, PuntoEstrategico puntoEstrategico, int capacidad, List<Vianda> viandas,
         EstadoHeladera estadoHeladera, DateTime fechaInstalacion, float temperaturaMinima, float temperaturaMaxima)
     {
         Id = id;
-        _puntoEstrategico = puntoEstrategico;
-        _capacidad = capacidad;
-        _viandas = viandas;
-        _estadoHeladera = estadoHeladera;
-        _fechaInstalacion = fechaInstalacion;
-        _temperaturaMinima = temperaturaMinima;
-        _temperaturaMaxima = temperaturaMaxima;
+        PuntoEstrategico = puntoEstrategico;
+        Capacidad = capacidad;
+        Viandas = viandas;
+        EstadoHeladera = estadoHeladera;
+        FechaInstalacion = fechaInstalacion;
+        TemperaturaMinima = temperaturaMinima;
+        TemperaturaMaxima = temperaturaMaxima;
     }
 
     public void IngresarViandas(Heladera heladeraOrigen, List<Vianda> viandas)
     {
-        if (_estadoHeladera == EstadoHeladera.Activa)
+        if (EstadoHeladera == EstadoHeladera.Activa)
         {
-            if (_viandas.Count + viandas.Count <= _capacidad)
+            if (Viandas.Count + viandas.Count <= Capacidad)
             {
-                _viandas.AddRange(viandas);
+                Viandas.AddRange(viandas);
             }
             else
             {
@@ -45,10 +48,10 @@ public class Heladera
 
     public List<Vianda> RetirarViandas(int cantidad)
     {
-        if (_viandas.Count - cantidad >= 0)
+        if (Viandas.Count - cantidad >= 0)
         {
-            var viandas = _viandas.GetRange(0, cantidad);
-            _viandas.RemoveRange(0, cantidad);
+            var viandas = Viandas.GetRange(0, cantidad);
+            Viandas.RemoveRange(0, cantidad);
             return viandas;
         }
         else
@@ -59,19 +62,17 @@ public class Heladera
 
     public void ActualizarEstado(EstadoHeladera estadoHeladera)
     {
-        _estadoHeladera = estadoHeladera;
+        EstadoHeladera = estadoHeladera;
     }
 
     public bool VerificarTemperatura(float temperatura)
     {
-        return temperatura >= _temperaturaMinima && temperatura <= _temperaturaMaxima;
+        return temperatura >= TemperaturaMinima && temperatura <= TemperaturaMaxima;
     }
 
     public void ActualizarRangoTemperatura(float temperaturaMinima, float temperaturaMaxima)
     {
-        _temperaturaMinima = temperaturaMinima;
-        _temperaturaMaxima = temperaturaMaxima;
+        TemperaturaMinima = temperaturaMinima;
+        TemperaturaMaxima = temperaturaMaxima;
     }
-
-    public EstadoHeladera EstadoHeladera => _estadoHeladera;
 }

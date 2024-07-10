@@ -7,22 +7,27 @@ namespace AccesoAlimentario.Core.Entities.Personas.Colaboradores;
 
 public class PersonaJuridica : Colaborador
 {
-    private TipoJuridico _tipo;
-    private string _rubro;
+    public TipoJuridico Tipo { get; private set; }
+    public string Rubro { get; private set; }
 
-    public PersonaJuridica(string razonSocial, TipoJuridico tipoJuridico, string rubro, Direccion? direccion,
-        DocumentoIdentidad? documentoIdentidad, Usuario usuario, List<TipoContribucion> tiposDeContribucionesElegidas)
-        : base(razonSocial, direccion, documentoIdentidad, usuario, tiposDeContribucionesElegidas)
+    public PersonaJuridica()
     {
-        _tipo = tipoJuridico;
-        _rubro = rubro;
+    }
+
+    public PersonaJuridica(int id, string razonSocial, TipoJuridico tipoJuridico, string rubro, Direccion? direccion,
+        DocumentoIdentidad? documentoIdentidad, Usuario usuario, List<TipoContribucion> tiposDeContribucionesElegidas)
+        : base(id, razonSocial, direccion, documentoIdentidad, usuario, tiposDeContribucionesElegidas)
+    {
+        Id = id;
+        Tipo = tipoJuridico;
+        Rubro = rubro;
     }
     
     public void Actualizar(string razonSocial, TipoJuridico tipo, string rubro, Direccion direccion, DocumentoIdentidad docId)
     {
         _nombre = razonSocial;
-        _tipo = tipo;
-        _rubro = rubro;
+        Tipo = tipo;
+        Rubro = rubro;
         _direccion = direccion;
         _documentoIdentidad = docId;
     }
