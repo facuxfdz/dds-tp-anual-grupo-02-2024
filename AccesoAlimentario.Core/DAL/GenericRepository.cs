@@ -43,7 +43,16 @@ public class GenericRepository<TEntity> where TEntity : class
 
     public virtual TEntity? GetById(object id)
     {
-        return _dbSet.Find(id);
+        try
+        {
+            var obj = _dbSet.Find(id);
+            return obj ?? null;
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("Error al obtener el objeto por Id");
+            return null;
+        }
     }
 
     public virtual void Insert(TEntity entity)

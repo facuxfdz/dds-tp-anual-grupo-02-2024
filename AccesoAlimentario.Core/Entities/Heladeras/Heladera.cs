@@ -2,6 +2,7 @@
 
 public class Heladera
 {
+    public int Id { get; set; } 
     private PuntoEstrategico _puntoEstrategico;
     private int _capacidad;
     private List<Vianda> _viandas;
@@ -10,9 +11,10 @@ public class Heladera
     private float _temperaturaMinima;
     private float _temperaturaMaxima;
 
-    public Heladera(PuntoEstrategico puntoEstrategico, int capacidad, List<Vianda> viandas,
+    public Heladera(int id, PuntoEstrategico puntoEstrategico, int capacidad, List<Vianda> viandas,
         EstadoHeladera estadoHeladera, DateTime fechaInstalacion, float temperaturaMinima, float temperaturaMaxima)
     {
+        Id = id;
         _puntoEstrategico = puntoEstrategico;
         _capacidad = capacidad;
         _viandas = viandas;

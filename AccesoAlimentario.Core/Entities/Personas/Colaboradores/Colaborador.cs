@@ -9,6 +9,7 @@ namespace AccesoAlimentario.Core.Entities.Personas.Colaboradores;
 
 public abstract class Colaborador : Persona
 {
+    public int Id { get; set; }
     protected Usuario _usuario;
     protected List<TipoContribucion> _tiposDeContribucionesElegidas;
     protected List<FormaContribucion> _contribucionesRealizadas;

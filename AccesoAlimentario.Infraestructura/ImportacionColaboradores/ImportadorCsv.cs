@@ -12,7 +12,12 @@ namespace AccesoAlimentario.Infraestructura.ImportacionColaboradores
     public class ImportadorCsv : FormaImportacion
     {
         private readonly ValidadorImportacionMasiva _validador = new();
-
+        
+        private int GenerarId()
+        {
+            var randomId = new Random();
+            return randomId.Next(100000, 999999);
+        }
         public override List<Colaborador> ImportarColaboradores(Stream fileStream)
         {
             var colaboraciones = LeerCsv(fileStream);
@@ -30,6 +35,7 @@ namespace AccesoAlimentario.Infraestructura.ImportacionColaboradores
                 if (col == null) continue;
                 c.RemoveAt(0);
                 col.AgregarPuntos(c.Sum(x => x.ObtenerPuntos()));
+                col.Id = GenerarId();
                 colaboradores.Add(col);
             }
 
@@ -39,16 +45,11 @@ namespace AccesoAlimentario.Infraestructura.ImportacionColaboradores
         private static List<DatosColaboracion> LeerCsv(Stream fileStream)
         {
             List<DatosColaboracion> colaboraciones;
-            var configuration = new CsvConfiguration(CultureInfo.InvariantCulture)
-            {
-                Delimiter = ",",
-                HasHeaderRecord = true,
-            };
+
             using var reader = new StreamReader(fileStream);
-            using var csv = new CsvReader(reader, configuration);
+            using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
             var records = csv.GetRecords<DatosColaboracion>();
             colaboraciones = records.ToList();
-
             return colaboraciones;
         }
 
