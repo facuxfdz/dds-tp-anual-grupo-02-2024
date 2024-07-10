@@ -1,18 +1,21 @@
 ﻿using AccesoAlimentario.Core.Entities.Contribuciones;
 using AccesoAlimentario.Core.Entities.Direcciones;
+using AccesoAlimentario.Core.Entities.MediosContacto;
+using AccesoAlimentario.Core.Entities.Personas.Colaboradores;
 using AccesoAlimentario.Core.Entities.Personas.DocumentosIdentidad;
-using AccesoAlimentario.Core.Entities.Usuarios;
+using AccesoAlimentario.Core.Entities.Roles;
+using AccesoAlimentario.Core.Validadores.Contribuciones;
 
-namespace AccesoAlimentario.Core.Entities.Personas.Colaboradores;
+namespace AccesoAlimentario.Core.Entities.Personas.PersonaJuridica;
 
-public class PersonaJuridica : Colaborador
+public class PersonaJuridica : Persona
 {
     private TipoJuridico _tipo;
     private string _rubro;
 
     public PersonaJuridica(string razonSocial, TipoJuridico tipoJuridico, string rubro, Direccion? direccion,
-        DocumentoIdentidad? documentoIdentidad, Usuario usuario, List<TipoContribucion> tiposDeContribucionesElegidas)
-        : base(razonSocial, direccion, documentoIdentidad, usuario, tiposDeContribucionesElegidas)
+        DocumentoIdentidad? documentoIdentidad, List<MedioContacto> mediosDeContacto, List<Rol> roles)
+        : base(razonSocial, direccion, documentoIdentidad, mediosDeContacto, roles)
     {
         _tipo = tipoJuridico;
         _rubro = rubro;
@@ -25,5 +28,10 @@ public class PersonaJuridica : Colaborador
         _rubro = rubro;
         _direccion = direccion;
         _documentoIdentidad = docId;
+    }
+    
+    public override TipoColaborador ObtenerTipoPersona()
+    {
+        return TipoColaborador.PersonaJuridica;
     }
 }

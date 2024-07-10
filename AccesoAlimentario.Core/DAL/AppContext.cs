@@ -1,5 +1,5 @@
 using AccesoAlimentario.Core.Entities.Heladeras;
-using AccesoAlimentario.Core.Entities.Personas.Colaboradores;
+using AccesoAlimentario.Core.Entities.Roles;
 using Microsoft.EntityFrameworkCore;
 
 namespace AccesoAlimentario.Core.DAL;

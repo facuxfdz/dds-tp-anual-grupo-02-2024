@@ -1,7 +1,8 @@
 using System.Globalization;
 using AccesoAlimentario.Core.Entities.Contribuciones;
-using AccesoAlimentario.Core.Entities.Personas.Colaboradores;
+using AccesoAlimentario.Core.Entities.Personas;
 using AccesoAlimentario.Core.Entities.Personas.DocumentosIdentidad;
+using AccesoAlimentario.Core.Entities.Roles;
 using AccesoAlimentario.Core.Entities.Usuarios;
 using AccesoAlimentario.Core.Validadores.ImportacionMasiva;
 using CsvHelper;
@@ -57,7 +58,7 @@ namespace AccesoAlimentario.Infraestructura.ImportacionColaboradores
         {
             var tipoDoc = (TipoDocumento)Enum.Parse(typeof(TipoDocumento), datos.TipoDoc);
             var documento = new DocumentoIdentidad(tipoDoc, datos.Documento, SexoDocumento.Otro);
-            var usuario = new Usuario(datos.Mail, CrearPassword(), false);
+            var usuario = new UsuarioSistema(datos.Mail, CrearPassword(), false);
             var colaborador = new PersonaHumana(datos.Nombre, datos.Apellido, null, null, documento, usuario, []);
             var tipoContribucion = (TipoContribucion)Enum.Parse(typeof(TipoContribucion), datos.FormaColaboracion);
             var contribucion = new List<FormaContribucion>();

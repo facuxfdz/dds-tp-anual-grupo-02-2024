@@ -1,5 +1,5 @@
 using AccesoAlimentario.Core.DAL;
-using AccesoAlimentario.Core.Entities.Personas.Colaboradores;
+using AccesoAlimentario.Core.Entities.Roles;
 using AccesoAlimentario.Infraestructura.ImportacionColaboradores;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

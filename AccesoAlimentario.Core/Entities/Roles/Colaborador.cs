@@ -1,29 +1,25 @@
 ﻿using AccesoAlimentario.Core.Entities.Contribuciones;
-using AccesoAlimentario.Core.Entities.Direcciones;
 using AccesoAlimentario.Core.Entities.MediosContacto;
-using AccesoAlimentario.Core.Entities.Personas.DocumentosIdentidad;
+using AccesoAlimentario.Core.Entities.Personas;
 using AccesoAlimentario.Core.Entities.Scoring;
-using AccesoAlimentario.Core.Entities.Usuarios;
+using AccesoAlimentario.Core.Entities.Tarjetas;
 
-namespace AccesoAlimentario.Core.Entities.Personas.Colaboradores;
+namespace AccesoAlimentario.Core.Entities.Roles;
 
-public abstract class Colaborador : Persona
+public class Colaborador : Rol
 {
     public int Id { get; set; }
-    protected Usuario _usuario;
     protected List<TipoContribucion> _tiposDeContribucionesElegidas;
     protected List<FormaContribucion> _contribucionesRealizadas;
-    protected List<MedioContacto> _mediosDeContacto;
+    protected List<Suscripcion> _suscripciones;
     protected float _puntos;
+    protected TarjetaColaboracion _tarjetaColaboracion;
 
-    public Colaborador(string nombre, Direccion? direccion, DocumentoIdentidad? documentoIdentidad, Usuario usuario,
-        List<TipoContribucion> tiposDeContribucionesElegidas)
-        : base(nombre, direccion, documentoIdentidad)
+    public Colaborador(Persona persona, List<TipoContribucion> tiposDeContribucionesElegidas, List<Suscripcion> suscripciones, TarjetaColaboracion tarjetaColaboracion)
+        : base(persona)
     {
-        _usuario = usuario;
         _tiposDeContribucionesElegidas = tiposDeContribucionesElegidas;
         _contribucionesRealizadas = new List<FormaContribucion>();
-        _mediosDeContacto = new List<MedioContacto>();
         _puntos = 0;
     }
 
@@ -39,7 +35,7 @@ public abstract class Colaborador : Persona
 
     public void Contactar(Notificacion notificacion)
     {
-        _mediosDeContacto.FirstOrDefault()?.Enviar(notificacion);
+        _persona._mediosDeContacto.FirstOrDefault()?.Enviar(notificacion);
     }
 
     public float ObtenerPuntos() => _puntos;

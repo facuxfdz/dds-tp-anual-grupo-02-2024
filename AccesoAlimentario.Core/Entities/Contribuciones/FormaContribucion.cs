@@ -1,4 +1,4 @@
-using AccesoAlimentario.Core.Entities.Personas.Colaboradores;
+using AccesoAlimentario.Core.Entities.Roles;
 using AccesoAlimentario.Core.Validadores.Contribuciones;
 
 namespace AccesoAlimentario.Core.Entities.Contribuciones;
@@ -17,7 +17,6 @@ public abstract class FormaContribucion
     
     public bool EsValido(Colaborador colaborador)
     {
-        return true;
         return _validadorContribuciones.Validar(this, colaborador);
     }
 }

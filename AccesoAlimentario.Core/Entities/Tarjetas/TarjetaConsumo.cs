@@ -1,15 +1,19 @@
-using AccesoAlimentario.Core.Entities.Heladeras;
+using AccesoAlimentario.Core.Entities.Autorizaciones;
+using AccesoAlimentario.Core.Entities.Personas;
+using AccesoAlimentario.Core.Entities.Roles;
+
 
 namespace AccesoAlimentario.Core.Entities.Tarjetas;
 
-public class TarjetaConsumo
+public class TarjetaConsumo : Tarjeta
 {
-    private DateTime _fecha;
-    private Heladera _heladera;
-    
-    public TarjetaConsumo(DateTime fecha, Heladera heladera)
+    private Colaborador _responsable;    
+    public TarjetaConsumo(String codigo, Persona propietario, Colaborador responsable) // TODO restringir persona solo a tipo personaVulnerable
+    : base(codigo, propietario)
     {
-        _fecha = fecha;
-        _heladera = heladera;
+        _responsable = responsable;
+        _accesos = new List<AccesoHeladera>();
     }
+
+
 }

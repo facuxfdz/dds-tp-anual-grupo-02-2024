@@ -1,5 +1,5 @@
 using AccesoAlimentario.Core.Entities.Contribuciones;
-using AccesoAlimentario.Core.Entities.Personas.Colaboradores;
+using AccesoAlimentario.Core.Entities.Roles;
 
 namespace AccesoAlimentario.Core.Validadores.Contribuciones;
 
@@ -9,11 +9,6 @@ public abstract class ValidadorContribuciones
 
     public virtual bool Validar(FormaContribucion formaContribucion, Colaborador colaborador)
     {
-        return colaborador switch
-        {
-            PersonaJuridica => _colaboradoresValidos.Contains(TipoColaborador.PersonaJuridica),
-            PersonaHumana => _colaboradoresValidos.Contains(TipoColaborador.PersonaHumana),
-            _ => false
-        };
+        return _colaboradoresValidos.Contains(colaborador._persona.ObtenerTipoPersona());
     }
 }

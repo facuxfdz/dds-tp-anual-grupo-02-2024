@@ -1,4 +1,4 @@
-using AccesoAlimentario.Core.Entities.Personas.Colaboradores;
+using AccesoAlimentario.Core.Entities.Roles;
 
 namespace AccesoAlimentario.Infraestructura.ImportacionColaboradores;
 
