@@ -2,11 +2,11 @@ using AccesoAlimentario.Core.Entities.Heladeras;
 
 namespace AccesoAlimentario.Core.Entities.Sensores;
 
-public class SensorTemperatura : Sensor
+public class SensorTemperatura : ISensor, ISubjectHeladeraTemperatura
 {
     private List<RegistroTemperatura> _registrosTemperatura;
 
-    public SensorTemperatura(string codigo, Heladera heladera) : base(codigo, heladera)
+    public SensorTemperatura()
     {
         _registrosTemperatura = new List<RegistroTemperatura>();
     }
@@ -15,4 +15,8 @@ public class SensorTemperatura : Sensor
     {
         _registrosTemperatura.Add(new RegistroTemperatura(fecha, temperatura));
     }
+    //TODO
+    public void Suscribirse(IObserverSensorTemperatura observado)
+    public void Desuscribirse(IObserverSensorTemperatura observado)
+    public void Notificar()
 }

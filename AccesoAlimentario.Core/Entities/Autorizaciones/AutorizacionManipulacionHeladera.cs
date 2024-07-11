@@ -6,15 +6,16 @@ namespace AccesoAlimentario.Core.Entities.Autorizaciones;
 public class AutorizacionManipulacionHeladera
 {
     private DateTime _fechaCreacion;
-    private DateTime _fechaExpiracion;
-    private Heladera _heladera;
+    public DateTime FechaExpiracion { get; private set; }
+    public Heladera Heladera { get; private set; }
     private TarjetaColaboracion _tarjetaAutorizada;
-    
-    public AutorizacionManipulacionHeladera(DateTime fechaExpiracion, Heladera heladera, TarjetaColaboracion tarjetaAutorizada)
+
+    public AutorizacionManipulacionHeladera(DateTime fechaExpiracion, Heladera heladera,
+        TarjetaColaboracion tarjetaAutorizada)
     {
         _fechaCreacion = DateTime.Now;
-        _fechaExpiracion = fechaExpiracion;
-        _heladera = heladera;
+        FechaExpiracion = fechaExpiracion;
+        Heladera = heladera;
         _tarjetaAutorizada = tarjetaAutorizada;
     }
 }

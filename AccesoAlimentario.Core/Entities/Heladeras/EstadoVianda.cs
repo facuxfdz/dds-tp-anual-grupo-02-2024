@@ -4,4 +4,5 @@ public enum EstadoVianda
 {
     Disponible,
     Consumida,
+    Caducada
 }

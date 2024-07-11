@@ -1,20 +1,23 @@
 ﻿using AccesoAlimentario.Core.Entities.Personas;
 using AccesoAlimentario.Core.Entities.Roles;
-using AccesoAlimentario.Core.Validadores.Usuarios;
 
 namespace AccesoAlimentario.Core.Entities.Usuarios;
 
 public class UsuarioSistema : Rol
 {
-    private string _nombre;
-    private string _contrasenia;
-    private bool _administrador;
+    private string _userName;
+    private string _password;
 
-    public UsuarioSistema(Persona persona, string userName, string password, bool administrador) 
+    public UsuarioSistema(Persona persona, string userName, string password)
         : base(persona)
     {
-        _nombre = userName;
-        _contrasenia = password;
-        _administrador = _administrador;
+        _userName = userName;
+        _password = password;
+    }
+
+    public void Actualizar(string userName, string password)
+    {
+        _userName = userName;
+        _password = password;
     }
 }

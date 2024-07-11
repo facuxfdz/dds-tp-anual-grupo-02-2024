@@ -4,7 +4,7 @@ public class Telefono : MedioContacto
 {
     private string _numero;
 
-    public Telefono(string numero)
+    public Telefono(string numero): base(preferida)
     {
         _numero = numero;
     }

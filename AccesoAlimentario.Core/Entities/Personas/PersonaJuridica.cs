@@ -13,25 +13,10 @@ public class PersonaJuridica : Persona
     private TipoJuridico _tipo;
     private string _rubro;
 
-    public PersonaJuridica(string razonSocial, TipoJuridico tipoJuridico, string rubro, Direccion? direccion,
-        DocumentoIdentidad? documentoIdentidad, List<MedioContacto> mediosDeContacto, List<Rol> roles)
-        : base(razonSocial, direccion, documentoIdentidad, mediosDeContacto, roles)
+    public PersonaJuridica(string nombre, DocumentoIdentidad documentoIdentidad, Direccion direccion, List<MedioContacto> mediosDeContacto, TipoJuridico tipo, string rubro)
+        : base(nombre, documentoIdentidad, direccion, mediosDeContacto)
     {
-        _tipo = tipoJuridico;
-        _rubro = rubro;
-    }
-    
-    public void Actualizar(string razonSocial, TipoJuridico tipo, string rubro, Direccion direccion, DocumentoIdentidad docId)
-    {
-        _nombre = razonSocial;
         _tipo = tipo;
         _rubro = rubro;
-        _direccion = direccion;
-        _documentoIdentidad = docId;
-    }
-    
-    public override TipoColaborador ObtenerTipoPersona()
-    {
-        return TipoColaborador.PersonaJuridica;
     }
 }

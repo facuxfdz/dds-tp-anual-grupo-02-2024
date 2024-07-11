@@ -3,7 +3,7 @@ using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
 
-namespace AccesoAlimentario.Core.Email
+namespace AccesoAlimentario.Core.EmailObj
 {
 
     public class EmailService

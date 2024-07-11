@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices.JavaScript;
-
-namespace AccesoAlimentario.Core.Entities.Incidentes;
+﻿namespace AccesoAlimentario.Core.Entities.Incidentes;
 
 public abstract class Incidente
 {

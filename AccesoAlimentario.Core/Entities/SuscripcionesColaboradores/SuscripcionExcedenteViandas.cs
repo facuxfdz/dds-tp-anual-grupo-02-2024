@@ -9,4 +9,9 @@ public class SuscripcionExcedenteViandas : Suscripcion
     {   
         _maximo = maximo;
     }
+
+    public notificarColaborador()
+    {
+        //TODO
+    }
 }

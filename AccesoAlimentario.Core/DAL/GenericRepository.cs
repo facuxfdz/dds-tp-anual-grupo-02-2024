@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore;
 namespace AccesoAlimentario.Core.DAL;
 public class GenericRepository<TEntity> where TEntity : class
 {
-    private readonly AppContext _context;
+    private readonly AppDbContext _context;
     private readonly DbSet<TEntity> _dbSet;
 
-    public GenericRepository(AppContext context)
+    public GenericRepository(AppDbContext context)
     {
         this._context = context;
         this._dbSet = context.Set<TEntity>();

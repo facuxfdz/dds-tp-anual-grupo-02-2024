@@ -1,12 +1,26 @@
-﻿using AccesoAlimentario.Core.Entities.Personas;
+﻿using AccesoAlimentario.Core.Entities.Autorizaciones;
+using AccesoAlimentario.Core.Entities.Heladeras;
+using AccesoAlimentario.Core.Entities.Roles;
 
 namespace AccesoAlimentario.Core.Entities.Tarjetas;
 
 public class TarjetaColaboracion : Tarjeta
 {
-    public TarjetaColaboracion(string codigo, Persona propietario) //TODO restringir propietario a tipo Colaborador
+    private List<AutorizacionManipulacionHeladera> _autorizaciones;
+
+    public TarjetaColaboracion(string codigo, Colaborador propietario)
         : base(codigo, propietario)
     {
+        _autorizaciones = new List<AutorizacionManipulacionHeladera>();
     }
-    
+
+    public AutorizacionManipulacionHeladera? TieneAutorizacion(Heladera heladera)
+    {
+        return _autorizaciones.Find(autorizacion => autorizacion.Heladera == heladera && autorizacion.FechaExpiracion > DateTime.Now);
+    }
+
+    public void AgregarAutorizacion(AutorizacionManipulacionHeladera autorizacion)
+    {
+        _autorizaciones.Add(autorizacion);
+    }
 }

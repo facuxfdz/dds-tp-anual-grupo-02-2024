@@ -1,52 +1,59 @@
 ﻿using AccesoAlimentario.Core.Entities.Contribuciones;
-using AccesoAlimentario.Core.Entities.MediosContacto;
 using AccesoAlimentario.Core.Entities.Personas;
-using AccesoAlimentario.Core.Entities.Scoring;
 using AccesoAlimentario.Core.Entities.Tarjetas;
 
 namespace AccesoAlimentario.Core.Entities.Roles;
 
 public class Colaborador : Rol
 {
-    public int Id { get; set; }
-    protected List<TipoContribucion> _tiposDeContribucionesElegidas;
+    protected List<TipoContribucion> _contribucionesPreferidas;
     protected List<FormaContribucion> _contribucionesRealizadas;
     protected List<Suscripcion> _suscripciones;
     protected float _puntos;
-    protected TarjetaColaboracion _tarjetaColaboracion;
+    protected TarjetaColaboracion? _tarjetaColaboracion = null;
 
-    public Colaborador(Persona persona, List<TipoContribucion> tiposDeContribucionesElegidas, List<Suscripcion> suscripciones, TarjetaColaboracion tarjetaColaboracion)
+    public Colaborador(Persona persona, List<TipoContribucion> contribucionesPreferidas)
         : base(persona)
     {
-        _tiposDeContribucionesElegidas = tiposDeContribucionesElegidas;
+        _contribucionesPreferidas = contribucionesPreferidas;
         _contribucionesRealizadas = new List<FormaContribucion>();
+        _suscripciones = new List<Suscripcion>();
         _puntos = 0;
     }
 
-    public void Colaborar(FormaContribucion formaContribucion)
+    public void AgregarContribucion(FormaContribucion contribucion)
     {
-        if (formaContribucion.EsValido(this))
-        {
-            _contribucionesRealizadas.Add(formaContribucion);
-            var score = new Score();
-            score.Calcular(this, formaContribucion);
-        }
+        _contribucionesRealizadas.Add(contribucion);
     }
 
-    public void Contactar(Notificacion notificacion)
+    public float ObtenerPuntos()
     {
-        _persona._mediosDeContacto.FirstOrDefault()?.Enviar(notificacion);
+        return _puntos;
     }
 
-    public float ObtenerPuntos() => _puntos;
-
-    public void DescontarPuntos(float valor)
+    public void DescontarPuntos(float puntos)
     {
-        _puntos -= valor;
+        _puntos -= puntos;
     }
 
-    public void AgregarPuntos(float valor)
+    public void AgregarPuntos(float puntos)
     {
-        _puntos += valor;
+        _puntos += puntos;
     }
+
+    public void AgregarSubscripcion(Suscripcion suscripcion)
+    {
+        _suscripciones.Add(suscripcion);
+    }
+
+    public void EliminarSubscripcion(Suscripcion suscripcion)
+    {
+        _suscripciones.Remove(suscripcion);
+    }
+
+    public void AsignarTarjeta(TarjetaColaboracion tarjeta)
+    {
+        _tarjetaColaboracion = tarjeta;
+    }
+
 }

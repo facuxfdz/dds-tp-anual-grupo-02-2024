@@ -16,12 +16,12 @@ public abstract class Suscripcion
 
     public void notificarColaborador(Notificacion notificacion)
     {
-        // TODO
+        _historial.Add(notificacion); //TODO: es asi?
     }
 
     public void cambioHeladera(Heladera heladera)
     {
-        // TODO 
+        _heladera = heladera; //TODO, algo mas?
     }
 
 }

@@ -7,32 +7,26 @@ public class Premio
     private string _nombre;
     private float _puntosNecesarios;
     private string _imagen;
-    private bool _reclamado;
-    private TipoRubro _tipoRubro;
+    private Colaborador? _reclamadoPor;
+    private DateTime _fechaReclamo;
+    private TipoRubro _rubro;
     
-    public Premio(string nombre, float puntosNecesarios, string imagen, TipoRubro tipoRubro)
+    public Premio(string nombre, float puntosNecesarios, string imagen, TipoRubro rubro)
     {
         _nombre = nombre;
         _puntosNecesarios = puntosNecesarios;
         _imagen = imagen;
-        _reclamado = false;
-        _tipoRubro = tipoRubro;
+        _rubro = rubro;
     }
 
-    public void Reclamar(Colaborador reclamante)
+    public void Reclamar(Colaborador colaborador)
     {
-        if (_reclamado)
-        {
-            throw new Exception("Este premio ya fue reclamado");
-        }
-        if(reclamante.ObtenerPuntos() >= _puntosNecesarios)
-        {
-            _reclamado = true;
-            reclamante.DescontarPuntos(_puntosNecesarios);
-        }
-        else
-        {
-            throw new Exception("No tienes suficientes puntos para reclamar este premio");
-        }
+        _reclamadoPor = colaborador;
+        _fechaReclamo = DateTime.Now;
+    }
+
+    public float GetPuntosNecesarios()
+    {
+        return _puntosNecesarios;
     }
 }

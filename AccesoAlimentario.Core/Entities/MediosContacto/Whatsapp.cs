@@ -4,7 +4,7 @@ public class Whatsapp : MedioContacto
 {
     private string _numero;
     
-    public Whatsapp(string numero)
+    public Whatsapp(string numero) : base(preferida)
     {
         _numero = numero;
     }

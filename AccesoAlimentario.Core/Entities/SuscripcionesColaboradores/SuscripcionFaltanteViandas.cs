@@ -9,4 +9,9 @@ public class SuscripcionFaltanteViandas : Suscripcion
     {   
         _minimo = minimo;
     }
+
+    public notificarColaborador()
+    {
+        //TODO
+    }
 }

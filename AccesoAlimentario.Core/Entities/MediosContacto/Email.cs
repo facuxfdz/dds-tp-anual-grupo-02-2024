@@ -4,7 +4,7 @@ public class Email : MedioContacto
 {
     private string _direccion;
 
-    public Email(string direccion)
+    public Email(string direccion, bool preferida) : base(preferida)
     {
         _direccion = direccion;
     }

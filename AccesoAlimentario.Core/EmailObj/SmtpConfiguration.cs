@@ -1,4 +1,4 @@
-namespace AccesoAlimentario.Core.Email;
+namespace AccesoAlimentario.Core.EmailObj;
 
 public class SmtpConfiguration
 {

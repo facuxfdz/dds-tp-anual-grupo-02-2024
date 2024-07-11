@@ -2,5 +2,8 @@
 
 public class SuscripcionIncidenteHeladera
 {
-    
+    public notificarColaborador()
+    {
+        //TODO
+    }
 }

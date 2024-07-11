@@ -7,13 +7,9 @@ namespace AccesoAlimentario.Core.Entities.Tarjetas;
 
 public class TarjetaConsumo : Tarjeta
 {
-    private Colaborador _responsable;    
-    public TarjetaConsumo(String codigo, Persona propietario, Colaborador responsable) // TODO restringir persona solo a tipo personaVulnerable
-    : base(codigo, propietario)
+    private Colaborador _responsable;
+    public TarjetaConsumo(Colaborador responsable, string codigo, PersonaVulnerable personaVulnerable) : base(codigo, personaVulnerable)
     {
         _responsable = responsable;
-        _accesos = new List<AccesoHeladera>();
     }
-
-
 }

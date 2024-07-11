@@ -12,19 +12,15 @@ public abstract class Persona
     protected Direccion? _direccion;
     protected DocumentoIdentidad? _documentoIdentidad;
     public List<MedioContacto> _mediosDeContacto { get; private set; }
-    protected List<Rol> _roles;
-    protected DateTime _fechaAlta;
-    
-    public Persona(string nombre, Direccion? direccion, DocumentoIdentidad? documentoIdentidad, List<MedioContacto> mediosDeContacto, List<Rol> roles)
+    protected List<Rol> _roles = new List<Rol>();
+    protected DateTime _fechaAlta = DateTime.Now;
+
+    public Persona(string nombre, DocumentoIdentidad documentoIdentidad, Direccion direccion, List<MedioContacto> mediosDeContacto)
     {
         _nombre = nombre;
-        _direccion = direccion;
         _documentoIdentidad = documentoIdentidad;
+        _direccion = direccion;
         _mediosDeContacto = mediosDeContacto;
-        _roles = roles;
-        _fechaAlta = DateTime.Now;
     }
-
-    public abstract TipoColaborador ObtenerTipoPersona();
 
 }

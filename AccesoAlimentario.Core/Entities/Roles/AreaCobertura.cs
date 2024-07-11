@@ -19,4 +19,10 @@ public class AreaCobertura
         _longitud = longitud;
         _radio = radio;
     }
+
+    public bool EsCercano(float longitud, float latitud)
+    {
+        var distancia = Math.Sqrt(Math.Pow(longitud - _longitud, 2) + Math.Pow(latitud - _latitud, 2));
+        return distancia <= _radio;
+    }
 }

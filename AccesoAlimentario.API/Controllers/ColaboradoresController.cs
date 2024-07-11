@@ -4,7 +4,7 @@ using AccesoAlimentario.Infraestructura.ImportacionColaboradores;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Moq;
-using AppContext = AccesoAlimentario.Core.DAL.AppContext;
+using AppDbContext = AccesoAlimentario.Core.DAL.AppDbContext;
 
 namespace AccesoAlimentario.API.Controllers;
 
@@ -16,11 +16,11 @@ public class ColaboradoresController : ControllerBase
     private GenericRepository<Colaborador> _colaboradorRepository;
     public ColaboradoresController()
     {
-        var options = new DbContextOptionsBuilder<AppContext>()
+        var options = new DbContextOptionsBuilder<AppDbContext>()
             .UseInMemoryDatabase(databaseName: "AccesoAlimentario")
             .Options;
         _context = new AppContext(options);
-        _colaboradorRepository = new GenericRepository<Colaborador>((AppContext)_context);
+        _colaboradorRepository = new GenericRepository<Colaborador>((AppDbContext)_context);
     }
     // POST: api/colaboradores/csv
     [HttpPost]

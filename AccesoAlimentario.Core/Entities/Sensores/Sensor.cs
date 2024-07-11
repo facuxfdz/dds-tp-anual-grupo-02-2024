@@ -1,15 +1,7 @@
-using AccesoAlimentario.Core.Entities.Heladeras;
-
 namespace AccesoAlimentario.Core.Entities.Sensores;
 
-public abstract class Sensor
-{
-    private string _codigo;
-    private Heladera _heladera;
-    
-    public Sensor(string codigo, Heladera heladera)
-    {
-        _codigo = codigo;
-        _heladera = heladera;
-    }
+public interface Sensor
+{//TODO
+  
+    public void Registrar(DateTime fecha, int valor);
 }
