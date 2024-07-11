@@ -14,24 +14,25 @@ public class ImportadorColaboraciones
         _colaboradorRepository = colaboradorRepository;
     }
 
-    public void Importar(Stream fileStream)
-    {
-        var colaboradores = _formaImportacion.ImportarColaboradores(fileStream);
-        // TODO Buscar colaboradores existentes
-        for(int i = 0; i < colaboradores.Count; i++)
+        public void Importar(Stream fileStream)
         {
-            throw new NotImplementedException();
-            /*var colaboradorCsv = colaboradores[i];
-            var colaborador = _colaboradorRepository.GetById(colaboradorCsv.Id);
-            if (colaborador == null)
+            var colaboradores = _formaImportacion.ImportarColaboradores(fileStream);
+            // TODO Buscar colaboradores existentes
+            for(int i = 0; i < colaboradores.Count; i++)
             {
-                _colaboradorRepository.Insert(colaboradorCsv);
+                var colaboradorCsv = colaboradores[i];
+                 var colaborador = _colaboradorRepository.GetById(colaboradorCsv.Id);
+                 if (colaborador == null)
+                 {
+                     _colaboradorRepository.Insert(colaboradorCsv);
+                     Console.WriteLine("Colaborador insertado");
+                     Console.WriteLine(colaboradorCsv);
+                 }
+                 else
+                 {
+                     colaborador.AgregarPuntos(colaboradorCsv.ObtenerPuntos());
+                     _colaboradorRepository.Update(colaborador);
+                 }
             }
-            else
-            {
-                colaborador.AgregarPuntos(colaboradorCsv.ObtenerPuntos());
-                _colaboradorRepository.Update(colaborador);
-            }*/
         }
-    }
 }

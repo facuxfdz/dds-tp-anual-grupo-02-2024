@@ -8,18 +8,18 @@ using AccesoAlimentario.Core.Entities.Personas.PersonaJuridica;
 namespace AccesoAlimentario.Core.Servicios;
 
 public class PersonasServicio {
-    public void CrearHumana(string nombre, Direccion direccion, DocumentoIdentidad documento, MedioContacto medioContacto, string apellido, SexoDocumento sexo)
+    public void CrearHumana(int id, string nombre, Direccion direccion, DocumentoIdentidad documento, MedioContacto medioContacto, string apellido, SexoDocumento sexo)
     {
         List<MedioContacto> mediosContacto = new List<MedioContacto>();
         mediosContacto.Add(medioContacto);
-        PersonaHumana persona = new PersonaHumana(nombre, apellido, documento, direccion, mediosContacto, sexo);
+        PersonaHumana persona = new PersonaHumana(id, nombre, apellido, documento, direccion, mediosContacto, sexo);
     }
 
-    public void CrearJuridica(string nombre, Direccion direccion, DocumentoIdentidad documento, MedioContacto medioContacto, TipoJuridico tipoJuridico, string rubro)
+    public void CrearJuridica(int id, string nombre, Direccion direccion, DocumentoIdentidad documento, MedioContacto medioContacto, TipoJuridico tipoJuridico, string rubro)
     {
         List<MedioContacto> mediosContacto = new List<MedioContacto>();
         mediosContacto.Add(medioContacto);
-        PersonaJuridica persona = new PersonaJuridica(nombre, documento, direccion, mediosContacto, tipoJuridico, rubro);
+        PersonaJuridica persona = new PersonaJuridica(id, nombre, documento, direccion, mediosContacto, tipoJuridico, rubro);
     }
 
     public void Eliminar(Persona persona)

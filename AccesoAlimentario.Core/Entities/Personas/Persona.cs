@@ -8,6 +8,7 @@ namespace AccesoAlimentario.Core.Entities.Personas;
 
 public abstract class Persona
 {
+    public int Id { get; set; }
     public string Nombre { get; set; }
     public Direccion? Direccion { get; set; }
     public DocumentoIdentidad? DocumentoIdentidad { get; set; }
@@ -15,8 +16,9 @@ public abstract class Persona
     protected List<Rol> _roles = new List<Rol>();
     protected DateTime _fechaAlta = DateTime.Now;
 
-    public Persona(string nombre, DocumentoIdentidad documentoIdentidad, Direccion direccion, List<MedioContacto> mediosDeContacto)
+    public Persona(int id, string nombre, DocumentoIdentidad documentoIdentidad, Direccion direccion, List<MedioContacto> mediosDeContacto)
     {
+        Id = id;
         Nombre = nombre;
         DocumentoIdentidad = documentoIdentidad;
         Direccion = direccion;

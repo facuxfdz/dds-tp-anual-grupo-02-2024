@@ -8,8 +8,8 @@ public class UsuarioSistema : Rol
     private string _userName;
     private string _password;
 
-    public UsuarioSistema(Persona persona, string userName, string password)
-        : base(persona)
+    public UsuarioSistema(int id, Persona persona, string userName, string password)
+        : base(id, persona)
     {
         _userName = userName;
         _password = password;

@@ -2,32 +2,37 @@
 
 public class Direccion
 {
-    private string _calle;
-    private string _numero;
-    private string _localidad;
-    private string? _piso;
-    private string? _departamento;
-    private string _codigoPostal;
-
-    public Direccion(string calle, string numero, string localidad, string codigoPostal, string? piso = null,
+    public int Id { get; private set; }
+    public string Calle { get; private set; }
+    public string Numero { get; private set; }
+    public string Localidad { get; private set; }
+    public string? Piso { get; private set; }
+    public string? Departamento { get; private set; }
+    public string CodigoPostal { get; private set; }
+    
+    public Direccion()
+    {
+    }
+    public Direccion(int id, string calle, string numero, string localidad, string codigoPostal, string? piso = null,
         string? departamento = null)
     {
-        _calle = calle;
-        _numero = numero;
-        _localidad = localidad;
-        _piso = piso;
-        _departamento = departamento;
-        _codigoPostal = codigoPostal;
+        Id = id;
+        Calle = calle;
+        Numero = numero;
+        Localidad = localidad;
+        Piso = piso;
+        Departamento = departamento;
+        CodigoPostal = codigoPostal;
     }
 
     public void Actualizar(string calle, string numero, string localidad, string codigoPostal, string? piso = null,
         string? departamento = null)
     {
-        _calle = calle;
-        _numero = numero;
-        _localidad = localidad;
-        _piso = piso;
-        _departamento = departamento;
-        _codigoPostal = codigoPostal;
+        Calle = calle;
+        Numero = numero;
+        Localidad = localidad;
+        Piso = piso;
+        Departamento = departamento;
+        CodigoPostal = codigoPostal;
     }
 }

@@ -5,9 +5,9 @@ using AccesoAlimentario.Core.Entities.Sensores;
 namespace AccesoAlimentario.Core.Servicios;
 
 public class HeladerasServicio {
-    public void Crear(string nombre, float longi, float lat, Direccion direccion, ModeloHeladera modelo, float temperaturaMinima, float temperaturaMaxima) 
+    public void Crear(int id, string nombre, float longi, float lat, Direccion direccion, ModeloHeladera modelo, float temperaturaMinima, float temperaturaMaxima) 
     {
-        PuntoEstrategico puntoEstrategico = new PuntoEstrategico(nombre, longi, lat, direccion);
+        PuntoEstrategico puntoEstrategico = new PuntoEstrategico(id, nombre, longi, lat, direccion);
         Heladera heladera = new Heladera(puntoEstrategico, temperaturaMinima, temperaturaMaxima, modelo);
     }
 
@@ -16,11 +16,8 @@ public class HeladerasServicio {
         //TODO
     }
     
-    public void Modificar(Heladera heladera, string? nombre, float? temperaturaMinima, float? temperaturaMaxima)
+    public void Modificar(Heladera heladera, float? temperaturaMinima, float? temperaturaMaxima)
     {
-        if (nombre != null)
-            heladera.Nombre(nombre);
-
         if (temperaturaMinima != null)
             heladera.TemperaturaMinimaConfig = temperaturaMinima.Value;
 

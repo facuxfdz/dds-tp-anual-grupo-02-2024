@@ -4,30 +4,33 @@ namespace AccesoAlimentario.Core.Entities.Heladeras;
 
 public class Vianda
 {
-    private string _comida;
-    private DateTime _fechaDonacion;
-    private DateTime _fechaCaducidad;
-    private Colaborador _colaborador;
-    private float _calorias;
-    private float _peso;
-    private EstadoVianda _estadoVianda;
-    private ViandaEstandar _unidadEstandar;
+    public int Id { get; private set; }
+    public string Comida { get; private set; }
+    public DateTime FechaDonacion { get; private set; }
+    public DateTime FechaCaducidad { get; private set; }
+    public Colaborador Colaborador { get; private set; }
+    public Heladera Heladera { get; private set; }
+    public float Calorias { get; private set; }
+    public float Peso { get; private set; }
+    public EstadoVianda EstadoVianda { get; private set; }
+    public ViandaEstandar UnidadEstandar { get; private set; }
 
-    public Vianda(string comida, DateTime fechaDonacion, DateTime fechaCaducidad, Colaborador colaborador,
-         float calorias, float peso, EstadoVianda estadoVianda, ViandaEstandar unidadEstandar)
+    public Vianda()
     {
-        _comida = comida;
-        _fechaDonacion = fechaDonacion;
-        _fechaCaducidad = fechaCaducidad;
-        _colaborador = colaborador;
-        _calorias = calorias;
-        _peso = peso;
-        _estadoVianda = estadoVianda;
-        _unidadEstandar = unidadEstandar;
     }
 
-    /*public void ActualizarHeladera(Heladera heladera)
+    public Vianda(int id, string comida, DateTime fechaDonacion, DateTime fechaCaducidad, Colaborador colaborador,
+        Heladera heladera, float calorias, float peso, EstadoVianda estadoVianda, ViandaEstandar unidadEstandar)
     {
-        _heladera = heladera;
-    }*/ //TODO NO HAY MAS HELADERAS ACA
+        Id = id;
+        Comida = comida;
+        FechaDonacion = fechaDonacion;
+        FechaCaducidad = fechaCaducidad;
+        Colaborador = colaborador;
+        Heladera = heladera;
+        Calorias = calorias;
+        Peso = peso;
+        EstadoVianda = estadoVianda;
+        UnidadEstandar = unidadEstandar;
+    }
 }

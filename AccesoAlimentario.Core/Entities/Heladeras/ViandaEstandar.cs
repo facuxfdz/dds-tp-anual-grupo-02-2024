@@ -2,21 +2,27 @@ namespace AccesoAlimentario.Core.Entities.Heladeras;
 
 public class ViandaEstandar
 {
-    private float _largo;
-    private float _ancho;
-    private float _profundidad;
+    public int Id { get; private set; }
+    public float Largo { get; private set; }
+    public float Ancho { get; private set; }
+    public float Profundidad { get; private set; }
 
-    public ViandaEstandar(float largo, float ancho, float profundidad)
+    public ViandaEstandar()
     {
-        _largo = largo;
-        _ancho = ancho;
-        _profundidad = profundidad;
+    }
+
+    public ViandaEstandar(int id, float largo, float ancho, float profundidad)
+    {
+        Id = id;
+        Largo = largo;
+        Ancho = ancho;
+        Profundidad = profundidad;
     }
 
     public void Actualizar(float largo, float ancho, float profundidad)
     {
-        _largo = largo;
-        _ancho = ancho;
-        _profundidad = profundidad;
+        Largo = largo;
+        Ancho = ancho;
+        Profundidad = profundidad;
     }
 }
