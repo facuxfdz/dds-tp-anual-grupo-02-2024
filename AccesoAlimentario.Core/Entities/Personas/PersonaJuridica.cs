@@ -13,8 +13,8 @@ public class PersonaJuridica : Persona
     public TipoJuridico Tipo { get; set; }
     public string Rubro { get; set; }
 
-    public PersonaJuridica(string nombre, DocumentoIdentidad documentoIdentidad, Direccion direccion, List<MedioContacto> mediosDeContacto, TipoJuridico tipo, string rubro)
-        : base(nombre, documentoIdentidad, direccion, mediosDeContacto)
+    public PersonaJuridica(int id, string nombre, DocumentoIdentidad documentoIdentidad, Direccion direccion, List<MedioContacto> mediosDeContacto, TipoJuridico tipo, string rubro)
+        : base(id, nombre, documentoIdentidad, direccion, mediosDeContacto)
     {
         Tipo = tipo;
         Rubro = rubro;

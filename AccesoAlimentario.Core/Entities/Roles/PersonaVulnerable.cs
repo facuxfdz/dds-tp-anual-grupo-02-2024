@@ -9,8 +9,8 @@ public class PersonaVulnerable : Rol
     private TarjetaConsumo _tarjeta;
     private DateTime _fechaRegistroSistema;
 
-    public PersonaVulnerable(Persona persona, int cantMenores, TarjetaConsumo tarjeta)
-        : base(persona)
+    public PersonaVulnerable(int id, Persona persona, int cantMenores, TarjetaConsumo tarjeta)
+        : base(id,persona)
     {
         _cantidadDeMenores = cantMenores;
         _tarjeta = tarjeta;

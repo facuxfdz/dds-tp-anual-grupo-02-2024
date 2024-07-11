@@ -7,8 +7,8 @@ public class Tecnico : Rol
 {
     private AreaCobertura _areaCobertura;
 
-    public Tecnico(Persona persona, AreaCobertura areaCobertura)
-        : base(persona)
+    public Tecnico(int id,Persona persona, AreaCobertura areaCobertura)
+        : base(id,persona)
     {
         _areaCobertura = areaCobertura;
     }

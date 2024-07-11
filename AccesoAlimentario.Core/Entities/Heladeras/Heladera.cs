@@ -28,40 +28,6 @@ public class Heladera
         Modelo = modelo;
     }
     
-/* TODO:REVISAR ESTAS FUNCIONES VIEJAS
-    public void IngresarViandas(Heladera heladeraOrigen, List<Vianda> viandas)
-    {
-        if (EstadoHeladera == EstadoHeladera.Activa)
-        {
-            if (Viandas.Count + viandas.Count <= Capacidad)
-            {
-                Viandas.AddRange(viandas);
-            }
-            else
-            {
-                throw new Exception("No hay espacio suficiente en la heladera");
-            }
-        }
-        else
-        {
-            throw new Exception("La heladera no está funcionando");
-        }
-    }
-
-    public List<Vianda> RetirarViandas(int cantidad)
-    {
-        if (Viandas.Count - cantidad >= 0)
-        {
-            var viandas = Viandas.GetRange(0, cantidad);
-            Viandas.RemoveRange(0, cantidad);
-            return viandas;
-        }
-        else
-        {
-            throw new Exception("No hay suficientes viandas en la heladera");
-        }
-    }
-*/
     public void ActualizarEstado(EstadoHeladera estadoHeladera)
     {
         EstadoHeladera = estadoHeladera;
@@ -88,21 +54,21 @@ public class Heladera
 
     public void AgregarSensor(ISensor sensor)
     {
-        _sensores.Add(sensor);
+        Sensores.Add(sensor);
     }
     
     public void EliminarSensor(ISensor sensor){
-        _sensores.Remove(sensor);
+        Sensores.Remove(sensor);
     }
 
     public int ObtenerCantidadDeViandas()
     {
-        return _viandas.Count;
+        return Viandas.Count;
     }
 
     public EstadoHeladera ObtenerEstadoHeladera()
     {
-        return _estadoHeladera;
+        return EstadoHeladera;
     }
 
     public float ObtenerLatitud()
@@ -115,20 +81,4 @@ public class Heladera
         return PuntoEstrategico.Longitud;
     }
 
-/* TODO:REVISAR ESTAS FUNCIONES VIEJAS
-    public bool VerificarTemperatura(float temperatura)
-    {
-        return temperatura >= TemperaturaMinima && temperatura <= TemperaturaMaxima;
-    }
-
-    public void ActualizarRangoTemperatura(float temperaturaMinima, float temperaturaMaxima)
-    {
-        TemperaturaMinima = temperaturaMinima;
-        TemperaturaMaxima = temperaturaMaxima;
-    }
-
-    public EstadoHeladera EstadoHeladera => _estadoHeladera;
-
-
-    */
 }

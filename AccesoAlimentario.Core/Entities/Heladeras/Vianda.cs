@@ -33,9 +33,4 @@ public class Vianda
         EstadoVianda = estadoVianda;
         UnidadEstandar = unidadEstandar;
     }
-
-    /*public void ActualizarHeladera(Heladera heladera)
-    {
-        Heladera = heladera;
-    }
 }

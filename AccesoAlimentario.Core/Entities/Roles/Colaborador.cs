@@ -12,8 +12,8 @@ public class Colaborador : Rol
     public float Puntos { get; set; }
     protected TarjetaColaboracion? _tarjetaColaboracion = null;
 
-    public Colaborador(Persona persona, List<TipoContribucion> contribucionesPreferidas)
-        : base(persona)
+    public Colaborador(int id, Persona persona, List<TipoContribucion> contribucionesPreferidas)
+        : base(id, persona)
     {
         _contribucionesPreferidas = contribucionesPreferidas;
         _contribucionesRealizadas = new List<FormaContribucion>();

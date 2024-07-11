@@ -14,33 +14,34 @@ public class ImportadorCsv : FormaImportacion
 {
     private readonly ValidadorImportacionMasiva _validador = new();
         
-    private int GenerarId()
+    private static int GenerarId()
     {
         var randomId = new Random();
         return randomId.Next(100000, 999999);
     }
     public override List<Colaborador> ImportarColaboradores(Stream fileStream)
     {
-        var colaboraciones = LeerCsv(fileStream);
-        var colaboracionesValidas = colaboraciones.Where(c =>
-            _validador.Validar(c.TipoDoc, c.Documento, c.Nombre, c.Apellido, c.Mail, c.FechaColaboracion,
-                c.FormaColaboracion, c.Cantidad)).ToList();
-
-        var colaboradores = new List<Colaborador>();
-        var colaboracionesPorColaborador = colaboracionesValidas.GroupBy(c => new { c.TipoDoc, c.Documento });
-
-        foreach (var colaborador in colaboracionesPorColaborador)
-        {
-            var c = colaborador.ToList().Select(datos => Parsear(datos)).ToList();
-            var col = c.FirstOrDefault();
-            if (col == null) continue;
-            c.RemoveAt(0);
-            col.AgregarPuntos(c.Sum(x => x.ObtenerPuntos()));
-            /*col.Id = GenerarId();*/
-            colaboradores.Add(col);
-        }
-
-        return colaboradores;
+        throw new NotImplementedException();
+        // var colaboraciones = LeerCsv(fileStream);
+        // var colaboracionesValidas = colaboraciones.Where(c =>
+        //     _validador.Validar(c.TipoDoc, c.Documento, c.Nombre, c.Apellido, c.Mail, c.FechaColaboracion,
+        //         c.FormaColaboracion, c.Cantidad)).ToList();
+        //
+        // var colaboradores = new List<Colaborador>();
+        // var colaboracionesPorColaborador = colaboracionesValidas.GroupBy(c => new { c.TipoDoc, c.Documento });
+        //
+        // foreach (var colaborador in colaboracionesPorColaborador)
+        // {
+        //     var c = colaborador.ToList().Select(datos => Parsear(datos)).ToList();
+        //     var col = c.FirstOrDefault();
+        //     if (col == null) continue;
+        //     c.RemoveAt(0);
+        //     col.AgregarPuntos(c.Sum(x => x.ObtenerPuntos()));
+        //     /*col.Id = GenerarId();*/
+        //     colaboradores.Add(col);
+        // }
+        //
+        // return colaboradores;
     }
 
     private static List<DatosColaboracion> LeerCsv(Stream fileStream)
@@ -54,52 +55,53 @@ public class ImportadorCsv : FormaImportacion
         return colaboraciones;
     }
 
-        private static Colaborador Parsear(DatosColaboracion datos)
+        private static UsuarioSistema Parsear(DatosColaboracion datos)
         {
             var tipoDoc = (TipoDocumento)Enum.Parse(typeof(TipoDocumento), datos.TipoDoc);
-            var documento = new DocumentoIdentidad(tipoDoc, datos.Documento, SexoDocumento.Otro);
-            var usuario = new Usuario(datos.Mail, CrearPassword(), false);
-            var colaborador = new PersonaHumana( 0, datos.Nombre, datos.Apellido, null, null, documento, usuario, []);
+            var documento = new DocumentoIdentidad(tipoDoc, datos.Documento, null);
+            var colaborador = new PersonaHumana(GenerarId(), datos.Nombre, datos.Apellido, documento, null, null, null);
+            var usuario = new UsuarioSistema(GenerarId(), colaborador, datos.Mail, CrearPassword());
             var tipoContribucion = (TipoContribucion)Enum.Parse(typeof(TipoContribucion), datos.FormaColaboracion);
             var contribucion = new List<FormaContribucion>();
 
-        switch (tipoContribucion)
-        {
-            case TipoContribucion.DINERO:
+            switch (tipoContribucion)
             {
-                contribucion.Add(new DonacionMonetaria(DateTime.Parse(datos.FechaColaboracion), datos.Cantidad));
-                break;
-            }
-            case TipoContribucion.DONACION_VIANDAS:
-            {
-                for (var i = 0; i < datos.Cantidad; i++)
+                case TipoContribucion.DINERO:
                 {
-                    contribucion.Add(new DonacionVianda(DateTime.Parse(datos.FechaColaboracion), null, null));
+                    contribucion.Add(new DonacionMonetaria(
+                        DateTime.Parse(datos.FechaColaboracion),
+                        datos.Cantidad, 0));
+                    break;
                 }
-
-                break;
-            }
-            case TipoContribucion.REDISTRIBUCION_VIANDAS:
-            {
-                contribucion.Add(new DistribucionViandas(DateTime.Parse(datos.FechaColaboracion), null, null,
-                    datos.Cantidad, MotivoDistribucion.Desperfecto));
-                break;
-            }
-            case TipoContribucion.ENTREGA_TARJETAS:
-            {
-                for (var i = 0; i < datos.Cantidad; i++)
+                case TipoContribucion.DONACION_VIANDAS:
                 {
-                    contribucion.Add(new RegistroPersonaVulnerable(DateTime.Parse(datos.FechaColaboracion), null));
+                    for (var i = 0; i < datos.Cantidad; i++)
+                    {
+                        contribucion.Add(new DonacionVianda(DateTime.Parse(datos.FechaColaboracion), null, null));
+                    }
+
+                    break;
                 }
+                case TipoContribucion.REDISTRIBUCION_VIANDAS:
+                {
+                    contribucion.Add(new DistribucionViandas(DateTime.Parse(datos.FechaColaboracion), null, null,
+                        datos.Cantidad, MotivoDistribucion.Desperfecto));
+                    break;
+                }
+                case TipoContribucion.ENTREGA_TARJETAS:
+                {
+                    for (var i = 0; i < datos.Cantidad; i++)
+                    {
+                        contribucion.Add(new RegistroPersonaVulnerable(DateTime.Parse(datos.FechaColaboracion), null));
+                    }
 
-                break;
+                    break;
+                }
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
 
-        contribucion.ForEach(c => colaborador.Colaborar(c));
-        return colaborador;*/
+        return usuario;
     }
 
     private static string CrearPassword()

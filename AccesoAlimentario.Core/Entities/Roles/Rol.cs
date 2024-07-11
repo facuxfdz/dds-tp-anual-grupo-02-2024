@@ -5,9 +5,11 @@ namespace AccesoAlimentario.Core.Entities.Roles;
 public abstract class Rol
 {
     public Persona _persona { get; }
+    public int Id { get; private set; }
     
-    public Rol(Persona persona)
+    public Rol(int id, Persona persona)
     {
+        Id = id;
         _persona = persona;
     }
 }

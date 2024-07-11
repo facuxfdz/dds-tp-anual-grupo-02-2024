@@ -7,14 +7,14 @@ namespace AccesoAlimentario.Core.Entities.Personas;
 public class PersonaHumana : Persona
 {
     public string Apellido { get; set; }
-    public SexoDocumento Sexo {get; set; }
+    public SexoDocumento? Sexo {get; set; }
     
     public PersonaHumana() : base()
     {
     }
 
-    public PersonaHumana(string nombre, string apellido, DocumentoIdentidad documentoIdentidad, Direccion direccion, List<MedioContacto> mediosDeContacto, SexoDocumento sexo)
-        : base(nombre, documentoIdentidad, direccion, mediosDeContacto)
+    public PersonaHumana(int id, string nombre, string apellido, DocumentoIdentidad documentoIdentidad, Direccion direccion, List<MedioContacto> mediosDeContacto, SexoDocumento? sexo)
+        : base(id, nombre, documentoIdentidad, direccion, mediosDeContacto)
     {
         Apellido = apellido;
         Sexo = sexo;

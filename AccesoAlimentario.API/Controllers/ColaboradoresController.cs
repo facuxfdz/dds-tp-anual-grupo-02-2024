@@ -28,9 +28,8 @@ public class ColaboradoresController : ControllerBase
         using var stream = file.OpenReadStream();
         var importador = new ImportadorColaboraciones(new ImportadorCsv(), _unitOfWork.ColaboradorRepository);
         importador.Importar(stream);
-        var res = _colaboradorRepository.Get();
-        var t = 1;
-        return Ok();
+        var res = _unitOfWork.ColaboradorRepository.Get();
+        return Ok(res);
     }
 
     // GET: api/colaboradores
