@@ -1,3 +1,6 @@
+using AccesoAlimentario.Core.DAL;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +9,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDbContext<AppDbContext>((provider, options) =>
+{
+    options.UseMySQL(
+        "server=localhost;port=3346;database=acceso_alimentario;user=root;password=pass123");
+});
+
 
 var app = builder.Build();
 

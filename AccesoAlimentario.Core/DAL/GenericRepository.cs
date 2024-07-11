@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore;
 namespace AccesoAlimentario.Core.DAL;
 public class GenericRepository<TEntity> where TEntity : class
 {
-    private readonly AppContext _context;
+    private readonly AppDbContext _context;
     private readonly DbSet<TEntity> _dbSet;
 
-    public GenericRepository(AppContext context)
+    public GenericRepository(AppDbContext context)
     {
         this._context = context;
         this._dbSet = context.Set<TEntity>();
@@ -57,9 +57,8 @@ public class GenericRepository<TEntity> where TEntity : class
 
     public virtual void Insert(TEntity entity)
     {
-        _context.Entry(entity).State = EntityState.Added;
-        var res = _dbSet.Add(entity);
-        Console.WriteLine(res);
+        _dbSet.Add(entity);
+        _context.SaveChanges();
     }
 
     public virtual void Delete(object id)

@@ -2,10 +2,6 @@ using AccesoAlimentario.Core.DAL;
 using AccesoAlimentario.Core.Entities.Personas.Colaboradores;
 using AccesoAlimentario.Infraestructura.ImportacionColaboradores;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
-using Moq;
-using AppContext = AccesoAlimentario.Core.DAL.AppContext;
 
 namespace AccesoAlimentario.API.Controllers;
 
@@ -13,20 +9,15 @@ namespace AccesoAlimentario.API.Controllers;
 [ApiController]
 public class ColaboradoresController : ControllerBase
 {
-    private DbContext _context;
     private GenericRepository<Colaborador> _colaboradorRepository;
-    public ColaboradoresController()
+    public ColaboradoresController(AppDbContext context)
     {
-        var options = new DbContextOptionsBuilder<AppContext>()
-            .UseInMemoryDatabase(databaseName: "AccesoAlimentario")
-            .Options;
-        _context = new AppContext(options);
-        _colaboradorRepository = new GenericRepository<Colaborador>((AppContext)_context);
+        _colaboradorRepository = new GenericRepository<Colaborador>(context);
     }
     // POST: api/colaboradores/csv
     [HttpPost]
     [Route("csv")]
-    public IActionResult ImportarColaboradores([FromForm] IFormFile file)
+    public IActionResult ImportarColaboradores(IFormFile file)
     {
         // Create stream from file
         using var stream = file.OpenReadStream();

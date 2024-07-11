@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AccesoAlimentario.Core.DAL;
 
-public class AppContext : DbContext
+public class AppDbContext : DbContext
 {
-    public AppContext(DbContextOptions<AppContext> options) : base(options)
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
     }
     public DbSet<Heladera> Heladeras { get; set; }
@@ -23,6 +23,7 @@ public class AppContext : DbContext
     // Using mysql 8 as database
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseMySQL("server=localhost;database=acceso_alimentario;user=admin;password=pass123");
+        optionsBuilder.UseMySQL(
+            "server=localhost;port=3346;database=acceso_alimentario;user=root;password=pass123");
     }
 }
