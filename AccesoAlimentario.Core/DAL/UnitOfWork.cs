@@ -58,7 +58,7 @@ public class UnitOfWork(AppDbContext context)
     private GenericRepository<UsuarioSistema> _usuarioSistemaRepository = null!;
     private GenericRepository<RegistroMovimiento> _registroMovimientoRepository = null!;
     private GenericRepository<RegistroTemperatura> _registroTemperaturaRepository = null!;
-    private GenericRepository<Sensor> _sensorRepository = null!;
+    private GenericRepository<ISensor> _sensorRepository = null!;
     private GenericRepository<SensorMovimiento> _sensorMovimientoRepository = null!;
     private GenericRepository<SensorTemperatura> _sensorTemperaturaRepository = null!;
     private GenericRepository<Suscripcion> _suscripcionRepository = null!;
@@ -108,7 +108,7 @@ public class UnitOfWork(AppDbContext context)
     public GenericRepository<UsuarioSistema> UsuarioSistemaRepository => _usuarioSistemaRepository ??= new GenericRepository<UsuarioSistema>(context);
     public GenericRepository<RegistroMovimiento> RegistroMovimientoRepository => _registroMovimientoRepository ??= new GenericRepository<RegistroMovimiento>(context);
     public GenericRepository<RegistroTemperatura> RegistroTemperaturaRepository => _registroTemperaturaRepository ??= new GenericRepository<RegistroTemperatura>(context);
-    public GenericRepository<Sensor> SensorRepository => _sensorRepository ??= new GenericRepository<Sensor>(context);
+    public GenericRepository<ISensor> SensorRepository => _sensorRepository ??= new GenericRepository<ISensor>(context);
     public GenericRepository<SensorMovimiento> SensorMovimientoRepository => _sensorMovimientoRepository ??= new GenericRepository<SensorMovimiento>(context);
     public GenericRepository<SensorTemperatura> SensorTemperaturaRepository => _sensorTemperaturaRepository ??= new GenericRepository<SensorTemperatura>(context);
     public GenericRepository<Suscripcion> SuscripcionRepository => _suscripcionRepository ??= new GenericRepository<Suscripcion>(context);

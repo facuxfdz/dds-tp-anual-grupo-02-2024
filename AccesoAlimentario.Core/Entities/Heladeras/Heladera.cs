@@ -1,4 +1,7 @@
-﻿namespace AccesoAlimentario.Core.Entities.Heladeras;
+﻿using AccesoAlimentario.Core.Entities.Incidentes;
+using AccesoAlimentario.Core.Entities.Sensores;
+
+namespace AccesoAlimentario.Core.Entities.Heladeras;
 
 public class Heladera
 {
@@ -9,7 +12,7 @@ public class Heladera
     private DateTime _fechaInstalacion;
     private float _temperaturaMinimaConfig;
     private float _temperaturaMaximaConfig;
-    private List<Sensor> _sensores;
+    private List<ISensor> _sensores;
     private List<Incidente> _incidente;
     private ModeloHeladera _modelo; 
 
@@ -21,7 +24,7 @@ public class Heladera
         _fechaInstalacion = DateTime.Now;
         _temperaturaMinimaConfig = temperaturaMinima;
         _temperaturaMaximaConfig = temperaturaMaxima;
-        _sensores = new List<Sensor>();
+        _sensores = new List<ISensor>();
         _incidente = new List<Incidente>();
         _modelo = modelo;
     }
@@ -65,7 +68,7 @@ public class Heladera
         _estadoHeladera = estadoHeladera;
     }
 
-    public void CambioEstadoSensorTemperatura(Float dato){
+    public void CambioEstadoSensorTemperatura(float dato){
         if(dato >= _temperaturaMinimaConfig || dato <= _temperaturaMaximaConfig){ //TODO cambiarlas a las del fabricante
             //TODO: aca se cambiaria el estado del sensor, pero hay una lista
         }
@@ -76,19 +79,19 @@ public class Heladera
     }
 
 
-    public void CambioEstadoSensorMovimiento(Bool dato){
+    public void CambioEstadoSensorMovimiento(bool dato){
          //TODO: aca se cambiaria el estado del sensor, pero hay una lista
     }
 
-    public void AgregarSensor(Sensor sensor){
+    public void AgregarSensor(ISensor sensor){
         _sensores.Add(sensor);
     }
 
-    public void ObtenerCantidadDeViandas(){
+    public int ObtenerCantidadDeViandas(){
         return _viandas.Count;
     }
 
-    public void ObtenerEstadoHeladera(){
+    public EstadoHeladera ObtenerEstadoHeladera(){
         return _estadoHeladera;
     }
 

@@ -2,7 +2,7 @@
 
 public class SuscripcionIncidenteHeladera
 {
-    public notificarColaborador()
+    public void notificarColaborador()
     {
         //TODO
     }

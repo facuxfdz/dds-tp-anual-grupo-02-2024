@@ -8,19 +8,19 @@ namespace AccesoAlimentario.Core.Entities.Personas;
 
 public abstract class Persona
 {
-    protected string _nombre;
-    protected Direccion? _direccion;
-    protected DocumentoIdentidad? _documentoIdentidad;
-    public List<MedioContacto> _mediosDeContacto { get; private set; }
+    protected string Nombre { get; set; }
+    protected Direccion? Direccion { get; set; }
+    protected DocumentoIdentidad? DocumentoIdentidad { get; set; }
+    public List<MedioContacto> MediosDeContacto { get; set; }
     protected List<Rol> _roles = new List<Rol>();
     protected DateTime _fechaAlta = DateTime.Now;
 
     public Persona(string nombre, DocumentoIdentidad documentoIdentidad, Direccion direccion, List<MedioContacto> mediosDeContacto)
     {
-        _nombre = nombre;
-        _documentoIdentidad = documentoIdentidad;
-        _direccion = direccion;
-        _mediosDeContacto = mediosDeContacto;
+        Nombre = nombre;
+        DocumentoIdentidad = documentoIdentidad;
+        Direccion = direccion;
+        MediosDeContacto = mediosDeContacto;
     }
 
 }

@@ -1,14 +1,21 @@
-namespace AccesoAlimentario.Core.Servicios;
+using AccesoAlimentario.Core.Entities.Contribuciones;
+using AccesoAlimentario.Core.Entities.Heladeras;
+using AccesoAlimentario.Core.Entities.Personas;
+using AccesoAlimentario.Core.Entities.Premios;
+using AccesoAlimentario.Core.Entities.Tarjetas;
+
+namespace AccesoAlimentario.Core.Servicios
 
 {
     public class ColaboracionesServicio
     {
         public FormaContribucion crearAdministracionHeladera(Heladera heladera, DateTime fechaContr)
         {
-            heladera
+            //TODO
+            throw new NotImplementedException();
         }
 
-        public FormaContribucion crearDistribucionViandas(HOrigen hOrigen, HDestino hDestino, int cant, string motivo, DateTime fechaContr)
+        public FormaContribucion crearDistribucionViandas(Heladera heladeraOrigen, Heladera heladeraDestino, int cant, string motivo, DateTime fechaContr)
         {
             // TODO: HACER
             throw new NotImplementedException();

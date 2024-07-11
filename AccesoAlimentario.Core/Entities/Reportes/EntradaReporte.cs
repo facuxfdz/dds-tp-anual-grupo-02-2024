@@ -1,7 +1,7 @@
 using AccesoAlimentario.Core.Entities.Heladeras;
-using AccesoAlimentario.Core.Entities.Colaboradores;
+using AccesoAlimentario.Core.Entities.Roles;
  
-namespace AccesoAlimentario.Core.Entities.Reportes
+namespace AccesoAlimentario.Core.Entities.Reportes;
 
 public class EntradaReporte{
         private Heladera? _heladera;

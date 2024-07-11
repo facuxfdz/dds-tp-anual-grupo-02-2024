@@ -1,5 +1,6 @@
 ﻿using AccesoAlimentario.Core.Entities.Heladeras;
 using AccesoAlimentario.Core.Entities.MediosContacto;
+using AccesoAlimentario.Core.Entities.Notificaciones;
 
 namespace AccesoAlimentario.Core.Entities;
 

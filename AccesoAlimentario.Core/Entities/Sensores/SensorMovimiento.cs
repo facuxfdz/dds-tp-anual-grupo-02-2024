@@ -15,8 +15,17 @@ public class SensorMovimiento : ISensor, ISubjectHeladeraMovimiento
     {
         _registrosMovimiento.Add(new RegistroMovimiento(fecha, movimiento));
     }
-    // TODO
-    public void Suscribirse(IobserverSensorMovimiento observado());
-    public void Desuscribirse(IobserverSensorMovimiento observado());
-    public void Notificar();
+    
+    public void Suscribirse(IObserverSensorMovimiento observado)
+    {
+        //TODO
+    }
+    public void Desuscribirse(IObserverSensorMovimiento observado)
+    {
+        //TODO
+    }
+    public void Notificar()
+    {
+        //TODO
+    }
 }

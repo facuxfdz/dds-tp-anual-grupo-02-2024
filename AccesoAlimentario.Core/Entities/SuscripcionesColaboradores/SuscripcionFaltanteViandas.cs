@@ -10,7 +10,7 @@ public class SuscripcionFaltanteViandas : Suscripcion
         _minimo = minimo;
     }
 
-    public notificarColaborador()
+    public void notificarColaborador()
     {
         //TODO
     }

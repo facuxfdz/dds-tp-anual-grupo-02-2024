@@ -15,8 +15,17 @@ public class SensorTemperatura : ISensor, ISubjectHeladeraTemperatura
     {
         _registrosTemperatura.Add(new RegistroTemperatura(fecha, temperatura));
     }
-    //TODO
+    
     public void Suscribirse(IObserverSensorTemperatura observado)
+    {
+        //TODO
+    }
     public void Desuscribirse(IObserverSensorTemperatura observado)
+    {
+        //TODO
+    }
     public void Notificar()
+    {
+        //TODO
+    }
 }

@@ -1,19 +1,24 @@
 using AccesoAlimentario.Core.Entities.Direcciones;
-using AccesoAlimentario.Core.Entities.DocumentosIdentidad;
 using AccesoAlimentario.Core.Entities.MediosContacto;
+using AccesoAlimentario.Core.Entities.Personas;
+using AccesoAlimentario.Core.Entities.Personas.Colaboradores;
+using AccesoAlimentario.Core.Entities.Personas.DocumentosIdentidad;
+using AccesoAlimentario.Core.Entities.Personas.PersonaJuridica;
 
 namespace AccesoAlimentario.Core.Servicios;
 
 public class PersonasServicio {
     public void CrearHumana(string nombre, Direccion direccion, DocumentoIdentidad documento, MedioContacto medioContacto, string apellido, SexoDocumento sexo)
     {
-        List<MedioContacto> mediosContacto = new List<MedioContacto>(medioContacto);
-        PersonaHumana persona = new PersonaHumana(nombre, apellido, documento, direccion, mediosContacto, apellido, sexo);
+        List<MedioContacto> mediosContacto = new List<MedioContacto>();
+        mediosContacto.Add(medioContacto);
+        PersonaHumana persona = new PersonaHumana(nombre, apellido, documento, direccion, mediosContacto, sexo);
     }
 
     public void CrearJuridica(string nombre, Direccion direccion, DocumentoIdentidad documento, MedioContacto medioContacto, TipoJuridico tipoJuridico, string rubro)
     {
-        List<MedioContacto> mediosContacto = new List<MedioContacto>(medioContacto);
+        List<MedioContacto> mediosContacto = new List<MedioContacto>();
+        mediosContacto.Add(medioContacto);
         PersonaJuridica persona = new PersonaJuridica(nombre, documento, direccion, mediosContacto, tipoJuridico, rubro);
     }
 
@@ -26,19 +31,19 @@ public class PersonasServicio {
     {
         persona.Nombre = nombre;
         persona.Apellido = apellido;
-        persona.Documento = documento;
+        persona.DocumentoIdentidad = documento;
         persona.Direccion = direccion;
-        persona.MediosContacto = medioContacto;
+        persona.MediosDeContacto = medioContacto;
         persona.Sexo = sexo;
     }
 
     public void ModificarJuridica(PersonaJuridica persona, string nombre, Direccion direccion, DocumentoIdentidad documento, MedioContacto medioContacto, TipoJuridico tipoJuridico, string rubro)
     {
         persona.Nombre = nombre;
-        persona.Documento = documento;
+        persona.DocumentoIdentidad = documento;
         persona.Direccion = direccion;
-        persona.MediosContacto = medioContacto;
-        persona.TipoJuridico = tipoJuridico;
+        persona.MediosDeContacto = medioContacto;
+        persona.Tipo = tipoJuridico;
         persona.Rubro = rubro;
     }
 

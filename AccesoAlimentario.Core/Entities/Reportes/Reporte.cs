@@ -1,4 +1,6 @@
-namespace AccesoAlimentario.Core.Entities.Reportes
+using AccesoAlimentario.Core.Entities.Reportes;
+
+namespace AccesoAlimentario.Core.Entities.Reportes;
 public class Reporte{
     private string _descripcion;
     private DateTime _fechaCreacion;

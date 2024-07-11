@@ -1,10 +1,10 @@
-using AccesoAlimentario.Core.Entities.Incidente;
+using AccesoAlimentario.Core.Entities.Incidentes;
 
 namespace AccesoAlimentario.Core.Entities.Notificaciones
 {
     public class NotificacionIncidenteAlertaBuilder : INotificacionBuilder
     {
-        private AlertaTipo _tipo;
+        private TipoAlerta _tipo;
         
         public override Notificacion CrearNotificacion()
         {

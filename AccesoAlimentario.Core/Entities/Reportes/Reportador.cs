@@ -1,4 +1,8 @@
-namespace AccesoAlimentario.Core.Entities.Reportes
+using AccesoAlimentario.Core.Entities.Contribuciones;
+using AccesoAlimentario.Core.Entities.Heladeras;
+using AccesoAlimentario.Core.Entities.Incidentes;
+
+namespace AccesoAlimentario.Core.Entities.Reportes;
 
 public class Reportador{
     private List<Heladera> _heladeras;

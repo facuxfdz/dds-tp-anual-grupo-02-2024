@@ -9,7 +9,7 @@ public class Colaborador : Rol
     protected List<TipoContribucion> _contribucionesPreferidas;
     protected List<FormaContribucion> _contribucionesRealizadas;
     protected List<Suscripcion> _suscripciones;
-    protected float _puntos;
+    protected float Puntos { get; set; }
     protected TarjetaColaboracion? _tarjetaColaboracion = null;
 
     public Colaborador(Persona persona, List<TipoContribucion> contribucionesPreferidas)
@@ -18,7 +18,7 @@ public class Colaborador : Rol
         _contribucionesPreferidas = contribucionesPreferidas;
         _contribucionesRealizadas = new List<FormaContribucion>();
         _suscripciones = new List<Suscripcion>();
-        _puntos = 0;
+        Puntos = 0;
     }
 
     public void AgregarContribucion(FormaContribucion contribucion)
@@ -28,17 +28,17 @@ public class Colaborador : Rol
 
     public float ObtenerPuntos()
     {
-        return _puntos;
+        return Puntos;
     }
 
     public void DescontarPuntos(float puntos)
     {
-        _puntos -= puntos;
+        Puntos -= puntos;
     }
 
     public void AgregarPuntos(float puntos)
     {
-        _puntos += puntos;
+        Puntos += puntos;
     }
 
     public void AgregarSubscripcion(Suscripcion suscripcion)

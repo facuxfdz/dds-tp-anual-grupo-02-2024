@@ -1,3 +1,5 @@
+using AccesoAlimentario.Core.Entities.Notificaciones;
+
 namespace AccesoAlimentario.Core.Entities.MediosContacto;
 
 public abstract class MedioContacto

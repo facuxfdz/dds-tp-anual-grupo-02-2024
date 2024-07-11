@@ -10,13 +10,13 @@ namespace AccesoAlimentario.Core.Entities.Personas.PersonaJuridica;
 
 public class PersonaJuridica : Persona
 {
-    private TipoJuridico _tipo;
-    private string _rubro;
+    private TipoJuridico Tipo { get; set; }
+    private string Rubro { get; set; }
 
     public PersonaJuridica(string nombre, DocumentoIdentidad documentoIdentidad, Direccion direccion, List<MedioContacto> mediosDeContacto, TipoJuridico tipo, string rubro)
         : base(nombre, documentoIdentidad, direccion, mediosDeContacto)
     {
-        _tipo = tipo;
-        _rubro = rubro;
+        Tipo = tipo;
+        Rubro = rubro;
     }
 }

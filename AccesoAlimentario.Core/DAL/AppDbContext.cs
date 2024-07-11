@@ -62,7 +62,7 @@ public class AppDbContext : DbContext
     public DbSet<UsuarioSistema> UsuarioSistemas { get; set; }
     public DbSet<RegistroMovimiento> RegistroMovimientos { get; set; }
     public DbSet<RegistroTemperatura> RegistroTemperaturas { get; set; }
-    public DbSet<Sensor> Sensors { get; set; }
+    public DbSet<ISensor> Sensors { get; set; }
     public DbSet<SensorMovimiento> SensorMovimientos { get; set; }
     public DbSet<SensorTemperatura> SensorTemperaturas { get; set; }
     public DbSet<Suscripcion> Suscripcions { get; set; }
