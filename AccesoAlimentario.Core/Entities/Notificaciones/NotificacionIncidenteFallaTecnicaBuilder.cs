@@ -1,5 +1,3 @@
-using AccesoAlimentario.Core.Entities.Incidente;
-
 namespace AccesoAlimentario.Core.Entities.Notificaciones
 {
     public class NotificacionIncidenteFallaTecnicaBuilder : INotificacionBuilder
@@ -7,7 +5,12 @@ namespace AccesoAlimentario.Core.Entities.Notificaciones
         private string? descripcion;
         private string? foto;
         
-        public override Notificacion CrearNotificacion()
+        public NotificacionIncidenteFallaTecnicaBuilder(string? descripcion, string? foto)
+        {
+            this.descripcion = descripcion;
+            this.foto = foto;
+        }
+        public Notificacion CrearNotificacion()
         {
             string asunto = "Acceso Alimentario: Un usuario ha reportado una Falla Técnica";
             string mensaje = $"Un usuario ha reportado una falla tecnica en una heladera. Por favor, acudir al lugar en la brevedad.";

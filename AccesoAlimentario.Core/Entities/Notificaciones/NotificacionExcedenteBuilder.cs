@@ -4,7 +4,12 @@ namespace AccesoAlimentario.Core.Entities.Notificaciones
     {
         private int _cantidadHastaLimite;
         
-        public override Notificacion CrearNotificacion()
+        public NotificacionExcedenteBuilder(int cantidadHastaLimite)
+        {
+            _cantidadHastaLimite = cantidadHastaLimite;
+        }
+        
+        public Notificacion CrearNotificacion()
         {
             string asunto = "Acceso Alimentario: Hay un exceso de viandas";
             string mensaje = $"Faltan {_cantidadHastaLimite} viandas para que se llene la heladera. Por favor, distribuir en la brevedad.";

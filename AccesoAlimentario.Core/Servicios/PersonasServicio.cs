@@ -27,24 +27,52 @@ public class PersonasServicio {
         //TODO
     }
 
-    public void ModificarHumana(PersonaHumana persona, string nombre, Direccion direccion, DocumentoIdentidad documento, MedioContacto medioContacto, string apellido, SexoDocumento sexo)
+    public void ModificarHumana(PersonaHumana persona, string? nombre, Direccion? direccion, DocumentoIdentidad? documento, MedioContacto? medioContacto, string? apellido, SexoDocumento? sexo)
     {
-        persona.Nombre = nombre;
-        persona.Apellido = apellido;
-        persona.DocumentoIdentidad = documento;
-        persona.Direccion = direccion;
-        persona.MediosDeContacto = medioContacto;
-        persona.Sexo = sexo;
+        if (nombre != null)
+            persona.Nombre = nombre;
+
+        if (apellido != null)
+            persona.Apellido = apellido;
+
+        if (documento != null)
+            persona.DocumentoIdentidad = documento;
+
+        if (direccion != null)
+            persona.Direccion = direccion;
+
+        if (medioContacto != null)
+        {
+            persona.MediosDeContacto.Clear();
+            persona.MediosDeContacto.Add(medioContacto);
+        }
+
+        if (sexo.HasValue)
+            persona.Sexo = sexo.Value;
     }
 
-    public void ModificarJuridica(PersonaJuridica persona, string nombre, Direccion direccion, DocumentoIdentidad documento, MedioContacto medioContacto, TipoJuridico tipoJuridico, string rubro)
+    public void ModificarJuridica(PersonaJuridica persona, string? nombre, Direccion? direccion, DocumentoIdentidad? documento, MedioContacto? medioContacto, TipoJuridico? tipoJuridico, string? rubro)
     {
-        persona.Nombre = nombre;
-        persona.DocumentoIdentidad = documento;
-        persona.Direccion = direccion;
-        persona.MediosDeContacto = medioContacto;
-        persona.Tipo = tipoJuridico;
-        persona.Rubro = rubro;
+        if (nombre != null)
+            persona.Nombre = nombre;
+
+        if (documento != null)
+            persona.DocumentoIdentidad = documento;
+
+        if (direccion != null)
+            persona.Direccion = direccion;
+
+        if (medioContacto != null)
+        {
+            persona.MediosDeContacto.Clear();
+            persona.MediosDeContacto.Add(medioContacto);
+        }
+
+        if (tipoJuridico != null)
+            persona.Tipo = tipoJuridico.Value;
+
+        if (rubro != null)
+            persona.Rubro = rubro;
     }
 
 }
