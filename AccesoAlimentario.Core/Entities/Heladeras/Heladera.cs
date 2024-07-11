@@ -6,30 +6,29 @@ namespace AccesoAlimentario.Core.Entities.Heladeras;
 public class Heladera
 {
     // public int Id { get; set; } TODO esto esta por algo?=  
-    private PuntoEstrategico _puntoEstrategico;
+    public PuntoEstrategico PuntoEstrategico;
     private List<Vianda> _viandas;
     private EstadoHeladera _estadoHeladera;
     private DateTime _fechaInstalacion;
-    private float _temperaturaMinimaConfig;
-    private float _temperaturaMaximaConfig;
+    public float TemperaturaMinimaConfig { get; set; }
+    public float TemperaturaMaximaConfig { get; set; }
     private List<ISensor> _sensores;
     private List<Incidente> _incidente;
     private ModeloHeladera _modelo;
 
-    public Heladera(PuntoEstrategico puntoEstrategico, float temperaturaMinima, float temperaturaMaxima,
-        ModeloHeladera modelo)
+    public Heladera(PuntoEstrategico puntoEstrategico,float temperaturaMinima, float temperaturaMaxima, ModeloHeladera modelo)
     {
-        _puntoEstrategico = puntoEstrategico;
+        PuntoEstrategico = puntoEstrategico;
         _viandas = new List<Vianda>();
         _estadoHeladera = EstadoHeladera.Activa;
         _fechaInstalacion = DateTime.Now;
-        _temperaturaMinimaConfig = temperaturaMinima;
-        _temperaturaMaximaConfig = temperaturaMaxima;
+        TemperaturaMinimaConfig = temperaturaMinima;
+        TemperaturaMaximaConfig = temperaturaMaxima;
         _sensores = new List<ISensor>();
         _incidente = new List<Incidente>();
         _modelo = modelo;
     }
-
+    
 /* TODO:REVISAR ESTAS FUNCIONES VIEJAS
     public void IngresarViandas(Heladera heladeraOrigen, List<Vianda> viandas)
     {
@@ -69,16 +68,16 @@ public class Heladera
         _estadoHeladera = estadoHeladera;
     }
 
-    public void CambioEstadoSensorTemperatura(float dato)
-    {
-        if (dato >= _temperaturaMinimaConfig || dato <= _temperaturaMaximaConfig)
-        {
+    public void CambioEstadoSensorTemperatura(float dato){
+        if(dato >= TemperaturaMinimaConfig || dato <= TemperaturaMaximaConfig)
+        { 
             //TODO cambiarlas a las del fabricante
             //TODO: aca se cambiaria el estado del sensor, pero hay una lista
         }
         else
         {
             throw new Exception("Rango de temperatura invalido");
+
         }
     }
 
@@ -91,6 +90,10 @@ public class Heladera
     public void AgregarSensor(ISensor sensor)
     {
         _sensores.Add(sensor);
+    }
+    
+    public void EliminarSensor(ISensor sensor){
+        _sensores.Remove(sensor);
     }
 
     public int ObtenerCantidadDeViandas()
@@ -105,12 +108,12 @@ public class Heladera
 
     public float ObtenerLatitud()
     {
-        return _puntoEstrategico.Latitud;
+        return PuntoEstrategico.Latitud;
     }
 
     public float ObtenerLongitud()
     {
-        return _puntoEstrategico.Longitud;
+        return PuntoEstrategico.Longitud;
     }
 
 /* TODO:REVISAR ESTAS FUNCIONES VIEJAS

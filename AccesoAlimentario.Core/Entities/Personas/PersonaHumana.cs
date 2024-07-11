@@ -6,8 +6,8 @@ namespace AccesoAlimentario.Core.Entities.Personas;
 
 public class PersonaHumana : Persona
 {
-    private string Apellido { get; set; }
-    private SexoDocumento Sexo {get; set; }
+    public string Apellido { get; set; }
+    public SexoDocumento Sexo {get; set; }
     
     public PersonaHumana() : base()
     {

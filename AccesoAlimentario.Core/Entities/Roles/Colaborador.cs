@@ -9,7 +9,7 @@ public class Colaborador : Rol
     protected List<TipoContribucion> _contribucionesPreferidas;
     protected List<FormaContribucion> _contribucionesRealizadas;
     protected List<Suscripcion> _suscripciones;
-    protected float Puntos { get; set; }
+    public float Puntos { get; set; }
     protected TarjetaColaboracion? _tarjetaColaboracion = null;
 
     public Colaborador(Persona persona, List<TipoContribucion> contribucionesPreferidas)
