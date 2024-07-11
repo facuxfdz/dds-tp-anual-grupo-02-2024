@@ -1,18 +1,18 @@
 using AccesoAlimentario.Core.DAL;
-using AccesoAlimentario.Core.Entities.Personas.Colaboradores;
+using AccesoAlimentario.Core.Entities.Roles;
 
-namespace AccesoAlimentario.Infraestructura.ImportacionColaboradores
+namespace AccesoAlimentario.Infraestructura.ImportacionColaboradores;
+
+public class ImportadorColaboraciones
 {
-    public class ImportadorColaboraciones
-    {
-        private readonly FormaImportacion _formaImportacion;
-        private GenericRepository<Colaborador> _colaboradorRepository; 
+    private readonly FormaImportacion _formaImportacion;
+    private GenericRepository<Colaborador> _colaboradorRepository; 
 
-        public ImportadorColaboraciones(FormaImportacion formaImportacion, GenericRepository<Colaborador> colaboradorRepository)
-        {
-            _formaImportacion = formaImportacion;
-            _colaboradorRepository = colaboradorRepository;
-        }
+    public ImportadorColaboraciones(FormaImportacion formaImportacion, GenericRepository<Colaborador> colaboradorRepository)
+    {
+        _formaImportacion = formaImportacion;
+        _colaboradorRepository = colaboradorRepository;
+    }
 
         public void Importar(Stream fileStream)
         {

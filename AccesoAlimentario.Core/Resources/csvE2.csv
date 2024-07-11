@@ -1,5 +1,0 @@
-TipoDoc,Documento,Nombre,Apellido,Mail,FechaColaboracion,FormaColaboracion,Cantidad
-LC,12345678,Juan,Riquelme,Jriquelme@gmail.com,25/05/2024,DINERO,2
-LE,12345678,Juan,Riquelme,Jriquelme@gmail.com,26/05/2024,DONACION_VIANDAS,5
-DNI,12345678,Juan,Riquelme,Jriquelme@gmail.com,27/05/2024,REDISTRIBUCION_VIANDAS,7
-DNI,12345678,Juan,Riquelme,Jriquelme@gmail.com,28/05/2024,ENTREGA_TARJETAS,1

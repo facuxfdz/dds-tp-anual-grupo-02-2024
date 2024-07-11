@@ -1,4 +1,4 @@
-using AccesoAlimentario.Core.Entities.Personas.Colaboradores;
+using AccesoAlimentario.Core.Entities.Roles;
 
 namespace AccesoAlimentario.Core.Entities.Heladeras;
 
@@ -34,7 +34,7 @@ public class Vianda
         UnidadEstandar = unidadEstandar;
     }
 
-    public void ActualizarHeladera(Heladera heladera)
+    /*public void ActualizarHeladera(Heladera heladera)
     {
         Heladera = heladera;
     }

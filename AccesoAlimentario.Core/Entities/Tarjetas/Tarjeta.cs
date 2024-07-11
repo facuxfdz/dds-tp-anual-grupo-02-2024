@@ -1,26 +1,22 @@
-using AccesoAlimentario.Core.Entities.Heladeras;
-using AccesoAlimentario.Core.Entities.Personas.Beneficiarios;
-using AccesoAlimentario.Core.Entities.Personas.Colaboradores;
+using AccesoAlimentario.Core.Entities.Autorizaciones;
+using AccesoAlimentario.Core.Entities.Roles;
 
 namespace AccesoAlimentario.Core.Entities.Tarjetas;
 
-public class Tarjeta
+public abstract class Tarjeta
 {
-    private string _codigo;
-    private PersonaVulnerable _propietario;
-    private Colaborador _responsable;
-    private List<TarjetaConsumo> _consumos;
+    protected string _codigo;
+    protected Rol _propietario;
+    protected List<AccesoHeladera> _accesos = new List<AccesoHeladera>();
     
-    public Tarjeta(string codigo, PersonaVulnerable propietario, Colaborador responsable)
+    public Tarjeta(string codigo, Rol propietario)
     {
         _codigo = codigo;
         _propietario = propietario;
-        _responsable = responsable;
-        _consumos = new List<TarjetaConsumo>();
     }
     
-    public void RegistrarConsumo(DateTime fecha, Heladera heladera)
+    public void RegistrarAcceso(AccesoHeladera acceso)
     {
-        _consumos.Add(new TarjetaConsumo(fecha, heladera));
+        _accesos.Add(acceso);
     }
 }

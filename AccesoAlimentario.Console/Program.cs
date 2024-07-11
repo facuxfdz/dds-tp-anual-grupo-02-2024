@@ -1,12 +1,13 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using AccesoAlimentario.Core.Validadores.Usuarios;
-using AccesoAlimentario.Core.Email;
+using AccesoAlimentario.Core.EmailObj;
 
 
 EmailService emailService = new EmailService();
 
-await emailService.SendAsync("tuvieja@example.com", "nicoputo@example.com", "Tenemos a tu familia cautiva", "<h1>Hello friend!</h1>");
+await emailService.SendAsync("tuvieja@example.com", "nicoputo@example.com", "Tenemos a tu familia cautiva",
+    "<h1>Hello friend!</h1>");
 
 //Console.WriteLine(politica10KMasComunes.Valida("admin123"));
 /*
