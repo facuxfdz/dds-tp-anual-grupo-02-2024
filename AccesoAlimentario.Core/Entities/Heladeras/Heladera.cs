@@ -14,9 +14,10 @@ public class Heladera
     private float _temperaturaMaximaConfig;
     private List<ISensor> _sensores;
     private List<Incidente> _incidente;
-    private ModeloHeladera _modelo; 
+    private ModeloHeladera _modelo;
 
-    public Heladera(PuntoEstrategico puntoEstrategico,float temperaturaMinima, float temperaturaMaxima, ModeloHeladera modelo)
+    public Heladera(PuntoEstrategico puntoEstrategico, float temperaturaMinima, float temperaturaMaxima,
+        ModeloHeladera modelo)
     {
         _puntoEstrategico = puntoEstrategico;
         _viandas = new List<Vianda>();
@@ -28,7 +29,7 @@ public class Heladera
         _incidente = new List<Incidente>();
         _modelo = modelo;
     }
-    
+
 /* TODO:REVISAR ESTAS FUNCIONES VIEJAS
     public void IngresarViandas(Heladera heladeraOrigen, List<Vianda> viandas)
     {
@@ -68,30 +69,37 @@ public class Heladera
         _estadoHeladera = estadoHeladera;
     }
 
-    public void CambioEstadoSensorTemperatura(float dato){
-        if(dato >= _temperaturaMinimaConfig || dato <= _temperaturaMaximaConfig){ //TODO cambiarlas a las del fabricante
+    public void CambioEstadoSensorTemperatura(float dato)
+    {
+        if (dato >= _temperaturaMinimaConfig || dato <= _temperaturaMaximaConfig)
+        {
+            //TODO cambiarlas a las del fabricante
             //TODO: aca se cambiaria el estado del sensor, pero hay una lista
         }
-        else{
+        else
+        {
             throw new Exception("Rango de temperatura invalido");
-
         }
     }
 
 
-    public void CambioEstadoSensorMovimiento(bool dato){
-         //TODO: aca se cambiaria el estado del sensor, pero hay una lista
+    public void CambioEstadoSensorMovimiento(bool dato)
+    {
+        //TODO: aca se cambiaria el estado del sensor, pero hay una lista
     }
 
-    public void AgregarSensor(ISensor sensor){
+    public void AgregarSensor(ISensor sensor)
+    {
         _sensores.Add(sensor);
     }
 
-    public int ObtenerCantidadDeViandas(){
+    public int ObtenerCantidadDeViandas()
+    {
         return _viandas.Count;
     }
 
-    public EstadoHeladera ObtenerEstadoHeladera(){
+    public EstadoHeladera ObtenerEstadoHeladera()
+    {
         return _estadoHeladera;
     }
 

@@ -1,8 +1,6 @@
-namespace AccesoAlimentario.Core.Entities.Notificaciones
+namespace AccesoAlimentario.Core.Entities.Notificaciones;
 
+public interface INotificacionBuilder
 {
-    public interface INotificacionBuilder
-    {
-        protected abstract Notificacion CrearNotificacion();
-    }
+    protected Notificacion CrearNotificacion();
 }

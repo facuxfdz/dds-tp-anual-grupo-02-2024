@@ -29,22 +29,24 @@ public class PersonasServicio {
 
     public void ModificarHumana(PersonaHumana persona, string nombre, Direccion direccion, DocumentoIdentidad documento, MedioContacto medioContacto, string apellido, SexoDocumento sexo)
     {
-        persona.Nombre = nombre;
+        throw new NotImplementedException();
+        /*persona.Nombre = nombre;
         persona.Apellido = apellido;
         persona.DocumentoIdentidad = documento;
         persona.Direccion = direccion;
         persona.MediosDeContacto = medioContacto;
-        persona.Sexo = sexo;
+        persona.Sexo = sexo;*/
     }
 
     public void ModificarJuridica(PersonaJuridica persona, string nombre, Direccion direccion, DocumentoIdentidad documento, MedioContacto medioContacto, TipoJuridico tipoJuridico, string rubro)
     {
-        persona.Nombre = nombre;
+        throw new NotImplementedException();
+        /*persona.Nombre = nombre;
         persona.DocumentoIdentidad = documento;
         persona.Direccion = direccion;
         persona.MediosDeContacto = medioContacto;
         persona.Tipo = tipoJuridico;
-        persona.Rubro = rubro;
+        persona.Rubro = rubro;*/
     }
 
 }

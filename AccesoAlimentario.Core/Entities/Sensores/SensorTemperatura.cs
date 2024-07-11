@@ -11,9 +11,9 @@ public class SensorTemperatura : ISensor, ISubjectHeladeraTemperatura
         _registrosTemperatura = new List<RegistroTemperatura>();
     }
 
-    public void Registrar(DateTime fecha, float temperatura)
+    public void Registrar(DateTime fecha, string temperatura)
     {
-        _registrosTemperatura.Add(new RegistroTemperatura(fecha, temperatura));
+        _registrosTemperatura.Add(new RegistroTemperatura(fecha, Convert.ToSingle(temperatura)));
     }
     
     public void Suscribirse(IObserverSensorTemperatura observado)

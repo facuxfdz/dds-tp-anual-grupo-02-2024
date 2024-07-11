@@ -23,4 +23,9 @@ public abstract class Persona
         MediosDeContacto = mediosDeContacto;
     }
 
+    public Persona()
+    {
+        
+    }
+
 }

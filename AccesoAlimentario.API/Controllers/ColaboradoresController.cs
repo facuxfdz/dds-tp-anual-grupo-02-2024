@@ -1,4 +1,5 @@
 using AccesoAlimentario.Core.DAL;
+using AccesoAlimentario.Core.Entities.Personas;
 using AccesoAlimentario.Core.Entities.Roles;
 using AccesoAlimentario.Infraestructura.ImportacionColaboradores;
 using Microsoft.AspNetCore.Mvc;
@@ -8,36 +9,49 @@ using AppDbContext = AccesoAlimentario.Core.DAL.AppDbContext;
 
 namespace AccesoAlimentario.API.Controllers;
 
-[Route ("api/[controller]")]
+[Route("api/[controller]")]
 [ApiController]
 public class ColaboradoresController : ControllerBase
 {
-    private DbContext _context;
-    private GenericRepository<Colaborador> _colaboradorRepository;
-    public ColaboradoresController()
+    private readonly UnitOfWork _unitOfWork;
+
+    public ColaboradoresController(UnitOfWork unitOfWork)
     {
-        var options = new DbContextOptionsBuilder<AppDbContext>()
-            .UseInMemoryDatabase(databaseName: "AccesoAlimentario")
-            .Options;
-        _context = new AppContext(options);
-        _colaboradorRepository = new GenericRepository<Colaborador>((AppDbContext)_context);
+        _unitOfWork = unitOfWork;
     }
+
     // POST: api/colaboradores/csv
-    [HttpPost]
+    [HttpPost("csv")]
     public IActionResult ImportarColaboradores([FromForm] IFormFile file)
     {
         // Create stream from file
         using var stream = file.OpenReadStream();
-        var importador = new ImportadorColaboraciones(new ImportadorCsv(), _colaboradorRepository);
+        var importador = new ImportadorColaboraciones(new ImportadorCsv(), _unitOfWork.ColaboradorRepository);
         importador.Importar(stream);
         return Ok();
     }
-    
+
     // GET: api/colaboradores
     [HttpGet]
     public IActionResult GetColaboradores()
     {
-        var colaboradores = _colaboradorRepository.Get();
+        var colaboradores = _unitOfWork.ColaboradorRepository.Get();
         return Ok(colaboradores);
+    }
+
+    [HttpPost("persona-humana")]
+    public IActionResult AddPersonaHumana(
+        [FromBody] PersonaHumana personaHumana
+    )
+    {
+        _unitOfWork.PersonaHumanaRepository.Insert(personaHumana);
+        return Ok();
+    }
+    
+    [HttpGet("persona-humana")]
+    public IActionResult GetPersonasHumana()
+    {
+        var personaHumana = _unitOfWork.PersonaHumanaRepository.Get();
+        return Ok(personaHumana);
     }
 }

@@ -1,7 +1,9 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using AccesoAlimentario.Core.Entities.Notificaciones;
 
 namespace AccesoAlimentario.Core.Entities.MediosContacto;
 
+[NotMapped]
 public abstract class MedioContacto
 {
     protected List<Notificacion> _historial;
