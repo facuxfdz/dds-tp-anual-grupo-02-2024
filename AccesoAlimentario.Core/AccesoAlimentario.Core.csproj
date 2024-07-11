@@ -8,22 +8,10 @@
 
     <ItemGroup>
       <None Remove="Resources\10mil-mas-comunes.txt" />
-      <EmbeddedResource Include="Resources\10mil-mas-comunes.txt">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </EmbeddedResource>
       <None Remove="Resources\csvE2.csv" />
-      <EmbeddedResource Include="Resources\csvE2.csv">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </EmbeddedResource>
       <None Remove="Resources\CoeficientesPuntos.config" />
       <None Remove="Resources\CoeficientesPuntos.json" />
-      <EmbeddedResource Include="Resources\CoeficientesPuntos.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </EmbeddedResource>
       <None Remove="Resources\appsettings.json" />
-      <EmbeddedResource Include="Resources\appsettings.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </EmbeddedResource>
     </ItemGroup>
 
     <ItemGroup>

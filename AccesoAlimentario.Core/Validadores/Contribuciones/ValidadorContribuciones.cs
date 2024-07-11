@@ -9,6 +9,7 @@ public abstract class ValidadorContribuciones
 
     public virtual bool Validar(FormaContribucion formaContribucion, Colaborador colaborador)
     {
-        return _colaboradoresValidos.Contains(colaborador._persona.ObtenerTipoPersona());
+        throw new NotImplementedException();
+        /*return _colaboradoresValidos.Contains(colaborador._persona.ObtenerTipoPersona());*/
     }
 }

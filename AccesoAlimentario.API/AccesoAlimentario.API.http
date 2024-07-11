@@ -1,6 +1,0 @@
-@AccesoAlimentario.API_HostAddress = http://localhost:5010
-
-GET {{AccesoAlimentario.API_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

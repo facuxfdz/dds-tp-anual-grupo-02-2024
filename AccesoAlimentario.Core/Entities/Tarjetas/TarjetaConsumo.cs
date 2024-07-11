@@ -8,7 +8,9 @@ namespace AccesoAlimentario.Core.Entities.Tarjetas;
 public class TarjetaConsumo : Tarjeta
 {
     private Colaborador _responsable;
-    public TarjetaConsumo(Colaborador responsable, string codigo, PersonaVulnerable personaVulnerable) : base(codigo, personaVulnerable)
+
+    public TarjetaConsumo(Colaborador responsable, string codigo, PersonaVulnerable personaVulnerable) : base(codigo,
+        personaVulnerable)
     {
         _responsable = responsable;
     }

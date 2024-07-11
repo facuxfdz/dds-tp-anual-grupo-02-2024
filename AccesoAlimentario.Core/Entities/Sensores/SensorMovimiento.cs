@@ -11,9 +11,9 @@ public class SensorMovimiento : ISensor, ISubjectHeladeraMovimiento
         _registrosMovimiento = new List<RegistroMovimiento>();
     }
     
-    public void Registrar(DateTime fecha, bool movimiento)
+    public void Registrar(DateTime fecha, string movimiento)
     {
-        _registrosMovimiento.Add(new RegistroMovimiento(fecha, movimiento));
+        _registrosMovimiento.Add(new RegistroMovimiento(fecha, Convert.ToBoolean(movimiento)));
     }
     
     public void Suscribirse(IObserverSensorMovimiento observado)
