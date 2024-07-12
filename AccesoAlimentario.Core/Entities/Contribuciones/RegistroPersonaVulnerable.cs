@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using AccesoAlimentario.Core.Entities.Tarjetas;
 using AccesoAlimentario.Core.Settings;
 using AccesoAlimentario.Core.Validadores.Contribuciones;

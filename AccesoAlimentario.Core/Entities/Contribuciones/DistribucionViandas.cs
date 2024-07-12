@@ -32,8 +32,4 @@ public class DistribucionViandas : FormaContribucion
     }
 
 
-    public override float CalcularPuntos()
-    {
-        return AppSettings.Instance.ViandasDistribuidasCoef * _cantViandas;
-    }
 }

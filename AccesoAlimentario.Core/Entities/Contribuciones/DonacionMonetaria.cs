@@ -24,8 +24,4 @@ public class DonacionMonetaria : FormaContribucion
         _frecuenciaDias = frecuenciaDias;
     }
 
-    public override float CalcularPuntos()
-    {
-        return AppSettings.Instance.PesoDonadosCoef * _monto;
-    }
 }

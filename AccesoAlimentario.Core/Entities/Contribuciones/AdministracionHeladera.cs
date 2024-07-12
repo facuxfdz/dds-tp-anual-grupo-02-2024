@@ -14,8 +14,5 @@ public class AdministracionHeladera : FormaContribucion
         _heladera = heladera;
     }
 
-    public override float CalcularPuntos()
-    {
-        return 0;
-    }
+
 }

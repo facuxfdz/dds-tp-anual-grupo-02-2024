@@ -25,8 +25,4 @@ public class DonacionVianda : FormaContribucion
         _vianda = vianda;
     }
 
-    public override float CalcularPuntos()
-    {
-        return AppSettings.Instance.ViandasDonadasCoef;
-    }
 }
