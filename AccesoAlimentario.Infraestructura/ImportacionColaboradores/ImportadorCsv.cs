@@ -21,27 +21,25 @@ public class ImportadorCsv : FormaImportacion
     }
     public override List<Colaborador> ImportarColaboradores(Stream fileStream)
     {
-        throw new NotImplementedException();
-        // var colaboraciones = LeerCsv(fileStream);
-        // var colaboracionesValidas = colaboraciones.Where(c =>
-        //     _validador.Validar(c.TipoDoc, c.Documento, c.Nombre, c.Apellido, c.Mail, c.FechaColaboracion,
-        //         c.FormaColaboracion, c.Cantidad)).ToList();
-        //
-        // var colaboradores = new List<Colaborador>();
-        // var colaboracionesPorColaborador = colaboracionesValidas.GroupBy(c => new { c.TipoDoc, c.Documento });
-        //
-        // foreach (var colaborador in colaboracionesPorColaborador)
-        // {
-        //     var c = colaborador.ToList().Select(datos => Parsear(datos)).ToList();
-        //     var col = c.FirstOrDefault();
-        //     if (col == null) continue;
-        //     c.RemoveAt(0);
-        //     col.AgregarPuntos(c.Sum(x => x.ObtenerPuntos()));
-        //     /*col.Id = GenerarId();*/
-        //     colaboradores.Add(col);
-        // }
-        //
-        // return colaboradores;
+        var colaboraciones = LeerCsv(fileStream);
+        var colaboracionesValidas = colaboraciones.Where(c =>
+            _validador.Validar(c.TipoDoc, c.Documento, c.Nombre, c.Apellido, c.Mail, c.FechaColaboracion,
+                c.FormaColaboracion, c.Cantidad)).ToList();
+        
+        var colaboradores = new List<Colaborador>();
+        var colaboracionesPorColaborador = colaboracionesValidas.GroupBy(c => new { c.TipoDoc, c.Documento });
+        
+        foreach (var colaborador in colaboracionesPorColaborador)
+        {
+            var c = colaborador.ToList().Select(datos => Parsear(datos)).ToList();
+            var col = c.FirstOrDefault();
+            if (col == null) continue;
+            c.RemoveAt(0);
+            col.AgregarPuntos(c.Sum(x => x.ObtenerPuntos()));
+            colaboradores.Add(col);
+        }
+        
+        return colaboradores;
     }
 
     private static List<DatosColaboracion> LeerCsv(Stream fileStream)
@@ -55,20 +53,20 @@ public class ImportadorCsv : FormaImportacion
         return colaboraciones;
     }
 
-        private static UsuarioSistema Parsear(DatosColaboracion datos)
+        private static Colaborador Parsear(DatosColaboracion datos)
         {
             var tipoDoc = (TipoDocumento)Enum.Parse(typeof(TipoDocumento), datos.TipoDoc);
             var documento = new DocumentoIdentidad(tipoDoc, datos.Documento, null);
-            var colaborador = new PersonaHumana(GenerarId(), datos.Nombre, datos.Apellido, documento, null, null, null);
-            var usuario = new UsuarioSistema(GenerarId(), colaborador, datos.Mail, CrearPassword());
+            var personaHumana = new PersonaHumana(GenerarId(), datos.Nombre, datos.Apellido, documento, null, null, null);
+            var colaborador = new Colaborador(GenerarId(), personaHumana, null);
             var tipoContribucion = (TipoContribucion)Enum.Parse(typeof(TipoContribucion), datos.FormaColaboracion);
-            var contribucion = new List<FormaContribucion>();
+            var contribuciones = new List<FormaContribucion>();
 
             switch (tipoContribucion)
             {
                 case TipoContribucion.DINERO:
                 {
-                    contribucion.Add(new DonacionMonetaria(
+                    contribuciones.Add(new DonacionMonetaria(
                         DateTime.Parse(datos.FechaColaboracion),
                         datos.Cantidad, 0));
                     break;
@@ -77,14 +75,14 @@ public class ImportadorCsv : FormaImportacion
                 {
                     for (var i = 0; i < datos.Cantidad; i++)
                     {
-                        contribucion.Add(new DonacionVianda(DateTime.Parse(datos.FechaColaboracion), null, null));
+                        contribuciones.Add(new DonacionVianda(DateTime.Parse(datos.FechaColaboracion), null, null));
                     }
 
                     break;
                 }
                 case TipoContribucion.REDISTRIBUCION_VIANDAS:
                 {
-                    contribucion.Add(new DistribucionViandas(DateTime.Parse(datos.FechaColaboracion), null, null,
+                    contribuciones.Add(new DistribucionViandas(DateTime.Parse(datos.FechaColaboracion), null, null,
                         datos.Cantidad, MotivoDistribucion.Desperfecto));
                     break;
                 }
@@ -92,7 +90,7 @@ public class ImportadorCsv : FormaImportacion
                 {
                     for (var i = 0; i < datos.Cantidad; i++)
                     {
-                        contribucion.Add(new RegistroPersonaVulnerable(DateTime.Parse(datos.FechaColaboracion), null));
+                        contribuciones.Add(new RegistroPersonaVulnerable(DateTime.Parse(datos.FechaColaboracion), null));
                     }
 
                     break;
@@ -100,9 +98,13 @@ public class ImportadorCsv : FormaImportacion
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-
-        return usuario;
-    }
+            // agregar contribuciones al colaborador
+            foreach (var contribucion in contribuciones)
+            {
+                colaborador.AgregarContribucion(contribucion);
+            }
+            return colaborador;
+        }
 
     private static string CrearPassword()
     {

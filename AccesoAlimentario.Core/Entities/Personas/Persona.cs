@@ -12,7 +12,7 @@ public abstract class Persona
     public string Nombre { get; set; }
     public Direccion? Direccion { get; set; }
     public DocumentoIdentidad? DocumentoIdentidad { get; set; }
-    public List<MedioContacto> MediosDeContacto { get; set; }
+    // public List<MedioContacto> MediosDeContacto { get; set; }
     protected List<Rol> _roles = new List<Rol>();
     protected DateTime _fechaAlta = DateTime.Now;
 
@@ -22,7 +22,7 @@ public abstract class Persona
         Nombre = nombre;
         DocumentoIdentidad = documentoIdentidad;
         Direccion = direccion;
-        MediosDeContacto = mediosDeContacto;
+        // MediosDeContacto = mediosDeContacto;
     }
 
     public Persona()

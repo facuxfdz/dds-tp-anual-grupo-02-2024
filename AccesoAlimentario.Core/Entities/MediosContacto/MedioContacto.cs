@@ -9,6 +9,10 @@ public abstract class MedioContacto
     protected List<Notificacion> _historial;
     protected bool _preferida;
     
+    public MedioContacto()
+    {
+    }
+    
     public MedioContacto(bool preferida)
     {
         _preferida = preferida;

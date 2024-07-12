@@ -12,6 +12,10 @@ public class PersonaJuridica : Persona
 {
     public TipoJuridico Tipo { get; set; }
     public string Rubro { get; set; }
+    
+    public PersonaJuridica()
+    {
+    }
 
     public PersonaJuridica(int id, string nombre, DocumentoIdentidad documentoIdentidad, Direccion direccion, List<MedioContacto> mediosDeContacto, TipoJuridico tipo, string rubro)
         : base(id, nombre, documentoIdentidad, direccion, mediosDeContacto)

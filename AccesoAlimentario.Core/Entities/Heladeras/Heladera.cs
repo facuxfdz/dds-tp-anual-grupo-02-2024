@@ -1,10 +1,15 @@
-﻿using AccesoAlimentario.Core.Entities.Incidentes;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using AccesoAlimentario.Core.Entities.Incidentes;
 using AccesoAlimentario.Core.Entities.Sensores;
 
 namespace AccesoAlimentario.Core.Entities.Heladeras;
 
 public class Heladera
 {
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; private set; }
     public PuntoEstrategico PuntoEstrategico;
     public List<Vianda> Viandas;
     public EstadoHeladera EstadoHeladera;
@@ -15,6 +20,9 @@ public class Heladera
     public List<Incidente> Incidentes;
     public ModeloHeladera Modelo;
 
+    public Heladera()
+    {
+    }
     public Heladera(PuntoEstrategico puntoEstrategico,float temperaturaMinima, float temperaturaMaxima, ModeloHeladera modelo)
     {
         PuntoEstrategico = puntoEstrategico;

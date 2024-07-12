@@ -9,6 +9,9 @@ public class PersonaVulnerable : Rol
     private TarjetaConsumo _tarjeta;
     private DateTime _fechaRegistroSistema;
 
+    public PersonaVulnerable()
+    {
+    }
     public PersonaVulnerable(int id, Persona persona, int cantMenores, TarjetaConsumo tarjeta)
         : base(id,persona)
     {
