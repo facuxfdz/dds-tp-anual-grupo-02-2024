@@ -1,6 +1,7 @@
 using AccesoAlimentario.Core.DAL;
 using AccesoAlimentario.Core.Entities.Personas;
 using AccesoAlimentario.Core.Entities.Roles;
+using AccesoAlimentario.Core.Servicios;
 using AccesoAlimentario.Infraestructura.ImportacionColaboradores;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -26,7 +27,8 @@ public class ColaboradoresController : ControllerBase
     {
         // Create stream from file
         using var stream = file.OpenReadStream();
-        var importador = new ImportadorColaboraciones(new ImportadorCsv(), _unitOfWork);
+        ColaboracionesServicio colaboracionesServicio = new ColaboracionesServicio(_unitOfWork);
+        var importador = new ImportadorColaboraciones(new ImportadorCsv(), _unitOfWork, colaboracionesServicio);
         importador.Importar(stream);
         var res = _unitOfWork.ColaboradorRepository.Get();
         return Ok(res);

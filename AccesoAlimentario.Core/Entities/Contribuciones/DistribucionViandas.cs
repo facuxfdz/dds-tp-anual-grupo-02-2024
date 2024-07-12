@@ -11,13 +11,11 @@ public class DistribucionViandas : FormaContribucion
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; private set; }
-    protected readonly ValidadorContribuciones _validadorContribuciones = new ValidarDistribucionVianda();
     private Heladera _heladeraOrigen;
     private Heladera _heladeraDestino;
-    private int _cantViandas;
+    public int CantViandas { get; private set; }
     private MotivoDistribucion _motivoDistribucion;
-
-
+    
     public DistribucionViandas()
     {
     }
@@ -27,7 +25,7 @@ public class DistribucionViandas : FormaContribucion
     {
         _heladeraOrigen = heladeraOrigen;
         _heladeraDestino = heladeraDestino;
-        _cantViandas = cantViandas;
+        CantViandas = cantViandas;
         _motivoDistribucion = motivoDistribucion;
     }
 

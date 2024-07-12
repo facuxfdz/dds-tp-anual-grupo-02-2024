@@ -10,8 +10,7 @@ public class DonacionMonetaria : FormaContribucion
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; private set; }
-    protected readonly ValidadorContribuciones _validadorContribuciones = new ValidadorDonacionMonetaria();
-    private float _monto;
+    public float Monto { get; private set; }
     private int _frecuenciaDias;
 
     public DonacionMonetaria()
@@ -20,7 +19,7 @@ public class DonacionMonetaria : FormaContribucion
     public DonacionMonetaria(DateTime fechaContribucion, float monto, int frecuenciaDias) 
     : base(fechaContribucion)
     {
-        _monto = monto;
+        Monto = monto;
         _frecuenciaDias = frecuenciaDias;
     }
 

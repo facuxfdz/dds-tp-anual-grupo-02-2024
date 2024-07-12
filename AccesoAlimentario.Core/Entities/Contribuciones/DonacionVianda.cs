@@ -11,9 +11,8 @@ public class DonacionVianda : FormaContribucion
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; private set; }
-    protected readonly ValidadorContribuciones _validadorContribuciones = new ValidadorDonacionVianda();
-    private Heladera _heladera;
-    private Vianda _vianda;
+    public Heladera Heladera;
+    public Vianda Vianda;
 
     public DonacionVianda()
     {
@@ -21,8 +20,8 @@ public class DonacionVianda : FormaContribucion
     public DonacionVianda(DateTime fechaContribucion, Heladera heladera, Vianda vianda)
         : base(fechaContribucion)
     {
-        _heladera = heladera;
-        _vianda = vianda;
+        Heladera = heladera;
+        Vianda = vianda;
     }
 
 }

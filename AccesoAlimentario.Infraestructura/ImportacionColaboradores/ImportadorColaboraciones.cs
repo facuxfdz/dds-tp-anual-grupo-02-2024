@@ -1,20 +1,22 @@
 using AccesoAlimentario.Core.DAL;
 using AccesoAlimentario.Core.Entities.Roles;
+using AccesoAlimentario.Core.Servicios;
 
 namespace AccesoAlimentario.Infraestructura.ImportacionColaboradores;
 
 public class ImportadorColaboraciones
 {
     private readonly FormaImportacion _formaImportacion;
-    private UnitOfWork _unitOfWork; 
+    private UnitOfWork _unitOfWork;
+    private ColaboracionesServicio _colaboracionesServicio;
 
-    public ImportadorColaboraciones(FormaImportacion formaImportacion, UnitOfWork unitOfWork)
+    public ImportadorColaboraciones(FormaImportacion formaImportacion, UnitOfWork unitOfWork, ColaboracionesServicio colaboracionesServicio)
     {
         _formaImportacion = formaImportacion;
         _unitOfWork = unitOfWork;
+        _colaboracionesServicio = colaboracionesServicio;
     }
-
-        public void Importar(Stream fileStream)
+    public void Importar(Stream fileStream)
         {
             var colaboradores = _formaImportacion.ImportarColaboradores(fileStream);
             // TODO Buscar colaboradores existentes
@@ -25,6 +27,10 @@ public class ImportadorColaboraciones
                  if (colaborador == null)
                  {
                      _unitOfWork.ColaboradorRepository.Insert(colaboradorCsv);
+                     foreach (var contribucion in colaboradorCsv.ObtenerContribuciones())
+                     {
+                         _colaboracionesServicio.cargarColaboracionCsv(contribucion,colaboradorCsv);
+                     }
                      Console.WriteLine("Colaborador insertado");
                      Console.WriteLine(colaboradorCsv);
                  }

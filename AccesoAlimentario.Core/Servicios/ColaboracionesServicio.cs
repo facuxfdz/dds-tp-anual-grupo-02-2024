@@ -1,3 +1,4 @@
+using AccesoAlimentario.Core.DAL;
 using AccesoAlimentario.Core.Entities.Contribuciones;
 using AccesoAlimentario.Core.Entities.Heladeras;
 using AccesoAlimentario.Core.Entities.Personas;
@@ -11,7 +12,36 @@ namespace AccesoAlimentario.Core.Servicios;
 //TODO Los validadores de la forma de contribucion no deberian estar en la forma en si, ya que hay que primero crear el objeto al pedo y despues 
 public class ColaboracionesServicio
 {
-    //Cuando la colaboracion viene por el importador, se crea con una fecha
+    private UnitOfWork _unitOfWork;
+    public ColaboracionesServicio(UnitOfWork unitOfWork)
+    {
+        _unitOfWork = unitOfWork;
+    }
+    public void cargarColaboracionCsv(FormaContribucion formaContribucion, Colaborador colab)
+    {
+        switch (formaContribucion)
+        {
+            case DistribucionViandas distribucionViandas:
+                var cantViandas = distribucionViandas.CantViandas;
+                
+                colab.AgregarPuntos(AppSettings.Instance.TarjetasRepartidasCoef * cantViandas);
+                _unitOfWork.DistribucionViandasRepository.Insert(distribucionViandas);           
+                break;
+            case RegistroPersonaVulnerable registroPersonaVulnerable:
+                colab.AgregarPuntos(AppSettings.Instance.TarjetasRepartidasCoef);
+                _unitOfWork.RegistroPersonaVulnerableRepository.Insert(registroPersonaVulnerable);
+                break;
+            case DonacionMonetaria donacionMonetaria:
+                var monto = donacionMonetaria.Monto;
+                colab.AgregarPuntos(AppSettings.Instance.PesoDonadosCoef * monto);
+                _unitOfWork.DonacionMonetariaRepository.Insert(donacionMonetaria);
+                break;
+            case DonacionVianda donacionVianda:
+                colab.AgregarPuntos(AppSettings.Instance.ViandasDonadasCoef);
+                _unitOfWork.DonacionViandaRepository.Insert(donacionVianda);
+                break;
+        }
+    }
     public FormaContribucion crearAdministracionHeladera(Colaborador colab, Heladera heladera, DateTime? fechaContr)
     {
         var fecha = fechaContr ?? DateTime.Now;

@@ -28,6 +28,11 @@ public class Colaborador : Rol
     {
         _contribucionesRealizadas.Add(contribucion);
     }
+    
+    public List<FormaContribucion> ObtenerContribuciones()
+    {
+        return _contribucionesRealizadas;
+    }
 
     public float ObtenerPuntos()
     {
