@@ -64,8 +64,8 @@ public class PersonasServicio(UnitOfWork unitOfWork)
 
         if (medioContacto != null)
         {
-            persona.MediosDeContacto.Clear();
-            persona.MediosDeContacto.Add(medioContacto);
+            // persona.MediosDeContacto.Clear();
+            // persona.MediosDeContacto.Add(medioContacto);
         }
 
         if (sexo.HasValue)
@@ -86,8 +86,8 @@ public class PersonasServicio(UnitOfWork unitOfWork)
 
         if (medioContacto != null)
         {
-            persona.MediosDeContacto.Clear();
-            persona.MediosDeContacto.Add(medioContacto);
+            // persona.MediosDeContacto.Clear();
+            // persona.MediosDeContacto.Add(medioContacto);
         }
 
         if (tipoJuridico != null)
