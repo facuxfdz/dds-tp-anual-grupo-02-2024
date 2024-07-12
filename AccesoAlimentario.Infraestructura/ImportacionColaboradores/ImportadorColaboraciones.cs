@@ -6,12 +6,12 @@ namespace AccesoAlimentario.Infraestructura.ImportacionColaboradores;
 public class ImportadorColaboraciones
 {
     private readonly FormaImportacion _formaImportacion;
-    private GenericRepository<Colaborador> _colaboradorRepository; 
+    private UnitOfWork _unitOfWork; 
 
-    public ImportadorColaboraciones(FormaImportacion formaImportacion, GenericRepository<Colaborador> colaboradorRepository)
+    public ImportadorColaboraciones(FormaImportacion formaImportacion, UnitOfWork unitOfWork)
     {
         _formaImportacion = formaImportacion;
-        _colaboradorRepository = colaboradorRepository;
+        _unitOfWork = unitOfWork;
     }
 
         public void Importar(Stream fileStream)
@@ -21,17 +21,17 @@ public class ImportadorColaboraciones
             for(int i = 0; i < colaboradores.Count; i++)
             {
                 var colaboradorCsv = colaboradores[i];
-                 var colaborador = _colaboradorRepository.GetById(colaboradorCsv.Id);
+                 var colaborador = _unitOfWork.ColaboradorRepository.GetById(colaboradorCsv.Id);
                  if (colaborador == null)
                  {
-                     _colaboradorRepository.Insert(colaboradorCsv);
+                     _unitOfWork.ColaboradorRepository.Insert(colaboradorCsv);
                      Console.WriteLine("Colaborador insertado");
                      Console.WriteLine(colaboradorCsv);
                  }
                  else
                  {
                      colaborador.AgregarPuntos(colaboradorCsv.ObtenerPuntos());
-                     _colaboradorRepository.Update(colaborador);
+                     _unitOfWork.ColaboradorRepository.Update(colaborador);
                  }
             }
         }

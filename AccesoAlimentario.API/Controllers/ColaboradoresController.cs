@@ -26,7 +26,7 @@ public class ColaboradoresController : ControllerBase
     {
         // Create stream from file
         using var stream = file.OpenReadStream();
-        var importador = new ImportadorColaboraciones(new ImportadorCsv(), _unitOfWork.ColaboradorRepository);
+        var importador = new ImportadorColaboraciones(new ImportadorCsv(), _unitOfWork);
         importador.Importar(stream);
         var res = _unitOfWork.ColaboradorRepository.Get();
         return Ok(res);

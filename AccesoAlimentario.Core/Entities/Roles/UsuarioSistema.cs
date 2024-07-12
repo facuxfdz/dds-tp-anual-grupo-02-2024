@@ -7,7 +7,7 @@ public class UsuarioSistema : Rol
 {
     private string _userName;
     private string _password;
-
+    
     public UsuarioSistema(int id, Persona persona, string userName, string password)
         : base(id, persona)
     {

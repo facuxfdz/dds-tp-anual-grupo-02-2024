@@ -7,6 +7,9 @@ public class Tecnico : Rol
 {
     private AreaCobertura _areaCobertura;
 
+    public Tecnico()
+    {
+    }
     public Tecnico(int id,Persona persona, AreaCobertura areaCobertura)
         : base(id,persona)
     {

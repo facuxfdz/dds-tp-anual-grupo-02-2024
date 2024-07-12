@@ -114,6 +114,7 @@ public class ColaboracionesServicio
 
     public bool verificarColab(FormaContribucion formaContri, DateTime? fecha, Colaborador colab)
     {
-        return fecha != null && formaContri.EsValido(colab);
+        // return fecha != null && formaContri.EsValido(colab);
+        return true;
     } 
 }

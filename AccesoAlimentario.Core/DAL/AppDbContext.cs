@@ -25,19 +25,25 @@ public class AppDbContext : DbContext
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
     }
-    /*public DbSet<Heladera> Heladeras { get; set; }
+    public DbSet<Heladera> Heladeras { get; set; }
     public DbSet<Colaborador> Colaboradores { get; set; }
     public DbSet<PuntoEstrategico> PuntosEstrategicos { get; set; }
-    public DbSet<Vianda> Viandas { get; set; }*/
+    public DbSet<Vianda> Viandas { get; set; }
     public DbSet<PersonaHumana> PersonasHumanas { get; set; }
-    /*public DbSet<PersonaJuridica> PersonasJuridicas { get; set; }
+    public DbSet<MedioContacto> MediosContacto { get; set; }
+    public DbSet<PersonaJuridica> PersonasJuridicas { get; set; }
     public DbSet<Tecnico> Tecnicos { get; set; }
-    public DbSet<PersonaVulnerable> PersonasVulnerables { get; set; }*/
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<MedioContacto>()
-            .HasNoKey();
-        base.OnModelCreating(modelBuilder);
-    }
+    public DbSet<PersonaVulnerable> PersonasVulnerables { get; set; }
+    public DbSet<DonacionMonetaria> DonacionesMonetarias { get; set; }
+    public DbSet<DonacionVianda> DonacionesViandas { get; set; }
+    public DbSet<DistribucionViandas> DistribucionesViandas { get; set; }
+    public DbSet<RegistroPersonaVulnerable> RegistrosPersonasVulnerables { get; set; }
+    
+    //
+    // protected override void OnModelCreating(ModelBuilder modelBuilder)
+    // {
+    //     modelBuilder.Entity<MedioContacto>()
+    //         .HasNoKey();
+    //     base.OnModelCreating(modelBuilder);
+    // }
 }
