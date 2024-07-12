@@ -1,3 +1,4 @@
+using AccesoAlimentario.Core.DAL;
 using AccesoAlimentario.Core.Entities.Contribuciones;
 using AccesoAlimentario.Core.Entities.Heladeras;
 using AccesoAlimentario.Core.Entities.Personas;
@@ -9,7 +10,7 @@ using AccesoAlimentario.Core.Settings;
 namespace AccesoAlimentario.Core.Servicios;
 
 //TODO Los validadores de la forma de contribucion no deberian estar en la forma en si, ya que hay que primero crear el objeto al pedo y despues 
-public class ColaboracionesServicio
+public class ColaboracionesServicio (UnitOfWork unitOfWork, ColaboradoresServicio colaboradoresServicio)
 {
     //Cuando la colaboracion viene por el importador, se crea con una fecha
     public FormaContribucion crearAdministracionHeladera(Colaborador colab, Heladera heladera, DateTime? fechaContr)
@@ -21,8 +22,11 @@ public class ColaboracionesServicio
            throw new Exception("No tiene autorizacion para realizar esta colaboracion" );
         }
 
+        unitOfWork.Colaboraciones.Insert(formaAdministracionHeladera);
+
         //Se le asignan los puntos al colaborador
         //Nada que agregar, ya que no se le asignan puntos por esta colaboracion
+
 
         return formaAdministracionHeladera;
     }
@@ -38,8 +42,10 @@ public class ColaboracionesServicio
            throw new Exception("No tiene autorizacion para realizar esta colaboracion" );
         }
 
+        unitOfWork.Colaboraciones.Insert(formaDistribucionViandas);
+
         //Se le asignan los puntos al colaborador
-        colab.AgregarPuntos(AppSettings.Instance.TarjetasRepartidasCoef * cant_viandas); 
+        colaboradoresServicio.AgregarPuntos(colab,AppSettings.Instance.TarjetasRepartidasCoef * cant_viandas); 
 
         return formaDistribucionViandas;
     }
@@ -50,7 +56,8 @@ public class ColaboracionesServicio
         PersonaVulnerable personaVulnerable = new PersonaVulnerable(0, persona, cantMenores, tarjetaConsumo); //TODO, ver como se maneja el id
         tarjetaConsumo.setPersonaVulnerable(personaVulnerable);
         RegistroPersonaVulnerable contribucionRegistroPersonaVul = new RegistroPersonaVulnerable(fecha, tarjetaConsumo);
-        
+
+        unitOfWork.Colaboraciones.Insert(contribucionRegistroPersonaVul);
 
         if (!verificarColab(contribucionRegistroPersonaVul, fechaContr, colab))
         {
@@ -58,10 +65,9 @@ public class ColaboracionesServicio
         }
 
         //Se le asignan los puntos al colaborador
-        colab.AgregarPuntos(AppSettings.Instance.TarjetasRepartidasCoef); 
+        colaboradoresServicio.AgregarPuntos(colab,AppSettings.Instance.TarjetasRepartidasCoef);
 
         return contribucionRegistroPersonaVul;
-    
     }
 
     public FormaContribucion crearDonacionMonetaria(Colaborador colab,float monto, int frecDias, DateTime? fechaContr)
@@ -74,8 +80,10 @@ public class ColaboracionesServicio
            throw new Exception("No tiene autorizacion para realizar esta colaboracion" );
         }
 
+        unitOfWork.Colaboraciones.Insert(formaDonacionMonetaria);
+
         //Se le asignan los puntos al colaborador
-        colab.AgregarPuntos(AppSettings.Instance.PesoDonadosCoef * monto);
+        colaboradoresServicio.AgregarPuntos(colab,AppSettings.Instance.PesoDonadosCoef * monto);
 
 
         return formaDonacionMonetaria;
@@ -91,8 +99,10 @@ public class ColaboracionesServicio
            throw new Exception("No tiene autorizacion para realizar esta colaboracion" );
         }
 
+        unitOfWork.Colaboraciones.Insert(formaDonacionVianda);
+
         //Se le asignan los puntos al colaborador
-        colab.AgregarPuntos(AppSettings.Instance.ViandasDonadasCoef);
+        colaboradoresServicio.AgregarPuntos(colab,AppSettings.Instance.ViandasDonadasCoef);
 
         return formaDonacionVianda;
     }
@@ -107,6 +117,8 @@ public class ColaboracionesServicio
            throw new Exception("No tiene autorizacion para realizar esta colaboracion" );
         }
 
+        unitOfWork.Colaboraciones.Insert(formaOfertaPremio);
+
         //No se asignan puntos por esta colaboracion
 
         return formaOfertaPremio;
@@ -114,7 +126,7 @@ public class ColaboracionesServicio
 
     public bool verificarColab(FormaContribucion formaContri, DateTime? fecha, Colaborador colab)
     {
-        // return fecha != null && formaContri.EsValido(colab);
+        //return fecha != null && formaContri.EsValido(colab);
         return true;
     } 
 }

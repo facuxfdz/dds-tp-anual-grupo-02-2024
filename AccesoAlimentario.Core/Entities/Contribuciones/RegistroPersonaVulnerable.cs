@@ -14,6 +14,7 @@ public class RegistroPersonaVulnerable : FormaContribucion
     public RegistroPersonaVulnerable()
     {
     }
+    
     public RegistroPersonaVulnerable(DateTime fechaContribucion, Tarjeta tarjeta)
         : base(fechaContribucion)
     {

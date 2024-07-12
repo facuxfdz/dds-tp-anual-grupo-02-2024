@@ -5,22 +5,15 @@ namespace AccesoAlimentario.Core.Entities.Roles;
 
 public class PersonaVulnerable : Rol
 {
-    private int _cantidadDeMenores = 0;
+    public int CantidadDeMenores { get; set; }
     private TarjetaConsumo _tarjeta;
     private DateTime _fechaRegistroSistema;
 
-    public PersonaVulnerable()
-    {
-    }
     public PersonaVulnerable(int id, Persona persona, int cantMenores, TarjetaConsumo tarjeta)
         : base(id,persona)
     {
-        _cantidadDeMenores = cantMenores;
+        CantidadDeMenores = cantMenores;
         _tarjeta = tarjeta;
         _fechaRegistroSistema = DateTime.Now;
-    }
-    public void Actualizar(int cantMenores)
-    {
-        _cantidadDeMenores = cantMenores;
     }
 }

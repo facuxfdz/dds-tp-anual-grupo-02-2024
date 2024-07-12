@@ -6,19 +6,16 @@ namespace AccesoAlimentario.Core.Entities.Roles;
 
 public class Colaborador : Rol
 {
-    protected List<TipoContribucion> _contribucionesPreferidas;
+    public List<TipoContribucion> ContribucionesPreferidas { get; set; }
     protected List<FormaContribucion> _contribucionesRealizadas;
     protected List<Suscripcion> _suscripciones;
     public float Puntos { get; set; }
-    protected TarjetaColaboracion? _tarjetaColaboracion = null;
-    public Colaborador()
-    {
-    }
+    public TarjetaColaboracion? TarjetaColaboracion = null;
 
     public Colaborador(int id, Persona persona, List<TipoContribucion> contribucionesPreferidas)
         : base(id, persona)
     {
-        _contribucionesPreferidas = contribucionesPreferidas;
+        ContribucionesPreferidas = contribucionesPreferidas;
         _contribucionesRealizadas = new List<FormaContribucion>();
         _suscripciones = new List<Suscripcion>();
         Puntos = 0;
@@ -29,26 +26,6 @@ public class Colaborador : Rol
         _contribucionesRealizadas.Add(contribucion);
     }
 
-    public float ObtenerPuntos()
-    {
-        return Puntos;
-    }
-
-    public void DescontarPuntos(float puntos)
-    {
-        Puntos -= puntos;
-    }
-
-    public void AgregarPuntos(float puntos)
-    {
-        Puntos += puntos;
-    }
-
-    public void AgregarSubscripcion(Suscripcion suscripcion)
-    {
-        _suscripciones.Add(suscripcion);
-    }
-
     public void EliminarSubscripcion(Suscripcion suscripcion)
     {
         _suscripciones.Remove(suscripcion);
@@ -56,7 +33,7 @@ public class Colaborador : Rol
 
     public void AsignarTarjeta(TarjetaColaboracion tarjeta)
     {
-        _tarjetaColaboracion = tarjeta;
+        TarjetaColaboracion = tarjeta;
     }
 
 }
