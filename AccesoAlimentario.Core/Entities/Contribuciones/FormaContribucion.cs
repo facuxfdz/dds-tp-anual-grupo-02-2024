@@ -12,8 +12,6 @@ public abstract class FormaContribucion
     {
         _fechaContribucion = fechaContribucion;
     }
-
-    public abstract float CalcularPuntos();
     
     public bool EsValido(Colaborador colaborador)
     {

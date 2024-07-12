@@ -9,7 +9,7 @@ public abstract class Tarjeta
     protected Rol _propietario;
     protected List<AccesoHeladera> _accesos = new List<AccesoHeladera>();
     
-    public Tarjeta(string codigo, Rol propietario)
+    public Tarjeta(string codigo, Rol? propietario)
     {
         _codigo = codigo;
         _propietario = propietario;
