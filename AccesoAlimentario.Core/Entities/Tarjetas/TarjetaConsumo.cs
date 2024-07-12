@@ -9,9 +9,16 @@ public class TarjetaConsumo : Tarjeta
 {
     private Colaborador _responsable;
 
-    public TarjetaConsumo(Colaborador responsable, string codigo, PersonaVulnerable personaVulnerable) : base(codigo,
+    private PersonaVulnerable? _personaVulnerable;
+
+    public TarjetaConsumo(Colaborador responsable, string codigo, PersonaVulnerable? personaVulnerable) : base(codigo,
         personaVulnerable)
     {
         _responsable = responsable;
+    }
+
+    public void setPersonaVulnerable(PersonaVulnerable personaVulnerable)
+    {
+        _personaVulnerable = personaVulnerable;
     }
 }

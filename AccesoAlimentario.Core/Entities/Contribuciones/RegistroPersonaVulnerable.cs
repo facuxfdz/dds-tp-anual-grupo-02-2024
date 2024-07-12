@@ -9,14 +9,10 @@ public class RegistroPersonaVulnerable : FormaContribucion
     protected readonly ValidadorContribuciones _validadorContribuciones = new ValidadorRegistroPersonaVulnerable();
     private Tarjeta _tarjeta;
 
-    public RegistroPersonaVulnerable(DateTime fechaContribucion, Tarjeta tarjeta)
+    public RegistroPersonaVulnerable(DateTime fechaContribucion, Tarjeta tarjeta )
         : base(fechaContribucion)
     {
         _tarjeta = tarjeta;
     }
 
-    public override float CalcularPuntos()
-    {
-        return AppSettings.Instance.TarjetasRepartidasCoef;
-    }
 }

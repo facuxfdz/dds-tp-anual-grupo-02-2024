@@ -14,8 +14,4 @@ public class OfertaPremio : FormaContribucion
         _premio = premio;
     }
 
-    public override float CalcularPuntos()
-    {
-        return 0;
-    }
 }
