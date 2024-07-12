@@ -2,16 +2,26 @@ using AccesoAlimentario.Core.Entities.Contribuciones;
 using AccesoAlimentario.Core.Entities.Heladeras;
 using AccesoAlimentario.Core.Entities.Personas;
 using AccesoAlimentario.Core.Entities.Premios;
+using AccesoAlimentario.Core.Entities.Roles;
 using AccesoAlimentario.Core.Entities.Tarjetas;
 
 namespace AccesoAlimentario.Core.Servicios;
 
 public class ColaboracionesServicio
 {
-    public FormaContribucion crearAdministracionHeladera(Heladera heladera, DateTime fechaContr)
+    //Cuando la colaboracion viene por el importador, se crea con una fecha
+    public FormaContribucion crearAdministracionHeladera(Colaborador colab, Heladera heladera, DateTime? fechaContr)
     {
-        //TODO
-        throw new NotImplementedException();
+        var fecha = fechaContr ?? DateTime.Now;
+        AdministracionHeladera formaAdministracionHeladera = new AdministracionHeladera(fecha, heladera);
+        if (fechaContr != null)
+        {
+            if (!formaAdministracionHeladera.EsValido(colab))
+            {
+                throw new Exception("No " );
+            }
+        }
+        return formaAdministracionHeladera;
     }
 
     public FormaContribucion crearDistribucionViandas(Heladera heladeraOrigen, Heladera heladeraDestino, int cant, string motivo, DateTime fechaContr)
