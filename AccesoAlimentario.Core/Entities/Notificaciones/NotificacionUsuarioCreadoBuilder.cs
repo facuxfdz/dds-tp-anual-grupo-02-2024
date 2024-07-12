@@ -2,17 +2,19 @@ namespace AccesoAlimentario.Core.Entities.Notificaciones;
 
 public class NotificacionUsuarioCreadoBuilder : INotificacionBuilder
 {
-    private string _contrasenia;
+    private string _username;
+    private string _password;
     
-    public NotificacionUsuarioCreadoBuilder(string contrasenia)
+    public NotificacionUsuarioCreadoBuilder(string username, string password)
     {
-        _contrasenia = contrasenia;
+        _username = username;
+        _password = password;
     }
     
     public Notificacion CrearNotificacion()
     {
         var asunto = "Acceso Alimentario: Su usuario ha sido creado con exito";
-        var mensaje = $"Su usuario se ha creado con exito, su contraseña es: {_contrasenia}. No comparta esta información, muchas gracias.";
+        var mensaje = $"Su usuario <b>{_username}</b> se ha creado con exito, su contraseña es: <b>{_password}</b>.<br>No comparta esta información, muchas gracias.";
         return new Notificacion(asunto, mensaje);
     }
 }

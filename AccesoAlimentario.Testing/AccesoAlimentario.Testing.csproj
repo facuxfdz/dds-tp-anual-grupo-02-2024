@@ -26,6 +26,15 @@
     </ItemGroup>
 
     <ItemGroup>
+      <EmbeddedResource Include="Resources\10mil-mas-comunes.txt">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </EmbeddedResource>
+      <EmbeddedResource Include="Resources\appsettings.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </EmbeddedResource>
+      <EmbeddedResource Include="Resources\CoeficientesPuntos.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </EmbeddedResource>
       <EmbeddedResource Include="Resources\csvE2.csv" />
     </ItemGroup>
 

@@ -32,14 +32,6 @@ var sensoreoServicio = new SensoreoServicio(unitOfWork);
 var tecnicosServicio = new TecnicosServicio(unitOfWork);
 var usuariosServicio = new UsuariosSistemaServicio(unitOfWork);
 
-var direccion = new Direccion
-(
-    "Calle",
-    "123",
-    "Avellaneda",
-    "A123B"
-);
-
 // Crear persona humana
 personasServicio.CrearHumana
 (
@@ -54,7 +46,7 @@ personasServicio.CrearHumana
     new DocumentoIdentidad(TipoDocumento.DNI, 123456789, DateOnly.MinValue),
     new List<MedioContacto>
     {
-        new Email(true, "marcospedaci@gmail.com")
+        new Email(true, "mpedaci@frba.utn.edu.ar")
     },
     "Perez",
     SexoDocumento.Masculino
@@ -74,7 +66,7 @@ personasServicio.CrearJuridica
     new DocumentoIdentidad(TipoDocumento.CUIT, 123456789, DateOnly.MinValue),
     new List<MedioContacto>
     {
-        new Email(true, "marcospedaci@gmail.com")
+        new Email(true, "mpedaci@frba.utn.edu.ar")
     },
     TipoJuridico.Empresa,
     "Rubro"
@@ -82,7 +74,7 @@ personasServicio.CrearJuridica
 
 // Obtener personas
 var persona = personasServicio.Obtener();
-// persona.First().EnviarMensaje(new Notificacion("Mensaje de prueba", "Mensaje de prueba de notificación"));
+persona.First().EnviarMensaje(new Notificacion("Mensaje de prueba", "Mensaje de prueba de notificación"));
 
 // Obtener recomendaciones
 
@@ -96,4 +88,15 @@ var base64 = Convert.ToBase64String(bytes);
 importadorServicio.Importar(base64);
 
 persona = personasServicio.Obtener();
+
+var username = Console.ReadLine();
+var password = Console.ReadLine();
+
+var usuarios = unitOfWork.UsuarioSistemaRepository.Get();
+
+var usuario = usuariosServicio.Login(username, password);
+
+
+
+
 Console.WriteLine("Fin de la ejecución");

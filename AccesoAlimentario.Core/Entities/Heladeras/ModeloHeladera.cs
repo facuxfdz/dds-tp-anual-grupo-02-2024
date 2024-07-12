@@ -9,9 +9,9 @@ public class ModeloHeladera
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; private set; }
 
-    private int Capacidad { get; set; } = 0;
-    private int TemperaturaMinima { get; set; } = 0;
-    private int TemperaturaMaxima { get; set; } = 0;
+    public int Capacidad { get; set; } = 0;
+    public int TemperaturaMinima { get; set; } = 0;
+    public int TemperaturaMaxima { get; set; } = 0;
     
     public ModeloHeladera()
     {

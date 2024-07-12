@@ -1,5 +1,7 @@
 using AccesoAlimentario.Core.DAL;
+using AccesoAlimentario.Core.Entities.Notificaciones;
 using AccesoAlimentario.Core.Entities.Personas;
+using AccesoAlimentario.Core.Entities.Roles;
 using AccesoAlimentario.Core.Infraestructura.ImportacionColaboradores;
 
 namespace AccesoAlimentario.Core.Servicios;
@@ -13,11 +15,17 @@ public class ImportadorServicio(UnitOfWork unitOfWork, PersonasServicio personas
         var colaboradores = importador.ImportarColaboradores(streamFile);
         foreach (var colaborador in colaboradores)
         {
-            var persona = (PersonaHumana)colaborador.Persona;
+            var persona = colaborador.Persona;
             var existePersona = personasServicio.Buscar(persona.DocumentoIdentidad);
             if (existePersona == null)
             {
-                persona = personasServicio.CrearHumana(persona.Nombre, persona.Direccion, persona.DocumentoIdentidad, persona.MediosDeContacto, persona.Apellido, persona.Sexo);
+                var ph = (PersonaHumana)persona;
+                persona = personasServicio.CrearHumana(persona.Nombre, persona.Direccion, persona.DocumentoIdentidad, persona.MediosDeContacto, ph.Apellido, ph.Sexo);
+                var usuarioS = (UsuarioSistema)ph.Roles.Find(x => x is UsuarioSistema);
+                var builder = new NotificacionUsuarioCreadoBuilder(usuarioS.UserName, usuarioS.Password);
+                persona.EnviarMensaje(builder.CrearNotificacion());
+                /*personasServicio.AgregarRol(persona.Id, colaborador);*/
+                personasServicio.AgregarRol(persona.Id, usuarioS);
             } else {
                 persona = (PersonaHumana)existePersona;
             }

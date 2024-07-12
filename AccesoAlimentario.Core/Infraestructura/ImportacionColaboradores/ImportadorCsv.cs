@@ -29,6 +29,10 @@ public class ImportadorCsv : FormaImportacion
             var col = c.FirstOrDefault();
             if (col == null) continue;
             c.RemoveAt(0);
+            foreach (var x in c)
+            {
+                x.ContribucionesRealizadas.ForEach(col.AgregarContribucion);
+            }
             /*col.AgregarPuntos(c.Sum(x => x.ObtenerPuntos()));*/
             // TODO COMO CONECTAR CON EL SERVICIO DE CALCULO DE PUNTOS
             colaboradores.Add(col);
@@ -56,7 +60,10 @@ public class ImportadorCsv : FormaImportacion
         {
             new Email(true, datos.Mail)
         }, null, documento, SexoDocumento.Otro);
-        var colaborador = new Colaborador(personaHumana, null);
+        var colaborador = new Colaborador(personaHumana, []);
+        var usuario = new UsuarioSistema(personaHumana, datos.Mail, CrearPassword());
+        personaHumana.AgregarRol(usuario);
+        personaHumana.AgregarRol(colaborador);
         var tipoContribucion = (TipoContribucion)Enum.Parse(typeof(TipoContribucion), datos.FormaColaboracion);
         var contribuciones = new List<FormaContribucion>();
 
