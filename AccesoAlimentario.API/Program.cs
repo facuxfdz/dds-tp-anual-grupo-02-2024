@@ -1,4 +1,5 @@
 using AccesoAlimentario.Core.DAL;
+using AccesoAlimentario.Core.Servicios;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,20 +10,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddDbContext<AppDbContext>((provider, options) =>
 {
-    options.UseMySQL(
-        "server=localhost;port=3346;database=acceso_alimentario;user=root;password=pass123");
+    /*options.UseMySQL(
+        "server=localhost;port=3346;database=acceso_alimentario;user=root;password=pass123");*/
+    options.UseInMemoryDatabase(databaseName: "AccesoAlimentario");
 });
-
-
-builder.Services.AddDbContext<AppDbContext>((sp, options) =>
-    options
-        .UseInMemoryDatabase(databaseName: "AccesoAlimentario")
-);
 
 builder.Services.AddScoped(typeof(UnitOfWork));
 builder.Services.AddScoped(typeof(GenericRepository<>));
+
+/* -------------------------- */
+builder.Services.AddScoped(typeof(PersonasServicio));
 
 // Allow CORS
 const string corsDevelop = "_CORSDevelop";

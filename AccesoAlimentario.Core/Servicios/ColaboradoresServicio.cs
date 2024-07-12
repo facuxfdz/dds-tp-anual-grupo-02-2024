@@ -1,8 +1,8 @@
-using AccesoAlimentario.Core.Entities;
 using AccesoAlimentario.Core.Entities.Contribuciones;
 using AccesoAlimentario.Core.Entities.Heladeras;
 using AccesoAlimentario.Core.Entities.Personas;
 using AccesoAlimentario.Core.Entities.Roles;
+using AccesoAlimentario.Core.Entities.SuscripcionesColaboradores;
 using AccesoAlimentario.Core.Entities.Tarjetas;
 
 namespace AccesoAlimentario.Core.Servicios;

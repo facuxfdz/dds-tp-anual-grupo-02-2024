@@ -7,7 +7,7 @@ public sealed class AppSettings
 {
     public static readonly AppSettings Instance = Instance ?? new AppSettings();
     public string PathPasswordMasComunes = "Resources\\10mil-mas-comunes.txt";
-    public List<string> Contrasenias { get; set; } = new List<string>();
+    public List<string> Contrasenias { get; set; } = [];
     public float PesoDonadosCoef { get; set; }
     public float ViandasDistribuidasCoef { get; set; }
     public float ViandasDonadasCoef { get; set; }

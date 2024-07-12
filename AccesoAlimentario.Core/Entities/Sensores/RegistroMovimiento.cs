@@ -1,13 +1,24 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace AccesoAlimentario.Core.Entities.Sensores;
 
 public class RegistroMovimiento
 {
-    private DateTime _date;
-    private bool _movimiento;
-    
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; private set; }
+
+    public DateTime Date { get; set; } = DateTime.Now;
+    public bool Movimiento { get; set; } = false;
+
+    public RegistroMovimiento()
+    {
+    }
+
     public RegistroMovimiento(DateTime date, bool movimiento)
     {
-        _date = date;
-        _movimiento = movimiento;
+        Date = date;
+        Movimiento = movimiento;
     }
 }

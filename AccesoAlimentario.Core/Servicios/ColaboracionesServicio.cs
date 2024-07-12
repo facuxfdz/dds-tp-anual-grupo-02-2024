@@ -8,37 +8,37 @@ namespace AccesoAlimentario.Core.Servicios;
 
 public class ColaboracionesServicio
 {
-    public FormaContribucion crearAdministracionHeladera(Heladera heladera, DateTime fechaContr)
+    public FormaContribucion CrearAdministracionHeladera(Heladera heladera, DateTime fechaContr)
     {
         //TODO
         throw new NotImplementedException();
     }
 
-    public FormaContribucion crearDistribucionViandas(Heladera heladeraOrigen, Heladera heladeraDestino, int cant, string motivo, DateTime fechaContr)
+    public FormaContribucion CrearDistribucionViandas(Heladera heladeraOrigen, Heladera heladeraDestino, int cant, string motivo, DateTime fechaContr)
     {
         // TODO: HACER
         throw new NotImplementedException();
     }
 
-    public FormaContribucion crearRegistroPersonaVulnerable(Persona persona, int menores, Tarjeta tarjeta, DateTime fechaContr)
+    public FormaContribucion CrearRegistroPersonaVulnerable(Persona persona, int menores, Tarjeta tarjeta, DateTime fechaContr)
     {
         // TODO: HACER
         throw new NotImplementedException();
     }
 
-    public FormaContribucion crearDonacionMonetaria(decimal monto, int frecDias, DateTime fecha, DateTime fechaContr)
+    public FormaContribucion CrearDonacionMonetaria(decimal monto, int frecDias, DateTime fecha, DateTime fechaContr)
     {
         // TODO: HACER
         throw new NotImplementedException();
     }
 
-    public FormaContribucion crearDonacionVianda(Heladera heladera, Vianda vianda, DateTime fechaContr)
+    public FormaContribucion CrearDonacionVianda(Heladera heladera, Vianda vianda, DateTime fechaContr)
     {
         // TODO: HACER
         throw new NotImplementedException();
     }
 
-    public FormaContribucion crearOfertaPremio(Premio premio, DateTime fechaContr)
+    public FormaContribucion CrearOfertaPremio(Premio premio, DateTime fechaContr)
     {
         // TODO: HACER
         throw new NotImplementedException();

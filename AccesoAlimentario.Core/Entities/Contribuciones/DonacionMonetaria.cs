@@ -5,19 +5,22 @@ namespace AccesoAlimentario.Core.Entities.Contribuciones;
 
 public class DonacionMonetaria : FormaContribucion
 {
-    protected readonly ValidadorContribuciones _validadorContribuciones = new ValidadorDonacionMonetaria();
-    private float _monto;
-    private int _frecuenciaDias;
-
-    public DonacionMonetaria(DateTime fechaContribucion, float monto, int frecuenciaDias) 
-    : base(fechaContribucion)
+    public float Monto { get; set; } = 0;
+    public int FrecuenciaDias { get; set; } = 0;
+    
+    public DonacionMonetaria()
     {
-        _monto = monto;
-        _frecuenciaDias = frecuenciaDias;
+    }
+
+    public DonacionMonetaria(DateTime fechaContribucion, float monto, int frecuenciaDias)
+        : base(fechaContribucion)
+    {
+        Monto = monto;
+        FrecuenciaDias = frecuenciaDias;
     }
 
     public override float CalcularPuntos()
     {
-        return AppSettings.Instance.PesoDonadosCoef * _monto;
+        return AppSettings.Instance.PesoDonadosCoef * Monto;
     }
 }

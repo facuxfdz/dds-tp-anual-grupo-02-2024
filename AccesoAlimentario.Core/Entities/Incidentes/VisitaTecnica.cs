@@ -1,19 +1,29 @@
-﻿using AccesoAlimentario.Core.Entities.Personas.Tecnicos;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using AccesoAlimentario.Core.Entities.Roles;
 
 namespace AccesoAlimentario.Core.Entities.Incidentes;
 
 public class VisitaTecnica
 {
-    private Tecnico _tecnico;
-    private string? _foto;
-    private DateTime _fecha;
-    private string? _comentario;
-    
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; private set; }
+
+    public Tecnico Tecnico { get; set; } = null!;
+    public string? Foto { get; set; } = null!;
+    public DateTime Fecha { get; set; } = DateTime.Now;
+    public string? Comentario { get; set; } = null!;
+
+    public VisitaTecnica()
+    {
+    }
+
     public VisitaTecnica(Tecnico tecnico, string? foto, string? comentario)
     {
-        _tecnico = tecnico;
-        _foto = foto;
-        _fecha = DateTime.Now;
-        _comentario = comentario;
+        Tecnico = tecnico;
+        Foto = foto;
+        Fecha = DateTime.Now;
+        Comentario = comentario;
     }
 }

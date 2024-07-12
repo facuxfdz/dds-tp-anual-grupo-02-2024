@@ -1,15 +1,23 @@
-﻿using AccesoAlimentario.Core.Entities.Personas;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using AccesoAlimentario.Core.Entities.Personas;
 
 namespace AccesoAlimentario.Core.Entities.Roles;
 
 public abstract class Rol
 {
-    public Persona _persona { get; }
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; private set; }
+
+    public Persona Persona { get; set; } = null!;
     
-    public Rol(int id, Persona persona)
+    public Rol()
     {
-        Id = id;
-        _persona = persona;
+    }
+    
+    public Rol(Persona persona)
+    {
+        Persona = persona;
     }
 }

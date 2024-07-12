@@ -1,7 +1,6 @@
 using AccesoAlimentario.Core.Entities.Contribuciones;
 using AccesoAlimentario.Core.Entities.Heladeras;
 using AccesoAlimentario.Core.Entities.Incidentes;
-using AccesoAlimentario.Core.Entities.Reportes;
 
 namespace AccesoAlimentario.Core.Entities.Reportes;
 
@@ -16,7 +15,7 @@ public class ReporteBuilderHeladeraFallas : IReporteBuilder{
     public Reporte Generar(List<Heladera> heladera, List<Incidente> incidentes, List<FormaContribucion> contribuciones)
     {
         string descripcion = "Reporte de fallas en heladera";
-        List<EntradaReporte> entradas = new List<EntradaReporte>();
+        List<EntradaReporte> entradas = [];
         return new Reporte(descripcion, entradas);
     }
 }

@@ -4,13 +4,18 @@ namespace AccesoAlimentario.Core.Entities.SuscripcionesColaboradores;
 
 public class SuscripcionFaltanteViandas : Suscripcion
 {
-    private int _minimo;
+    public int Minimo { get; private set; } = 0;
+    
+    public SuscripcionFaltanteViandas()
+    {
+    }
+    
     public SuscripcionFaltanteViandas(int minimo, Heladera heladera) : base(heladera)
     {   
-        _minimo = minimo;
+        Minimo = minimo;
     }
 
-    public void notificarColaborador()
+    public void NotificarColaborador()
     {
         //TODO
     }

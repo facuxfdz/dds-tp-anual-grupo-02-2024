@@ -2,18 +2,17 @@ using AccesoAlimentario.Core.Entities.Heladeras;
 
 namespace AccesoAlimentario.Core.Entities.Sensores;
 
-public class SensorTemperatura : ISensor, ISubjectHeladeraTemperatura
+public class SensorTemperatura : Sensor, ISubjectHeladeraTemperatura
 {
-    private List<RegistroTemperatura> _registrosTemperatura;
+    public List<RegistroTemperatura> RegistrosTemperatura { get; set; } = [];
 
     public SensorTemperatura()
     {
-        _registrosTemperatura = new List<RegistroTemperatura>();
     }
-
-    public void Registrar(DateTime fecha, string temperatura)
+    
+    public override void Registrar(DateTime fecha, string temperatura)
     {
-        _registrosTemperatura.Add(new RegistroTemperatura(fecha, Convert.ToSingle(temperatura)));
+        RegistrosTemperatura.Add(new RegistroTemperatura(fecha, Convert.ToSingle(temperatura)));
     }
     
     public void Suscribirse(IObserverSensorTemperatura observado)

@@ -2,12 +2,16 @@
 
 namespace AccesoAlimentario.Core.Entities.Incidentes;
 
-public class FallaTecnica
+public class FallaTecnica : Incidente
 {
-    private Colaborador _colaborador;
-    private string? _descripcion;
-    private string? _foto;
-    
+    public Colaborador _colaborador = null!;
+    public string? _descripcion = null!;
+    public string? _foto = null!;
+
+    public FallaTecnica()
+    {
+    }
+
     public FallaTecnica(Colaborador colaborador, string? descripcion, string? foto)
     {
         _colaborador = colaborador;

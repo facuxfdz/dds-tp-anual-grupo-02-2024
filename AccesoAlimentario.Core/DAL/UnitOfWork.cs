@@ -1,21 +1,17 @@
-using AccesoAlimentario.Core.Entities;
 using AccesoAlimentario.Core.Entities.Autorizaciones;
 using AccesoAlimentario.Core.Entities.Contribuciones;
 using AccesoAlimentario.Core.Entities.Direcciones;
+using AccesoAlimentario.Core.Entities.DocumentosIdentidad;
 using AccesoAlimentario.Core.Entities.Heladeras;
 using AccesoAlimentario.Core.Entities.Incidentes;
 using AccesoAlimentario.Core.Entities.MediosContacto;
 using AccesoAlimentario.Core.Entities.Notificaciones;
 using AccesoAlimentario.Core.Entities.Personas;
-using AccesoAlimentario.Core.Entities.Personas.DocumentosIdentidad;
-using AccesoAlimentario.Core.Entities.Personas.PersonaJuridica;
-using AccesoAlimentario.Core.Entities.Personas.Tecnicos;
 using AccesoAlimentario.Core.Entities.Premios;
 using AccesoAlimentario.Core.Entities.Roles;
 using AccesoAlimentario.Core.Entities.Sensores;
 using AccesoAlimentario.Core.Entities.SuscripcionesColaboradores;
 using AccesoAlimentario.Core.Entities.Tarjetas;
-using AccesoAlimentario.Core.Entities.Usuarios;
 
 namespace AccesoAlimentario.Core.DAL;
 

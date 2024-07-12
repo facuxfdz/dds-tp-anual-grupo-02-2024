@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using AccesoAlimentario.Core.Entities.Roles;
 using AccesoAlimentario.Core.Validadores.Contribuciones;
 
@@ -5,18 +7,20 @@ namespace AccesoAlimentario.Core.Entities.Contribuciones;
 
 public abstract class FormaContribucion
 {
-    protected readonly ValidadorContribuciones _validadorContribuciones;
-    private DateTime _fechaContribucion;
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; set; }
+
+    public DateTime FechaContribucion { get; set; } = DateTime.Now;
+
+    public FormaContribucion()
+    {
+    }
 
     public FormaContribucion(DateTime fechaContribucion)
     {
-        _fechaContribucion = fechaContribucion;
+        FechaContribucion = fechaContribucion;
     }
 
     public abstract float CalcularPuntos();
-    
-    public bool EsValido(Colaborador colaborador)
-    {
-        return _validadorContribuciones.Validar(this, colaborador);
-    }
 }

@@ -1,5 +1,5 @@
 using AccesoAlimentario.Core.Entities.Personas;
-using AccesoAlimentario.Core.Entities.Personas.Tecnicos;
+using AccesoAlimentario.Core.Entities.Roles;
 
 namespace AccesoAlimentario.Core.Servicios;
 

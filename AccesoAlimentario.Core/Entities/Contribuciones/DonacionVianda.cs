@@ -6,15 +6,18 @@ namespace AccesoAlimentario.Core.Entities.Contribuciones;
 
 public class DonacionVianda : FormaContribucion
 {
-    protected readonly ValidadorContribuciones _validadorContribuciones = new ValidadorDonacionVianda();
-    private Heladera _heladera;
-    private Vianda _vianda;
+    public Heladera Heladera { get; set; } = null!;
+    public Vianda Vianda { get; set; } = null!;
+
+    public DonacionVianda()
+    {
+    }
 
     public DonacionVianda(DateTime fechaContribucion, Heladera heladera, Vianda vianda)
         : base(fechaContribucion)
     {
-        _heladera = heladera;
-        _vianda = vianda;
+        Heladera = heladera;
+        Vianda = vianda;
     }
 
     public override float CalcularPuntos()

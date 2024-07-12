@@ -25,4 +25,8 @@
       <ProjectReference Include="..\AccesoAlimentario.Core\AccesoAlimentario.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <EmbeddedResource Include="Resources\csvE2.csv" />
+    </ItemGroup>
+
 </Project>

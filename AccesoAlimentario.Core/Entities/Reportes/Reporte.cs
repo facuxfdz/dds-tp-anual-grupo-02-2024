@@ -1,5 +1,3 @@
-using AccesoAlimentario.Core.Entities.Reportes;
-
 namespace AccesoAlimentario.Core.Entities.Reportes;
 public class Reporte{
     private string _descripcion;

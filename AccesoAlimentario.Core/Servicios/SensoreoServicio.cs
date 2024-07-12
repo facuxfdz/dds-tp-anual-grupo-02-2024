@@ -4,12 +4,12 @@ namespace AccesoAlimentario.Core.Servicios;
 
 public class SensoreoServicio
 {
-    public void IngresarDataMovimiento(ISensor sensor, string data)
+    public void IngresarDataMovimiento(Sensor sensor, string data)
     {
 
     }
 
-    public void IngresarDataTemperatura(ISensor sensor, string data)
+    public void IngresarDataTemperatura(Sensor sensor, string data)
     {
 
     }

@@ -2,10 +2,10 @@ namespace AccesoAlimentario.Core.Validadores.ImportacionMasiva;
 
 public class ValidadorImportacionMasiva
 {
-    private static List<string> _tiposContribucion = new()
-        { "DINERO", "DONACION_VIANDAS", "REDISTRIBUCION_VIANDAS", "ENTREGA_TARJETAS" };
+    private static List<string> _tiposContribucion =
+        ["DINERO", "DONACION_VIANDAS", "REDISTRIBUCION_VIANDAS", "ENTREGA_TARJETAS"];
 
-    private static List<string> _tiposDocumento = new() { "DNI", "LE", "LC" }; // por qué no "CUIL", "CUIT" ?
+    private static List<string> _tiposDocumento = ["DNI", "LE", "LC"]; // por qué no "CUIL", "CUIT" ?
 
     public bool Validar(string tipoDoc, int documento, string nombre, string apellido, string mail,
         string fechaColaboracion, string formaColaboracion, int cantidad)

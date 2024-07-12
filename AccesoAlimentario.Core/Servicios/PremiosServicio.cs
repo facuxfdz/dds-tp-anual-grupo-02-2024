@@ -5,7 +5,7 @@ namespace AccesoAlimentario.Core.Servicios;
 
 public class PremiosServicio
 {
-    public void canjearPremio(Premio premio, Colaborador colaborador)
+    public void CanjearPremio(Premio premio, Colaborador colaborador)
     {
         throw new NotImplementedException();
         /*if (premio.GetPuntosNecesarios() > colaborador.Puntos())
@@ -16,7 +16,7 @@ public class PremiosServicio
         premio.Reclamar(colaborador);   */
     }
 
-    public Premio[] obtenerPremios()
+    public Premio[] ObtenerPremios()
     {
         throw new NotImplementedException();
         // TODO: HACER

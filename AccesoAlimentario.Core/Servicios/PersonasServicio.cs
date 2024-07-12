@@ -1,35 +1,53 @@
+using AccesoAlimentario.Core.DAL;
 using AccesoAlimentario.Core.Entities.Direcciones;
+using AccesoAlimentario.Core.Entities.DocumentosIdentidad;
 using AccesoAlimentario.Core.Entities.MediosContacto;
 using AccesoAlimentario.Core.Entities.Personas;
-using AccesoAlimentario.Core.Entities.Personas.Colaboradores;
-using AccesoAlimentario.Core.Entities.Personas.DocumentosIdentidad;
-using AccesoAlimentario.Core.Entities.Personas.PersonaJuridica;
 
 namespace AccesoAlimentario.Core.Servicios;
 
-public class PersonasServicio {
-    public void CrearHumana(int id, string nombre, Direccion direccion, DocumentoIdentidad documento, MedioContacto medioContacto, string apellido, SexoDocumento sexo)
+public class PersonasServicio(UnitOfWork unitOfWork)
+{
+    public PersonaHumana CrearHumana(string nombre, Direccion direccion, DocumentoIdentidad documento,
+        List<MedioContacto> mediosContacto, string apellido, SexoDocumento sexo)
     {
-        List<MedioContacto> mediosContacto = new List<MedioContacto>();
-        mediosContacto.Add(medioContacto);
-        PersonaHumana persona = new PersonaHumana(id, nombre, apellido, documento, direccion, mediosContacto, sexo);
+        PersonaHumana persona = new(nombre, apellido, mediosContacto, direccion, documento, sexo);
+        unitOfWork.PersonaHumanaRepository.Insert(persona);
+        return persona;
     }
 
-    public void CrearJuridica(int id, string nombre, Direccion direccion, DocumentoIdentidad documento, MedioContacto medioContacto, TipoJuridico tipoJuridico, string rubro)
+    public PersonaJuridica CrearJuridica(string nombre, Direccion direccion, DocumentoIdentidad documento,
+        List<MedioContacto> mediosContacto, TipoJuridico tipoJuridico, string rubro)
     {
-        List<MedioContacto> mediosContacto = new List<MedioContacto>();
-        mediosContacto.Add(medioContacto);
-        PersonaJuridica persona = new PersonaJuridica(id, nombre, documento, direccion, mediosContacto, tipoJuridico, rubro);
+        PersonaJuridica persona = new(nombre, tipoJuridico, rubro, mediosContacto, direccion, documento);
+        unitOfWork.PersonaJuridicaRepository.Insert(persona);
+        return persona;
     }
 
-    public void Eliminar(Persona persona)
+    public ICollection<Persona> Obtener()
     {
-        //TODO
+        var personasHumanas = unitOfWork.PersonaHumanaRepository.Get();
+        var personasJuridicas = unitOfWork.PersonaJuridicaRepository.Get();
+        return personasHumanas.Concat<Persona>(personasJuridicas).ToList();
     }
 
-    public void ModificarHumana(PersonaHumana persona, string? nombre, Direccion? direccion, DocumentoIdentidad? documento, MedioContacto? medioContacto, string? apellido, SexoDocumento? sexo)
+    public void Eliminar(int id)
     {
-        if (nombre != null)
+        var pH = unitOfWork.PersonaHumanaRepository.GetById(id);
+        if (pH != null)
+            unitOfWork.PersonaHumanaRepository.Delete(pH);
+        else
+        {
+            var pJ = unitOfWork.PersonaJuridicaRepository.GetById(id);
+            if (pJ != null)
+                unitOfWork.PersonaJuridicaRepository.Delete(pJ);
+        }
+    }
+
+    public void ModificarHumana(PersonaHumana persona, string? nombre, Direccion? direccion,
+        DocumentoIdentidad? documento, MedioContacto? medioContacto, string? apellido, SexoDocumento? sexo)
+    {
+        /*if (nombre != null)
             persona.Nombre = nombre;
 
         if (apellido != null)
@@ -48,12 +66,13 @@ public class PersonasServicio {
         }
 
         if (sexo.HasValue)
-            persona.Sexo = sexo.Value;
+            persona.Sexo = sexo.Value;*/
     }
 
-    public void ModificarJuridica(PersonaJuridica persona, string? nombre, Direccion? direccion, DocumentoIdentidad? documento, MedioContacto? medioContacto, TipoJuridico? tipoJuridico, string? rubro)
+    public void ModificarJuridica(PersonaJuridica persona, string? nombre, Direccion? direccion,
+        DocumentoIdentidad? documento, MedioContacto? medioContacto, TipoJuridico? tipoJuridico, string? rubro)
     {
-        if (nombre != null)
+        /*if (nombre != null)
             persona.Nombre = nombre;
 
         if (documento != null)
@@ -72,7 +91,6 @@ public class PersonasServicio {
             persona.Tipo = tipoJuridico.Value;
 
         if (rubro != null)
-            persona.Rubro = rubro;
+            persona.Rubro = rubro;*/
     }
-
 }

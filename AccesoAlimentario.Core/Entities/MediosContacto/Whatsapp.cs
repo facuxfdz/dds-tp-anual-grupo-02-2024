@@ -4,11 +4,15 @@ namespace AccesoAlimentario.Core.Entities.MediosContacto;
 
 public class Whatsapp : MedioContacto
 {
-    private string _numero;
+    public string Numero { get; set; } = "";
     
-    public Whatsapp(string numero, bool preferida) : base(preferida)
+    public Whatsapp()
     {
-        _numero = numero;
+    }
+
+    public Whatsapp(bool preferida, string numero) : base(preferida)
+    {
+        Numero = numero;
     }
 
     public override void Enviar(Notificacion notificacion)

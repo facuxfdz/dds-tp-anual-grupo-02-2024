@@ -13,7 +13,7 @@ public class ReporteBuilderColaboradorViandasDonadas : IReporteBuilder
     public Reporte Generar(List<Heladera> heladera, List<Incidente> incidentes, List<FormaContribucion> contribuciones)
     {
         string descripcion = "Reporte de viandas donadas por colaborador";
-        List<EntradaReporte> entradas = new List<EntradaReporte>();
+        List<EntradaReporte> entradas = [];
         return new Reporte(descripcion, entradas);
     }
 }

@@ -1,6 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using AccesoAlimentario.Core.Validadores.Usuarios;
 using AccesoAlimentario.Core.EmailObj;
 
 

@@ -1,33 +1,43 @@
-﻿using AccesoAlimentario.Core.Entities.Direcciones;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using AccesoAlimentario.Core.Entities.Direcciones;
+using AccesoAlimentario.Core.Entities.DocumentosIdentidad;
 using AccesoAlimentario.Core.Entities.MediosContacto;
-using AccesoAlimentario.Core.Entities.Personas.DocumentosIdentidad;
 using AccesoAlimentario.Core.Entities.Roles;
-using AccesoAlimentario.Core.Validadores.Contribuciones;
 
 namespace AccesoAlimentario.Core.Entities.Personas;
 
 public abstract class Persona
 {
-    public int Id { get; set; }
-    public string Nombre { get; set; }
-    public Direccion? Direccion { get; set; }
-    public DocumentoIdentidad? DocumentoIdentidad { get; set; }
-    public List<MedioContacto> MediosDeContacto { get; set; }
-    protected List<Rol> _roles = new List<Rol>();
-    protected DateTime _fechaAlta = DateTime.Now;
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; private set; }
 
-    public Persona(int id, string nombre, DocumentoIdentidad documentoIdentidad, Direccion direccion, List<MedioContacto> mediosDeContacto)
-    {
-        Id = id;
-        Nombre = nombre;
-        DocumentoIdentidad = documentoIdentidad;
-        Direccion = direccion;
-        MediosDeContacto = mediosDeContacto;
-    }
+    public string Nombre { get; set; } = "";
+    public Direccion? Direccion { get; set; } = null;
+    public DocumentoIdentidad? DocumentoIdentidad { get; set; } = null;
+
+    public List<MedioContacto> MediosDeContacto { get; set; } = [];
+
+    public List<Rol> Roles { get; set; } = [];
+    public DateTime FechaAlta { get; set; } = DateTime.Now;
 
     public Persona()
     {
-        
     }
 
+    public Persona(string nombre, List<MedioContacto> mediosDeContacto)
+    {
+        Nombre = nombre;
+        MediosDeContacto = mediosDeContacto;
+    }
+
+    public Persona(string nombre, List<MedioContacto> medioDeContacto, Direccion direccion,
+        DocumentoIdentidad documentoIdentidad)
+    {
+        Nombre = nombre;
+        MediosDeContacto = medioDeContacto;
+        Direccion = direccion;
+        DocumentoIdentidad = documentoIdentidad;
+    }
 }

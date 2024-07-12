@@ -1,12 +1,7 @@
 using System.Globalization;
-using AccesoAlimentario.Core.Entities.Contribuciones;
-using AccesoAlimentario.Core.Entities.Personas;
-using AccesoAlimentario.Core.Entities.Personas.DocumentosIdentidad;
 using AccesoAlimentario.Core.Entities.Roles;
-using AccesoAlimentario.Core.Entities.Usuarios;
 using AccesoAlimentario.Core.Validadores.ImportacionMasiva;
 using CsvHelper;
-using CsvHelper.Configuration;
 
 namespace AccesoAlimentario.Infraestructura.ImportacionColaboradores;
 
@@ -57,7 +52,8 @@ public class ImportadorCsv : FormaImportacion
 
         private static UsuarioSistema Parsear(DatosColaboracion datos)
         {
-            var tipoDoc = (TipoDocumento)Enum.Parse(typeof(TipoDocumento), datos.TipoDoc);
+            throw new NotImplementedException();
+            /*var tipoDoc = (TipoDocumento)Enum.Parse(typeof(TipoDocumento), datos.TipoDoc);
             var documento = new DocumentoIdentidad(tipoDoc, datos.Documento, null);
             var colaborador = new PersonaHumana(GenerarId(), datos.Nombre, datos.Apellido, documento, null, null, null);
             var usuario = new UsuarioSistema(GenerarId(), colaborador, datos.Mail, CrearPassword());
@@ -101,7 +97,7 @@ public class ImportadorCsv : FormaImportacion
                     throw new ArgumentOutOfRangeException();
             }
 
-        return usuario;
+        return usuario;*/
     }
 
     private static string CrearPassword()

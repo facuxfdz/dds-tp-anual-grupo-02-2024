@@ -1,20 +1,21 @@
-﻿using AccesoAlimentario.Core.Entities.Contribuciones;
-using AccesoAlimentario.Core.Entities.Direcciones;
+﻿using AccesoAlimentario.Core.Entities.Direcciones;
+using AccesoAlimentario.Core.Entities.DocumentosIdentidad;
 using AccesoAlimentario.Core.Entities.MediosContacto;
-using AccesoAlimentario.Core.Entities.Personas.Colaboradores;
-using AccesoAlimentario.Core.Entities.Personas.DocumentosIdentidad;
-using AccesoAlimentario.Core.Entities.Roles;
-using AccesoAlimentario.Core.Validadores.Contribuciones;
 
-namespace AccesoAlimentario.Core.Entities.Personas.PersonaJuridica;
+namespace AccesoAlimentario.Core.Entities.Personas;
 
 public class PersonaJuridica : Persona
 {
-    public TipoJuridico Tipo { get; set; }
-    public string Rubro { get; set; }
-
-    public PersonaJuridica(int id, string nombre, DocumentoIdentidad documentoIdentidad, Direccion direccion, List<MedioContacto> mediosDeContacto, TipoJuridico tipo, string rubro)
-        : base(id, nombre, documentoIdentidad, direccion, mediosDeContacto)
+    public TipoJuridico Tipo { get; set; } = TipoJuridico.Gubernamental;
+    public string Rubro { get; set; } = "";
+    
+    public PersonaJuridica()
+    {
+    }
+    
+    public PersonaJuridica(string nombre, TipoJuridico tipo, string rubro, List<MedioContacto> medioDeContacto,
+        Direccion direccion,
+        DocumentoIdentidad documentoIdentidad) : base(nombre, medioDeContacto, direccion, documentoIdentidad)
     {
         Tipo = tipo;
         Rubro = rubro;

@@ -1,9 +1,9 @@
-﻿namespace AccesoAlimentario.Core.Entities.Personas.Colaboradores;
+﻿namespace AccesoAlimentario.Core.Entities.Personas;
 
 public enum TipoJuridico
 {
     Gubernamental,
-    ONG,
+    Ong,
     Empresa,
     Institucion
 }

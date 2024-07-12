@@ -6,26 +6,28 @@ namespace AccesoAlimentario.Core.Entities.Contribuciones;
 
 public class DistribucionViandas : FormaContribucion
 {
-    protected readonly ValidadorContribuciones _validadorContribuciones = new ValidarDistribucionVianda();
-    private Heladera _heladeraOrigen;
-    private Heladera _heladeraDestino;
-    private int _cantViandas;
-    private MotivoDistribucion _motivoDistribucion;
+    public Heladera HeladeraOrigen { get; set; } = null!;
+    public Heladera HeladeraDestino { get; set; } = null!;
+    public int CantViandas { get; set; } = 0;
+    public MotivoDistribucion MotivoDistribucion { get; set; } = MotivoDistribucion.Desperfecto;
 
-
+    public DistribucionViandas()
+    {
+    }
+    
     public DistribucionViandas(DateTime fechaContribucion, Heladera heladeraOrigen,
         Heladera heladeraDestino, int cantViandas, MotivoDistribucion motivoDistribucion)
         : base(fechaContribucion)
     {
-        _heladeraOrigen = heladeraOrigen;
-        _heladeraDestino = heladeraDestino;
-        _cantViandas = cantViandas;
-        _motivoDistribucion = motivoDistribucion;
+        HeladeraOrigen = heladeraOrigen;
+        HeladeraDestino = heladeraDestino;
+        CantViandas = cantViandas;
+        MotivoDistribucion = motivoDistribucion;
     }
 
 
     public override float CalcularPuntos()
     {
-        return AppSettings.Instance.ViandasDistribuidasCoef * _cantViandas;
+        return AppSettings.Instance.ViandasDistribuidasCoef * CantViandas;
     }
 }

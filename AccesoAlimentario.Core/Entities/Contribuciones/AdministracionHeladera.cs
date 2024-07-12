@@ -5,13 +5,16 @@ namespace AccesoAlimentario.Core.Entities.Contribuciones;
 
 public class AdministracionHeladera : FormaContribucion
 {
-    protected readonly ValidadorContribuciones _validadorContribuciones = new ValidadorAdministracionHeladera();
-    private Heladera _heladera;
+    public Heladera Heladera { get; set; } = null!;
+
+    public AdministracionHeladera()
+    {
+    }
 
     public AdministracionHeladera(DateTime fechaContribucion, Heladera heladera)
         : base(fechaContribucion)
     {
-        _heladera = heladera;
+        Heladera = heladera;
     }
 
     public override float CalcularPuntos()

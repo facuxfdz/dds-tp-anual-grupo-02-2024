@@ -1,18 +1,26 @@
-namespace AccesoAlimentario.Core.Entities.Personas.DocumentosIdentidad;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace AccesoAlimentario.Core.Entities.DocumentosIdentidad;
 
 public class DocumentoIdentidad
 {
-    private TipoDocumento _tipoDocumento;
-    private int _nroDocumento;
-    private DateOnly? _fechaNacimiento;
-    public DocumentoIdentidad(TipoDocumento tipoDocumento, int nroDocumento, DateOnly? fechaNacimiento)
-    {
-        _tipoDocumento = tipoDocumento;
-        _nroDocumento = nroDocumento;
-        _fechaNacimiento = fechaNacimiento;
-    }
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; private set; }
 
-    public TipoDocumento TipoDocumento => _tipoDocumento;
-    public int NroDocumento => _nroDocumento;
-    public DateOnly? FechaNacimiento => _fechaNacimiento;
+    public TipoDocumento TipoDocumento { get; set; } = TipoDocumento.Dni;
+    public int NroDocumento { get; set; } = 0;
+    public DateOnly? FechaNacimiento { get; set; } = null;
+    
+    public DocumentoIdentidad()
+    {
+    }
+    
+    public DocumentoIdentidad(TipoDocumento tipoDocumento, int nroDocumento, DateOnly fechaNacimiento)
+    {
+        TipoDocumento = tipoDocumento;
+        NroDocumento = nroDocumento;
+        FechaNacimiento = fechaNacimiento;
+    }
 }

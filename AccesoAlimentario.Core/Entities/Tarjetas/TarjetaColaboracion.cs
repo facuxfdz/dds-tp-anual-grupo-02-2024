@@ -6,21 +6,27 @@ namespace AccesoAlimentario.Core.Entities.Tarjetas;
 
 public class TarjetaColaboracion : Tarjeta
 {
-    private List<AutorizacionManipulacionHeladera> _autorizaciones;
+    public List<AutorizacionManipulacionHeladera> Autorizaciones { get; private set; } =
+        [];
+
+    public TarjetaColaboracion()
+    {
+    }
 
     public TarjetaColaboracion(string codigo, Colaborador propietario)
         : base(codigo, propietario)
     {
-        _autorizaciones = new List<AutorizacionManipulacionHeladera>();
+        Autorizaciones = [];
     }
 
     public AutorizacionManipulacionHeladera? TieneAutorizacion(Heladera heladera)
     {
-        return _autorizaciones.Find(autorizacion => autorizacion.Heladera == heladera && autorizacion.FechaExpiracion > DateTime.Now);
+        return Autorizaciones.Find(autorizacion =>
+            autorizacion.Heladera == heladera && autorizacion.FechaExpiracion > DateTime.Now);
     }
 
     public void AgregarAutorizacion(AutorizacionManipulacionHeladera autorizacion)
     {
-        _autorizaciones.Add(autorizacion);
+        Autorizaciones.Add(autorizacion);
     }
 }
