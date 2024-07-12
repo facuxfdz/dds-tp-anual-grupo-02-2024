@@ -19,9 +19,4 @@ public class DonacionVianda : FormaContribucion
         Heladera = heladera;
         Vianda = vianda;
     }
-
-    public override float CalcularPuntos()
-    {
-        return AppSettings.Instance.ViandasDonadasCoef;
-    }
 }

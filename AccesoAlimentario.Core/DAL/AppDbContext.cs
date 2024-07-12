@@ -46,6 +46,7 @@ public class AppDbContext : DbContext
     public DbSet<Telefono> Telefonos { get; set; } = null!;
     public DbSet<Whatsapp> Whatsapps { get; set; } = null!;
     public DbSet<Notificacion> Notificaciones { get; set; } = null!;
+    public DbSet<Persona> Personas { get; set; } = null!;
     public DbSet<PersonaHumana> PersonasHumanas { get; set; } = null!;
     public DbSet<PersonaJuridica> PersonasJuridicas { get; set; } = null!;
     public DbSet<Premio> Premios { get; set; } = null!;
@@ -57,6 +58,7 @@ public class AppDbContext : DbContext
     public DbSet<UsuarioSistema> UsuariosSistema { get; set; } = null!;
     public DbSet<RegistroMovimiento> RegistrosMovimientos { get; set; } = null!;
     public DbSet<RegistroTemperatura> RegistrosTemperaturas { get; set; } = null!;
+    public DbSet<Sensor> Sensores { get; set; } = null!;
     public DbSet<SensorMovimiento> SensoresMovimientos { get; set; } = null!;
     public DbSet<SensorTemperatura> SensoresTemperaturas { get; set; } = null!;
     public DbSet<Suscripcion> Suscripciones { get; set; } = null!;

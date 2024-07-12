@@ -1,6 +1,6 @@
 using AccesoAlimentario.Core.DAL;
 using AccesoAlimentario.Core.Entities.Personas;
-using AccesoAlimentario.Infraestructura.ImportacionColaboradores;
+using AccesoAlimentario.Core.Infraestructura.ImportacionColaboradores;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AccesoAlimentario.API.Controllers;

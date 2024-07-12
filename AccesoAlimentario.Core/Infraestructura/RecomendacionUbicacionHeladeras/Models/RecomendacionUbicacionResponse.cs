@@ -1,4 +1,4 @@
-namespace AccesoAlimentario.Infraestructura.RecomendacionUbicacionHeladeras.Models;
+namespace AccesoAlimentario.Core.Infraestructura.RecomendacionUbicacionHeladeras.Models;
 
 public class DatosResponse
 {

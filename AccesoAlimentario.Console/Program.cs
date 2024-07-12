@@ -1,24 +1,99 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿/* Inicio de repositorio y servicio */
 
-using AccesoAlimentario.Core.EmailObj;
+using AccesoAlimentario.Core.DAL;
+using AccesoAlimentario.Core.Entities.Direcciones;
+using AccesoAlimentario.Core.Entities.DocumentosIdentidad;
+using AccesoAlimentario.Core.Entities.MediosContacto;
+using AccesoAlimentario.Core.Entities.Notificaciones;
+using AccesoAlimentario.Core.Entities.Personas;
+using AccesoAlimentario.Core.Servicios;
+using Microsoft.EntityFrameworkCore;
 
+const string testCsv = @"Test//csvE2.csv";
 
-EmailService emailService = new EmailService();
+var options = new DbContextOptionsBuilder<AppDbContext>(options: new DbContextOptions<AppDbContext>())
+    .UseInMemoryDatabase(databaseName: "AccesoAlimentario")
+    .Options;
 
-await emailService.SendAsync("tuvieja@example.com", "nicoputo@example.com", "Tenemos a tu familia cautiva",
-    "<h1>Hello friend!</h1>");
+var dbcontext = new AppDbContext(options);
 
-//Console.WriteLine(politica10KMasComunes.Valida("admin123"));
-/*
-LecturaCsv read = new LecturaCsv();
+var unitOfWork = new UnitOfWork(dbcontext);
 
-List<Colaboracion> colaboraciones = read.LecturaCsvFile();
+var personasServicio = new PersonasServicio(unitOfWork);
+var colaboradoresServicio = new ColaboradoresServicio(unitOfWork, personasServicio);
+var autorizacionesServicio = new AutorizacionesServicio(unitOfWork);
+var colaboracionesServicio = new ColaboracionesServicio(unitOfWork, colaboradoresServicio);
+var heladerasServicio = new HeladerasServicio(unitOfWork);
+var importadorServicio = new ImportadorServicio(unitOfWork, personasServicio, colaboradoresServicio);
+var personasVulnerablesServicio = new PersonasVulnerablesServicio(unitOfWork);
+var premiosServicio = new PremiosServicio(unitOfWork);
+var recomendacionesServicio = new RecomendacionesServicio();
+var sensoreoServicio = new SensoreoServicio(unitOfWork);
+var tecnicosServicio = new TecnicosServicio(unitOfWork);
+var usuariosServicio = new UsuariosSistemaServicio(unitOfWork);
 
-foreach (var colaboracion in colaboraciones)
-{
-    Console.WriteLine($"{colaboracion.TipoDoc},{colaboracion.Documento},{colaboracion.Nombre}" +
-                      $"{colaboracion.Apellido},{colaboracion.Mail},{colaboracion.FechaColaboracion}," +
-                      $"{colaboracion.FormaColaboracion},{colaboracion.Cantidad}");
-}
-*/
-//
+var direccion = new Direccion
+(
+    "Calle",
+    "123",
+    "Avellaneda",
+    "A123B"
+);
+
+// Crear persona humana
+personasServicio.CrearHumana
+(
+    "Juan",
+    new Direccion
+    (
+        "Calle",
+        "123",
+        "Avellaneda",
+        "A123B"
+    ),
+    new DocumentoIdentidad(TipoDocumento.DNI, 123456789, DateOnly.MinValue),
+    new List<MedioContacto>
+    {
+        new Email(true, "marcospedaci@gmail.com")
+    },
+    "Perez",
+    SexoDocumento.Masculino
+);
+
+// Crear persona juridica
+personasServicio.CrearJuridica
+(
+    "Empresa",
+    new Direccion
+    (
+        "Calle",
+        "123",
+        "Avellaneda",
+        "A123B"
+    ),
+    new DocumentoIdentidad(TipoDocumento.CUIT, 123456789, DateOnly.MinValue),
+    new List<MedioContacto>
+    {
+        new Email(true, "marcospedaci@gmail.com")
+    },
+    TipoJuridico.Empresa,
+    "Rubro"
+);
+
+// Obtener personas
+var persona = personasServicio.Obtener();
+// persona.First().EnviarMensaje(new Notificacion("Mensaje de prueba", "Mensaje de prueba de notificación"));
+
+// Obtener recomendaciones
+
+var recomendaciones = recomendacionesServicio.ObtenerPuntosRecomendados(1, 2, 3);
+
+// Importar archivo
+
+var bytes = File.ReadAllBytes(testCsv);
+var base64 = Convert.ToBase64String(bytes);
+
+importadorServicio.Importar(base64);
+
+persona = personasServicio.Obtener();
+Console.WriteLine("Fin de la ejecución");

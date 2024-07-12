@@ -11,8 +11,8 @@ public class NotificacionFaltanteBuilder : INotificacionBuilder
         
     public Notificacion CrearNotificacion()
     {
-        string asunto = "Acceso Alimentario: Hay un faltante viandas";
-        string mensaje = $"Faltan {_cantidadHastaFaltante} viandas para vaciar la heladera. Por favor, reponer en la brevedad.";
+        var asunto = "Acceso Alimentario: Hay un faltante viandas";
+        var mensaje = $"Faltan {_cantidadHastaFaltante} viandas para vaciar la heladera. Por favor, reponer en la brevedad.";
         return new Notificacion(asunto, mensaje);
     }
 }

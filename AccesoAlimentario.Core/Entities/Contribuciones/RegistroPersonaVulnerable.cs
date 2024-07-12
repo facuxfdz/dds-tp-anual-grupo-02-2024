@@ -17,9 +17,4 @@ public class RegistroPersonaVulnerable : FormaContribucion
     {
         Tarjeta = tarjeta;
     }
-
-    public override float CalcularPuntos()
-    {
-        return AppSettings.Instance.TarjetasRepartidasCoef;
-    }
 }

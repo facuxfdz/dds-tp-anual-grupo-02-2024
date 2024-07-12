@@ -16,9 +16,4 @@ public class AdministracionHeladera : FormaContribucion
     {
         Heladera = heladera;
     }
-
-    public override float CalcularPuntos()
-    {
-        return 0;
-    }
 }

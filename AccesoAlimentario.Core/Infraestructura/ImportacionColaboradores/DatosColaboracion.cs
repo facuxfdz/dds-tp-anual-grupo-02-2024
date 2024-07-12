@@ -1,4 +1,4 @@
-namespace AccesoAlimentario.Infraestructura.ImportacionColaboradores;
+namespace AccesoAlimentario.Core.Infraestructura.ImportacionColaboradores;
 
 public class DatosColaboracion
 {

@@ -11,7 +11,7 @@ public class Colaborador : Rol
     public List<FormaContribucion> ContribucionesRealizadas { get; private set; } = [];
     public List<Suscripcion> Suscripciones { get; private set; } = [];
     public float Puntos { get; set; } = 0;
-    /*protected TarjetaColaboracion? TarjetaColaboracion = null;*/
+    public TarjetaColaboracion? TarjetaColaboracion = null;
 
     public Colaborador()
     {
@@ -52,8 +52,8 @@ public class Colaborador : Rol
         Suscripciones.Remove(suscripcion);
     }
 
-    /*public void AsignarTarjeta(TarjetaColaboracion tarjeta)
+    public void AsignarTarjeta(TarjetaColaboracion tarjeta)
     {
         TarjetaColaboracion = tarjeta;
-    }*/
+    }
 }

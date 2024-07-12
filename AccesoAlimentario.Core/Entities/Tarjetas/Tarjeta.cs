@@ -29,4 +29,9 @@ public abstract class Tarjeta
     {
         Accesos.Add(acceso);
     }
+    
+    public void AsignarPropietario(Rol propietario)
+    {
+        Propietario = propietario;
+    }
 }

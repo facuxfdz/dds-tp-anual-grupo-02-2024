@@ -1,4 +1,4 @@
-using AccesoAlimentario.Core.EmailObj;
+using AccesoAlimentario.Core.Infraestructura.EmailObj;
 using Microsoft.Extensions.Configuration;
 
 namespace AccesoAlimentario.Core.Settings;

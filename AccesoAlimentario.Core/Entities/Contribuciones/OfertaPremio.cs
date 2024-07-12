@@ -16,9 +16,4 @@ public class OfertaPremio : FormaContribucion
     {
         Premio = premio;
     }
-
-    public override float CalcularPuntos()
-    {
-        return 0;
-    }
 }

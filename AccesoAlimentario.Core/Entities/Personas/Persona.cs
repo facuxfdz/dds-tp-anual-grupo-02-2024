@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using AccesoAlimentario.Core.Entities.Direcciones;
 using AccesoAlimentario.Core.Entities.DocumentosIdentidad;
 using AccesoAlimentario.Core.Entities.MediosContacto;
+using AccesoAlimentario.Core.Entities.Notificaciones;
 using AccesoAlimentario.Core.Entities.Roles;
 
 namespace AccesoAlimentario.Core.Entities.Personas;
@@ -39,5 +40,19 @@ public abstract class Persona
         MediosDeContacto = medioDeContacto;
         Direccion = direccion;
         DocumentoIdentidad = documentoIdentidad;
+    }
+
+    public void AgregarRol(Rol rol)
+    {
+        Roles.Add(rol);
+    }
+
+    public void EnviarMensaje(Notificacion notificacion)
+    {
+        var medio = MediosDeContacto.Where(m => m.Preferida).FirstOrDefault();
+        if (medio != null)
+        {
+            medio.Enviar(notificacion);
+        }
     }
 }

@@ -12,7 +12,7 @@ public class ReporteBuilderHeladeraCambioViandas : IReporteBuilder
 
     public Reporte Generar(List<Heladera> heladera, List<Incidente> incidentes, List<FormaContribucion> contribuciones)
     {
-        string descripcion = "Reporte de cambio de viandas en heladera";
+        var descripcion = "Reporte de cambio de viandas en heladera";
         List<EntradaReporte> entradas = [];
         return new Reporte(descripcion, entradas);
     }

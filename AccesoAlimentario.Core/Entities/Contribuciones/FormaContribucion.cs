@@ -21,6 +21,4 @@ public abstract class FormaContribucion
     {
         FechaContribucion = fechaContribucion;
     }
-
-    public abstract float CalcularPuntos();
 }

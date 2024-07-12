@@ -1,8 +1,10 @@
+using System.Reflection.Metadata;
 using AccesoAlimentario.Core.DAL;
 using AccesoAlimentario.Core.Entities.Direcciones;
 using AccesoAlimentario.Core.Entities.DocumentosIdentidad;
 using AccesoAlimentario.Core.Entities.MediosContacto;
 using AccesoAlimentario.Core.Entities.Personas;
+using AccesoAlimentario.Core.Entities.Roles;
 
 namespace AccesoAlimentario.Core.Servicios;
 
@@ -33,14 +35,15 @@ public class PersonasServicio(UnitOfWork unitOfWork)
 
     public void Eliminar(int id)
     {
-        var pH = unitOfWork.PersonaHumanaRepository.GetById(id);
-        if (pH != null)
-            unitOfWork.PersonaHumanaRepository.Delete(pH);
-        else
+        var p = unitOfWork.PersonaRepository.GetById(id);
+        switch (p)
         {
-            var pJ = unitOfWork.PersonaJuridicaRepository.GetById(id);
-            if (pJ != null)
-                unitOfWork.PersonaJuridicaRepository.Delete(pJ);
+            case PersonaHumana ph:
+                unitOfWork.PersonaHumanaRepository.Delete(ph);
+                break;
+            case PersonaJuridica pj:
+                unitOfWork.PersonaJuridicaRepository.Delete(pj);
+                break;
         }
     }
 
@@ -92,5 +95,22 @@ public class PersonasServicio(UnitOfWork unitOfWork)
 
         if (rubro != null)
             persona.Rubro = rubro;*/
+    }
+
+    public void AgregarRol(int id, Rol rol)
+    {
+        var p = unitOfWork.PersonaRepository.GetById(id);
+        if (p != null)
+        {
+            p.AgregarRol(rol);
+        }
+    }
+
+    public Persona? Buscar(DocumentoIdentidad documento)
+    {
+        var persona = unitOfWork.PersonaRepository.Get().FirstOrDefault(p =>
+            p.DocumentoIdentidad.TipoDocumento == documento.TipoDocumento &&
+            p.DocumentoIdentidad.NroDocumento == documento.NroDocumento);
+        return persona;
     }
 }

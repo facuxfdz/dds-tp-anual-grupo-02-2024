@@ -11,8 +11,8 @@ public class NotificacionExcedenteBuilder : INotificacionBuilder
 
     public Notificacion CrearNotificacion()
     {
-        string asunto = "Acceso Alimentario: Hay un exceso de viandas";
-        string mensaje =
+        var asunto = "Acceso Alimentario: Hay un exceso de viandas";
+        var mensaje =
             $"Faltan {CantidadHastaLimite} viandas para que se llene la heladera. Por favor, distribuir en la brevedad.";
         return new Notificacion(asunto, mensaje);
     }
