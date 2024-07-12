@@ -1,28 +1,39 @@
-namespace AccesoAlimentario.Core.Entities.Personas.Tecnicos;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace AccesoAlimentario.Core.Entities.Roles;
 
 public class AreaCobertura
 {
-    private float _latitud;
-    private float _longitud;
-    private float _radio;
-    
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; private set; }
+
+    public float Latitud { get; set; } = 0f;
+    public float Longitud { get; set; } = 0f;
+    public float Radio { get; set; } = 0f;
+
+    public AreaCobertura()
+    {
+    }
+
     public AreaCobertura(float latitud, float longitud, float radio)
     {
-        _latitud = latitud;
-        _longitud = longitud;
-        _radio = radio;
+        Latitud = latitud;
+        Longitud = longitud;
+        Radio = radio;
     }
-    
+
     public void ActualizarArea(float latitud, float longitud, float radio)
     {
-        _latitud = latitud;
-        _longitud = longitud;
-        _radio = radio;
+        Latitud = latitud;
+        Longitud = longitud;
+        Radio = radio;
     }
 
     public bool EsCercano(float longitud, float latitud)
     {
-        var distancia = Math.Sqrt(Math.Pow(longitud - _longitud, 2) + Math.Pow(latitud - _latitud, 2));
-        return distancia <= _radio;
+        var distancia = Math.Sqrt(Math.Pow(longitud - Longitud, 2) + Math.Pow(latitud - Latitud, 2));
+        return distancia <= Radio;
     }
 }

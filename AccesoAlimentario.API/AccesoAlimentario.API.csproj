@@ -17,12 +17,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\AccesoAlimentario.Infraestructura\AccesoAlimentario.Infraestructura.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
       <EmbeddedResource Include="Resources\10mil-mas-comunes.txt">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </EmbeddedResource>
       <EmbeddedResource Include="Resources\appsettings.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -30,9 +26,10 @@
       <EmbeddedResource Include="Resources\CoeficientesPuntos.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </EmbeddedResource>
-      <EmbeddedResource Include="Resources\csvE2.csv">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\AccesoAlimentario.Core\AccesoAlimentario.Core.csproj" />
     </ItemGroup>
 
 </Project>

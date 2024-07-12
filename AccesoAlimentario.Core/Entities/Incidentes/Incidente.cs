@@ -1,15 +1,30 @@
-﻿namespace AccesoAlimentario.Core.Entities.Incidentes;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace AccesoAlimentario.Core.Entities.Incidentes;
 
 public abstract class Incidente
 {
-    protected List<VisitaTecnica> _visitasTecnicas;
-    protected DateTime _fecha;
-    protected bool _resuelto;
-    
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; private set; }
+
+    public List<VisitaTecnica> VisitasTecnicas { get; set; } = [];
+    public DateTime Fecha { get; set; } = DateTime.Now;
+    public bool Resuelto { get; set; } = false;
+
     public Incidente()
     {
-        _visitasTecnicas = new List<VisitaTecnica>();
-        _fecha = DateTime.Now;
-        _resuelto = false;
+    }
+    
+    public Incidente(DateTime fecha, bool resuelto)
+    {
+        Fecha = fecha;
+        Resuelto = resuelto;
+    }
+    
+    public void AgregarVisitaTecnica(VisitaTecnica visitaTecnica)
+    {
+        VisitasTecnicas.Add(visitaTecnica);
     }
 }

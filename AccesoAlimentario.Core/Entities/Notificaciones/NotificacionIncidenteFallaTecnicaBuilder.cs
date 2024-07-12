@@ -2,30 +2,30 @@ namespace AccesoAlimentario.Core.Entities.Notificaciones;
 
 public class NotificacionIncidenteFallaTecnicaBuilder : INotificacionBuilder
 {
-    private string? descripcion;
-    private string? foto;
+    private string? _descripcion;
+    private string? _foto;
     
     public NotificacionIncidenteFallaTecnicaBuilder(string? descripcion, string? foto)
     {
-        this.descripcion = descripcion;
-        this.foto = foto;
+        this._descripcion = descripcion;
+        this._foto = foto;
     }
         
     public Notificacion CrearNotificacion()
     {
-        string asunto = "Acceso Alimentario: Un usuario ha reportado una Falla Técnica";
-        string mensaje = $"Un usuario ha reportado una falla tecnica en una heladera. Por favor, acudir al lugar en la brevedad.";
-        if (descripcion != null || foto != null)
+        var asunto = "Acceso Alimentario: Un usuario ha reportado una Falla Técnica";
+        var mensaje = $"Un usuario ha reportado una falla tecnica en una heladera. Por favor, acudir al lugar en la brevedad.";
+        if (_descripcion != null || _foto != null)
         {
             mensaje += "\nSe adjunta informacion adicional proporcionada por el usuario";
         }
-        if (descripcion != null)
+        if (_descripcion != null)
         {
-            mensaje += $"\nDescripción: {descripcion}";
+            mensaje += $"\nDescripción: {_descripcion}";
         }
-        if (foto != null)
+        if (_foto != null)
         {
-            mensaje += $"\nFoto: {foto}";
+            mensaje += $"\nFoto: {_foto}";
         }
         return new Notificacion(asunto, mensaje);
     }

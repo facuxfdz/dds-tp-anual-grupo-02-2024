@@ -1,8 +1,12 @@
 ﻿namespace AccesoAlimentario.Core.Entities.SuscripcionesColaboradores;
 
-public class SuscripcionIncidenteHeladera
+public class SuscripcionIncidenteHeladera : Suscripcion
 {
-    public void notificarColaborador()
+    public SuscripcionIncidenteHeladera()
+    {
+    }
+
+    public void NotificarColaborador()
     {
         //TODO
     }

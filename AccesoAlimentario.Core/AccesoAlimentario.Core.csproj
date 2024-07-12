@@ -30,4 +30,8 @@
       <PackageReference Include="RestSharp" Version="111.0.1-alpha.0.5" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Infraestructura\" />
+    </ItemGroup>
+
 </Project>

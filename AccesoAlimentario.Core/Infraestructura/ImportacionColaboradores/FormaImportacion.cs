@@ -1,6 +1,6 @@
 using AccesoAlimentario.Core.Entities.Roles;
 
-namespace AccesoAlimentario.Infraestructura.ImportacionColaboradores;
+namespace AccesoAlimentario.Core.Infraestructura.ImportacionColaboradores;
 
 public abstract class FormaImportacion
 {

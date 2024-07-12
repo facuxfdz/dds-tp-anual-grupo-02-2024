@@ -1,3 +1,4 @@
+using AccesoAlimentario.Core.DAL;
 using AccesoAlimentario.Core.Entities.Contribuciones;
 using AccesoAlimentario.Core.Entities.Heladeras;
 using AccesoAlimentario.Core.Entities.Personas;
@@ -9,112 +10,128 @@ using AccesoAlimentario.Core.Settings;
 namespace AccesoAlimentario.Core.Servicios;
 
 //TODO Los validadores de la forma de contribucion no deberian estar en la forma en si, ya que hay que primero crear el objeto al pedo y despues 
-public class ColaboracionesServicio
+public class ColaboracionesServicio(UnitOfWork unitOfWork, ColaboradoresServicio colaboradoresServicio)
 {
     //Cuando la colaboracion viene por el importador, se crea con una fecha
-    public FormaContribucion crearAdministracionHeladera(Colaborador colab, Heladera heladera, DateTime? fechaContr)
+    public FormaContribucion CrearAdministracionHeladera(Colaborador colab, Heladera heladera, DateTime? fechaContr)
     {
         var fecha = fechaContr ?? DateTime.Now;
-        AdministracionHeladera formaAdministracionHeladera = new AdministracionHeladera(fecha, heladera);
-        if (!verificarColab(formaAdministracionHeladera, fechaContr, colab))
+        var formaAdministracionHeladera = new AdministracionHeladera(fecha, heladera);
+        if (!VerificarColab(formaAdministracionHeladera, fechaContr, colab))
         {
-           throw new Exception("No tiene autorizacion para realizar esta colaboracion" );
+            throw new Exception("No tiene autorizacion para realizar esta colaboracion");
         }
+
+        unitOfWork.AdministracionHeladeraRepository.Insert(formaAdministracionHeladera);
 
         //Se le asignan los puntos al colaborador
         //Nada que agregar, ya que no se le asignan puntos por esta colaboracion
 
+
         return formaAdministracionHeladera;
     }
 
-    public FormaContribucion crearDistribucionViandas(Colaborador colab,Heladera heladeraOrigen, Heladera heladeraDestino, int cant_viandas, MotivoDistribucion motivo, DateTime? fechaContr)
+    public FormaContribucion CrearDistribucionViandas(Colaborador colab, Heladera heladeraOrigen,
+        Heladera heladeraDestino, int cantViandas, MotivoDistribucion motivo, DateTime? fechaContr)
     {
         var fecha = fechaContr ?? DateTime.Now;
 
-        DistribucionViandas formaDistribucionViandas = new DistribucionViandas(fecha, heladeraOrigen, heladeraDestino, cant_viandas, motivo);
-        
-        if (!verificarColab(formaDistribucionViandas, fechaContr, colab))
+        var formaDistribucionViandas =
+            new DistribucionViandas(fecha, heladeraOrigen, heladeraDestino, cantViandas, motivo);
+
+        if (!VerificarColab(formaDistribucionViandas, fechaContr, colab))
         {
-           throw new Exception("No tiene autorizacion para realizar esta colaboracion" );
+            throw new Exception("No tiene autorizacion para realizar esta colaboracion");
         }
 
+        unitOfWork.DistribucionViandasRepository.Insert(formaDistribucionViandas);
+
         //Se le asignan los puntos al colaborador
-        colab.AgregarPuntos(AppSettings.Instance.TarjetasRepartidasCoef * cant_viandas); 
+        colaboradoresServicio.AgregarPuntos(colab, AppSettings.Instance.TarjetasRepartidasCoef * cantViandas);
 
         return formaDistribucionViandas;
     }
 
-    public FormaContribucion crearRegistroPersonaVulnerable(Colaborador colab, Persona persona, int cantMenores, TarjetaConsumo tarjetaConsumo, DateTime? fechaContr)
+    public FormaContribucion CrearRegistroPersonaVulnerable(Colaborador colab, Persona persona, int cantMenores,
+        TarjetaConsumo tarjetaConsumo, DateTime? fechaContr)
     {
         var fecha = fechaContr ?? DateTime.Now;
-        PersonaVulnerable personaVulnerable = new PersonaVulnerable(0, persona, cantMenores, tarjetaConsumo); //TODO, ver como se maneja el id
-        tarjetaConsumo.setPersonaVulnerable(personaVulnerable);
-        RegistroPersonaVulnerable contribucionRegistroPersonaVul = new RegistroPersonaVulnerable(fecha, tarjetaConsumo);
-        
+        var personaVulnerable =
+                new PersonaVulnerable(persona, cantMenores, tarjetaConsumo);
+        tarjetaConsumo.AsignarPropietario(personaVulnerable);
+        var contribucionRegistroPersonaVul = new RegistroPersonaVulnerable(fecha, tarjetaConsumo);
 
-        if (!verificarColab(contribucionRegistroPersonaVul, fechaContr, colab))
+        if (!VerificarColab(contribucionRegistroPersonaVul, fechaContr, colab))
         {
-           throw new Exception("No tiene autorizacion para realizar esta colaboracion" );
+            throw new Exception("No tiene autorizacion para realizar esta colaboracion");
         }
 
+        unitOfWork.RegistroPersonaVulnerableRepository.Insert(contribucionRegistroPersonaVul);
+        
         //Se le asignan los puntos al colaborador
-        colab.AgregarPuntos(AppSettings.Instance.TarjetasRepartidasCoef); 
+        colaboradoresServicio.AgregarPuntos(colab, AppSettings.Instance.TarjetasRepartidasCoef);
 
         return contribucionRegistroPersonaVul;
-    
     }
 
-    public FormaContribucion crearDonacionMonetaria(Colaborador colab,float monto, int frecDias, DateTime? fechaContr)
+    public FormaContribucion CrearDonacionMonetaria(Colaborador colab, float monto, int frecDias, DateTime? fechaContr)
     {
         var fecha = fechaContr ?? DateTime.Now;
-        DonacionMonetaria formaDonacionMonetaria = new DonacionMonetaria(fecha, monto, frecDias);
+        var formaDonacionMonetaria = new DonacionMonetaria(fecha, monto, frecDias);
 
-        if (!verificarColab(formaDonacionMonetaria, fechaContr, colab))
+        if (!VerificarColab(formaDonacionMonetaria, fechaContr, colab))
         {
-           throw new Exception("No tiene autorizacion para realizar esta colaboracion" );
+            throw new Exception("No tiene autorizacion para realizar esta colaboracion");
         }
 
+        unitOfWork.DonacionMonetariaRepository.Insert(formaDonacionMonetaria);
+
         //Se le asignan los puntos al colaborador
-        colab.AgregarPuntos(AppSettings.Instance.PesoDonadosCoef * monto);
+        colaboradoresServicio.AgregarPuntos(colab, AppSettings.Instance.PesoDonadosCoef * monto);
 
 
         return formaDonacionMonetaria;
     }
 
-    public FormaContribucion crearDonacionVianda(Colaborador colab,Heladera heladera, Vianda vianda, DateTime? fechaContr)
+    public FormaContribucion CrearDonacionVianda(Colaborador colab, Heladera heladera, Vianda vianda,
+        DateTime? fechaContr)
     {
         var fecha = fechaContr ?? DateTime.Now;
-        DonacionVianda formaDonacionVianda = new DonacionVianda(fecha, heladera, vianda);
+        var formaDonacionVianda = new DonacionVianda(fecha, heladera, vianda);
 
-        if (!verificarColab(formaDonacionVianda, fechaContr, colab))
+        if (!VerificarColab(formaDonacionVianda, fechaContr, colab))
         {
-           throw new Exception("No tiene autorizacion para realizar esta colaboracion" );
+            throw new Exception("No tiene autorizacion para realizar esta colaboracion");
         }
 
+        unitOfWork.DonacionViandaRepository.Insert(formaDonacionVianda);
+
         //Se le asignan los puntos al colaborador
-        colab.AgregarPuntos(AppSettings.Instance.ViandasDonadasCoef);
+        colaboradoresServicio.AgregarPuntos(colab, AppSettings.Instance.ViandasDonadasCoef);
 
         return formaDonacionVianda;
     }
 
-    public FormaContribucion crearOfertaPremio(Colaborador colab, Premio premio, DateTime? fechaContr)
+    public FormaContribucion CrearOfertaPremio(Colaborador colab, Premio premio, DateTime? fechaContr)
     {
         var fecha = fechaContr ?? DateTime.Now;
-        OfertaPremio formaOfertaPremio = new OfertaPremio(fecha, premio);
+        var formaOfertaPremio = new OfertaPremio(fecha, premio);
 
-        if (!verificarColab(formaOfertaPremio, fechaContr, colab))
+        if (!VerificarColab(formaOfertaPremio, fechaContr, colab))
         {
-           throw new Exception("No tiene autorizacion para realizar esta colaboracion" );
+            throw new Exception("No tiene autorizacion para realizar esta colaboracion");
         }
+
+        unitOfWork.OfertaPremioRepository.Insert(formaOfertaPremio);
 
         //No se asignan puntos por esta colaboracion
 
         return formaOfertaPremio;
     }
 
-    public bool verificarColab(FormaContribucion formaContri, DateTime? fecha, Colaborador colab)
+    public bool VerificarColab(FormaContribucion formaContri, DateTime? fecha, Colaborador colab)
     {
-        // return fecha != null && formaContri.EsValido(colab);
+        //return fecha != null && formaContri.EsValido(colab);
         return true;
-    } 
+    }
 }

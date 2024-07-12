@@ -11,12 +11,12 @@ public class ValidadorContrasenias
 
     public ValidadorContrasenias()
     {
-        _validaciones = new List<IPoliticaValidacion>
-        {
+        _validaciones =
+        [
             new PoliticaLongitud(),
             new Politica10KMasComunes(),
             new PoliticaComplejidad()
-        };
+        ];
     }
     
     public bool Validar(string password)

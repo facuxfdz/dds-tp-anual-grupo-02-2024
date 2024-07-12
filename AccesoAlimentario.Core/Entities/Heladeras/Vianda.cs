@@ -1,19 +1,24 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using AccesoAlimentario.Core.Entities.Roles;
 
 namespace AccesoAlimentario.Core.Entities.Heladeras;
 
 public class Vianda
 {
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; private set; }
-    public string Comida { get; private set; }
-    public DateTime FechaDonacion { get; private set; }
-    public DateTime FechaCaducidad { get; private set; }
-    public Colaborador Colaborador { get; private set; }
-    public Heladera Heladera { get; private set; }
-    public float Calorias { get; private set; }
-    public float Peso { get; private set; }
-    public EstadoVianda EstadoVianda { get; private set; }
-    public ViandaEstandar UnidadEstandar { get; private set; }
+
+    public string Comida { get; private set; } = null!;
+    public DateTime FechaDonacion { get; private set; } = DateTime.Now;
+    public DateTime FechaCaducidad { get; private set; } = DateTime.Now;
+    public Colaborador Colaborador { get; private set; } = null!;
+    public Heladera Heladera { get; private set; } = null!;
+    public float Calorias { get; private set; } = 0;
+    public float Peso { get; private set; } = 0;
+    public EstadoVianda EstadoVianda { get; private set; } = EstadoVianda.Disponible;
+    public ViandaEstandar UnidadEstandar { get; private set; } = null!;
 
     public Vianda()
     {

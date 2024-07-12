@@ -5,13 +5,15 @@ namespace AccesoAlimentario.Core.Entities.Contribuciones;
 
 public class OfertaPremio : FormaContribucion
 {
-    protected readonly ValidadorContribuciones _validadorContribuciones = new ValidadorOfertaPremio();
-    private Premio _premio;
+    public Premio Premio { get; set; } = null!;
 
+    public OfertaPremio()
+    {
+    }
+    
     public OfertaPremio(DateTime fechaContribucion, Premio premio)
         : base(fechaContribucion)
     {
-        _premio = premio;
+        Premio = premio;
     }
-
 }

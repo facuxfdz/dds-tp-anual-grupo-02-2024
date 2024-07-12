@@ -11,8 +11,8 @@ public class NotificacionUsuarioCreadoBuilder : INotificacionBuilder
     
     public Notificacion CrearNotificacion()
     {
-        string asunto = "Acceso Alimentario: Su usuario ha sido creado con exito";
-        string mensaje = $"Su usuario se ha creado con exito, su contraseña es: {_contrasenia}. No comparta esta información, muchas gracias.";
+        var asunto = "Acceso Alimentario: Su usuario ha sido creado con exito";
+        var mensaje = $"Su usuario se ha creado con exito, su contraseña es: {_contrasenia}. No comparta esta información, muchas gracias.";
         return new Notificacion(asunto, mensaje);
     }
 }

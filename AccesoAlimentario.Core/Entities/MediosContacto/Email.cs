@@ -1,18 +1,25 @@
 using AccesoAlimentario.Core.Entities.Notificaciones;
+using AccesoAlimentario.Core.Infraestructura.EmailObj;
 
 namespace AccesoAlimentario.Core.Entities.MediosContacto;
 
 public class Email : MedioContacto
 {
-    private string _direccion;
+    public string Direccion { get; set; } = "";
 
-    public Email(string direccion, bool preferida) : base(preferida)
+    public Email()
     {
-        _direccion = direccion;
+    }
+
+    public Email(bool preferida, string direccion) : base(preferida)
+    {
+        Direccion = direccion;
     }
 
     public override void Enviar(Notificacion notificacion)
     {
-        throw new NotImplementedException();
+        var e = new EmailService();
+        e.Enviar("Grupo 02", this.Direccion, notificacion.Asunto, notificacion.Mensaje);
+        this.Historial.Add(notificacion);
     }
 }

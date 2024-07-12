@@ -1,23 +1,24 @@
 ﻿using AccesoAlimentario.Core.Entities.Direcciones;
+using AccesoAlimentario.Core.Entities.DocumentosIdentidad;
 using AccesoAlimentario.Core.Entities.MediosContacto;
-using AccesoAlimentario.Core.Entities.Personas.DocumentosIdentidad;
 
 namespace AccesoAlimentario.Core.Entities.Personas;
 
 public class PersonaHumana : Persona
 {
-    public string Apellido { get; set; }
-    public SexoDocumento? Sexo {get; set; }
+    public string Apellido { get; set; } = "";
+    public SexoDocumento Sexo { get; set; } = SexoDocumento.Otro;
     
-    public PersonaHumana() : base()
+    public PersonaHumana()
     {
     }
 
-    public PersonaHumana(int id, string nombre, string apellido, DocumentoIdentidad documentoIdentidad, Direccion direccion, List<MedioContacto> mediosDeContacto, SexoDocumento? sexo)
-        : base(id, nombre, documentoIdentidad, direccion, mediosDeContacto)
+    public PersonaHumana(string nombre, string apellido, List<MedioContacto> medioDeContacto, Direccion direccion,
+        DocumentoIdentidad documentoIdentidad, SexoDocumento sexo) : base(nombre, medioDeContacto, direccion, documentoIdentidad)
     {
         Apellido = apellido;
         Sexo = sexo;
     }
+    
     
 }

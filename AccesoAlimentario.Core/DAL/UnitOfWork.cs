@@ -1,21 +1,17 @@
-using AccesoAlimentario.Core.Entities;
 using AccesoAlimentario.Core.Entities.Autorizaciones;
 using AccesoAlimentario.Core.Entities.Contribuciones;
 using AccesoAlimentario.Core.Entities.Direcciones;
+using AccesoAlimentario.Core.Entities.DocumentosIdentidad;
 using AccesoAlimentario.Core.Entities.Heladeras;
 using AccesoAlimentario.Core.Entities.Incidentes;
 using AccesoAlimentario.Core.Entities.MediosContacto;
 using AccesoAlimentario.Core.Entities.Notificaciones;
 using AccesoAlimentario.Core.Entities.Personas;
-using AccesoAlimentario.Core.Entities.Personas.DocumentosIdentidad;
-using AccesoAlimentario.Core.Entities.Personas.PersonaJuridica;
-using AccesoAlimentario.Core.Entities.Personas.Tecnicos;
 using AccesoAlimentario.Core.Entities.Premios;
 using AccesoAlimentario.Core.Entities.Roles;
 using AccesoAlimentario.Core.Entities.Sensores;
 using AccesoAlimentario.Core.Entities.SuscripcionesColaboradores;
 using AccesoAlimentario.Core.Entities.Tarjetas;
-using AccesoAlimentario.Core.Entities.Usuarios;
 
 namespace AccesoAlimentario.Core.DAL;
 
@@ -46,6 +42,7 @@ public class UnitOfWork(AppDbContext context)
     private GenericRepository<Telefono> _telefonoRepository = null!;
     private GenericRepository<Whatsapp> _whatsappRepository = null!;
     private GenericRepository<Notificacion> _notificacionRepository = null!;
+    private GenericRepository<Persona> _personaRepository = null!;
     private GenericRepository<PersonaHumana> _personaHumanaRepository = null!;
     private GenericRepository<PersonaJuridica> _personaJuridicaRepository = null!;
     private GenericRepository<Premio> _premioRepository = null!;
@@ -57,6 +54,7 @@ public class UnitOfWork(AppDbContext context)
     private GenericRepository<UsuarioSistema> _usuarioSistemaRepository = null!;
     private GenericRepository<RegistroMovimiento> _registroMovimientoRepository = null!;
     private GenericRepository<RegistroTemperatura> _registroTemperaturaRepository = null!;
+    private GenericRepository<Sensor> _sensorRepository = null!;
     private GenericRepository<SensorMovimiento> _sensorMovimientoRepository = null!;
     private GenericRepository<SensorTemperatura> _sensorTemperaturaRepository = null!;
     private GenericRepository<Suscripcion> _suscripcionRepository = null!;
@@ -94,6 +92,7 @@ public class UnitOfWork(AppDbContext context)
     public GenericRepository<Telefono> TelefonoRepository => _telefonoRepository ??= new GenericRepository<Telefono>(context);
     public GenericRepository<Whatsapp> WhatsappRepository => _whatsappRepository ??= new GenericRepository<Whatsapp>(context);
     public GenericRepository<Notificacion> NotificacionRepository => _notificacionRepository ??= new GenericRepository<Notificacion>(context);
+    public GenericRepository<Persona> PersonaRepository => _personaRepository ??= new GenericRepository<Persona>(context);
     public GenericRepository<PersonaHumana> PersonaHumanaRepository => _personaHumanaRepository ??= new GenericRepository<PersonaHumana>(context);
     public GenericRepository<PersonaJuridica> PersonaJuridicaRepository => _personaJuridicaRepository ??= new GenericRepository<PersonaJuridica>(context);
     public GenericRepository<Premio> PremioRepository => _premioRepository ??= new GenericRepository<Premio>(context);
@@ -105,6 +104,7 @@ public class UnitOfWork(AppDbContext context)
     public GenericRepository<UsuarioSistema> UsuarioSistemaRepository => _usuarioSistemaRepository ??= new GenericRepository<UsuarioSistema>(context);
     public GenericRepository<RegistroMovimiento> RegistroMovimientoRepository => _registroMovimientoRepository ??= new GenericRepository<RegistroMovimiento>(context);
     public GenericRepository<RegistroTemperatura> RegistroTemperaturaRepository => _registroTemperaturaRepository ??= new GenericRepository<RegistroTemperatura>(context);
+    public GenericRepository<Sensor> SensorRepository => _sensorRepository ??= new GenericRepository<Sensor>(context);
     public GenericRepository<SensorMovimiento> SensorMovimientoRepository => _sensorMovimientoRepository ??= new GenericRepository<SensorMovimiento>(context);
     public GenericRepository<SensorTemperatura> SensorTemperaturaRepository => _sensorTemperaturaRepository ??= new GenericRepository<SensorTemperatura>(context);
     public GenericRepository<Suscripcion> SuscripcionRepository => _suscripcionRepository ??= new GenericRepository<Suscripcion>(context);

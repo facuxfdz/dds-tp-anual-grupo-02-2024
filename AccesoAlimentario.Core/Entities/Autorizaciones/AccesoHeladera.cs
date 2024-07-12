@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices.JavaScript;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using AccesoAlimentario.Core.Entities.Heladeras;
 using AccesoAlimentario.Core.Entities.Tarjetas;
 
@@ -6,23 +7,28 @@ namespace AccesoAlimentario.Core.Entities.Autorizaciones;
 
 public class AccesoHeladera
 {
-    private Tarjeta _tarjeta;
-    private DateTime _fechaAcceso;
-    private TipoAcceso _tipoAcceso = TipoAcceso.INGRESO_VIANDA;
-    private Heladera _heladera;
-    private AutorizacionManipulacionHeladera? _autorizacion;
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; set; }
 
-    public AccesoHeladera(Tarjeta tarjeta, DateTime fechaAcceso, TipoAcceso tipoAcceso, Heladera heladera)
+    public Tarjeta Tarjeta { get; set; } = null!;
+    public DateTime FechaAcceso { get; set; } = DateTime.Now;
+    public TipoAcceso TipoAcceso { get; set; } = TipoAcceso.IngresoVianda;
+    public Heladera Heladera { get; set; } = null!;
+    public AutorizacionManipulacionHeladera? Autorizacion { get; set; } = null!;
+    
+    public AccesoHeladera() { }
+    
+    public AccesoHeladera(Tarjeta tarjeta, Heladera heladera, TipoAcceso tipoAcceso)
     {
-        _tarjeta = tarjeta;
-        _fechaAcceso = fechaAcceso;
-        _tipoAcceso = tipoAcceso;
-        _heladera = heladera;
+        Tarjeta = tarjeta;
+        Heladera = heladera;
+        TipoAcceso = tipoAcceso;
     }
 
     public bool VerificarValidez()
     {
-        if (_tarjeta is not TarjetaColaboracion tarjeta) return true;
-        return tarjeta.TieneAutorizacion(_heladera) != null;
+        if (Tarjeta is not TarjetaColaboracion tarjeta) return true;
+        return tarjeta.TieneAutorizacion(Heladera) != null;
     }
 }

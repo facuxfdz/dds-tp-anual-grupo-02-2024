@@ -1,25 +1,26 @@
+using System.Linq.Expressions;
+using AccesoAlimentario.Core.DAL;
 using AccesoAlimentario.Core.Entities.Premios;
 using AccesoAlimentario.Core.Entities.Roles;
 
 namespace AccesoAlimentario.Core.Servicios;
 
-public class PremiosServicio
+public class PremiosServicio(UnitOfWork unitOfWork)
 {
-    public void canjearPremio(Premio premio, Colaborador colaborador)
+    public void CanjearPremio(Premio premio, Colaborador colaborador)
     {
-        throw new NotImplementedException();
-        /*if (premio.GetPuntosNecesarios() > colaborador.Puntos())
+        if (premio.GetPuntosNecesarios() > colaborador.Puntos)
         {
-            throw new PuntosInsuficientesException(); //TODO
+            throw new InvalidOperationException("No tiene suficientes puntos para canjear el premio");
         }
-        colaborador.DescontarPuntos(premio.GetPuntosNecesarios()); //TODO, siento que esto deberia esatr dentro de Reclamar, pero no se si rompe encapsulamiento
-        premio.Reclamar(colaborador);   */
+
+        colaborador.DescontarPuntos(premio.GetPuntosNecesarios());
+        premio.Reclamar(colaborador);
     }
 
-    public Premio[] obtenerPremios()
+    public ICollection<Premio> ObtenerPremios()
     {
-        throw new NotImplementedException();
-        // TODO: HACER
-        /*return null; // Placeholder para que compile*/
+        Expression<Func<Premio, bool>> filter = c => c.ReclamadoPor == null;
+        return unitOfWork.PremioRepository.Get(filter: filter).ToList();
     }
 }

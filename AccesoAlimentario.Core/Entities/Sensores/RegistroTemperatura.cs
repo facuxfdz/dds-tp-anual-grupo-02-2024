@@ -1,13 +1,24 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace AccesoAlimentario.Core.Entities.Sensores;
 
 public class RegistroTemperatura
 {
-    private DateTime _date;
-    private float _temperatura;
-    
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; private set; }
+
+    public DateTime Date { get; set; } = DateTime.Now;
+    public float Temperatura { get; set; } = 0;
+
+    public RegistroTemperatura()
+    {
+    }
+
     public RegistroTemperatura(DateTime date, float temperatura)
     {
-        _date = date;
-        _temperatura = temperatura;
+        Date = date;
+        Temperatura = temperatura;
     }
 }

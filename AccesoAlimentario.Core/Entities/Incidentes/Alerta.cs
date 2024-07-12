@@ -2,10 +2,14 @@
 
 public class Alerta : Incidente
 {
-    private TipoAlerta _tipo;
-    
+    public TipoAlerta Tipo { get; private set; } = TipoAlerta.Conexion;
+
+    public Alerta()
+    {
+    }
+
     public Alerta(TipoAlerta tipo) : base()
     {
-        _tipo = tipo;
+        Tipo = tipo;
     }
 }

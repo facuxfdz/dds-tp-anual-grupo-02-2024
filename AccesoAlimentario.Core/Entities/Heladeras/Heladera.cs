@@ -10,47 +10,47 @@ public class Heladera
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; private set; }
-    public PuntoEstrategico PuntoEstrategico;
-    public List<Vianda> Viandas;
-    public EstadoHeladera EstadoHeladera;
-    public DateTime FechaInstalacion;
-    public float TemperaturaMinimaConfig { get; set; }
-    public float TemperaturaMaximaConfig { get; set; }
-    public List<ISensor> Sensores;
-    public List<Incidente> Incidentes;
-    public ModeloHeladera Modelo;
+
+    public PuntoEstrategico PuntoEstrategico { get; set; } = null!;
+    public List<Vianda> Viandas { get; set; } = null!;
+    public EstadoHeladera EstadoHeladera { get; set; } = EstadoHeladera.FueraServicio;
+    public DateTime FechaInstalacion { get; set; } = DateTime.Now;
+    public float TemperaturaMinimaConfig { get; set; } = 0;
+    public float TemperaturaMaximaConfig { get; set; } = 0;
+    public List<Sensor> Sensores { get; set; } = [];
+    public List<Incidente> Incidentes { get; set; } = [];
+    public ModeloHeladera Modelo { get; set; } = null!;
 
     public Heladera()
     {
     }
-    public Heladera(PuntoEstrategico puntoEstrategico,float temperaturaMinima, float temperaturaMaxima, ModeloHeladera modelo)
+
+    public Heladera(PuntoEstrategico puntoEstrategico, float temperaturaMinima, float temperaturaMaxima,
+        ModeloHeladera modelo)
     {
         PuntoEstrategico = puntoEstrategico;
-        Viandas = new List<Vianda>();
         EstadoHeladera = EstadoHeladera.Activa;
         FechaInstalacion = DateTime.Now;
         TemperaturaMinimaConfig = temperaturaMinima;
         TemperaturaMaximaConfig = temperaturaMaxima;
-        Sensores = new List<ISensor>();
-        Incidentes = new List<Incidente>();
         Modelo = modelo;
     }
-    
+
     public void ActualizarEstado(EstadoHeladera estadoHeladera)
     {
         EstadoHeladera = estadoHeladera;
     }
 
-    public void CambioEstadoSensorTemperatura(float dato){
-        if(dato >= TemperaturaMinimaConfig || dato <= TemperaturaMaximaConfig)
-        { 
+    public void CambioEstadoSensorTemperatura(float dato)
+    {
+        if (dato >= TemperaturaMinimaConfig || dato <= TemperaturaMaximaConfig)
+        {
             //TODO cambiarlas a las del fabricante
             //TODO: aca se cambiaria el estado del sensor, pero hay una lista
         }
         else
         {
             throw new Exception("Rango de temperatura invalido");
-
         }
     }
 
@@ -60,12 +60,13 @@ public class Heladera
         //TODO: aca se cambiaria el estado del sensor, pero hay una lista
     }
 
-    public void AgregarSensor(ISensor sensor)
+    public void AgregarSensor(Sensor sensor)
     {
         Sensores.Add(sensor);
     }
-    
-    public void EliminarSensor(ISensor sensor){
+
+    public void EliminarSensor(Sensor sensor)
+    {
         Sensores.Remove(sensor);
     }
 
@@ -88,5 +89,4 @@ public class Heladera
     {
         return PuntoEstrategico.Longitud;
     }
-
 }

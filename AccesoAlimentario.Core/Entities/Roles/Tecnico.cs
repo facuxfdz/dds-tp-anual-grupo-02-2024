@@ -1,30 +1,34 @@
 using AccesoAlimentario.Core.Entities.Heladeras;
-using AccesoAlimentario.Core.Entities.Roles;
+using AccesoAlimentario.Core.Entities.Personas;
 
-namespace AccesoAlimentario.Core.Entities.Personas.Tecnicos;
+namespace AccesoAlimentario.Core.Entities.Roles;
 
 public class Tecnico : Rol
 {
-    private AreaCobertura _areaCobertura;
-
+    public AreaCobertura AreaCobertura { get; private set; } = null!;
+    
     public Tecnico()
     {
     }
-    public Tecnico(int id,Persona persona, AreaCobertura areaCobertura)
-        : base(id,persona)
+    
+    public Tecnico(Persona persona, AreaCobertura areaCobertura) : base(persona)
     {
-        _areaCobertura = areaCobertura;
+        AreaCobertura = areaCobertura;
     }
 
     public void ActualizarCobertura(AreaCobertura areaCobertura)
     {
-        _areaCobertura = areaCobertura;
+        AreaCobertura.ActualizarArea(
+            areaCobertura.Latitud,
+            areaCobertura.Longitud,
+            areaCobertura.Radio
+        );
     }
 
     public bool ObtenerCercania(Heladera heladera)
     {
         var longitud = heladera.ObtenerLongitud();
         var latitud = heladera.ObtenerLatitud();
-        return _areaCobertura.EsCercano(longitud, latitud);
+        return AreaCobertura.EsCercano(longitud, latitud);
     }
 }

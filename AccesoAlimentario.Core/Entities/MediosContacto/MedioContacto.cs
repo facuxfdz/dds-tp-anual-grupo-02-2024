@@ -1,23 +1,26 @@
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using AccesoAlimentario.Core.Entities.Notificaciones;
 
 namespace AccesoAlimentario.Core.Entities.MediosContacto;
 
-[NotMapped]
 public abstract class MedioContacto
 {
-    protected List<Notificacion> _historial;
-    protected bool _preferida;
-    
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; private set; }
+
+    public List<Notificacion> Historial { get; set; } = [];
+    public bool Preferida { get; set; } = false;
+
     public MedioContacto()
     {
     }
-    
+
     public MedioContacto(bool preferida)
     {
-        _preferida = preferida;
-        _historial = new List<Notificacion>();
+        Preferida = preferida;
     }
-    
+
     public abstract void Enviar(Notificacion notificacion);
 }

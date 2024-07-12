@@ -2,6 +2,7 @@ using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 
 namespace AccesoAlimentario.Core.DAL;
+
 public class GenericRepository<TEntity> where TEntity : class
 {
     private readonly AppDbContext _context;
@@ -26,7 +27,7 @@ public class GenericRepository<TEntity> where TEntity : class
         }
 
         foreach (var includeProperty in includeProperties.Split
-                     (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                     ([','], StringSplitOptions.RemoveEmptyEntries))
         {
             query = query.Include(includeProperty);
         }
@@ -40,7 +41,7 @@ public class GenericRepository<TEntity> where TEntity : class
             return query.ToList();
         }
     }
-    
+
     public virtual TEntity? GetById(object id)
     {
         try
@@ -61,24 +62,21 @@ public class GenericRepository<TEntity> where TEntity : class
         _context.SaveChanges();
     }
 
-    public virtual void Delete(object id)
-    {
-        TEntity entityToDelete = _dbSet.Find(id);
-        if (entityToDelete != null) Delete(entityToDelete);
-    }
-
     public virtual void Delete(TEntity entityToDelete)
     {
         if (_context.Entry(entityToDelete).State == EntityState.Detached)
         {
             _dbSet.Attach(entityToDelete);
         }
+
         _dbSet.Remove(entityToDelete);
+        _context.SaveChanges();
     }
 
     public virtual void Update(TEntity entityToUpdate)
     {
         _dbSet.Attach(entityToUpdate);
         _context.Entry(entityToUpdate).State = EntityState.Modified;
+        _context.SaveChanges();
     }
 }

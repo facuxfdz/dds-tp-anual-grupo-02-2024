@@ -1,28 +1,35 @@
-﻿using AccesoAlimentario.Core.Entities.Heladeras;
-using AccesoAlimentario.Core.Entities.MediosContacto;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using AccesoAlimentario.Core.Entities.Heladeras;
 using AccesoAlimentario.Core.Entities.Notificaciones;
 
-namespace AccesoAlimentario.Core.Entities;
+namespace AccesoAlimentario.Core.Entities.SuscripcionesColaboradores;
 
 public abstract class Suscripcion
 {
-    private List<Notificacion> _historial;
-    private Heladera _heladera;
-    
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; private set; }
+
+    public List<Notificacion> Historial { get; private set; } = [];
+    public Heladera Heladera { get; private set; } = null!;
+
+    public Suscripcion()
+    {
+    }
+
     public Suscripcion(Heladera heladera)
     {
-        _heladera = heladera;
-        _historial = new List<Notificacion>();
+        Heladera = heladera;
     }
 
-    public void notificarColaborador(Notificacion notificacion)
+    public void NotificarColaborador(Notificacion notificacion)
     {
-        _historial.Add(notificacion); //TODO: es asi?
+        Historial.Add(notificacion); //TODO: es asi?
     }
 
-    public void cambioHeladera(Heladera heladera)
+    public void CambioHeladera(Heladera heladera)
     {
-        _heladera = heladera; //TODO, algo mas?
+        Heladera = heladera; //TODO, algo mas?
     }
-
 }

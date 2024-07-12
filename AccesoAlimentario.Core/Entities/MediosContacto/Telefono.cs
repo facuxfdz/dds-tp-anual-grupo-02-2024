@@ -4,11 +4,15 @@ namespace AccesoAlimentario.Core.Entities.MediosContacto;
 
 public class Telefono : MedioContacto
 {
-    private string _numero;
-
-    public Telefono(string numero, bool preferida): base(preferida)
+    public string Numero { get; set; } = "";
+    
+    public Telefono()
     {
-        _numero = numero;
+    }
+    
+    public Telefono(bool preferida, string numero) : base(preferida)
+    {
+        Numero = numero;
     }
     
     public override void Enviar(Notificacion notificacion)

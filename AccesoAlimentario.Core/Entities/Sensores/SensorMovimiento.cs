@@ -2,18 +2,17 @@ using AccesoAlimentario.Core.Entities.Heladeras;
 
 namespace AccesoAlimentario.Core.Entities.Sensores;
 
-public class SensorMovimiento : ISensor, ISubjectHeladeraMovimiento
+public class SensorMovimiento : Sensor, ISubjectHeladeraMovimiento
 {
-    private readonly List<RegistroMovimiento> _registrosMovimiento;
-
-    public SensorMovimiento(string codigo, Heladera heladera)
+    public List<RegistroMovimiento> RegistrosMovimiento { get; set; } = [];
+    
+    public SensorMovimiento()
     {
-        _registrosMovimiento = new List<RegistroMovimiento>();
     }
     
-    public void Registrar(DateTime fecha, string movimiento)
+    public override void Registrar(DateTime fecha, string movimiento)
     {
-        _registrosMovimiento.Add(new RegistroMovimiento(fecha, Convert.ToBoolean(movimiento)));
+        RegistrosMovimiento.Add(new RegistroMovimiento(fecha, Convert.ToBoolean(movimiento)));
     }
     
     public void Suscribirse(IObserverSensorMovimiento observado)

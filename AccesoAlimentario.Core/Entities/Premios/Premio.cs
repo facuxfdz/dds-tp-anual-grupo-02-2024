@@ -1,32 +1,42 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using AccesoAlimentario.Core.Entities.Roles;
 
 namespace AccesoAlimentario.Core.Entities.Premios;
 
 public class Premio
 {
-    private string _nombre;
-    private float _puntosNecesarios;
-    private string _imagen;
-    private Colaborador? _reclamadoPor;
-    private DateTime _fechaReclamo;
-    private TipoRubro _rubro;
-    
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; private set; }
+
+    public string Nombre { get; set; } = null!;
+    public float PuntosNecesarios { get; set; } = 0;
+    public string Imagen { get; set; } = null!;
+    public Colaborador? ReclamadoPor { get; set; } = null!;
+    public DateTime FechaReclamo { get; set; } = DateTime.Now;
+    public TipoRubro Rubro { get; set; } = TipoRubro.Otros;
+
+    public Premio()
+    {
+    }
+
     public Premio(string nombre, float puntosNecesarios, string imagen, TipoRubro rubro)
     {
-        _nombre = nombre;
-        _puntosNecesarios = puntosNecesarios;
-        _imagen = imagen;
-        _rubro = rubro;
+        Nombre = nombre;
+        PuntosNecesarios = puntosNecesarios;
+        Imagen = imagen;
+        Rubro = rubro;
     }
 
     public void Reclamar(Colaborador colaborador)
     {
-        _reclamadoPor = colaborador;
-        _fechaReclamo = DateTime.Now;
+        ReclamadoPor = colaborador;
+        FechaReclamo = DateTime.Now;
     }
 
     public float GetPuntosNecesarios()
     {
-        return _puntosNecesarios;
+        return PuntosNecesarios;
     }
 }

@@ -1,4 +1,4 @@
-namespace AccesoAlimentario.Core.Entities.Personas.DocumentosIdentidad;
+namespace AccesoAlimentario.Core.Entities.DocumentosIdentidad;
 
 public enum TipoDocumento
 {

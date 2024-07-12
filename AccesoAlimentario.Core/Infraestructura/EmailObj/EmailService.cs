@@ -3,7 +3,7 @@ using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
 
-namespace AccesoAlimentario.Core.EmailObj;
+namespace AccesoAlimentario.Core.Infraestructura.EmailObj;
 
 public class EmailService
 {
@@ -14,7 +14,7 @@ public class EmailService
         _smtpConfig = AppSettings.Instance.SmtpConfig;
     }
 
-    public async Task<bool> SendAsync(string from, string to, string subject, string body,
+    public void Enviar(string from, string to, string subject, string body,
         IEnumerable<MailAttachment>? attachments = null)
     {
         var message = new MimeMessage();
@@ -36,11 +36,10 @@ public class EmailService
         try
         {
             using var client = new SmtpClient();
-            await client.ConnectAsync(_smtpConfig.Host, _smtpConfig.Port, SecureSocketOptions.StartTls);
-            await client.AuthenticateAsync(_smtpConfig.Username, _smtpConfig.Password);
-            await client.SendAsync(message);
-            await client.DisconnectAsync(true);
-            return true;
+            client.Connect(_smtpConfig.Host, _smtpConfig.Port, SecureSocketOptions.StartTls);
+            client.Authenticate(_smtpConfig.Username, _smtpConfig.Password);
+            client.Send(message);
+            client.Disconnect(true);
         }
         catch (Exception e)
         {

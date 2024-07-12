@@ -5,7 +5,7 @@ namespace AccesoAlimentario.Core.Validadores.Contribuciones;
 
 public abstract class ValidadorContribuciones
 {
-    protected List<TipoColaborador> _colaboradoresValidos;
+    protected List<TipoColaborador> ColaboradoresValidos;
 
     public virtual bool Validar(FormaContribucion formaContribucion, Colaborador colaborador)
     {
