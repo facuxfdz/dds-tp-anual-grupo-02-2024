@@ -2,11 +2,11 @@ namespace AccesoAlimentario.Core.Entities.Reportes;
 public class Reporte{
     private string _descripcion;
     private DateTime _fechaCreacion;
-    private List<EntradaReporte> _entradas;
+    private string _cuerpo;
 
-    public Reporte(string descripcion, List<EntradaReporte> entradas){
+    public Reporte(string descripcion, string cuerpo){
         _descripcion = descripcion;
         _fechaCreacion = DateTime.Now;
-        _entradas = entradas;
+        _cuerpo = cuerpo;
     }
 }

@@ -45,4 +45,6 @@ public class AutorizacionesServicio(UnitOfWork unitOfWork)
             DateTime.Now.AddDays(1), heladera, tarjeta as TarjetaColaboracion);
         unitOfWork.AutorizacionManipulacionHeladeraRepository.Insert(autorizacion);
     }
+
+
 }

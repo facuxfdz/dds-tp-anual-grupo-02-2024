@@ -15,6 +15,7 @@ public class Heladera
     public List<Vianda> Viandas { get; set; } = null!;
     public EstadoHeladera EstadoHeladera { get; set; } = EstadoHeladera.FueraServicio;
     public DateTime FechaInstalacion { get; set; } = DateTime.Now;
+    public float TemperaturaActual { get; set; } = 0;
     public float TemperaturaMinimaConfig { get; set; } = 0;
     public float TemperaturaMaximaConfig { get; set; } = 0;
     public List<Sensor> Sensores { get; set; } = [];
@@ -35,6 +36,7 @@ public class Heladera
         TemperaturaMaximaConfig = temperaturaMaxima;
         Modelo = modelo;
     }
+
 
     public void ActualizarEstado(EstadoHeladera estadoHeladera)
     {
