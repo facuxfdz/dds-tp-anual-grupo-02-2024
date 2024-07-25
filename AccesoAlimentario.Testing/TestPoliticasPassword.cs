@@ -2,7 +2,7 @@ using AccesoAlimentario.Core.Validadores.Usuarios;
 
 namespace AccesoAlimentario.Testing;
 
-public class PruebasPoliticasPassword
+public class TestPoliticasPassword
 {
     private IPoliticaValidacion _politicaLongitud;
     private IPoliticaValidacion _politica10KMasComunes;
@@ -80,5 +80,3 @@ public class PruebasPoliticasPassword
         Assert.IsFalse(validador.Validar(""));
     }
 }
-
-
