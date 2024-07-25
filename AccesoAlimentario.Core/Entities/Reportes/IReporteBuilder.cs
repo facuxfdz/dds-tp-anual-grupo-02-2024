@@ -9,5 +9,5 @@ namespace AccesoAlimentario.Core.Entities.Reportes;
 
 public interface IReporteBuilder
 {
-    public Reporte Generar(DateTime fechaInicio, DateTime fechaFinal, List<Heladera> heladera, List<Incidente> incidentes, List<AccesoHeladera> accesos, List<Colaborador> colaboradores);
+    public Reporte Generar(DateTime fechaInicio, DateTime fechaFinal, List<Heladera>? heladera, List<Incidente>? incidentes, List<AccesoHeladera>? accesos, List<Colaborador>? colaboradores);
 }

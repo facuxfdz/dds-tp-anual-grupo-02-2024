@@ -12,7 +12,7 @@ public class ReporteBuilderHeladeraFallas : IReporteBuilder{
     {
     }
 
-        public Reporte Generar(DateTime fechaInicio, DateTime fechaFinal, List<Heladera> heladeras, List<Incidente> incidentes, List<AccesoHeladera> accesos, List<Colaborador> colaboradores)
+        public Reporte Generar(DateTime fechaInicio, DateTime fechaFinal, List<Heladera> heladeras, List<Incidente>? incidentes, List<AccesoHeladera>? accesos, List<Colaborador>? colaboradores)
     {
         var descripcion = $"Reporte de fallas en las heladeras \n Periodo: {fechaInicio.ToString("ddMMyy")} - {fechaFinal.ToString("ddMMyy")}";
         var cuerpo = "Detalle: \n";
@@ -20,8 +20,10 @@ public class ReporteBuilderHeladeraFallas : IReporteBuilder{
         foreach (var heladera in heladeras)
         {
           var fallasEnIntervaloValido = heladera.Incidentes.Where(f => f.Fecha >= fechaInicio && f.Fecha <= fechaFinal).Count();
-            if (fallasEnIntervaloValido > 0)
-                cuerpo += $"Heladera: {heladera.PuntoEstrategico.Nombre} tuvo {fallasEnIntervaloValido} fallas\n";
+          if (fallasEnIntervaloValido > 0)
+              cuerpo += $"Heladera: {heladera.PuntoEstrategico.Nombre} tuvo {fallasEnIntervaloValido} fallas\n";
+          else
+              cuerpo += $"Heladera: {heladera.PuntoEstrategico.Nombre} no tuvo fallas\n";
         }
 
         return new Reporte(descripcion, cuerpo);

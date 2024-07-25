@@ -14,10 +14,11 @@ public class PersonaJuridica : Persona
     {
     }
     
-    public PersonaJuridica(string nombre, TipoJuridico tipo, string rubro, List<MedioContacto> medioDeContacto,
+    public PersonaJuridica(string nombre, string razonSocial,TipoJuridico tipo, string rubro, List<MedioContacto> medioDeContacto,
         Direccion direccion,
         DocumentoIdentidad documentoIdentidad) : base(nombre, medioDeContacto, direccion, documentoIdentidad)
     {
+        RazonSocial = razonSocial;
         Tipo = tipo;
         Rubro = rubro;
     }

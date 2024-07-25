@@ -18,10 +18,10 @@ public class PersonasServicio(UnitOfWork unitOfWork)
         return persona;
     }
 
-    public PersonaJuridica CrearJuridica(string nombre, Direccion direccion, DocumentoIdentidad documento,
+    public PersonaJuridica CrearJuridica(string nombre, string razonSocial, Direccion direccion, DocumentoIdentidad documento,
         List<MedioContacto> mediosContacto, TipoJuridico tipoJuridico, string rubro)
     {
-        PersonaJuridica persona = new(nombre, tipoJuridico, rubro, mediosContacto, direccion, documento);
+        PersonaJuridica persona = new(nombre, razonSocial, tipoJuridico, rubro, mediosContacto, direccion, documento);
         unitOfWork.PersonaJuridicaRepository.Insert(persona);
         return persona;
     }

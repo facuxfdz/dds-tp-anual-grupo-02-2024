@@ -35,7 +35,7 @@ public class PersonasController(PersonasServicio servicio) : ControllerBase
         [FromBody] PersonaJuridica personaJuridica
     )
     {
-        var p = servicio.CrearJuridica(personaJuridica.Nombre, personaJuridica.Direccion, personaJuridica.DocumentoIdentidad,
+        var p = servicio.CrearJuridica(personaJuridica.Nombre, personaJuridica.RazonSocial, personaJuridica.Direccion, personaJuridica.DocumentoIdentidad,
             new List<MedioContacto>(), personaJuridica.Tipo, personaJuridica.Rubro);
         return Ok(p);
     }

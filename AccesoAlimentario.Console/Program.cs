@@ -56,6 +56,7 @@ personasServicio.CrearHumana
 personasServicio.CrearJuridica
 (
     "Empresa",
+    "SA",
     new Direccion
     (
         "Calle",

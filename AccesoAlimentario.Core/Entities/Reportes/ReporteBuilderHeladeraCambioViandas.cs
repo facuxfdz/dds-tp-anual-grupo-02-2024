@@ -12,7 +12,7 @@ public class ReporteBuilderHeladeraCambioViandas : IReporteBuilder
     {
     }
 
-    public Reporte Generar(DateTime fechaInicio, DateTime fechaFinal, List<Heladera> heladeras, List<Incidente> incidentes, List<AccesoHeladera> accesos, List<Colaborador> colaboradores)
+    public Reporte Generar(DateTime fechaInicio, DateTime fechaFinal, List<Heladera> heladeras, List<Incidente>? incidentes, List<AccesoHeladera>? accesos, List<Colaborador> colaboradores)
     {
         var descripcion = $"Reporte de Viandas Retiradas/Colocadas por Heladera \n Periodo: {fechaInicio.ToString("ddMMyy")} - {fechaFinal.ToString("ddMMyy")}";
         var cuerpo = "Detalle: \n";
