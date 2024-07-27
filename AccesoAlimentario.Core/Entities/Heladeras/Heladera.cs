@@ -2,10 +2,11 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using AccesoAlimentario.Core.Entities.Incidentes;
 using AccesoAlimentario.Core.Entities.Sensores;
+using AccesoAlimentario.Core.Entities.SuscripcionesColaboradores;
 
 namespace AccesoAlimentario.Core.Entities.Heladeras;
 
-public class Heladera
+public class Heladera : IObserverSensorMovimiento, IObserverSensorTemperatura, ISubjectHeladera
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -21,6 +22,8 @@ public class Heladera
     public List<Sensor> Sensores { get; set; } = [];
     public List<Incidente> Incidentes { get; set; } = [];
     public ModeloHeladera Modelo { get; set; } = null!;
+    
+    public List<IObserverHeladera> Observers { get; set; } = [];
 
     public Heladera()
     {
@@ -37,34 +40,83 @@ public class Heladera
         Modelo = modelo;
     }
 
+    public void IngresarVianda(Vianda vianda)
+    {
+        Viandas.Add(vianda);
+        Notificar(CambioHeladeraTipo.CambioViandas);
+    }
+    
+    public void RetirarViandas(int cantidad)
+    {
+        if (cantidad > Viandas.Count)
+        {
+            Notificar(CambioHeladeraTipo.CambioViandas);
+            throw new Exception("No hay suficientes viandas");
+        }
+        Viandas.RemoveRange(0, cantidad);
+        Notificar(CambioHeladeraTipo.CambioViandas);
+    }
 
     public void ActualizarEstado(EstadoHeladera estadoHeladera)
     {
         EstadoHeladera = estadoHeladera;
     }
 
-    public void CambioEstadoSensorTemperatura(float dato)
+    public void CambioSensorTemperatura(float dato, bool error)
     {
+        if (error)
+        {
+            AgregarIncidente(new Alerta(TipoAlerta.Conexion));
+        }
+        TemperaturaActual = dato;
         if (dato >= TemperaturaMinimaConfig || dato <= TemperaturaMaximaConfig)
         {
-            //TODO cambiarlas a las del fabricante
-            //TODO: aca se cambiaria el estado del sensor, pero hay una lista
-        }
-        else
-        {
-            throw new Exception("Rango de temperatura invalido");
+            AgregarIncidente(new Alerta(TipoAlerta.Temperatura));
         }
     }
 
-
-    public void CambioEstadoSensorMovimiento(bool dato)
+    public void Suscribirse(IObserverHeladera observer)
     {
-        //TODO: aca se cambiaria el estado del sensor, pero hay una lista
+        Observers.Add(observer);
+    }
+    
+    public void Desuscribirse(IObserverHeladera observer)
+    {
+        Observers.Remove(observer);
+    }
+    
+    public void Notificar(CambioHeladeraTipo cambio)
+    {
+        foreach (var observer in Observers)
+        {
+            observer.CambioHeladera(this, cambio);
+        }
+    }
+
+    public void CambioSensorMovimiento(bool dato, bool error) 
+    {
+        if (dato)
+        {
+            AgregarIncidente(new Alerta(TipoAlerta.Fraude));
+        }
+        if (error)
+        {
+            AgregarIncidente(new Alerta(TipoAlerta.Conexion));
+        }
     }
 
     public void AgregarSensor(Sensor sensor)
     {
         Sensores.Add(sensor);
+        switch (sensor)
+        {
+            case ISubjectHeladeraTemperatura observerSensorTemperatura:
+                observerSensorTemperatura.Suscribirse(this);
+                break;
+            case ISubjectHeladeraMovimiento observerSensorMovimiento:
+                observerSensorMovimiento.Suscribirse(this);
+                break;
+        }
     }
 
     public void EliminarSensor(Sensor sensor)
@@ -90,5 +142,11 @@ public class Heladera
     public float ObtenerLongitud()
     {
         return PuntoEstrategico.Longitud;
+    }
+    
+    public void AgregarIncidente(Incidente incidente)
+    {
+        Incidentes.Add(incidente);
+        Notificar(CambioHeladeraTipo.IncidenteProducido);
     }
 }

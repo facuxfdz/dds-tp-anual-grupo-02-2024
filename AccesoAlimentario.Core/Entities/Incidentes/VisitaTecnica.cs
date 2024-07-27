@@ -26,4 +26,12 @@ public class VisitaTecnica
         Fecha = DateTime.Now;
         Comentario = comentario;
     }
+    
+    public VisitaTecnica(Tecnico tecnico, string? foto, DateTime fecha, string? comentario)
+    {
+        Tecnico = tecnico;
+        Foto = foto;
+        Fecha = fecha;
+        Comentario = comentario;
+    }
 }

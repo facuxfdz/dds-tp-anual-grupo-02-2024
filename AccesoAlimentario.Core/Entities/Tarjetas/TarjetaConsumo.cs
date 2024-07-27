@@ -19,7 +19,7 @@ public class TarjetaConsumo : Tarjeta
         Responsable = responsable;
     }
 
-    public void setPersonaVulnerable(PersonaVulnerable personaVulnerable)
+    public void SetPersonaVulnerable(PersonaVulnerable personaVulnerable)
     {
         _personaVulnerable = personaVulnerable;
     }

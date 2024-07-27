@@ -47,7 +47,7 @@ public abstract class Persona
         Roles.Add(rol);
     }
 
-    public void EnviarMensaje(Notificacion notificacion)
+    public void EnviarNotificacion(Notificacion notificacion)
     {
         var medio = MediosDeContacto.Where(m => m.Preferida).FirstOrDefault();
         if (medio != null)

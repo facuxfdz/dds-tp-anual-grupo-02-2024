@@ -1,22 +1,31 @@
 ﻿using AccesoAlimentario.Core.Entities.Heladeras;
+using AccesoAlimentario.Core.Entities.Notificaciones;
+using AccesoAlimentario.Core.Entities.Roles;
 
 namespace AccesoAlimentario.Core.Entities.SuscripcionesColaboradores;
 
 public class SuscripcionFaltanteViandas : Suscripcion
 {
     public int Minimo { get; private set; } = 0;
-    
+
     public SuscripcionFaltanteViandas()
     {
     }
-    
-    public SuscripcionFaltanteViandas(int minimo, Heladera heladera) : base(heladera)
-    {   
+
+    public SuscripcionFaltanteViandas(int minimo, Heladera heladera, Colaborador colaborador) : base(heladera,
+        colaborador)
+    {
         Minimo = minimo;
     }
 
-    public void NotificarColaborador()
+    public override void CambioHeladera(Heladera heladera, CambioHeladeraTipo cambio)
     {
-        //TODO
+        if (cambio != CambioHeladeraTipo.CambioViandas) return;
+        if (heladera.ObtenerCantidadDeViandas() < Minimo)
+        {
+            NotificarColaborador(
+                new NotificacionFaltanteBuilder(heladera.ObtenerCantidadDeViandas())
+                    .CrearNotificacion());
+        }
     }
 }

@@ -2,10 +2,11 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using AccesoAlimentario.Core.Entities.Heladeras;
 using AccesoAlimentario.Core.Entities.Notificaciones;
+using AccesoAlimentario.Core.Entities.Roles;
 
 namespace AccesoAlimentario.Core.Entities.SuscripcionesColaboradores;
 
-public abstract class Suscripcion
+public abstract class Suscripcion : IObserverHeladera
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -13,23 +14,25 @@ public abstract class Suscripcion
 
     public List<Notificacion> Historial { get; private set; } = [];
     public Heladera Heladera { get; private set; } = null!;
+    
+    public Colaborador Colaborador { get; private set; } = null!;
 
     public Suscripcion()
     {
     }
 
-    public Suscripcion(Heladera heladera)
+    public Suscripcion(Heladera heladera, Colaborador colaborador)
     {
         Heladera = heladera;
+        Colaborador = colaborador;
+        heladera.Suscribirse(this);
     }
 
     public void NotificarColaborador(Notificacion notificacion)
     {
-        Historial.Add(notificacion); //TODO: es asi?
+        Historial.Add(notificacion);
+        Colaborador.Persona.EnviarNotificacion(notificacion);
     }
 
-    public void CambioHeladera(Heladera heladera)
-    {
-        Heladera = heladera; //TODO, algo mas?
-    }
+    public abstract void CambioHeladera(Heladera heladera, CambioHeladeraTipo cambio);
 }

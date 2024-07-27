@@ -1,4 +1,6 @@
 ﻿using AccesoAlimentario.Core.Entities.Heladeras;
+using AccesoAlimentario.Core.Entities.Notificaciones;
+using AccesoAlimentario.Core.Entities.Roles;
 
 namespace AccesoAlimentario.Core.Entities.SuscripcionesColaboradores;
 
@@ -10,13 +12,20 @@ public class SuscripcionExcedenteViandas : Suscripcion
     {
     }
 
-    public SuscripcionExcedenteViandas(int maximo, Heladera heladera) : base(heladera)
+    public SuscripcionExcedenteViandas(int maximo, Heladera heladera, Colaborador colaborador) : base(heladera,
+        colaborador)
     {
         Maximo = maximo;
     }
 
-    public void NotificarColaborador()
+    public override void CambioHeladera(Heladera heladera, CambioHeladeraTipo cambio)
     {
-        //TODO
+        if (cambio != CambioHeladeraTipo.CambioViandas) return;
+        if (heladera.ObtenerCantidadDeViandas() > Maximo)
+        {
+            NotificarColaborador(
+                new NotificacionExcedenteBuilder(heladera.ObtenerCantidadDeViandas())
+                    .CrearNotificacion());
+        }
     }
 }

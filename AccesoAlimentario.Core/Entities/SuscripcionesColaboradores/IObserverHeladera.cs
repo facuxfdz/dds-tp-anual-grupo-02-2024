@@ -2,7 +2,7 @@
 
 namespace AccesoAlimentario.Core.Entities.SuscripcionesColaboradores;
 
-public interface IObserverHeladera : IObserver<Heladera>
+public interface IObserverHeladera
 {
-    public void CambioHeladera(Heladera heladera);
+    public void CambioHeladera(Heladera heladera, CambioHeladeraTipo cambio);
 }

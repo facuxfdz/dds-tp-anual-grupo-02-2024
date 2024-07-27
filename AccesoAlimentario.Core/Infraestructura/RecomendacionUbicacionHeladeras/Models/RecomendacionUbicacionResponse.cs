@@ -17,6 +17,6 @@ public class DireccionResponse
 
 public class RecomendacionesUbicacionResponse
 {
-    public List<DatosResponse> data { get; set; } = null!;
+    public List<DatosResponse> Data { get; set; } = null!;
 }
 

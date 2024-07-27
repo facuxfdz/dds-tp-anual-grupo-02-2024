@@ -5,6 +5,7 @@ namespace AccesoAlimentario.Core.Entities.Sensores;
 public class SensorMovimiento : Sensor, ISubjectHeladeraMovimiento
 {
     public List<RegistroMovimiento> RegistrosMovimiento { get; set; } = [];
+    private List<IObserverSensorMovimiento> Observadores { get; set; } = [];
     
     public SensorMovimiento()
     {
@@ -12,19 +13,32 @@ public class SensorMovimiento : Sensor, ISubjectHeladeraMovimiento
     
     public override void Registrar(DateTime fecha, string movimiento)
     {
-        RegistrosMovimiento.Add(new RegistroMovimiento(fecha, Convert.ToBoolean(movimiento)));
+        try
+        {
+            RegistrosMovimiento.Add(new RegistroMovimiento(fecha, Convert.ToBoolean(movimiento)));
+            Notificar(RegistrosMovimiento.Last().Movimiento, false);
+        }
+        catch (Exception e)
+        {
+            Notificar(false, true);
+            Console.WriteLine(e);
+            throw;
+        }
     }
     
     public void Suscribirse(IObserverSensorMovimiento observado)
     {
-        //TODO
+        Observadores.Add(observado);
     }
     public void Desuscribirse(IObserverSensorMovimiento observado)
     {
-        //TODO
+        Observadores.Remove(observado);
     }
-    public void Notificar()
+    public void Notificar(bool dato, bool error)
     {
-        //TODO
+        foreach (var observador in Observadores)
+        {
+            observador.CambioSensorMovimiento(RegistrosMovimiento.Last().Movimiento, false);
+        }
     }
 }

@@ -43,7 +43,7 @@ personasServicio.CrearHumana
         "Avellaneda",
         "A123B"
     ),
-    new DocumentoIdentidad(TipoDocumento.DNI, 123456789, DateOnly.MinValue),
+    new DocumentoIdentidad(TipoDocumento.Dni, 123456789, DateOnly.MinValue),
     new List<MedioContacto>
     {
         new Email(true, "mpedaci@frba.utn.edu.ar")
@@ -64,7 +64,7 @@ personasServicio.CrearJuridica
         "Avellaneda",
         "A123B"
     ),
-    new DocumentoIdentidad(TipoDocumento.CUIT, 123456789, DateOnly.MinValue),
+    new DocumentoIdentidad(TipoDocumento.Cuit, 123456789, DateOnly.MinValue),
     new List<MedioContacto>
     {
         new Email(true, "mpedaci@frba.utn.edu.ar")
@@ -75,7 +75,7 @@ personasServicio.CrearJuridica
 
 // Obtener personas
 var persona = personasServicio.Obtener();
-persona.First().EnviarMensaje(new Notificacion("Mensaje de prueba", "Mensaje de prueba de notificación"));
+persona.First().EnviarNotificacion(new Notificacion("Mensaje de prueba", "Mensaje de prueba de notificación"));
 
 // Obtener recomendaciones
 

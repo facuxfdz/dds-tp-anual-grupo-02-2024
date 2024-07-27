@@ -5,26 +5,42 @@ namespace AccesoAlimentario.Core.Entities.Sensores;
 public class SensorTemperatura : Sensor, ISubjectHeladeraTemperatura
 {
     public List<RegistroTemperatura> RegistrosTemperatura { get; set; } = [];
+    private List<IObserverSensorTemperatura> Observadores { get; set; } = [];
 
     public SensorTemperatura()
     {
     }
-    
+
     public override void Registrar(DateTime fecha, string temperatura)
     {
-        RegistrosTemperatura.Add(new RegistroTemperatura(fecha, Convert.ToSingle(temperatura)));
+        try
+        {
+            RegistrosTemperatura.Add(new RegistroTemperatura(fecha, Convert.ToSingle(temperatura)));
+            Notificar(Convert.ToSingle(temperatura), false);
+        }
+        catch (Exception e)
+        {
+            Notificar(0, true);
+            Console.WriteLine(e);
+            throw;
+        }
     }
-    
+
     public void Suscribirse(IObserverSensorTemperatura observado)
     {
-        //TODO
+        Observadores.Add(observado);
     }
+
     public void Desuscribirse(IObserverSensorTemperatura observado)
     {
-        //TODO
+        Observadores.Remove(observado);
     }
-    public void Notificar()
+
+    public void Notificar(float dato, bool error)
     {
-        //TODO
+        foreach (var observador in Observadores)
+        {
+            observador.CambioSensorTemperatura(dato, error);
+        }
     }
 }

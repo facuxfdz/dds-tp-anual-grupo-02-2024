@@ -17,7 +17,7 @@ public class ConsultoraExternaApi
         var response = client.Get(request); //meterle un try catch
         var recomendacionesUbicacionResponse =
             JsonConvert.DeserializeObject<RecomendacionesUbicacionResponse>(response.Content);
-        return recomendacionesUbicacionResponse?.data.Select((d, i) => new PuntoEstrategico(
+        return recomendacionesUbicacionResponse?.Data.Select((d, i) => new PuntoEstrategico(
             $"opcion {i + 1}",
             float.Parse(d.Longitud),
             float.Parse(d.Latitud),

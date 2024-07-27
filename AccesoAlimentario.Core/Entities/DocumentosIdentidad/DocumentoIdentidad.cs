@@ -9,7 +9,7 @@ public class DocumentoIdentidad
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; private set; }
 
-    public TipoDocumento TipoDocumento { get; set; } = TipoDocumento.DNI;
+    public TipoDocumento TipoDocumento { get; set; } = TipoDocumento.Dni;
     public int NroDocumento { get; set; } = 0;
     public DateOnly? FechaNacimiento { get; set; } = null;
     

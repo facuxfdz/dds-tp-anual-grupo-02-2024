@@ -23,7 +23,7 @@ public class ImportadorServicio(UnitOfWork unitOfWork, PersonasServicio personas
                 persona = personasServicio.CrearHumana(persona.Nombre, persona.Direccion, persona.DocumentoIdentidad, persona.MediosDeContacto, ph.Apellido, ph.Sexo);
                 var usuarioS = (UsuarioSistema)ph.Roles.Find(x => x is UsuarioSistema);
                 var builder = new NotificacionUsuarioCreadoBuilder(usuarioS.UserName, usuarioS.Password);
-                persona.EnviarMensaje(builder.CrearNotificacion());
+                persona.EnviarNotificacion(builder.CrearNotificacion());
                 /*personasServicio.AgregarRol(persona.Id, colaborador);*/
                 personasServicio.AgregarRol(persona.Id, usuarioS);
             } else {
