@@ -35,6 +35,11 @@ public class MockRepository<TEntity> : IRepository<TEntity> where TEntity : clas
         _data.Add(entity);
     }
 
+    public void InsertMany(IEnumerable<TEntity> entities)
+    {
+        _data.AddRange(entities);
+    }
+
     public void Delete(TEntity entityToDelete)
     {
         _data.Remove(entityToDelete);

@@ -62,6 +62,15 @@ namespace AccesoAlimentario.Core.DAL
             _context.SaveChanges();
         }
 
+        public void InsertMany(IEnumerable<TEntity> entities)
+        {
+            foreach (var entity in entities)
+            {
+                _dbSet.Add(entity);
+            }
+            _context.SaveChanges();
+        }
+
         public virtual void Delete(TEntity entityToDelete)
         {
             if (_context.Entry(entityToDelete).State == EntityState.Detached)
