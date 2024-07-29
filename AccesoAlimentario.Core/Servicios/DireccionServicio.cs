@@ -10,14 +10,13 @@ public class DireccionServicio(UnitOfWork unitOfWork)
         var direccion = new Direccion(calle, numero, localidad, codigoPostal);
         try
         {
-            unitOfWork.DireccionRepository.Insert(direccion);
+            return unitOfWork.DireccionRepository.Insert(direccion);
         }
         catch (Exception e)
         {
             Console.WriteLine(e.Message);
             throw new Exception("No se pudo crear la dirección");
         }
-        return direccion;
     }
     
     public Direccion? Buscar(string calle, string numero, string localidad, string codigoPostal)

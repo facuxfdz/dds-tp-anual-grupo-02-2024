@@ -16,9 +16,14 @@ public class PuntoEstrategicoServicio(UnitOfWork unitOfWork)
         {
             throw new Exception("La latitud es invalida");
         }
-        var puntoEstrategico = new PuntoEstrategico(nombre, longitud, latitud, direccion);
+        var puntoEstrategico = unitOfWork.PuntoEstrategicoRepository.Get(p => p.Direccion == direccion).FirstOrDefault();
+        if(puntoEstrategico != null)
+        {
+            throw new Exception("Ya existe un punto estrategico con esa direccion");
+        }
         try
         {
+            puntoEstrategico = new PuntoEstrategico(nombre, longitud, latitud, direccion);
             unitOfWork.PuntoEstrategicoRepository.Insert(puntoEstrategico);
         }
         catch (Exception e)
@@ -33,7 +38,7 @@ public class PuntoEstrategicoServicio(UnitOfWork unitOfWork)
     {
         try
         {
-            return unitOfWork.PuntoEstrategicoRepository.Get().ToList();
+            return unitOfWork.PuntoEstrategicoRepository.Get(includeProperties: "Direccion").ToList();
         }
         catch (Exception e)
         {

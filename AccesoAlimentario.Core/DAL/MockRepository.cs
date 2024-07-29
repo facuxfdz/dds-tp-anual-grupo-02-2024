@@ -30,14 +30,16 @@ public class MockRepository<TEntity> : IRepository<TEntity> where TEntity : clas
         return _data.FirstOrDefault();
     }
 
-    public void Insert(TEntity entity)
+    public TEntity Insert(TEntity entity)
     {
         _data.Add(entity);
+        return entity;
     }
 
-    public void InsertMany(IEnumerable<TEntity> entities)
+    public List<TEntity> InsertMany(IEnumerable<TEntity> entities)
     {
         _data.AddRange(entities);
+        return _data;
     }
 
     public void Delete(TEntity entityToDelete)

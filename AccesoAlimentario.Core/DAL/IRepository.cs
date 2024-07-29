@@ -11,8 +11,8 @@ public interface IRepository<TEntity> where TEntity : class
 
     TEntity? GetById(object id);
 
-    void Insert(TEntity entity);
-    void InsertMany(IEnumerable<TEntity> entities);
+    TEntity Insert(TEntity entity);
+    List<TEntity> InsertMany(IEnumerable<TEntity> entities);
 
     void Delete(TEntity entityToDelete);
 

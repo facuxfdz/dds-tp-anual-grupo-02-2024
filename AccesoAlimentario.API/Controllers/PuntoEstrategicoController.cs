@@ -20,12 +20,13 @@ public class PuntoEstrategicoController(
     {
         try
         {
-            var direccion = direccionServicio.Buscar(
+            var direccionBusq = direccionServicio.Buscar(
                 puntoEstrategico.Direccion.Calle,
                 puntoEstrategico.Direccion.Numero,
                 puntoEstrategico.Direccion.Localidad,
                 puntoEstrategico.Direccion.CodigoPostal);
-            if(direccion == null)
+            Direccion direccion;
+            if(direccionBusq == null)
             {
                 direccion = direccionServicio.Crear(
                     puntoEstrategico.Direccion.Calle,
@@ -33,13 +34,22 @@ public class PuntoEstrategicoController(
                     puntoEstrategico.Direccion.Localidad,
                     puntoEstrategico.Direccion.CodigoPostal
                 );
+                puntoEstrategicoServicio.Crear(
+                    puntoEstrategico.Nombre,
+                    direccion,
+                    puntoEstrategico.Longitud,
+                    puntoEstrategico.Latitud
+                );
             }
-            puntoEstrategicoServicio.Crear(
-                puntoEstrategico.Nombre,
-                direccion,
-                puntoEstrategico.Longitud,
-                puntoEstrategico.Latitud
-            );
+            else
+            {
+                puntoEstrategicoServicio.Crear(
+                    puntoEstrategico.Nombre,
+                    direccionBusq,
+                    puntoEstrategico.Longitud,
+                    puntoEstrategico.Latitud
+                );
+            }
         }
         catch (Exception e)
         {
