@@ -23,6 +23,8 @@ builder.Services.AddScoped(typeof(GenericRepository<>));
 
 /* -------------------------- */
 builder.Services.AddScoped(typeof(PersonasServicio));
+builder.Services.AddScoped(typeof(PuntoEstrategicoServicio));
+builder.Services.AddScoped(typeof(DireccionServicio));
 
 // Allow CORS
 const string corsDevelop = "_CORSDevelop";

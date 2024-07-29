@@ -13,7 +13,7 @@ public class PuntoEstrategico
     public string Nombre { get; private set; } = null!;
     public float Longitud { get; private set; } = 0;
     public float Latitud { get; private set; } = 0;
-    public Direccion Direccion { get; private set; } = null!;
+    public Direccion Direccion { get; private set; }
 
     public PuntoEstrategico()
     {
