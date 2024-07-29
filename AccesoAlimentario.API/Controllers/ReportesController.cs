@@ -59,8 +59,8 @@ public class ReportesController(UnitOfWork unitOfWork) : ControllerBase
         // Consultar los datos del reporte de fallas tecnicas
         // filtrando solo los datos cuyo reportes tenga una fecha de "validoHasta" mayor a la fecha actual
         
-        Expression<Func<FallasHeladeraReporteSchema, bool>> filter = f => f.Reporte.ValidoHasta < DateTime.Now;
-        var datosFallasTecnicasReporte = unitOfWork.FallasHeladeraReporteSchemaRepository.Get(filter: filter, includeProperties: "Heladera,Reporte");
+        Expression<Func<FallasHeladeraReporteSchema, bool>> filter = f => f.Reporte.ValidoHasta > DateTime.Now;
+        var datosFallasTecnicasReporte = unitOfWork.FallasHeladeraReporteSchemaRepository.Get(filter: filter, includeProperties: "Heladera,Reporte,Punto");
         var responseOk = new { datosFallasTecnicasReporte = datosFallasTecnicasReporte };
         return Ok(responseOk);
     }

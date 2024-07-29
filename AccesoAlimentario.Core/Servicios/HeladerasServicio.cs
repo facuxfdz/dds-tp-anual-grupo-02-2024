@@ -7,11 +7,17 @@ namespace AccesoAlimentario.Core.Servicios;
 
 public class HeladerasServicio(UnitOfWork unitOfWork)
 {
-    public void Crear(string nombre, Direccion direccion, string modeloId,
+    public void Crear(Direccion direccion, string modeloId,
         float temperaturaMinima, float temperaturaMaxima)
     {
         var puntoEstrategicoRepo = unitOfWork.PuntoEstrategicoRepository;
-        var puntoEstrategico = puntoEstrategicoRepo.Get(p => p.Nombre == nombre && p.Direccion == direccion).FirstOrDefault();
+        var puntoEstrategico = puntoEstrategicoRepo.Get(
+            p => 
+                p.Direccion.Calle == direccion.Calle &&
+                p.Direccion.Numero == direccion.Numero &&
+                p.Direccion.Localidad == direccion.Localidad &&
+                p.Direccion.CodigoPostal == direccion.CodigoPostal
+                ).FirstOrDefault();
         if (puntoEstrategico == null)
         {
             Console.WriteLine("No se encontro el punto estrategico");

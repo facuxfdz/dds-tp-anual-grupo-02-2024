@@ -17,7 +17,6 @@ public class HeladerasController(HeladerasServicio servicio) : ControllerBase
         try
         {
             servicio.Crear(
-                heladera.NombrePuntoEstrategico,
                 heladera.DireccionPuntoEstrategico,
                 heladera.ModeloId,
                 heladera.TemperaturaMinimaConfig,
@@ -31,4 +30,6 @@ public class HeladerasController(HeladerasServicio servicio) : ControllerBase
         
         return Ok(new { message = "Heladera creada correctamente" });
     }
+    
+    
 }

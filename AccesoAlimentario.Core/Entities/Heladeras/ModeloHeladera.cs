@@ -1,24 +1,23 @@
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AccesoAlimentario.Core.Entities.Heladeras;
 
 public class ModeloHeladera
 {
     [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public string Id { get; private set; }
 
-    public int Capacidad { get; set; } = 0;
-    public int TemperaturaMinima { get; set; } = 0;
-    public int TemperaturaMaxima { get; set; } = 0;
+    public float Capacidad { get; set; }
+    public float TemperaturaMinima { get; set; }
+    public float TemperaturaMaxima { get; set; }
     
     public ModeloHeladera()
     {
     }
 
-    public ModeloHeladera(int capacidad, int temperaturaMinima, int temperaturaMaxima)
+    public ModeloHeladera(string id, float capacidad, float temperaturaMinima, float temperaturaMaxima)
     {
+        Id = id;
         Capacidad = capacidad;
         TemperaturaMinima = temperaturaMinima;
         TemperaturaMaxima = temperaturaMaxima;
