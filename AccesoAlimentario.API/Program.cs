@@ -1,3 +1,4 @@
+using AccesoAlimentario.API.Controllers;
 using AccesoAlimentario.Core.DAL;
 using AccesoAlimentario.Core.Servicios;
 using Microsoft.EntityFrameworkCore;
@@ -13,9 +14,9 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AppDbContext>((provider, options) =>
 {
-    /*options.UseMySQL(
-        "server=localhost;port=3346;database=acceso_alimentario;user=root;password=pass123");*/
-    options.UseInMemoryDatabase(databaseName: "AccesoAlimentario");
+    options.UseMySQL(
+        "server=localhost;port=3346;database=acceso_alimentario;user=root;password=pass123");
+    // options.UseInMemoryDatabase(databaseName: "AccesoAlimentario");
 });
 
 builder.Services.AddScoped(typeof(UnitOfWork));
@@ -27,6 +28,9 @@ builder.Services.AddScoped(typeof(PuntoEstrategicoServicio));
 builder.Services.AddScoped(typeof(DireccionServicio));
 builder.Services.AddScoped(typeof(HeladerasServicio));
 builder.Services.AddScoped(typeof(ModeloHeladeraServicio));
+
+// Register RabbitMQ background service
+builder.Services.AddHostedService<RabbitMQBackgroundService>();
 
 // Allow CORS
 const string corsDevelop = "_CORSDevelop";
