@@ -1,6 +1,6 @@
 namespace AccesoAlimentario.API.Controllers;
 
-public interface IRabbitMessageProcessor
+public interface IHeladeraMessageProcessor
 {
     public void ProcessMessage(string message);
 }

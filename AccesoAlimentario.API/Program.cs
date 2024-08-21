@@ -1,7 +1,9 @@
 using AccesoAlimentario.API.Controllers;
 using AccesoAlimentario.Core.DAL;
+using AccesoAlimentario.Core.Entities.RegistrosSensores;
 using AccesoAlimentario.Core.Servicios;
 using Microsoft.EntityFrameworkCore;
+using RegistroTemperatura = AccesoAlimentario.Core.Entities.Sensores.RegistroTemperatura;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +32,10 @@ builder.Services.AddScoped(typeof(HeladerasServicio));
 builder.Services.AddScoped(typeof(ModeloHeladeraServicio));
 
 // Register RabbitMQ background service
+builder.Services.AddScoped(typeof(GenericRepository<RegistroFraude>));
+builder.Services.AddScoped(typeof(GenericRepository<RegistroTemperatura>));
+builder.Services.AddScoped(typeof(RegistrarFraudeHeladera));
+builder.Services.AddScoped(typeof(RegistrarTemperaturaHeladera));
 builder.Services.AddHostedService<RabbitMQBackgroundService>();
 
 // Allow CORS

@@ -8,13 +8,13 @@ public class RabbitMQConsumer
 {
     private readonly string _queueName;
     // private readonly ILogger<RabbitMQConsumer> _logger;
-    private readonly IRabbitMessageProcessor _messageProcessor;
+    private readonly IHeladeraMessageProcessor _messageProcessor;
     private readonly IConnection _connection;
     private readonly IModel _channel;
 
     public RabbitMQConsumer(
         string queueName, 
-        IRabbitMessageProcessor messageProcessor)
+        IHeladeraMessageProcessor messageProcessor)
     {
         _queueName = queueName;
         // _logger = LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger<RabbitMQConsumer>();

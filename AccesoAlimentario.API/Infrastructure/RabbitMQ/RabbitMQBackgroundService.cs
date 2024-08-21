@@ -1,5 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
+using AccesoAlimentario.Core.DAL;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -10,11 +11,13 @@ public class RabbitMQBackgroundService : BackgroundService
     private readonly ILogger<RabbitMQBackgroundService> _logger;
     private readonly RabbitMQConsumer[] _consumers;
 
-    public RabbitMQBackgroundService()
+    public RabbitMQBackgroundService(IServiceScopeFactory factory)
     {
         // Initialize consumers for different queues
-        var temperaturaProcessor = new RegistroTemperaturaProcessor();
-        var fraudeProcessor = new RegistroFraudeProcessor();
+        var registrarFraudeHeladera = factory.CreateScope().ServiceProvider.GetRequiredService<RegistrarFraudeHeladera>();
+        var registrarTemperaturaHeladera = factory.CreateScope().ServiceProvider.GetRequiredService<RegistrarTemperaturaHeladera>();
+        var temperaturaProcessor = new RegistroTemperaturaProcessor(registrarTemperaturaHeladera);
+        var fraudeProcessor = new RegistroFraudeProcessor(registrarFraudeHeladera);
         _consumers = new RabbitMQConsumer[]
         {
             new RabbitMQConsumer("temperature_queue", temperaturaProcessor),
