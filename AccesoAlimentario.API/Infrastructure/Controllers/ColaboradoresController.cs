@@ -1,11 +1,15 @@
+using AccesoAlimentario.API.Controllers.RequestDTO;
 using AccesoAlimentario.API.Infrastructure.Repositories;
+using AccesoAlimentario.API.UseCases.Colaboradores;
+using AccesoAlimentario.API.UseCases.Colaboradores.Excepciones;
+using AccesoAlimentario.API.UseCases.Personas.Excepciones;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AccesoAlimentario.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ColaboradoresController(UnitOfWork unitOfWork) : ControllerBase
+public class ColaboradoresController(UnitOfWork unitOfWork, CrearColaboradorHTTP crearColaborador) : ControllerBase
 {
     // POST: api/colaboradores/csv
     // [HttpPost("csv")]
@@ -19,7 +23,31 @@ public class ColaboradoresController(UnitOfWork unitOfWork) : ControllerBase
     //     var res = unitOfWork.ColaboradorRepository.Get();
     //     return Ok(res);
     // }
-
+    
+    [HttpPost]
+    // POST: api/colaboradores
+    public IActionResult PostColaborador([FromBody] ColaboradorDTO colaborador)
+    {
+        try
+        {
+            crearColaborador.CrearColaborador(colaborador);
+        }
+        catch (PersonaNoExiste e)
+        {
+            return NotFound(e.Message);
+        }
+        catch (PersonaYaEsColaborador e)
+        {
+            return BadRequest(e.Message);
+        }
+        catch (Exception e)
+        {
+            // Server error
+            return StatusCode(500, e.Message);
+        }
+        return Ok();
+    }
+    
     // GET: api/colaboradores
     [HttpGet]
     public IActionResult GetColaboradores()

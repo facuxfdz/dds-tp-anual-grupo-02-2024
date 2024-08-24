@@ -1,11 +1,10 @@
-// using AccesoAlimentario.API.Controllers;
-// using AccesoAlimentario.Core.DAL;
-// using AccesoAlimentario.Core.Entities.RegistrosSensores;
-// using AccesoAlimentario.Core.Servicios;
 
+using AccesoAlimentario.API.Domain.Colaboraciones;
+using AccesoAlimentario.API.Domain.Personas;
 using AccesoAlimentario.API.Infrastructure.DAL;
+using AccesoAlimentario.API.Infrastructure.Repositories;
+using AccesoAlimentario.API.UseCases.Colaboradores;
 using Microsoft.EntityFrameworkCore;
-// using RegistroTemperatura = AccesoAlimentario.Core.Entities.Sensores.RegistroTemperatura;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +21,12 @@ builder.Services.AddDbContext<AppDbContext>((provider, options) =>
         "server=localhost;port=3346;database=acceso_alimentario_nueva;user=root;password=pass123");
     // options.UseInMemoryDatabase(databaseName: "AccesoAlimentario");
 });
+builder.Services.AddScoped(typeof(UnitOfWork));
+builder.Services.AddScoped(typeof(GenericRepository<>));
+builder.Services.AddScoped(typeof(GenericRepository<Colaborador>));
+builder.Services.AddScoped(typeof(GenericRepository<Persona>));
+
+builder.Services.AddScoped<CrearColaboradorHTTP>();
 //
 // builder.Services.AddScoped(typeof(UnitOfWork));
 // builder.Services.AddScoped(typeof(GenericRepository<>));

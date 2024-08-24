@@ -18,12 +18,12 @@ public class Colaborador
     private TarjetaColaboracion _tarjetaColaboracion { get; set; }
     private List<EventoHeladera> _suscripciones { get; }
     private List<CanalNotificacion> _canalesNotificacion { get; }
-    private Persona _persona;
+    public Persona Persona { get; private set; }
     public Colaborador(){}
     
     public Colaborador(Persona persona)
     {
-        _persona = persona;
+        Persona = persona;
     }
     
     public void AgregarTarjeta(TarjetaColaboracion tarjeta)
