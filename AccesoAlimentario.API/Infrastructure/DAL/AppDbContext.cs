@@ -1,6 +1,10 @@
 using AccesoAlimentario.API.Domain.Colaboraciones;
 using AccesoAlimentario.API.Domain.Colaboraciones.Contribuciones;
 using AccesoAlimentario.API.Domain.Colaboraciones.Suscripciones;
+using AccesoAlimentario.API.Domain.Heladeras;
+using AccesoAlimentario.API.Domain.Notificaciones;
+using AccesoAlimentario.API.Domain.Personas;
+using AccesoAlimentario.Core.Entities.Heladeras;
 using Microsoft.EntityFrameworkCore;
 
 namespace AccesoAlimentario.API.Infrastructure.DAL;
@@ -13,6 +17,21 @@ public class AppDbContext : DbContext
     
     public DbSet<Colaborador> Colaboradores { get; set; } = null!;
     public DbSet<Contribucion> Contribuciones { get; set; } = null!;
-    public DbSet<Suscripciones> Suscripciones { get; set; } = null!;
+    public DbSet<DistribucionViandas> DistribucionesViandas { get; set; } = null!;
+    public DbSet<Heladera> Heladeras { get; set; } = null!;
+    public DbSet<ModeloHeladera> ModelosHeladera { get; set; } = null!;
+    public DbSet<PuntoEstrategico> PuntosEstrategicos { get; set; } = null!;
+    public DbSet<Vianda> Viandas { get; set; } = null!;
+    public DbSet<ViandaEstandar> ViandasEstandar { get; set; } = null!;
+    public DbSet<EventoHeladera> Suscripciones { get; set; } = null!;
+    public DbSet<ViandasRestantes> ViandasRestantes { get; set; } = null!;
     public DbSet<TarjetaColaboracion> TarjetasColaboracion { get; set; } = null!;
+    public DbSet<TarjetaConsumo> TarjetasConsumo { get; set; } = null!;
+    public DbSet<Direccion> Direcciones { get; set; } = null!;
+    public DbSet<Persona> Personas { get; set; } = null!;
+    public DbSet<PersonaHumana> PersonasHumanas { get; set; } = null!;
+    public DbSet<PersonaJuridica> PersonasJuridicas { get; set; } = null!;
+    public DbSet<CanalNotificacion> CanalesNotificacion { get; set; } = null!;
+    public DbSet<Email> Emails { get; set; } = null!;
+    public DbSet<DocumentoIdentidad> DocumentosIdentidad { get; set; } = null!;
 }

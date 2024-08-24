@@ -1,7 +1,4 @@
-using AccesoAlimentario.Core.DAL;
-using AccesoAlimentario.Core.Entities.Personas;
-using AccesoAlimentario.Core.Infraestructura.ImportacionColaboradores;
-using AccesoAlimentario.Core.Validadores.ImportacionMasiva;
+using AccesoAlimentario.API.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AccesoAlimentario.API.Controllers;
@@ -11,17 +8,17 @@ namespace AccesoAlimentario.API.Controllers;
 public class ColaboradoresController(UnitOfWork unitOfWork) : ControllerBase
 {
     // POST: api/colaboradores/csv
-    [HttpPost("csv")]
-    public IActionResult ImportarColaboradores([FromForm] IFormFile file)
-    {
-        // Create stream from file
-        using var stream = file.OpenReadStream();
-        // var importador = new ImportadorColaboraciones(new ImportadorCsv(), unitOfWork.ColaboradorRepository);
-        var importador = new ImportadorColaboraciones(unitOfWork.ColaboradorRepository, new ValidadorImportacionMasiva());
-        importador.Importar(stream);
-        var res = unitOfWork.ColaboradorRepository.Get();
-        return Ok(res);
-    }
+    // [HttpPost("csv")]
+    // public IActionResult ImportarColaboradores([FromForm] IFormFile file)
+    // {
+    //     // Create stream from file
+    //     using var stream = file.OpenReadStream();
+    //     // var importador = new ImportadorColaboraciones(new ImportadorCsv(), unitOfWork.ColaboradorRepository);
+    //     var importador = new ImportadorColaboraciones(unitOfWork.ColaboradorRepository, new ValidadorImportacionMasiva());
+    //     importador.Importar(stream);
+    //     var res = unitOfWork.ColaboradorRepository.Get();
+    //     return Ok(res);
+    // }
 
     // GET: api/colaboradores
     [HttpGet]
@@ -30,20 +27,5 @@ public class ColaboradoresController(UnitOfWork unitOfWork) : ControllerBase
         var colaboradores = unitOfWork.ColaboradorRepository.Get();
         return Ok(colaboradores);
     }
-
-    [HttpPost("persona-humana")]
-    public IActionResult AddPersonaHumana(
-        [FromBody] PersonaHumana personaHumana
-    )
-    {
-        unitOfWork.PersonaHumanaRepository.Insert(personaHumana);
-        return Ok();
-    }
-
-    [HttpGet("persona-humana")]
-    public IActionResult GetPersonasHumana()
-    {
-        var personaHumana = unitOfWork.PersonaHumanaRepository.Get();
-        return Ok(personaHumana);
-    }
+    
 }

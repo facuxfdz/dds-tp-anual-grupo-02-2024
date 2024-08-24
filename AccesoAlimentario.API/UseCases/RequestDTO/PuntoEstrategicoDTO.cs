@@ -1,5 +1,3 @@
-using AccesoAlimentario.Core.Entities.Direcciones;
-
 namespace AccesoAlimentario.API.Controllers.RequestDTO;
 
 public class PuntoEstrategicoDTO

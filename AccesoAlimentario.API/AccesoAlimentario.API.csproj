@@ -16,22 +16,23 @@
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
         <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+        <PackageReference Include="MySql.EntityFrameworkCore" Version="8.0.5" />
     </ItemGroup>
 
-    <ItemGroup>
-      <EmbeddedResource Include="Resources\10mil-mas-comunes.txt">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </EmbeddedResource>
-      <EmbeddedResource Include="Resources\appsettings.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </EmbeddedResource>
-      <EmbeddedResource Include="Resources\CoeficientesPuntos.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </EmbeddedResource>
-    </ItemGroup>
+<!--    <ItemGroup>-->
+<!--      <EmbeddedResource Include="Resources\10mil-mas-comunes.txt">-->
+<!--        <CopyToOutputDirectory>Always</CopyToOutputDirectory>-->
+<!--      </EmbeddedResource>-->
+<!--      <EmbeddedResource Include="Resources\appsettings.json">-->
+<!--        <CopyToOutputDirectory>Always</CopyToOutputDirectory>-->
+<!--      </EmbeddedResource>-->
+<!--      <EmbeddedResource Include="Resources\CoeficientesPuntos.json">-->
+<!--        <CopyToOutputDirectory>Always</CopyToOutputDirectory>-->
+<!--      </EmbeddedResource>-->
+<!--    </ItemGroup>-->
 
-    <ItemGroup>
-      <ProjectReference Include="..\AccesoAlimentario.Core\AccesoAlimentario.Core.csproj" />
-    </ItemGroup>
+<!--    <ItemGroup>-->
+<!--      <ProjectReference Include="..\AccesoAlimentario.Core\AccesoAlimentario.Core.csproj" />-->
+<!--    </ItemGroup>-->
 
 </Project>
