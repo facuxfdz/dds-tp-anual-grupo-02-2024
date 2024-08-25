@@ -1,7 +1,5 @@
 using AccesoAlimentario.API.Controllers.RequestDTO;
 using AccesoAlimentario.API.Domain.Colaboraciones;
-using AccesoAlimentario.API.Domain.Personas;
-using AccesoAlimentario.API.Infrastructure.Repositories;
 using AccesoAlimentario.API.UseCases.Colaboradores.Excepciones;
 
 namespace AccesoAlimentario.API.UseCases.Colaboradores;
@@ -15,7 +13,8 @@ public class CrearTarjetaColaboracion(
     public void CrearTarjeta(ColaboradorDTO colaborador)
     {
         var colaboradorBusq = colaboradorRepository.Get(
-            filter: c => c.Id == colaborador.Id
+            filter: c => c.Id == colaborador.Id,
+            includeProperties: "Persona"
         );
 
         var colaboradores = colaboradorBusq as Colaborador[] ?? colaboradorBusq.ToArray();
