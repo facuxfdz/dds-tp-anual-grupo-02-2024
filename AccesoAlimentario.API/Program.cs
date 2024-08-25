@@ -1,4 +1,5 @@
 
+using System.Text.Json.Serialization;
 using AccesoAlimentario.API.Domain.Colaboraciones;
 using AccesoAlimentario.API.Domain.Personas;
 using AccesoAlimentario.API.Infrastructure.DAL;
@@ -31,6 +32,14 @@ builder.Services.AddScoped<IRepository<Colaborador>, GenericRepository<Colaborad
 builder.Services.AddScoped<IRepository<Persona>, GenericRepository<Persona>>();
 builder.Services.AddScoped<CrearColaboradorHTTP>();
 builder.Services.AddScoped<CrearPersona>();
+
+builder.Services
+    .AddMvc()
+    .AddJsonOptions(opts =>
+    {
+        var enumConverter = new JsonStringEnumConverter();
+        opts.JsonSerializerOptions.Converters.Add(enumConverter);
+    });
 //
 // builder.Services.AddScoped(typeof(UnitOfWork));
 // builder.Services.AddScoped(typeof(GenericRepository<>));

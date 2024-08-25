@@ -14,28 +14,26 @@ public class CrearColaboradorHTTP(
 {
     public void CrearColaborador(ColaboradorDTO colaboradorDTO)
     {
-        
         // Chequear si la persona existe
         var persona = personaRepository.Get(
             filter: p => p.Id == colaboradorDTO.Persona.Id
-        ) as Persona[];
-        if(persona == null)
-        {
-            throw new PersonaNoExiste();
-        }
-        if(persona.Length == 0)
+        );
+        Persona[] enumerable = persona as Persona[] ?? persona.ToArray();
+        if(persona == null || !enumerable.Any())
         {
             throw new PersonaNoExiste();
         }
         
         // Chequear si la persona ya es colaborador
         var colaborador = new Colaborador(
-            persona[0]
+            enumerable.First()
         );
+        Console.WriteLine("persona colaborador: " + colaborador.Persona.Id);
         var colaboradorRes = colaboradorRepository.Get(
                 filter: c => c.Persona.Id == colaborador.Persona.Id
-            ) as Colaborador[];
-        if(colaboradorRes != null && colaboradorRes.Length > 0)
+            );
+        // mostrar cantidad de colaboradores
+        if(colaboradorRes != null && colaboradorRes.Count() > 0)
         {
             throw new PersonaYaEsColaborador();
         }

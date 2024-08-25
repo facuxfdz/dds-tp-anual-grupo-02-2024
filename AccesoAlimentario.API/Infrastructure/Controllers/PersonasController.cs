@@ -1,14 +1,9 @@
-﻿
-using AccesoAlimentario.API.Controllers.RequestDTO;
+﻿using AccesoAlimentario.API.Controllers.RequestDTO;
 using AccesoAlimentario.API.UseCases.Personas;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AccesoAlimentario.API.Infrastructure.Controllers;
 
-// using Microsoft.AspNetCore.Mvc;
-//
-// namespace AccesoAlimentario.API.Controllers;
-//
 [Route("api/[controller]")]
 [ApiController]
 public class PersonasController(CrearPersona crearPersona) : ControllerBase

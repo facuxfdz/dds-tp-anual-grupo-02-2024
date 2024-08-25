@@ -10,14 +10,14 @@ public class DocumentoIdentidad
     public int Id { get; private set; }
 
     public TipoDocumento TipoDocumento { get; set; } = TipoDocumento.Dni;
-    public int NroDocumento { get; set; } = 0;
+    public string NroDocumento { get; set; } = "";
     public DateOnly? FechaNacimiento { get; set; } = null;
     
     public DocumentoIdentidad()
     {
     }
     
-    public DocumentoIdentidad(TipoDocumento tipoDocumento, int nroDocumento, DateOnly fechaNacimiento)
+    public DocumentoIdentidad(TipoDocumento tipoDocumento, string nroDocumento, DateOnly fechaNacimiento)
     {
         TipoDocumento = tipoDocumento;
         NroDocumento = nroDocumento;
