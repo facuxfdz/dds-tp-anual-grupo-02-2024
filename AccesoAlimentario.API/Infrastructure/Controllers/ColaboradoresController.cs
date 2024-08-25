@@ -5,11 +5,11 @@ using AccesoAlimentario.API.UseCases.Colaboradores.Excepciones;
 using AccesoAlimentario.API.UseCases.Personas.Excepciones;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AccesoAlimentario.API.Controllers;
+namespace AccesoAlimentario.API.Infrastructure.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ColaboradoresController(UnitOfWork unitOfWork, CrearColaboradorHTTP crearColaborador) : ControllerBase
+public class ColaboradoresController(CrearColaboradorHTTP crearColaborador) : ControllerBase
 {
     // POST: api/colaboradores/csv
     // [HttpPost("csv")]
@@ -52,8 +52,8 @@ public class ColaboradoresController(UnitOfWork unitOfWork, CrearColaboradorHTTP
     [HttpGet]
     public IActionResult GetColaboradores()
     {
-        var colaboradores = unitOfWork.ColaboradorRepository.Get();
-        return Ok(colaboradores);
+        // var colaboradores = unitOfWork.ColaboradorRepository.Get(); TODO: Aca iria un llamado a caso de uso
+        return Ok();
     }
     
 }

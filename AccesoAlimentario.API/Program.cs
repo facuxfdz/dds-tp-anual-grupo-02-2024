@@ -4,6 +4,7 @@ using AccesoAlimentario.API.Domain.Personas;
 using AccesoAlimentario.API.Infrastructure.DAL;
 using AccesoAlimentario.API.Infrastructure.Repositories;
 using AccesoAlimentario.API.UseCases.Colaboradores;
+using AccesoAlimentario.API.UseCases.Personas;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,7 +27,10 @@ builder.Services.AddScoped(typeof(GenericRepository<>));
 builder.Services.AddScoped(typeof(GenericRepository<Colaborador>));
 builder.Services.AddScoped(typeof(GenericRepository<Persona>));
 
+builder.Services.AddScoped<IRepository<Colaborador>, GenericRepository<Colaborador>>();
+builder.Services.AddScoped<IRepository<Persona>, GenericRepository<Persona>>();
 builder.Services.AddScoped<CrearColaboradorHTTP>();
+builder.Services.AddScoped<CrearPersona>();
 //
 // builder.Services.AddScoped(typeof(UnitOfWork));
 // builder.Services.AddScoped(typeof(GenericRepository<>));

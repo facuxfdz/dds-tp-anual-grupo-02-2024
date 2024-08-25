@@ -1,13 +1,62 @@
-﻿// using AccesoAlimentario.Core.DAL;
-// using AccesoAlimentario.Core.Entities.MediosContacto;
-// using AccesoAlimentario.Core.Entities.Personas;
-// using AccesoAlimentario.Core.Servicios;
+﻿
+using AccesoAlimentario.API.Controllers.RequestDTO;
+using AccesoAlimentario.API.UseCases.Personas;
+using Microsoft.AspNetCore.Mvc;
+
+namespace AccesoAlimentario.API.Infrastructure.Controllers;
+
 // using Microsoft.AspNetCore.Mvc;
 //
 // namespace AccesoAlimentario.API.Controllers;
 //
-// [Route("api/[controller]")]
-// [ApiController]
+[Route("api/[controller]")]
+[ApiController]
+public class PersonasController(CrearPersona crearPersona) : ControllerBase
+{
+    private void _validarPersona(PersonaDTO persona)
+    {
+        if(persona.TipoPersona == null)
+        {
+            Console.WriteLine(persona.TipoPersona);
+            Console.WriteLine(persona.Sexo);
+            throw new RequestInvalido("Tipo de persona no puede ser nulo");
+        }
+        if(persona.Nombre == null)
+        {
+            throw new RequestInvalido("Nombre no puede ser nulo");
+        }
+        if(persona.Direccion == null)
+        {
+            throw new RequestInvalido("Direccion no puede ser nulo");
+        }
+        if(persona.Direccion.Numero == null || persona.Direccion.CodigoPostal == null || persona.Direccion.Localidad == null || persona.Direccion.Calle == null)
+        {
+            throw new RequestInvalido("Direccion no puede tener campos nulos");
+        }
+        if(persona.DocumentoIdentidad == null)
+        {
+            throw new RequestInvalido("Documento de identidad no puede ser nulo");
+        }
+        if(persona.DocumentoIdentidad.Tipo == null)
+        {
+            throw new RequestInvalido("Tipo de documento de identidad no puede ser nulo");
+        }
+    }
+    [HttpPost]
+    // POST: api/personas
+    public ActionResult<PersonaDTO> PostPersona([FromBody] PersonaDTO persona)
+    {
+        try
+        {
+            _validarPersona(persona);
+            crearPersona.Crear(persona);
+        }catch (RequestInvalido e)
+        {
+            return BadRequest(e.Message);
+        }
+        return Ok();
+    }
+}
 // public class PersonasController(PersonasServicio servicio) : ControllerBase
 // {
 //     // GET: api/personas

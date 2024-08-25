@@ -8,8 +8,8 @@ using AccesoAlimentario.API.UseCases.Personas.Excepciones;
 namespace AccesoAlimentario.API.UseCases.Colaboradores;
 
 public class CrearColaboradorHTTP(
-    GenericRepository<Colaborador> colaboradorRepository,
-    GenericRepository<Persona> personaRepository
+    IRepository<Colaborador> colaboradorRepository,
+    IRepository<Persona> personaRepository
         )
 {
     public void CrearColaborador(ColaboradorDTO colaboradorDTO)
