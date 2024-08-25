@@ -1,5 +1,6 @@
 ﻿using AccesoAlimentario.API.Controllers.RequestDTO;
 using AccesoAlimentario.API.UseCases.Personas;
+using AccesoAlimentario.API.UseCases.Personas.Excepciones;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AccesoAlimentario.API.Infrastructure.Controllers;
@@ -46,6 +47,10 @@ public class PersonasController(CrearPersona crearPersona) : ControllerBase
             _validarPersona(persona);
             crearPersona.Crear(persona);
         }catch (RequestInvalido e)
+        {
+            return BadRequest(e.Message);
+        }
+        catch (TipoDePersonaInvalido e)
         {
             return BadRequest(e.Message);
         }

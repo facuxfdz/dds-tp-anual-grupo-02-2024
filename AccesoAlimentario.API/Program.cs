@@ -1,4 +1,5 @@
 
+using System.Text;
 using System.Text.Json.Serialization;
 using AccesoAlimentario.API.Domain.Colaboraciones;
 using AccesoAlimentario.API.Domain.Personas;
@@ -28,8 +29,14 @@ builder.Services.AddScoped(typeof(GenericRepository<>));
 builder.Services.AddScoped(typeof(GenericRepository<Colaborador>));
 builder.Services.AddScoped(typeof(GenericRepository<Persona>));
 
+var encryptionKey = Encoding.UTF8.GetBytes("12345678901234567890123456789012");
+// TODO: Separar y agrupar los servicios para mejor legibilidad (Por ejemplo para ver facilmente la inyeccion de dependencias)
 builder.Services.AddScoped<IRepository<Colaborador>, GenericRepository<Colaborador>>();
 builder.Services.AddScoped<IRepository<Persona>, GenericRepository<Persona>>();
+builder.Services.AddScoped<IRepository<TarjetaColaboracion>, GenericRepository<TarjetaColaboracion>>();
+builder.Services.AddScoped<IGeneradorCodigoTarjeta, GenerarRandom>();
+builder.Services.AddScoped<IEncryptionService>(provider => new AuthenticatedEncryptionService(encryptionKey));
+builder.Services.AddScoped<CrearTarjetaColaboracion>();
 builder.Services.AddScoped<CrearColaboradorHTTP>();
 builder.Services.AddScoped<CrearPersona>();
 

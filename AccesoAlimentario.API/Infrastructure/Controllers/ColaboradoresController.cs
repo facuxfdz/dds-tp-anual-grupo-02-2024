@@ -9,7 +9,10 @@ namespace AccesoAlimentario.API.Infrastructure.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ColaboradoresController(CrearColaboradorHTTP crearColaborador) : ControllerBase
+public class ColaboradoresController(
+    CrearColaboradorHTTP crearColaborador,
+    CrearTarjetaColaboracion crearTarjetaColaboracion
+    ) : ControllerBase
 {
     // POST: api/colaboradores/csv
     // [HttpPost("csv")]
@@ -48,11 +51,28 @@ public class ColaboradoresController(CrearColaboradorHTTP crearColaborador) : Co
         return Ok();
     }
     
-    // GET: api/colaboradores
-    [HttpGet]
-    public IActionResult GetColaboradores()
+    // POST api/colaboradores/crearTarjeta
+    [HttpPost("crearTarjeta")]
+    public IActionResult CrearTarjeta([FromBody] ColaboradorDTO colaborador)
     {
-        // var colaboradores = unitOfWork.ColaboradorRepository.Get(); TODO: Aca iria un llamado a caso de uso
+        if(colaborador.Id == null)
+        {
+            return BadRequest("Id de colaborador no puede ser nulo");
+        }
+
+        try
+        {
+            crearTarjetaColaboracion.CrearTarjeta(colaborador);
+        }
+        catch (ColaboradorNoExiste e)
+        {
+            return BadRequest(e.Message);
+        }
+        catch (Exception e)
+        {
+            // Server error
+            return StatusCode(500, e.Message);
+        }
         return Ok();
     }
     
