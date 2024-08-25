@@ -29,5 +29,8 @@ public class CrearTarjetaColaboracion(
             persona
         );
         tarjetaColaboracionRepository.Insert(tarjeta);
+        // Agregar la tarjeta creada al colaborador
+        colaboradores.First().AgregarTarjeta(tarjeta);
+        colaboradorRepository.Update(colaboradores.First());
     }
 }

@@ -2,9 +2,11 @@
 using System.Text;
 using System.Text.Json.Serialization;
 using AccesoAlimentario.API.Domain.Colaboraciones;
+using AccesoAlimentario.API.Domain.Heladeras;
 using AccesoAlimentario.API.Domain.Personas;
 using AccesoAlimentario.API.Infrastructure.DAL;
 using AccesoAlimentario.API.Infrastructure.Repositories;
+using AccesoAlimentario.API.UseCases.AccesoHeladera;
 using AccesoAlimentario.API.UseCases.Colaboradores;
 using AccesoAlimentario.API.UseCases.Personas;
 using Microsoft.EntityFrameworkCore;
@@ -33,13 +35,15 @@ var encryptionKey = Encoding.UTF8.GetBytes("12345678901234567890123456789012");
 // TODO: Separar y agrupar los servicios para mejor legibilidad (Por ejemplo para ver facilmente la inyeccion de dependencias)
 builder.Services.AddScoped<IRepository<Colaborador>, GenericRepository<Colaborador>>();
 builder.Services.AddScoped<IRepository<Persona>, GenericRepository<Persona>>();
+builder.Services.AddScoped<IRepository<Heladera>, GenericRepository<Heladera>>();
 builder.Services.AddScoped<IRepository<TarjetaColaboracion>, GenericRepository<TarjetaColaboracion>>();
 builder.Services.AddScoped<IGeneradorCodigoTarjeta, GenerarRandom>();
 builder.Services.AddScoped<IEncryptionService>(provider => new AuthenticatedEncryptionService(encryptionKey));
 builder.Services.AddScoped<CrearTarjetaColaboracion>();
 builder.Services.AddScoped<CrearColaboradorHTTP>();
 builder.Services.AddScoped<CrearPersona>();
-
+builder.Services.AddScoped<AutorizacionHeladera>();
+builder.Services.AddScoped<AutorizarAccesoHeladera>();
 builder.Services
     .AddMvc()
     .AddJsonOptions(opts =>

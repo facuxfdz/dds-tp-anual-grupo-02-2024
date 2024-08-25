@@ -15,7 +15,7 @@ public class Colaborador
     private List<Contribucion> _contribuciones { get; }
     private List<TipoContribucion> _contribucionesPreferidas { get; }
     private float _puntos { get; }
-    private TarjetaColaboracion _tarjetaColaboracion { get; set; }
+    public TarjetaColaboracion? TarjetaColaboracion { get; set; }
     private List<EventoHeladera> _suscripciones { get; }
     private List<CanalNotificacion> _canalesNotificacion { get; }
     public Persona Persona { get; private set; }
@@ -28,6 +28,6 @@ public class Colaborador
     
     public void AgregarTarjeta(TarjetaColaboracion tarjeta)
     {
-        _tarjetaColaboracion = tarjeta;
+        TarjetaColaboracion = tarjeta;
     }
 }

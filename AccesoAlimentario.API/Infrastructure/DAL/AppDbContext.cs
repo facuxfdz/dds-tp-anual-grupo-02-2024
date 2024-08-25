@@ -34,4 +34,5 @@ public class AppDbContext : DbContext
     public DbSet<CanalNotificacion> CanalesNotificacion { get; set; } = null!;
     public DbSet<Email> Emails { get; set; } = null!;
     public DbSet<DocumentoIdentidad> DocumentosIdentidad { get; set; } = null!;
+    public DbSet<AutorizacionHeladera> AutorizacionesHeladera { get; set; } = null!;
 }
