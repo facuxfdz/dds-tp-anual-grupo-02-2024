@@ -8,6 +8,7 @@ using AccesoAlimentario.API.Infrastructure.DAL;
 using AccesoAlimentario.API.Infrastructure.Repositories;
 using AccesoAlimentario.API.UseCases.AccesoHeladera;
 using AccesoAlimentario.API.UseCases.Colaboradores;
+using AccesoAlimentario.API.UseCases.Heladeras;
 using AccesoAlimentario.API.UseCases.Personas;
 using Microsoft.EntityFrameworkCore;
 
@@ -37,6 +38,10 @@ builder.Services.AddScoped<IRepository<Colaborador>, GenericRepository<Colaborad
 builder.Services.AddScoped<IRepository<Persona>, GenericRepository<Persona>>();
 builder.Services.AddScoped<IRepository<Heladera>, GenericRepository<Heladera>>();
 builder.Services.AddScoped<IRepository<TarjetaColaboracion>, GenericRepository<TarjetaColaboracion>>();
+builder.Services.AddScoped<IRepository<ModeloHeladera>, GenericRepository<ModeloHeladera>>();
+builder.Services.AddScoped<IRepository<PuntoEstrategico>, GenericRepository<PuntoEstrategico>>();
+builder.Services.AddScoped<IRepository<AutorizacionHeladera>, GenericRepository<AutorizacionHeladera>>();
+
 builder.Services.AddScoped<IGeneradorCodigoTarjeta, GenerarRandom>();
 builder.Services.AddScoped<IEncryptionService>(provider => new AuthenticatedEncryptionService(encryptionKey));
 builder.Services.AddScoped<CrearTarjetaColaboracion>();
@@ -44,6 +49,10 @@ builder.Services.AddScoped<CrearColaboradorHTTP>();
 builder.Services.AddScoped<CrearPersona>();
 builder.Services.AddScoped<AutorizacionHeladera>();
 builder.Services.AddScoped<AutorizarAccesoHeladera>();
+builder.Services.AddScoped<CrearHeladera>();
+builder.Services.AddScoped<CrearModeloHeladera>();
+builder.Services.AddScoped<DarAltaPuntoHeladera>();
+
 builder.Services
     .AddMvc()
     .AddJsonOptions(opts =>

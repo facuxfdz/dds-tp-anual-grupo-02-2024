@@ -1,76 +1,43 @@
-// using AccesoAlimentario.API.Controllers.RequestDTO;
-// using AccesoAlimentario.Core.Entities.Direcciones;
-// using AccesoAlimentario.Core.Servicios;
-// using Microsoft.AspNetCore.Mvc;
-//
-// namespace AccesoAlimentario.API.Controllers;
-//
-// [Route("api/[controller]")]
-// [ApiController]
-// public class PuntoEstrategicoController(
-//     PuntoEstrategicoServicio puntoEstrategicoServicio, 
-//     DireccionServicio direccionServicio
-//     ) : ControllerBase
-// {
-//     // POST api/puntoestrategico
-//     [HttpPost]
-//     public IActionResult AddPuntoEstrategico(
-//         [FromBody] PuntoEstrategicoDTO puntoEstrategico
-//     )
-//     {
-//         try
-//         {
-//             var direccionBusq = direccionServicio.Buscar(
-//                 puntoEstrategico.Direccion.Calle,
-//                 puntoEstrategico.Direccion.Numero,
-//                 puntoEstrategico.Direccion.Localidad,
-//                 puntoEstrategico.Direccion.CodigoPostal);
-//             Direccion direccion;
-//             if(direccionBusq == null)
-//             {
-//                 direccion = direccionServicio.Crear(
-//                     puntoEstrategico.Direccion.Calle,
-//                     puntoEstrategico.Direccion.Numero,
-//                     puntoEstrategico.Direccion.Localidad,
-//                     puntoEstrategico.Direccion.CodigoPostal
-//                 );
-//                 puntoEstrategicoServicio.Crear(
-//                     puntoEstrategico.Nombre,
-//                     direccion,
-//                     puntoEstrategico.Longitud,
-//                     puntoEstrategico.Latitud
-//                 );
-//             }
-//             else
-//             {
-//                 puntoEstrategicoServicio.Crear(
-//                     puntoEstrategico.Nombre,
-//                     direccionBusq,
-//                     puntoEstrategico.Longitud,
-//                     puntoEstrategico.Latitud
-//                 );
-//             }
-//         }
-//         catch (Exception e)
-//         {
-//             return StatusCode(500, new { error = e.Message });
-//         }
-//         
-//         return Ok(new { message = "Punto estrategico creado correctamente" });
-//     }
-//     
-//     // GET api/puntosestrategicos
-//     [HttpGet]
-//     public IActionResult GetPuntosEstrategicos()
-//     {
-//         try
-//         {
-//             var puntosEstrategicos = puntoEstrategicoServicio.Listar();
-//             return Ok(puntosEstrategicos);
-//         }
-//         catch (Exception e)
-//         {
-//             return StatusCode(500, new { error = e.Message });
-//         }
-//     }
-// }
+using AccesoAlimentario.API.UseCases;
+using AccesoAlimentario.API.UseCases.Heladeras;
+using AccesoAlimentario.API.UseCases.RequestDTO.Heladera;
+using Microsoft.AspNetCore.Mvc;
+
+namespace AccesoAlimentario.API.Infrastructure.Controllers;
+[Route("api/[controller]")]
+[ApiController]
+public class PuntoEstrategicoController(
+    DarAltaPuntoHeladera darAltaPuntoHeladera) : ControllerBase
+{
+    // POST api/puntoestrategico
+    [HttpPost]
+    public IActionResult AddPuntoEstrategico(
+        [FromBody] PuntoEstrategicoDTO puntoEstrategico
+    )
+    {
+        try
+        {
+            darAltaPuntoHeladera.AltaPunto(puntoEstrategico);
+        }
+        catch (RequestInvalido e)
+        {
+            return BadRequest(e.Message);
+        }
+        catch (RecursoYaExistente e)
+        {
+            return BadRequest(e.Message);
+        }
+        catch(Exception e)
+        {
+            return StatusCode(500, e.Message);
+        }
+        return Ok();
+    }
+    
+    // GET api/puntosestrategicos
+    [HttpGet]
+    public IActionResult GetPuntosEstrategicos()
+    {
+        throw new NotImplementedException();
+    }
+}

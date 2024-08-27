@@ -1,7 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using AccesoAlimentario.API.Domain.Heladeras.Excepciones;
-using AccesoAlimentario.API.Domain.Heladeras.RegistrosSensores;
 
 namespace AccesoAlimentario.API.Domain.Heladeras;
 
@@ -13,7 +11,7 @@ public class Heladera
 
     public PuntoEstrategico PuntoEstrategico { get; set; } = null!;
     public List<Vianda> Viandas { get; set; } = null!;
-    public EstadoHeladera EstadoHeladera { get; set; } = EstadoHeladera.FueraServicio;
+    public EstadoHeladera EstadoHeladera { get; set; }
     public DateTime FechaInstalacion { get; set; } = DateTime.Now;
     public float TemperaturaActual { get; set; } = 0;
     public float TemperaturaMinimaConfig { get; set; } = 0;
@@ -23,7 +21,16 @@ public class Heladera
     public Heladera()
     {
     }
-
+    
+    public Heladera(PuntoEstrategico puntoEstrategico, ModeloHeladera modelo)
+    {
+        PuntoEstrategico = puntoEstrategico;
+        EstadoHeladera = EstadoHeladera.Activa;
+        FechaInstalacion = DateTime.Now;
+        TemperaturaMinimaConfig = modelo.TemperaturaMinima;
+        TemperaturaMaximaConfig = modelo.TemperaturaMaxima;
+        Modelo = modelo;
+    }
     public Heladera(PuntoEstrategico puntoEstrategico, float temperaturaMinima, float temperaturaMaxima,
         ModeloHeladera modelo)
     {

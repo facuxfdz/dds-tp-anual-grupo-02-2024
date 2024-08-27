@@ -9,7 +9,8 @@ namespace AccesoAlimentario.API.UseCases.AccesoHeladera;
 
 public class AutorizarAccesoHeladera(
     IRepository<Colaborador> colaboradorRepository,
-    IRepository<Heladera> heladeraRepository
+    IRepository<Heladera> heladeraRepository,
+    IRepository<AutorizacionHeladera> autorizacionHeladeraRepository
     )
 {
     public void CrearAutorizacion(AutorizacionDTO autorizacion)
@@ -36,12 +37,23 @@ public class AutorizarAccesoHeladera(
         {
             throw new HeladeraNoExiste();
         }
-        // Crear autorización
-        // La autorizacion expira en 3 horas
+        // Chequear si ya existe una autorizacion para esa heladera y tarjeta
+        var autorizacionExistente = autorizacionHeladeraRepository.Get(
+            filter: a => a.Heladera.Id == autorizacion.Heladera.Id
+                         && a.TarjetaAutorizada.Id == colaboradores.First().TarjetaColaboracion.Id
+        );
+        IEnumerable<AutorizacionHeladera> autorizacionHeladeras = autorizacionExistente as AutorizacionHeladera[] ?? autorizacionExistente.ToArray();
+        if (autorizacionHeladeras.Any())
+        {
+            throw new AutorizacionEnVigencia(fechaExpiracion: autorizacionHeladeras.First().FechaExpiracion);
+        }
         var autorizacionHeladera = new AutorizacionHeladera(
             DateTime.Now.AddHours(3),
             heladeras.First(),
             colaboradores.First().TarjetaColaboracion
         );
+        // Crear autorización
+        // La autorizacion expira en 3 horas
+        autorizacionHeladeraRepository.Insert(autorizacionHeladera);
     }
 }

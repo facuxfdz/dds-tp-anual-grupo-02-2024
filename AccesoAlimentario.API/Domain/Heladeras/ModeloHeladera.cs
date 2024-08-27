@@ -1,10 +1,12 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AccesoAlimentario.API.Domain.Heladeras;
 
 public class ModeloHeladera
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public string Id { get; private set; }
 
     public float Capacidad { get; set; }
@@ -15,9 +17,8 @@ public class ModeloHeladera
     {
     }
 
-    public ModeloHeladera(string id, float capacidad, float temperaturaMinima, float temperaturaMaxima)
+    public ModeloHeladera(float capacidad, float temperaturaMinima, float temperaturaMaxima)
     {
-        Id = id;
         Capacidad = capacidad;
         TemperaturaMinima = temperaturaMinima;
         TemperaturaMaxima = temperaturaMaxima;

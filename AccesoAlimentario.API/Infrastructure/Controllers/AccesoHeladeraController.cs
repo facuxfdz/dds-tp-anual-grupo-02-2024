@@ -31,11 +31,25 @@ public class AccesoHeladeraController(AutorizarAccesoHeladera autorizarAccesoHel
         {
             return NotFound(e.Message);
         }
+        catch (AutorizacionEnVigencia e)
+        {
+            return Ok(
+                new
+                {
+                    error = e.Message,
+                    fechaExpiracion = e.Message.Substring(e.Message.IndexOf(":") + 1).Trim()
+                });
+        }
         catch (Exception e)
         {
             // Server error
             return StatusCode(500, e.Message);
         }
-        return Ok();
+        return Ok(
+            new
+            {
+                message = "Autorización creada correctamente",
+                fechaExpiracion = DateTime.Now.AddHours(3) // Harcodeado pero debería ser la fecha de expiración de la autorización
+            });
     }
 }
