@@ -1,6 +1,6 @@
-﻿using AccesoAlimentario.API.Controllers.RequestDTO;
-using AccesoAlimentario.API.UseCases.Personas;
+﻿using AccesoAlimentario.API.UseCases.Personas;
 using AccesoAlimentario.API.UseCases.Personas.Excepciones;
+using AccesoAlimentario.API.UseCases.RequestDTO.Colaboradores;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AccesoAlimentario.API.Infrastructure.Controllers;

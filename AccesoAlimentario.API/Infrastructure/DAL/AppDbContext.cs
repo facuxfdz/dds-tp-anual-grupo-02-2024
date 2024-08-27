@@ -35,4 +35,5 @@ public class AppDbContext : DbContext
     public DbSet<Email> Emails { get; set; } = null!;
     public DbSet<DocumentoIdentidad> DocumentosIdentidad { get; set; } = null!;
     public DbSet<AutorizacionHeladera> AutorizacionesHeladera { get; set; } = null!;
+    public DbSet<AccesoHeladera> AccesosHeladera { get; set; } = null!;
 }

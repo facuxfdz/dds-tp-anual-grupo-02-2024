@@ -1,6 +1,4 @@
-using System.Runtime.Serialization;
-
-namespace AccesoAlimentario.API.Controllers.RequestDTO;
+namespace AccesoAlimentario.API.UseCases.RequestDTO.Colaboradores;
 
 public enum TipoPersona
 {

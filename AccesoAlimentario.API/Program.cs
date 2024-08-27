@@ -37,10 +37,12 @@ var encryptionKey = Encoding.UTF8.GetBytes("12345678901234567890123456789012");
 builder.Services.AddScoped<IRepository<Colaborador>, GenericRepository<Colaborador>>();
 builder.Services.AddScoped<IRepository<Persona>, GenericRepository<Persona>>();
 builder.Services.AddScoped<IRepository<Heladera>, GenericRepository<Heladera>>();
+builder.Services.AddScoped<IRepository<Tarjeta>, GenericRepository<Tarjeta>>();
 builder.Services.AddScoped<IRepository<TarjetaColaboracion>, GenericRepository<TarjetaColaboracion>>();
 builder.Services.AddScoped<IRepository<ModeloHeladera>, GenericRepository<ModeloHeladera>>();
 builder.Services.AddScoped<IRepository<PuntoEstrategico>, GenericRepository<PuntoEstrategico>>();
 builder.Services.AddScoped<IRepository<AutorizacionHeladera>, GenericRepository<AutorizacionHeladera>>();
+builder.Services.AddScoped<IRepository<AccesoHeladera>, GenericRepository<AccesoHeladera>>();
 
 builder.Services.AddScoped<IGeneradorCodigoTarjeta, GenerarRandom>();
 builder.Services.AddScoped<IEncryptionService>(provider => new AuthenticatedEncryptionService(encryptionKey));
@@ -52,6 +54,7 @@ builder.Services.AddScoped<AutorizarAccesoHeladera>();
 builder.Services.AddScoped<CrearHeladera>();
 builder.Services.AddScoped<CrearModeloHeladera>();
 builder.Services.AddScoped<DarAltaPuntoHeladera>();
+builder.Services.AddScoped<RegistrarAccesoHeladera>();
 
 builder.Services
     .AddMvc()

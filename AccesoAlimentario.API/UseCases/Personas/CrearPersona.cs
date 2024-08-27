@@ -1,7 +1,7 @@
-using AccesoAlimentario.API.Controllers.RequestDTO;
 using AccesoAlimentario.API.Domain.Personas;
 using AccesoAlimentario.API.Infrastructure.Controllers;
 using AccesoAlimentario.API.UseCases.Personas.Excepciones;
+using AccesoAlimentario.API.UseCases.RequestDTO.Colaboradores;
 
 namespace AccesoAlimentario.API.UseCases.Personas;
 

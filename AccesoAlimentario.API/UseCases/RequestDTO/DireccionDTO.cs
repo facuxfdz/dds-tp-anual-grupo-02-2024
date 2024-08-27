@@ -1,4 +1,4 @@
-namespace AccesoAlimentario.API.Controllers.RequestDTO;
+namespace AccesoAlimentario.API.UseCases.RequestDTO;
 
 public class DireccionDTO
 {

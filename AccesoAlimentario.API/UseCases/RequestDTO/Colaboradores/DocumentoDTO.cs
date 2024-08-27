@@ -1,6 +1,6 @@
 using AccesoAlimentario.API.Domain.Personas;
 
-namespace AccesoAlimentario.API.Controllers.RequestDTO;
+namespace AccesoAlimentario.API.UseCases.RequestDTO.Colaboradores;
 
 public class DocumentoDTO
 {

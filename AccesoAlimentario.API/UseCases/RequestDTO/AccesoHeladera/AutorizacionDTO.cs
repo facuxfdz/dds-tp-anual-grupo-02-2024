@@ -1,4 +1,7 @@
-namespace AccesoAlimentario.API.Controllers.RequestDTO.AccesoHeladera;
+using AccesoAlimentario.API.UseCases.RequestDTO.Colaboradores;
+using AccesoAlimentario.API.UseCases.RequestDTO.Heladera;
+
+namespace AccesoAlimentario.API.UseCases.RequestDTO.AccesoHeladera;
 
 public class AutorizacionDTO
 {

@@ -1,9 +1,8 @@
-using AccesoAlimentario.API.Controllers.RequestDTO;
-using AccesoAlimentario.API.Controllers.RequestDTO.AccesoHeladera;
 using AccesoAlimentario.API.Domain.Colaboraciones;
 using AccesoAlimentario.API.Domain.Heladeras;
 using AccesoAlimentario.API.UseCases.AccesoHeladera.Excepciones;
 using AccesoAlimentario.API.UseCases.Colaboradores.Excepciones;
+using AccesoAlimentario.API.UseCases.RequestDTO.AccesoHeladera;
 
 namespace AccesoAlimentario.API.UseCases.AccesoHeladera;
 
@@ -43,7 +42,8 @@ public class AutorizarAccesoHeladera(
                          && a.TarjetaAutorizada.Id == colaboradores.First().TarjetaColaboracion.Id
         );
         IEnumerable<AutorizacionHeladera> autorizacionHeladeras = autorizacionExistente as AutorizacionHeladera[] ?? autorizacionExistente.ToArray();
-        if (autorizacionHeladeras.Any() && autorizacionHeladeras.First().FechaExpiracion > DateTime.Now)
+        var ultimaAutorizacion = autorizacionHeladeras.MaxBy(a => a.FechaExpiracion);
+        if (ultimaAutorizacion != null && autorizacionHeladeras.Any() && ultimaAutorizacion.FechaExpiracion > DateTime.Now)
         {
             throw new AutorizacionEnVigencia(fechaExpiracion: autorizacionHeladeras.First().FechaExpiracion);
         }
