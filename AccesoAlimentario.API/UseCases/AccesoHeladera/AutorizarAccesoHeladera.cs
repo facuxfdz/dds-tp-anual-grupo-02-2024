@@ -43,7 +43,7 @@ public class AutorizarAccesoHeladera(
                          && a.TarjetaAutorizada.Id == colaboradores.First().TarjetaColaboracion.Id
         );
         IEnumerable<AutorizacionHeladera> autorizacionHeladeras = autorizacionExistente as AutorizacionHeladera[] ?? autorizacionExistente.ToArray();
-        if (autorizacionHeladeras.Any())
+        if (autorizacionHeladeras.Any() && autorizacionHeladeras.First().FechaExpiracion > DateTime.Now)
         {
             throw new AutorizacionEnVigencia(fechaExpiracion: autorizacionHeladeras.First().FechaExpiracion);
         }
