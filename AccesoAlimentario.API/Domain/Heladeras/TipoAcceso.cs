@@ -2,6 +2,7 @@ namespace AccesoAlimentario.API.Domain.Heladeras;
 
 public enum TipoAcceso
 {
-    INGRESO_VIANDA,
-    RETIRO_VIANDA
+    INGRESO_VIANDA_CONTRIBUCION,
+    RETIRO_VIANDA_CONTRIBUCION,
+    RETIRO_VIANDA_CONSUMO
 }
