@@ -2,6 +2,7 @@ using AccesoAlimentario.API.Domain.Colaboraciones;
 using AccesoAlimentario.API.Domain.Colaboraciones.Contribuciones;
 using AccesoAlimentario.API.Domain.Colaboraciones.Suscripciones;
 using AccesoAlimentario.API.Domain.Heladeras;
+using AccesoAlimentario.API.Domain.Incidentes;
 using AccesoAlimentario.API.Domain.Notificaciones;
 using AccesoAlimentario.API.Domain.Personas;
 using AccesoAlimentario.Core.Entities.Heladeras;
@@ -36,4 +37,9 @@ public class AppDbContext : DbContext
     public DbSet<DocumentoIdentidad> DocumentosIdentidad { get; set; } = null!;
     public DbSet<AutorizacionHeladera> AutorizacionesHeladera { get; set; } = null!;
     public DbSet<AccesoHeladera> AccesosHeladera { get; set; } = null!;
+    public DbSet<Alerta> Alertas { get; set; } = null!;
+    public DbSet<FallaConexion> FallasConexion { get; set; } = null!;
+    public DbSet<TemperaturaInusual> TemperaturasInusual { get; set; } = null!;
+    public DbSet<MovimientoInusual> MovimientosInusual { get; set; } = null!;
+    
 }
