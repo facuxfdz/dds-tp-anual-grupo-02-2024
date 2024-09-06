@@ -1,0 +1,72 @@
+﻿@{
+    ViewData["Title"] = "Contribuciones";
+    ViewData["Current"] = "Contribuciones";
+    ViewData["Breadcrumb"] = new Dictionary<string, string>
+    {
+        { "Inicio", Url.Action("Index", "Home") },
+        { "Contribuciones", Url.Action("Contribuciones", "Home") }
+    };
+    ViewData["Contribuciones"] = new List<object>
+    {
+        new
+        {
+            Id=1,
+            Tipo="Donacion Monetaria",
+            FechaContribucion="2021-10-01",
+        },
+        new
+        {
+            Id=2,
+            Tipo="Oferta Premio",
+            FechaContribucion="2021-10-02",
+        },
+        new
+        {
+            Id=3,
+            Tipo="Administracion Heladera",
+            FechaContribucion="2021-10-03",
+        },
+        new
+        {
+            Id=4,
+            Tipo="Donacion Vianda",
+            FechaContribucion="2021-10-04",
+        },
+    };
+}
+
+<div class="col-12 mb-3">
+    <h1 class="text-center">Mis Contribuciones</h1>
+</div>
+<div class="col-12 mb-3 text-center">
+    <a class="btn btn-primary" asp-controller="Home" asp-action="Contribuir">Crear Contribucion</a>
+</div>
+<div class="col-12">
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-secondary">
+            <tr id="table-header">
+                <th scope="col">#</th>
+                <th>Tipo de Colaboracion</th>
+                <th>Fecha de Contribucion</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody id="table-body" class="table-group-divider">
+
+            @foreach (var contribucion in (List<dynamic>)ViewData["Contribuciones"])
+            {
+            <tr class="align-middle">
+                <th scope="row">@contribucion.Id</th>
+                <td>@contribucion.Tipo</td>
+                <td>@contribucion.FechaContribucion</td>
+                <td>
+                    <button type="button" class="btn btn-primary" disabled>Ver detalles</button>
+                </td>
+            </tr>
+            }
+
+            </tbody>
+        </table>
+    </div>
+</div>

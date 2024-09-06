@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Reporte Heladeras";
+    ViewData["Current"] = "Reportes";
+    ViewData["Breadcrumb"] = new Dictionary<string, string>
+    {
+        { "Inicio", Url.Action("Index", "Home") },
+        { "Reportes", Url.Action("Reportes", "Home") },
+        { "Reporte Heladeras", Url.Action("ReporteHeladeras", "Home") }
+    };
+}
+<div class="col-12 mb-3">
+    <h1 class="text-center">Reporte Cantidad de Fallas por Heladera</h1>
+</div>
+<div class="col-12 mb-3">
+    <h6 class="text-center"> Periodo: 02/09/24 - 08/09/24 </h6>
+</div>
+<div class="col-12">
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-secondary">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Heladera</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Cantidad de fallas</th>
+            </tr>
+            </thead>
+            <tbody class="table-group-divider">
+            <tr>
+                <th scope="row">1</th>
+                <td>Heladera Medrano</td>
+                <td><span class="badge badge-success p-2" style="width: 130px">Activa</span></td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>Heladera Corrientes</td>
+                <td><span class="badge badge-success p-2" style="width: 130px">Activa</span></td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td>Heladera San Martin</td>
+                <td><span class="badge badge-warning p-2" style="width: 130px">Desperfecto</span></td>
+                <td>4</td>
+            </tr>
+            <tr>
+                <th scope="row">4</th>
+                <td>Heladera Uruguay</td>
+                <td><span class="badge badge-danger p-2" style="width: 130px">Fuera de Servicio</span></td>
+                <td>25</td>
+            </tr>
+            <tr>
+                <th scope="row">5</th>
+                <td>Heladera Florida</td>
+                <td><span class="badge badge-success p-2" style="width: 130px">Activa</span></td>
+                <td>0</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

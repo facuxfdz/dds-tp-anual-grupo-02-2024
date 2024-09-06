@@ -1,0 +1,350 @@
+﻿@{
+    ViewData["Title"] = "Contribuir";
+    ViewData["Current"] = "Contribuciones";
+    ViewData["Breadcrumb"] = new Dictionary<string, string>
+    {
+        { "Inicio", Url.Action("Index", "Home") },
+        { "Contribuciones", Url.Action("Contribuciones", "Home") },
+        { "Contribuir", Url.Action("Contribuir", "Home") }
+    };
+}
+<div class="col-12">
+    <h1 class="text-center">Contribuir</h1>
+</div>
+<div class="col-12">
+    <form>
+        <div class="mb-3">
+            <label for="tipoContribucion">Tipo de contribución</label>
+            <select class="form-control" id="tipoContribucion" onchange="cambiarFormulario()">
+                <option value="DonacionMonetaria">Donación Monetaria</option>
+                <option value="DonacionVianda">Donación de Viandas</option>
+                <option value="OfertaPremio">Oferta de Premios</option>
+                <option value="AdministracionHeladera">Administración de Heladeras</option>
+                <option value="DistribucionViandas">Distribución de Viandas</option>
+            </select>
+        </div>
+        <div class="donacionMonetaria">
+            <div class="mb-3">
+                <label for="montoDonacionMonetaria">Monto de la donación</label>
+                <input type="number" class="form-control" id="montoDonacionMonetaria" placeholder="Monto de la donación">
+            </div>
+            <div class="mb-3">
+                <label for="frencuenciaDonacionDiasMonetaria">Frecuencia de la donación (días)</label>
+                <input type="number" class="form-control" id="frencuenciaDonacionDiasMonetaria" placeholder="Frecuencia de la donación (días)">
+            </div>
+        </div>
+        <div class="donacionVianda d-none">
+            <div class="mb-3">
+                <label for="comidaVianda">Comida</label>
+                <input type="text" class="form-control" id="comidaVianda" placeholder="Ingrese el nombre de la comida">
+            </div>
+            <div class="mb-3">
+                <label for="caloriasVianda">Calorías</label>
+                <input type="number" class="form-control" id="caloriasVianda" placeholder="Ingrese las calorías">
+            </div>
+            <div class="mb-3">
+                <label for="pesoVianda">Peso</label>
+                <input type="number" class="form-control" id="pesoVianda" placeholder="Ingrese el peso">
+            </div>
+            <div class="mb-3">
+                <label for="fechaCaducidadVianda">Fecha de caducidad</label>
+                <input type="date" class="form-control" id="fechaCaducidadVianda" placeholder="Ingrese la fecha de caducidad">
+            </div>
+            <div class="mb-3">
+                <label for="heladeraVianda">Heladera</label>
+                <select class="form-control" id="heladeraVianda">
+                    <option value="1">Heladera 1</option>
+                    <option value="2">Heladera 2</option>
+                    <option value="3">Heladera 3</option>
+                </select>
+            </div>
+        </div>
+        <div class="ofertaPremio d-none">
+            <div class="mb-3">
+                <label for="nombrePremio" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombrePremio" placeholder="Ingrese el nombre de su premio">
+            </div>
+            <div class="mb-3">
+                <label for="descripcionPremio" class="form-label">Descripcion</label>
+                <input type="text" class="form-control" id="descripcionPremio"
+                       placeholder="Ingrese la descripcion de su premio">
+            </div>
+            <div class="mb-3">
+                <label for="puntosPremio" class="form-label">Puntos necesarios</label>
+                <input type="number" class="form-control" id="puntosPremio" placeholder="0">
+            </div>
+            <div class="mb-3">
+                <label for="imagenPremio" class="form-label">Imagen</label>
+                <input type="file" class="form-control" id="imagenPremio" placeholder="imagen" accept="image/*">
+            </div>
+            <div class="mb-3">
+                <label for="categoriaPremio" class="form-label">Categoria</label>
+                <select class="form-select" aria-label="Default select example" id="categoriaPremio">
+                    <option selected disabled>Categoria</option>
+                    <option value="jamones">Jamones</option>
+                    <option value="Todos">Todos</option>
+                </select>
+            </div>
+        </div>
+        <div class="administracionHeladera d-none">
+            <div class="mb-3">
+                <label for="nombreHeladera" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombreHeladera" placeholder="Ingrese el nombre de la heladera">
+            </div>
+            <div class="mb-3 row">
+                <div class="col-8">
+                    <h5>Punto estrategico</h5>
+                </div>
+                <div class="col-4">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalPuntosColocacion">Solicitar puntos de colocacion</button>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <div class="col-6">
+                    <label for="latitudHeladera" class="form-label">Latitud</label>
+                    <input type="text" class="form-control" id="latitudHeladera" placeholder="Ingrese la latitud">
+                </div>
+                <div class="col-6">
+                    <label for="longitudHeladera" class="form-label">Longitud</label>
+                    <input type="text" class="form-control" id="longitudHeladera" placeholder="Ingrese la longitud">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <div class="col-8">
+                    <label for="calleHeladera" class="form-label">Calle</label>
+                    <input type="text" class="form-control" id="calleHeladera" placeholder="Ingrese la calle">
+                </div>
+                <div class="col-4">
+                    <label for="numeroHeladera" class="form-label">Numero</label>
+                    <input type="text" class="form-control" id="numeroHeladera" placeholder="Ingrese el numero">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <div class="col-4">
+                    <label for="localidadHeladera" class="form-label">Localidad</label>
+                    <input type="text" class="form-control" id="localidadHeladera" placeholder="Ingrese la localidad">
+                </div>
+                <div class="col-2">
+                    <label for="pisoHeladera" class="form-label">Piso</label>
+                    <input type="text" class="form-control" id="pisoHeladera" placeholder="Ingrese el piso">
+                </div>
+                <div class="col-4">
+                    <label for="departamentoHeladera" class="form-label">Departamento</label>
+                    <input type="text" class="form-control" id="departamentoHeladera" placeholder="Ingrese el departamento">
+                </div>
+                <div class="col-2">
+                    <label for="codigoPostalHeladera" class="form-label">Codigo Postal</label>
+                    <input type="text" class="form-control" id="codigoPostalHeladera" placeholder="Ingrese el codigo postal">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="fechaInstalacionHeladera" class="form-label">Fecha de instalacion</label>
+                <input type="date" class="form-control" id="fechaInstalacionHeladera" placeholder="Ingrese la fecha de instalacion">
+            </div>
+            <div class="mb-3">
+                <label for="modeloHeladera" class="form-label">Modelo</label>
+                <select class="form-select" aria-label="Default select example" id="modeloHeladera">
+                    <option selected disabled>Modelo</option>
+                    <option value="1">Modelo 1</option>
+                    <option value="2">Modelo 2</option>
+                    <option value="3">Modelo 3</option>
+                </select>
+            </div>
+            <div class="mb-3 row">
+                <div class="col-12">
+                    <h5>Temperatura</h5>
+                </div>
+                <div class="col-6">
+                    <label for="temperaturaMinimaHeladera" class="form-label">Minima</label>
+                    <input type="number" class="form-control" id="temperaturaMinimaHeladera" placeholder="Ingrese la temperatura minima">
+                </div>
+                <div class="col-6">
+                    <label for="temperaturaMaximaHeladera" class="form-label">Maxima</label>
+                    <input type="number" class="form-control" id="temperaturaMaximaHeladera" placeholder="Ingrese la temperatura maxima">
+                </div>
+            </div>
+        </div>
+        <div class="distribucionViandas d-none">
+            <div class="mb-3">
+                <label for="motivoDistribucion" class="form-label">Motivo</label>
+                <input type="text" class="form-control" id="motivoDistribucion" placeholder="Ingrese el motivo de la distribucion">
+            </div>
+            <div class="mb-3">
+                <label for="heladeraOrigenDistribucion" class="form-label">Heladera origen</label>
+                <select class="form-select" aria-label="Default select example" id="heladeraOrigenDistribucion">
+                    <option selected disabled>Heladera origen</option>
+                    <option value="1">Heladera 1</option>
+                    <option value="2">Heladera 2</option>
+                    <option value="3">Heladera 3</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="heladeraDestinoDistribucion" class="form-label">Heladera destino</label>
+                <select class="form-select" aria-label="Default select example" id="heladeraDestinoDistribucion">
+                    <option selected disabled>Heladera destino</option>
+                    <option value="1">Heladera 1</option>
+                    <option value="2">Heladera 2</option>
+                    <option value="3">Heladera 3</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="cantidadViandasDistribucion" class="form-label">Cantidad de viandas</label>
+                <input type="number" class="form-control" id="cantidadViandasDistribucion" placeholder="0">
+            </div>
+        </div>
+
+        <div class="mb-3 text-center">
+            <button type="submit" class="btn btn-primary w-50">Contribuir</button>
+        </div>
+    </form>
+</div>
+
+<!--- Modal --->
+<div class="modal fade" id="modalPuntosColocacion" tabindex="-1" aria-labelledby="modalPuntosColocacionLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalPuntosColocacionLabel">Solicitar puntos de colocacion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3 row">
+                    <div class="col-4">
+                        @*<label for="longitudPuntoColocacion" class="form-label">Longitud</label>*@
+                        <input type="text" class="form-control" id="longitudPuntoColocacion" placeholder="Longitud">
+                    </div>
+                    <div class="col-4">
+                        @*<label for="latitudPuntoColocacion" class="form-label">Latitud</label>*@
+                        <input type="text" class="form-control" id="latitudPuntoColocacion" placeholder="Latitud">
+                    </div>
+                    <div class="col-3">
+                        @*<label for="radioPuntoColocacion" class="form-label">Radio</label>*@
+                        <input type="text" class="form-control" id="radioPuntoColocacion" placeholder="Radio">
+                    </div>
+                    <div class="col-1 my-auto">
+                        <button type="button" class="btn btn-primary" onclick="fetchLocations()">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div id="map" class="" style="height: 40vh;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function cambiarFormulario() {
+        const tipoContribucion = document.getElementById("tipoContribucion").value;
+        const donacionMonetaria = document.querySelectorAll(".donacionMonetaria")[0];
+        const donacionVianda = document.querySelectorAll(".donacionVianda")[0];
+        const ofertaPremio = document.querySelectorAll(".ofertaPremio")[0];
+        const administracionHeladera = document.querySelectorAll(".administracionHeladera")[0];
+        const distribucionViandas = document.querySelectorAll(".distribucionViandas")[0];
+
+        donacionMonetaria.classList.add("d-none");
+        donacionVianda.classList.add("d-none");
+        ofertaPremio.classList.add("d-none");
+        administracionHeladera.classList.add("d-none");
+        distribucionViandas.classList.add("d-none");
+
+        switch (tipoContribucion) {
+            case "DonacionMonetaria":
+                donacionMonetaria.classList.remove("d-none");
+                break;
+            case "DonacionVianda":
+                donacionVianda.classList.remove("d-none");
+                break;
+            case "OfertaPremio":
+                ofertaPremio.classList.remove("d-none");
+                break;
+            case "AdministracionHeladera":
+                administracionHeladera.classList.remove("d-none");
+                break;
+            case "DistribucionViandas":
+                distribucionViandas.classList.remove("d-none");
+                break;
+        }
+    }
+
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEB2MB3GaNTCSGIfEety_fbK5wDVga99Q&loading=async&libraries=marker"></script>
+<script>
+    function initMap(locations) {
+        var mapCanvas = document.getElementById('map');
+        var mapOptions = {
+            center: new google.maps.LatLng(-34.5986298, -58.4226412),
+            zoom: 12,
+            panControl: false,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            mapId: 'f1b7b3b3b3b3b3b3'
+        }
+        var map = new google.maps.Map(mapCanvas, mapOptions);
+    
+        locations.forEach(function(location, index) {
+            var marker = new google.maps.marker.AdvancedMarkerElement({
+                position: new google.maps.LatLng(location.Longitud, location.Latitud),
+                map: map,
+                title: location.Direccion.Calle + ' ' + location.Direccion.Numero,
+            });
+            marker.addListener('click', function() {
+                const contentString = `
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="card-title my-auto">${location.Direccion.Calle} ${location.Direccion.Numero}</h5>
+                            <button type="button" class="btn-close" aria-label="Close" id="close-info-window-${index}"/>
+                        </div>
+                        <div class="card-footer d-flex justify-content-center">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                                onclick="completarDireccion(${location.Latitud}, ${location.Longitud}, 
+                                '${location.Direccion.Calle}', '${location.Direccion.Numero}', 
+                                '${location.Direccion.Localidad}', '${location.Direccion.CodigoPostal}')">
+                                Seleccionar
+                            </button>
+                        </div>
+                    </div>
+                `;
+                const infowindow = new google.maps.InfoWindow({
+                    content: contentString,
+                    headerDisabled: true
+                });
+
+                infowindow.open(map, marker);
+
+                google.maps.event.addListener(map, 'click', function() {
+                    infowindow.close();
+                });
+
+                google.maps.event.addListener(infowindow, 'domready', function() {
+                    document.getElementById(`close-info-window-${index}`).addEventListener('click', function() {
+                        infowindow.close();
+                    });
+                });
+            });
+        });
+    }
+
+    function fetchLocations() {
+        fetch('https://d75bfa97eb02d0219b7537f2d6a286b7.m.pipedream.net/')
+            .then(response => response.json())
+            .then(data => {
+                var locations = data.data;
+                initMap(locations);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }
+    
+    function completarDireccion(latitudHeladera, longitudHeladera, calleHeladera, numeroHeladera, localidadHeladera, codigoPostalHeladera){
+        document.getElementById("latitudHeladera").value = latitudHeladera;
+        document.getElementById("longitudHeladera").value = longitudHeladera;
+        document.getElementById("calleHeladera").value = calleHeladera;
+        document.getElementById("numeroHeladera").value = numeroHeladera;
+        document.getElementById("localidadHeladera").value = localidadHeladera;
+        document.getElementById("codigoPostalHeladera").value = codigoPostalHeladera;
+    }
+    
+</script>

@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = "Reportar Falla Tecnica";
+    ViewData["Current"] = "ReportarFallaTecnica";
+    ViewData["Breadcrumb"] = new Dictionary<string, string>
+    {
+        { "Inicio", Url.Action("Index", "Home") },
+        { "Reportar Falla Técnica", Url.Action("ReportarFallaTecnica", "Home") }
+    };
+}
+<div class="col-12">
+    <form>
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center">Reportar Falla Técnica</h1>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label"><i class="fa-regular fa-snowflake me-2"></i>Heladera</label>
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>Seleccione una heladera</option>
+                    <option value="1">Heladera 1</option>
+                    <option value="2">Heladera 2</option>
+                    <option value="3">Heladera 3</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="descripcion"><i class="fa-regular fa-file me-2"></i>Descripción
+                    (Opcional)</label>
+                <textarea class="form-control" rows="3"
+                          placeholder="Ingrese un detalle de la falla" id="descripcion"></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="foto"><i class="fas fa-paperclip me-2"></i>Adjuntar foto (jpg,
+                    png)</label>
+                <input type="file" class="form-control" accept="image/png, image/jpeg" id="foto">
+            </div>
+            <div class="col-12 text-center">
+                <button type="submit" class="btn btn-primary bpx-5">Reportar Falla</button>
+            </div>
+
+        </div>
+    </form>
+</div>

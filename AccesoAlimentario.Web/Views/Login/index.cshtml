@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Login";
+    ViewData["Current"] = "Login";
+}
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title text-center">Iniciar de Sesion</h3>
+                <form id="registrationForm">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Usuario</label>
+                        <input type="text" class="form-control" id="username" placeholder="Ingresa un nombre de usuario" required
+                               oninvalid="this.setCustomValidity('Ingrese un nombre de usuario por favor')"
+                               oninput="this.setCustomValidity('')">
+                        <div id="usernameError" class="text-danger mt-1" style="display: none;">El nombre de usuario no puede ser "admin".</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="password" placeholder="Crea una contraseña segura" required
+                               oninvalid="this.setCustomValidity('Ingrese una contraseña por favor')"
+                               oninput="this.setCustomValidity('')">
+                        <div id="passwordError" class="text-danger mt-1" style="display: none;">La contraseña no puede ser "1234" o "admin".</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Iniciar Sesion</button>
+                    @*<a class="btn btn-link btn-primary w-100 mt-2 text-white" aria-current="page" style="text-decoration: none" asp-controller="Home" asp-action="Index">
+                        Iniciar Sesion
+                    </a>*@
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("registrationForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        let isValid = true;
+
+        if (username.toLowerCase() === "admin") {
+            document.getElementById("usernameError").style.display = "block";
+            isValid = false;
+        } else {
+            document.getElementById("usernameError").style.display = "none";
+        }
+
+        if (password === "1234" || password.toLowerCase() === "admin") {
+            document.getElementById("passwordError").style.display = "block";
+            isValid = false;
+        } else {
+            document.getElementById("passwordError").style.display = "none";
+        }
+
+        if (isValid) {
+            window.location.href = '/Home/Index';
+        }
+    });
+</script>

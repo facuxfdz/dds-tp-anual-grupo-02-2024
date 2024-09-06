@@ -1,0 +1,149 @@
+﻿@{
+    ViewData["Title"] = "Viandas";
+    ViewData["Current"] = "Heladeras";
+    ViewData["Breadcrumb"] = new Dictionary<string, string>
+    {
+        { "Inicio", Url.Action("Index", "Home") },
+        { "Heladeras", Url.Action("Heladeras", "Home") },
+        { "Viandas", Url.Action("Viandas", "Home") }
+    };
+    ViewData["Viandas"] = new List<object>{
+        new 
+        {
+            Id = 1,
+            Comida = "Milanesa con puré",
+            FechaDonacion="2021-09-01",
+            FechaCaducidad="2021-09-02",
+            Colaborador="Juan Perez",
+            Estado="Disponible",
+            Calorias=500,
+            Peso=300,
+        },
+        new 
+        {
+            Id = 2,
+            Comida = "Pollo con arroz",
+            FechaDonacion="2021-09-01",
+            FechaCaducidad="2021-09-01",
+            Colaborador="Juan Perez",
+            Estado="Caducada",
+            Calorias=400,
+            Peso=250,
+        },
+        new 
+        {
+            Id = 3,
+            Comida = "Fideos con salsa",
+            FechaDonacion="2021-09-01",
+            FechaCaducidad="2021-09-01",
+            Colaborador="Juan Perez",
+            Estado="Consumida",
+            Calorias=300,
+            Peso=200,
+        },
+    };
+}
+
+<div class="col-12 mb-3">
+    <h1 class="text-center">Viandas</h1>
+</div>
+<div class="col-12">
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-secondary">
+            <tr id="table-header">
+                <th scope="col">#</th>
+                <th>Comida</th>
+                <th>Estado</th>
+                <th>Fecha Caducidad</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody id="table-body" class="table-group-divider">
+
+            @foreach (var vianda in (List<dynamic>)ViewData["Viandas"])
+            {
+            <tr class="align-middle">
+                <th scope="row">@vianda.Id</th>
+                <td>@vianda.Comida</td>
+                <td><span class="badge @(vianda.Estado?.ToLower() == "disponible" ? "badge-primary" :
+                    vianda.Estado?.ToLower() == "consumida" ? "badge-success" : "badge-danger") p-2" style="width: 100%">@vianda.Estado</span></td>
+                <td>@vianda.FechaCaducidad</td>
+                <td>
+                    <button type="button" class="btn btn-primary" onclick="populateModal(@vianda.Id)" data-bs-toggle="modal" data-bs-target="#modalVianda">
+                        Ver detalles
+                    </button>
+                </td>
+            </tr>
+            }
+
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalVianda" tabindex="-1" aria-labelledby="modalViandaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalViandaLabel">Detalles de la vianda</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="modal-comida" class="form-label">Comida</label>
+                    <input type="text" class="form-control" id="modal-comida" readonly>
+                </div>
+                <div class="mb-3 row">
+                    <div class="col-6">
+                        <label for="modal-fecha-donacion" class="form-label">Fecha de donación</label>
+                        <input type="text" class="form-control" id="modal-fecha-donacion" readonly>
+                    </div>
+                    <div class="col-6">
+                        <label for="modal-fecha-caducidad" class="form-label">Fecha de caducidad</label>
+                        <input type="text" class="form-control" id="modal-fecha-caducidad" readonly>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="modal-estado" class="form-label">Estado</label>
+                    <input type="text" class="form-control" id="modal-estado" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="modal-colaborador" class="form-label">Colaborador</label>
+                    <input type="text" class="form-control" id="modal-colaborador" readonly>
+                </div>
+                <div class="mb-3 row">
+                    <div class="col-6">
+                        <label for="modal-calorias" class="form-label">Calorías</label>
+                        <input type="text" class="form-control" id="modal-calorias" readonly>
+                    </div>
+                    <div class="col-6">
+                        <label for="modal-peso" class="form-label">Peso</label>
+                        <input type="text" class="form-control" id="modal-peso" readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-around">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const viandas = @Html.Raw(Json.Serialize(ViewData["Viandas"]));
+    
+    function populateModal(viandaId) {
+        const vianda = viandas.find(v => v.id === viandaId);
+        console.log(vianda);
+        document.getElementById('modal-comida').value = vianda.comida;
+        document.getElementById('modal-fecha-donacion').value = vianda.fechaDonacion;
+        document.getElementById('modal-fecha-caducidad').value = vianda.fechaCaducidad;
+        document.getElementById('modal-colaborador').value = vianda.colaborador;
+        document.getElementById('modal-estado').value = vianda.estado;
+        document.getElementById('modal-calorias').value = vianda.calorias + ' kcal';
+        document.getElementById('modal-peso').value = vianda.peso + ' g';
+    }
+</script>

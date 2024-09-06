@@ -1,0 +1,143 @@
+﻿@{
+    ViewData["Title"] = "Registrar Persona Vulnerable";
+    ViewData["Current"] = "RegistrarPersonaVulnerable";
+    ViewData["Breadcrumb"] = new Dictionary<string, string>
+    {
+        { "Inicio", Url.Action("Index", "Home") },
+        { "Registrar Persona Vulnerable", Url.Action("RegistrarPersonaVulnerable", "Home") }
+    };
+}
+<div class="col-12">
+    <form>
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center">Registrar Persona Vulnerable</h1>
+            </div>
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="email" class="form-control" id="nombre"
+                       placeholder="Juan" required>
+            </div>
+            <div class="mb-3">
+                <label for="apellido" class="form-label">Apellido</label>
+                <input type="email" class="form-control" id="apellido"
+                       placeholder="Perez" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="sexo" class="form-label">Sexo</label>
+                <select class="form-select" aria-label="Default select example"
+                        id="sexo">
+                    <option selected disabled>Sexo</option>
+                    <option value="Hombre">Hombre</option>
+                    <option value="Mujer">Mujer</option>
+                    <option value="Otro">Otro</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="cantidadDeHijos" class="form-label">Cantidad de hijos</label>
+                <input type="number" class="form-control" id="cantidadDeHijos"
+                       placeholder="1" required>
+            </div>
+            <div class="mb-3">
+                <label for="colaboradorResponsable" class="form-label">Colaborador responsable</label>
+                <select class="form-select" aria-label="Default select example"
+                        id="colaboradorResponsable">
+                    <option selected disabled>Colaborador responsable</option>
+                    <option value="Juan">Juan</option>
+                    <option value="Pedro">Pedro</option>
+                    <option value="Maria">Maria</option>
+                    <option value="Ana">Ana</option>
+                    <option value="Jose">Jose</option>
+                    <option value="Otro">Otro</option>
+                </select>
+            </div>
+
+            <div class="col-12">
+                <h5 class="text-left">Direccion (opcional)</h5>
+            </div>
+
+            <div class="col-9">
+                <div class="mb-3">
+                    <label for="calle" class="form-label">Calle</label>
+                    <input type="email" class="form-control" id="calle"
+                           placeholder="Avenida Rivadavia">
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="mb-3">
+                    <label for="numero" class="form-label">Numero</label>
+                    <input type="email" class="form-control" id="numero"
+                           placeholder="34567">
+                </div>
+            </div>
+
+
+            <div class="col-6">
+                <div class="mb-3">
+                    <label for="localidad" class="form-label">Localidad</label>
+                    <input type="email" class="form-control" id="localidad"
+                           placeholder="Tres de Febrero">
+                </div>
+            </div>
+
+            <div class="col-2">
+                <div class="mb-3">
+                    <label for="piso" class="form-label">Piso</label>
+                    <input type="email" class="form-control" id="piso"
+                           placeholder="123A">
+                </div>
+            </div>
+
+            <div class="col-2">
+                <div class="mb-3">
+                    <label for="departamento" class="form-label">Departamento</label>
+                    <input type="email" class="form-control" id="departamento"
+                           placeholder="15D">
+                </div>
+            </div>
+
+            <div class="col-2">
+                <div class="mb-3">
+                    <label for="codigoPostal" class="form-label">Codigo postal</label>
+                    <input type="email" class="form-control" id="codigoPostal"
+                           placeholder="1587">
+                </div>
+            </div>
+
+            <div class="col-12">
+                <h5 class="text-left">Documento (opcional)</h5>
+            </div>
+
+            <div class="col-6">
+                <div class="mb-3">
+                    <label for="tipoDocumento" class="form-label">Tipo documento</label>
+                    <select class="form-select" aria-label="Default select example"
+                            id="tipoDocumento">
+                        <option selected disabled>Tipo documento</option>
+                        <option value="DNI">DNI</option>
+                        <option value="LE">LE</option>
+                        <option value="LC">LC</option>
+                        <option value="CUIT">CUIT</option>
+                        <option value="CUIL">CUIL</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="mb-3">
+                    <label for="numeroDocumento" class="form-label">Numero Documento</label>
+                    <input type="text" class="form-control" id="numeroDocumento"
+                           placeholder="12434567" required>
+                </div>
+            </div>
+
+            <div class="mb-3 text-center">
+                <button type="submit" class="btn btn-primary px-5">Registrar Persona Vulnerable</button>
+            </div>
+        </div>
+    </form>
+
+</div>

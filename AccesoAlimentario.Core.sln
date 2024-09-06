@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccesoAlimentario.Testing",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccesoAlimentario.API", "AccesoAlimentario.API\AccesoAlimentario.API.csproj", "{AA94688B-3F78-4ABD-96BD-FAFD3A89B4B2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccesoAlimentario.Web", "AccesoAlimentario.Web\AccesoAlimentario.Web.csproj", "{F082E374-AF63-4999-8AE7-F79881135150}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{AA94688B-3F78-4ABD-96BD-FAFD3A89B4B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA94688B-3F78-4ABD-96BD-FAFD3A89B4B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA94688B-3F78-4ABD-96BD-FAFD3A89B4B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F082E374-AF63-4999-8AE7-F79881135150}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F082E374-AF63-4999-8AE7-F79881135150}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F082E374-AF63-4999-8AE7-F79881135150}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F082E374-AF63-4999-8AE7-F79881135150}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

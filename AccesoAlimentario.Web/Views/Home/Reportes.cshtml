@@ -1,0 +1,58 @@
+﻿@{
+    ViewData["Title"] = "Reportes";
+    ViewData["Current"] = "Reportes";
+    ViewData["Breadcrumb"] = new Dictionary<string, string>
+    {
+        { "Inicio", Url.Action("Index", "Home") },
+        { "Reportes", Url.Action("Reportes", "Home") }
+    };
+}
+<style>
+    .reportLink {
+        text-decoration: none;
+        color: black;
+        background-color: lightgray !important;
+        height: 150px;
+        transition: 0.5s;
+    }
+
+    .reportLink:hover {
+        text-decoration: none;
+        color: white;
+        background-color: dimgray !important;
+    }
+</style>
+
+<div class="col-12 mb-4">
+    <h1 class="text-center">Reportes</h1>
+</div>
+<div class="col-12 text-center">
+    <div class="row justify-content-around">
+        <div class="col-12 col-lg-5 mb-4">
+            <a class="reportLink"  asp-area="" asp-controller="Home" asp-action="ReporteHeladeras">
+                <div class="p-4 rounded align-content-center reportLink">
+                    <i class="fa-solid fa-triangle-exclamation fa-2x mb-2 m-auto"></i>
+                    <p class="m-auto">Reporte Cantidad de Fallas por Heladera</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-12 col-lg-5 mb-4">
+            <a class="reportLink"  asp-area="" asp-controller="Home" asp-action="ReporteViandas">
+                <div class="p-4 rounded align-content-center reportLink">
+                    <i class="fa-solid fa-arrows-rotate fa-2x mb-2 m-auto"></i>
+                    <p class="m-auto">Reporte Cantidad de Viandas Retiradas/Colocadas por Heladera</p>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="row justify-content-around">
+        <div class="col-12 col-lg-5 mb-4">
+            <a class="reportLink" asp-area="" asp-controller="Home" asp-action="ReporteColaboradores">
+                <div class="p-4 rounded align-content-center reportLink">
+                    <i class="fa-solid fa-clipboard-list fa-2x mb-2 m-auto"></i>
+                    <p class="m-auto">Reporte Cantidad de Viandas por Colaborador</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
