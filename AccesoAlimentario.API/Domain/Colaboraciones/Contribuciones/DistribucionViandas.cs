@@ -22,4 +22,12 @@ public class DistribucionViandas : Contribucion
         CantViandas = cantViandas;
         MotivoDistribucion = motivoDistribucion;
     }
+    public DistribucionViandas(DateTime fechaContribucion, Heladera heladeraOrigen,
+        Heladera heladeraDestino, int cantViandas)
+        : base(fechaContribucion)
+    {
+        HeladeraOrigen = heladeraOrigen;
+        HeladeraDestino = heladeraDestino;
+        CantViandas = cantViandas;
+    }
 }

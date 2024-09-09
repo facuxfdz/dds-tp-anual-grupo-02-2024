@@ -14,7 +14,7 @@ public class Colaborador
     public int Id { get; private set; }
     private List<Contribucion> _contribuciones { get; }
     private List<TipoContribucion> _contribucionesPreferidas { get; }
-    private float _puntos { get; }
+    private float Puntos { get; set; }
     public TarjetaColaboracion? TarjetaColaboracion { get; set; }
     private List<EventoHeladera> _suscripciones { get; }
     private List<CanalNotificacion> _canalesNotificacion { get; }
@@ -30,4 +30,14 @@ public class Colaborador
     {
         TarjetaColaboracion = tarjeta;
     }
+    
+    public void AgregarContribucion(Contribucion contribucion)
+    {
+        _contribuciones.Add(contribucion);
+    }
+    
+    public void AgregarPuntos(float puntos)
+    {
+        Puntos += puntos;
+    } 
 }
