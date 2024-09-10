@@ -5,6 +5,7 @@ using AccesoAlimentario.API.Domain.Heladeras;
 using AccesoAlimentario.API.Domain.Incidentes;
 using AccesoAlimentario.API.Domain.Notificaciones;
 using AccesoAlimentario.API.Domain.Personas;
+using AccesoAlimentario.API.Domain.Premios;
 using AccesoAlimentario.Core.Entities.Heladeras;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,12 @@ public class AppDbContext : DbContext
     public DbSet<Colaborador> Colaboradores { get; set; } = null!;
     public DbSet<Contribucion> Contribuciones { get; set; } = null!;
     public DbSet<DistribucionViandas> DistribucionesViandas { get; set; } = null!;
+    public DbSet<AdministracionHeladera> AdministracionesHeladera { get; set; } = null!;
+    public DbSet<DonacionMonetaria> DonacionesMonetarias { get; set; } = null!;
+    public DbSet<DonacionVianda> DonacionesViandas { get; set; } = null!;
+    public DbSet<RegistroPersonaVulnerable> RegistrosPersonasVulnerables { get; set; } = null!;
+    public DbSet<OfertaPremio> OfertasPremios { get; set; } = null!;
+    public DbSet<Premio> Premios { get; set; } = null!;
     public DbSet<Heladera> Heladeras { get; set; } = null!;
     public DbSet<ModeloHeladera> ModelosHeladera { get; set; } = null!;
     public DbSet<PuntoEstrategico> PuntosEstrategicos { get; set; } = null!;
@@ -43,7 +50,5 @@ public class AppDbContext : DbContext
     public DbSet<MovimientoInusual> MovimientosInusual { get; set; } = null!;
     public DbSet<Incidente> Incidentes { get; set; } = null!;
     public DbSet<VisitaTecnica> VisitasTecnicas { get; set; } = null!;
-    
-    
     
 }
