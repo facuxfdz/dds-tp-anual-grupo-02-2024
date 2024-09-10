@@ -51,6 +51,10 @@ public class ImportarColaboraciones(IRepository<Colaborador> colaboradorReposito
         {
             colaboradorCsv.FormaColaboracion = TipoContribucion.DISTRIBUCION_VIANDAS.ToString();
         }
+        if(colaboradorCsv.FormaColaboracion == "DINERO")
+        {
+            colaboradorCsv.FormaColaboracion = TipoContribucion.MONETARIA.ToString();
+        }
         TipoContribucion tipoContribucion = Enum.Parse<TipoContribucion>(colaboradorCsv.FormaColaboracion);
         List<Contribucion> contribuciones = new List<Contribucion>();
         DateTime fechaColaboracion = DateTime.ParseExact(colaboradorCsv.FechaColaboracion, "dd/MM/yyyy", CultureInfo.InvariantCulture);
@@ -122,7 +126,9 @@ public class ImportarColaboraciones(IRepository<Colaborador> colaboradorReposito
         foreach (var colaboradorCsv in colaboradoresValidos)
         {
             Expression<Func<Colaborador, bool>> filter = x =>
-                x.Persona.DocumentoIdentidad!.NroDocumento == colaboradorCsv.Documento;
+                x.Persona.DocumentoIdentidad!.NroDocumento == colaboradorCsv.Documento
+                && x.Persona.DocumentoIdentidad!.TipoDocumento == Enum.Parse<TipoDocumento>(colaboradorCsv.TipoDocumento);
+            
             var colaborador = colaboradorRepository.Get(filter).FirstOrDefault();
 
             if (colaborador == null)
