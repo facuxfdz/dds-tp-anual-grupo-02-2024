@@ -47,6 +47,10 @@ public class ImportarColaboraciones(IRepository<Colaborador> colaboradorReposito
     
     private List<Contribucion> _crearContribuciones(ColaboracionCSVDTO colaboradorCsv)
     {
+        if(colaboradorCsv.FormaColaboracion == "REDISTRIBUCION_VIANDAS")
+        {
+            colaboradorCsv.FormaColaboracion = TipoContribucion.DISTRIBUCION_VIANDAS.ToString();
+        }
         TipoContribucion tipoContribucion = Enum.Parse<TipoContribucion>(colaboradorCsv.FormaColaboracion);
         List<Contribucion> contribuciones = new List<Contribucion>();
         DateTime fechaColaboracion = DateTime.ParseExact(colaboradorCsv.FechaColaboracion, "dd/MM/yyyy", CultureInfo.InvariantCulture);
@@ -74,6 +78,7 @@ public class ImportarColaboraciones(IRepository<Colaborador> colaboradorReposito
     
     private Colaborador _parseColaborador(ColaboracionCSVDTO colaboradorCsv)
     {
+        colaboradorCsv.TipoDocumento = colaboradorCsv.TipoDocumento.ToUpper();
         TipoDocumento tipoDocumento = Enum.Parse<TipoDocumento>(colaboradorCsv.TipoDocumento);
         DocumentoIdentidad documentoIdentidad = new DocumentoIdentidad(tipoDocumento, colaboradorCsv.Documento, DateOnly.MinValue);
         Persona persona = new PersonaHumana(colaboradorCsv.Nombre, colaboradorCsv.Apellido ,null, documentoIdentidad, SexoDocumento.Otro);

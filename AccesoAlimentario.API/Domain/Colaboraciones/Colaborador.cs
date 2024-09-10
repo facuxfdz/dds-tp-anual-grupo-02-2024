@@ -12,7 +12,7 @@ public class Colaborador
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; private set; }
-    private List<Contribucion> _contribuciones { get; }
+    private List<Contribucion> _contribuciones { get; } = new List<Contribucion>();
     private List<TipoContribucion> _contribucionesPreferidas { get; }
     private float Puntos { get; set; }
     public TarjetaColaboracion? TarjetaColaboracion { get; set; }

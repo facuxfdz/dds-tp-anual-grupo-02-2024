@@ -19,7 +19,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-// builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AppDbContext>((provider, options) =>
 {
@@ -55,6 +55,7 @@ builder.Services.AddScoped<CrearHeladera>();
 builder.Services.AddScoped<CrearModeloHeladera>();
 builder.Services.AddScoped<DarAltaPuntoHeladera>();
 builder.Services.AddScoped<RegistrarAccesoHeladera>();
+builder.Services.AddScoped<ImportarColaboraciones>();
 
 builder.Services
     .AddMvc()
@@ -100,11 +101,11 @@ var app = builder.Build();
 app.UseCors(corsDevelop);
 
 // Configure the HTTP request pipeline.
-// if (app.Environment.IsDevelopment())
-// {
-//     app.UseSwagger();
-//     app.UseSwaggerUI();
-// }
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.UseHttpsRedirection();
 
