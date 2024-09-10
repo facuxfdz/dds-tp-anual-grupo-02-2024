@@ -9,6 +9,7 @@ using AccesoAlimentario.API.Infrastructure.Repositories;
 using AccesoAlimentario.API.UseCases.AccesoHeladera;
 using AccesoAlimentario.API.UseCases.Colaboradores;
 using AccesoAlimentario.API.UseCases.Heladeras;
+using AccesoAlimentario.API.UseCases.Incidentes;
 using AccesoAlimentario.API.UseCases.Personas;
 using Microsoft.EntityFrameworkCore;
 
@@ -55,6 +56,8 @@ builder.Services.AddScoped<CrearHeladera>();
 builder.Services.AddScoped<CrearModeloHeladera>();
 builder.Services.AddScoped<DarAltaPuntoHeladera>();
 builder.Services.AddScoped<RegistrarAccesoHeladera>();
+builder.Services.AddScoped<CrearVisitaTecnica>();
+builder.Services.AddScoped<CrearFallaTecnica>();
 
 builder.Services
     .AddMvc()

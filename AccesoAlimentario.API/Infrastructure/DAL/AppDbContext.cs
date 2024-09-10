@@ -41,5 +41,9 @@ public class AppDbContext : DbContext
     public DbSet<FallaConexion> FallasConexion { get; set; } = null!;
     public DbSet<TemperaturaInusual> TemperaturasInusual { get; set; } = null!;
     public DbSet<MovimientoInusual> MovimientosInusual { get; set; } = null!;
+    public DbSet<Incidente> Incidentes { get; set; } = null!;
+    public DbSet<VisitaTecnica> VisitasTecnicas { get; set; } = null!;
+    
+    
     
 }
