@@ -8,14 +8,15 @@ public abstract class Contribucion
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; private set; }
-    private DateTime _fecha;
-    
+
+    public DateTime FechaContribucion { get; private set; } = DateTime.Now;
+
     public Contribucion()
     {
     }
-    
-    public Contribucion(DateTime fecha)
+
+    public Contribucion(DateTime fechaContribucion)
     {
-        _fecha = fecha;
+        FechaContribucion = fechaContribucion;
     }
 }

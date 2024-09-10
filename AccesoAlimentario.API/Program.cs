@@ -2,13 +2,16 @@
 using System.Text;
 using System.Text.Json.Serialization;
 using AccesoAlimentario.API.Domain.Colaboraciones;
+using AccesoAlimentario.API.Domain.Colaboraciones.Contribuciones;
 using AccesoAlimentario.API.Domain.Heladeras;
 using AccesoAlimentario.API.Domain.Personas;
+using AccesoAlimentario.API.Domain.Premios;
 using AccesoAlimentario.API.Infrastructure.DAL;
 using AccesoAlimentario.API.Infrastructure.Repositories;
 using AccesoAlimentario.API.UseCases.AccesoHeladera;
 using AccesoAlimentario.API.UseCases.Colaboradores;
 using AccesoAlimentario.API.UseCases.Heladeras;
+using AccesoAlimentario.API.UseCases.Incidentes;
 using AccesoAlimentario.API.UseCases.Personas;
 using Microsoft.EntityFrameworkCore;
 
@@ -44,6 +47,13 @@ builder.Services.AddScoped<IRepository<PuntoEstrategico>, GenericRepository<Punt
 builder.Services.AddScoped<IRepository<AutorizacionHeladera>, GenericRepository<AutorizacionHeladera>>();
 builder.Services.AddScoped<IRepository<AccesoHeladera>, GenericRepository<AccesoHeladera>>();
 
+builder.Services.AddScoped<IRepository<AdministracionHeladera>, GenericRepository<AdministracionHeladera>>();
+builder.Services.AddScoped<IRepository<DonacionMonetaria>, GenericRepository<DonacionMonetaria>>();
+builder.Services.AddScoped<IRepository<DonacionVianda>, GenericRepository<DonacionVianda>>();
+builder.Services.AddScoped<IRepository<RegistroPersonaVulnerable>, GenericRepository<RegistroPersonaVulnerable>>();
+builder.Services.AddScoped<IRepository<OfertaPremio>, GenericRepository<OfertaPremio>>();
+builder.Services.AddScoped<IRepository<Premio>, GenericRepository<Premio>>();
+
 builder.Services.AddScoped<IGeneradorCodigoTarjeta, GenerarRandom>();
 builder.Services.AddScoped<IEncryptionService>(provider => new AuthenticatedEncryptionService(encryptionKey));
 builder.Services.AddScoped<CrearTarjetaColaboracion>();
@@ -56,6 +66,8 @@ builder.Services.AddScoped<CrearModeloHeladera>();
 builder.Services.AddScoped<DarAltaPuntoHeladera>();
 builder.Services.AddScoped<RegistrarAccesoHeladera>();
 builder.Services.AddScoped<ImportarColaboraciones>();
+builder.Services.AddScoped<CrearVisitaTecnica>();
+builder.Services.AddScoped<CrearFallaTecnica>();
 
 builder.Services
     .AddMvc()
