@@ -4,8 +4,10 @@ using System.Text.Json.Serialization;
 using AccesoAlimentario.API.Domain.Colaboraciones;
 using AccesoAlimentario.API.Domain.Colaboraciones.Contribuciones;
 using AccesoAlimentario.API.Domain.Heladeras;
+using AccesoAlimentario.API.Domain.Incidentes;
 using AccesoAlimentario.API.Domain.Personas;
 using AccesoAlimentario.API.Domain.Premios;
+using AccesoAlimentario.API.Domain.Tecnicos;
 using AccesoAlimentario.API.Infrastructure.DAL;
 using AccesoAlimentario.API.Infrastructure.Repositories;
 using AccesoAlimentario.API.UseCases.AccesoHeladera;
@@ -53,6 +55,10 @@ builder.Services.AddScoped<IRepository<DonacionVianda>, GenericRepository<Donaci
 builder.Services.AddScoped<IRepository<RegistroPersonaVulnerable>, GenericRepository<RegistroPersonaVulnerable>>();
 builder.Services.AddScoped<IRepository<OfertaPremio>, GenericRepository<OfertaPremio>>();
 builder.Services.AddScoped<IRepository<Premio>, GenericRepository<Premio>>();
+builder.Services.AddScoped<IRepository<FallaTecnica>, GenericRepository<FallaTecnica>>();
+builder.Services.AddScoped<IRepository<Tecnico>, GenericRepository<Tecnico>>();
+builder.Services.AddScoped<IRepository<Incidente>, GenericRepository<Incidente>>();
+builder.Services.AddScoped<IRepository<VisitaTecnica>, GenericRepository<VisitaTecnica>>();
 
 builder.Services.AddScoped<IGeneradorCodigoTarjeta, GenerarRandom>();
 builder.Services.AddScoped<IEncryptionService>(provider => new AuthenticatedEncryptionService(encryptionKey));
