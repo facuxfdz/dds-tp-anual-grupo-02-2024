@@ -11,8 +11,6 @@ using Microsoft.EntityFrameworkCore;
 
 const string testCsv = @"Test//csvE2.csv";
 
-Console.WriteLine("HOLA");
-
 var options = new DbContextOptionsBuilder<AppDbContext>(options: new DbContextOptions<AppDbContext>())
     .UseInMemoryDatabase(databaseName: "AccesoAlimentario")
     .Options;
