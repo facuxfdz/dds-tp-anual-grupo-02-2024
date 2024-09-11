@@ -11,10 +11,12 @@ using AccesoAlimentario.API.Domain.Tecnicos;
 using AccesoAlimentario.API.Infrastructure.DAL;
 using AccesoAlimentario.API.Infrastructure.Repositories;
 using AccesoAlimentario.API.UseCases.AccesoHeladera;
+using AccesoAlimentario.API.UseCases.Colaboraciones;
 using AccesoAlimentario.API.UseCases.Colaboradores;
 using AccesoAlimentario.API.UseCases.Heladeras;
 using AccesoAlimentario.API.UseCases.Incidentes;
 using AccesoAlimentario.API.UseCases.Personas;
+using AccesoAlimentario.Core.Entities.Heladeras;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -55,6 +57,7 @@ builder.Services.AddScoped<IRepository<DonacionVianda>, GenericRepository<Donaci
 builder.Services.AddScoped<IRepository<RegistroPersonaVulnerable>, GenericRepository<RegistroPersonaVulnerable>>();
 builder.Services.AddScoped<IRepository<OfertaPremio>, GenericRepository<OfertaPremio>>();
 builder.Services.AddScoped<IRepository<Premio>, GenericRepository<Premio>>();
+builder.Services.AddScoped<IRepository<ViandaEstandar>, GenericRepository<ViandaEstandar>>();
 builder.Services.AddScoped<IRepository<FallaTecnica>, GenericRepository<FallaTecnica>>();
 builder.Services.AddScoped<IRepository<Tecnico>, GenericRepository<Tecnico>>();
 builder.Services.AddScoped<IRepository<Incidente>, GenericRepository<Incidente>>();
@@ -74,6 +77,7 @@ builder.Services.AddScoped<RegistrarAccesoHeladera>();
 builder.Services.AddScoped<ImportarColaboraciones>();
 builder.Services.AddScoped<CrearVisitaTecnica>();
 builder.Services.AddScoped<CrearFallaTecnica>();
+builder.Services.AddScoped<CrearContribucion>();
 
 builder.Services
     .AddMvc()

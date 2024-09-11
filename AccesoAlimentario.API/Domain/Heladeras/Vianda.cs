@@ -25,10 +25,9 @@ public class Vianda
     {
     }
 
-    public Vianda(int id, string comida, DateTime fechaDonacion, DateTime fechaCaducidad, Colaborador colaborador,
+    public Vianda(string comida, DateTime fechaDonacion, DateTime fechaCaducidad, Colaborador colaborador,
         Heladera heladera, float calorias, float peso, EstadoVianda estadoVianda, ViandaEstandar unidadEstandar)
     {
-        Id = id;
         Comida = comida;
         FechaDonacion = fechaDonacion;
         FechaCaducidad = fechaCaducidad;
