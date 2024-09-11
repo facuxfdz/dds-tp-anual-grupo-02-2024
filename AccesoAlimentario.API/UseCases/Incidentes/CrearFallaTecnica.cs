@@ -10,7 +10,7 @@ namespace AccesoAlimentario.API.UseCases.Incidentes;
 
 public class CrearFallaTecnica(
     IRepository<Heladera> heladeraRepository,
-    IRepository<Incidente> incidenteRepository,
+    IRepository<FallaTecnica> incidenteRepository,
     IRepository<Colaborador> colaboradorRepository
 )
 {

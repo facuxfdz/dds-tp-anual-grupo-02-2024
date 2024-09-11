@@ -13,8 +13,12 @@ public class Incidente
     List<VisitaTecnica> VisitasTecnicas { get; set; } = [];
     public DateTime Fecha { get; set; } = DateTime.Now;
     public bool Resuelto { get; set; } = false;
+    public List<FallaTecnica> FallasTecnicas { get; set; } = [];
     public Heladera Heladera { get; set; } = null!;
 
+    public Incidente()
+    {
+    }
     public Incidente(DateTime fecha, Heladera heladera)
     {
         Fecha = fecha;

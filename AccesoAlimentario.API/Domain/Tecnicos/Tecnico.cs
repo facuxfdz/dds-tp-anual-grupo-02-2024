@@ -14,6 +14,9 @@ public class Tecnico
     
     public Persona Persona { get; private set; }
     
+    public Tecnico()
+    {
+    }
     public Tecnico(Persona persona, AreaCobertura areaCobertura)
     {
         Persona = persona;

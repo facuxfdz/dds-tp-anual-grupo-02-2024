@@ -4,8 +4,8 @@ namespace AccesoAlimentario.API.Domain.Colaboraciones.Contribuciones;
 
 public class DistribucionViandas : Contribucion
 {
-    public Heladera HeladeraOrigen { get; set; } = null!;
-    public Heladera HeladeraDestino { get; set; } = null!;
+    public Heladera? HeladeraOrigen { get; set; } = null!;
+    public Heladera? HeladeraDestino { get; set; } = null!;
     public int CantViandas { get; set; } = 0;
     public MotivoDistribucion MotivoDistribucion { get; set; } = MotivoDistribucion.Desperfecto;
 
@@ -21,5 +21,13 @@ public class DistribucionViandas : Contribucion
         HeladeraDestino = heladeraDestino;
         CantViandas = cantViandas;
         MotivoDistribucion = motivoDistribucion;
+    }
+    public DistribucionViandas(DateTime fechaContribucion, Heladera heladeraOrigen,
+        Heladera heladeraDestino, int cantViandas)
+        : base(fechaContribucion)
+    {
+        HeladeraOrigen = heladeraOrigen;
+        HeladeraDestino = heladeraDestino;
+        CantViandas = cantViandas;
     }
 }

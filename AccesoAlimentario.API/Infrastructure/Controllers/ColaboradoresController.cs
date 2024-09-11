@@ -6,11 +6,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AccesoAlimentario.API.Infrastructure.Controllers;
 
+public class UploadFileRequest
+{
+    public IFormFile? File { get; set; }
+}
+
 [Route("api/[controller]")]
 [ApiController]
 public class ColaboradoresController(
     CrearColaboradorHTTP crearColaborador,
-    CrearTarjetaColaboracion crearTarjetaColaboracion
+    CrearTarjetaColaboracion crearTarjetaColaboracion,
+    ImportarColaboraciones importarColaboraciones
     ) : ControllerBase
 {
     // POST: api/colaboradores/csv
@@ -25,6 +31,29 @@ public class ColaboradoresController(
     //     var res = unitOfWork.ColaboradorRepository.Get();
     //     return Ok(res);
     // }
+    
+    // POST: api/colaboradores/importarColaboraciones
+    [HttpPost("importarColaboraciones")]
+    public IActionResult ImportarColaboraciones([FromForm] UploadFileRequest file)
+    {
+        // Create stream from file
+        var fileForm = file.File;
+        if (fileForm == null)
+        {
+            return BadRequest("No se ha enviado un archivo");
+        }
+        var stream = fileForm.OpenReadStream();
+        
+        try
+        {
+            importarColaboraciones.ImportarCsv(stream);
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, e.Message);
+        }
+        return Ok();
+    }
     
     [HttpPost]
     // POST: api/colaboradores
