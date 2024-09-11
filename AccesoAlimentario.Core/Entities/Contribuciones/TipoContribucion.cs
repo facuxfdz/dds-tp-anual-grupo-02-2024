@@ -2,8 +2,8 @@
 
 public enum TipoContribucion
 {
-    Dinero,
-    DonacionViandas,
-    RedistribucionViandas,
-    EntregaTarjetas
+    DINERO,
+    DONACION_VIANDAS,
+    REDISTRIBUCION_VIANDAS,
+    ENTREGA_TARJETAS
 }

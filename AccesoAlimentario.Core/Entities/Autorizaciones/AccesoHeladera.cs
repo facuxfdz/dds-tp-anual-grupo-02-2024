@@ -19,11 +19,16 @@ public class AccesoHeladera
     
     public AccesoHeladera() { }
     
-    public AccesoHeladera(Tarjeta tarjeta, Heladera heladera, TipoAcceso tipoAcceso, AutorizacionManipulacionHeladera autorizacion)
+    public AccesoHeladera(Tarjeta tarjeta, Heladera heladera, TipoAcceso tipoAcceso)
     {
         Tarjeta = tarjeta;
         Heladera = heladera;
         TipoAcceso = tipoAcceso;
-        Autorizacion = autorizacion;
+    }
+
+    public bool VerificarValidez()
+    {
+        if (Tarjeta is not TarjetaColaboracion tarjeta) return true;
+        return tarjeta.TieneAutorizacion(Heladera) != null;
     }
 }

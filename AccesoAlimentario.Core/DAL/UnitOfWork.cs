@@ -8,7 +8,6 @@ using AccesoAlimentario.Core.Entities.MediosContacto;
 using AccesoAlimentario.Core.Entities.Notificaciones;
 using AccesoAlimentario.Core.Entities.Personas;
 using AccesoAlimentario.Core.Entities.Premios;
-using AccesoAlimentario.Core.Entities.Reportes;
 using AccesoAlimentario.Core.Entities.Roles;
 using AccesoAlimentario.Core.Entities.Sensores;
 using AccesoAlimentario.Core.Entities.SuscripcionesColaboradores;
@@ -65,12 +64,9 @@ public class UnitOfWork(AppDbContext context)
     private GenericRepository<Tarjeta> _tarjetaRepository = null!;
     private GenericRepository<TarjetaColaboracion> _tarjetaColaboracionRepository = null!;
     private GenericRepository<TarjetaConsumo> _tarjetaConsumoRepository = null!;
-    private GenericRepository<Reporte> _reporteRepository = null!;
-    private GenericRepository<FallasHeladeraReporteSchema> _fallasHeladeraReporteSchemaRepository = null!;
+
     /* ------------------------------------ */
 
-    public GenericRepository<Reporte> ReporteRepository => _reporteRepository ??= new GenericRepository<Reporte>(context);
-    public GenericRepository<FallasHeladeraReporteSchema> FallasHeladeraReporteSchemaRepository => _fallasHeladeraReporteSchemaRepository ??= new GenericRepository<FallasHeladeraReporteSchema>(context);
     public GenericRepository<AccesoHeladera> AccesoHeladeraRepository => _accesoHeladeraRepository ??= new GenericRepository<AccesoHeladera>(context);
     public GenericRepository<AutorizacionManipulacionHeladera> AutorizacionManipulacionHeladeraRepository => _autorizacionManipulacionHeladeraRepository ??= new GenericRepository<AutorizacionManipulacionHeladera>(context);
     public GenericRepository<AdministracionHeladera> AdministracionHeladeraRepository => _administracionHeladeraRepository ??= new GenericRepository<AdministracionHeladera>(context);

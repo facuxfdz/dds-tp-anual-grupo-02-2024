@@ -8,7 +8,6 @@ using AccesoAlimentario.Core.Entities.MediosContacto;
 using AccesoAlimentario.Core.Entities.Notificaciones;
 using AccesoAlimentario.Core.Entities.Personas;
 using AccesoAlimentario.Core.Entities.Premios;
-using AccesoAlimentario.Core.Entities.Reportes;
 using AccesoAlimentario.Core.Entities.Roles;
 using AccesoAlimentario.Core.Entities.Sensores;
 using AccesoAlimentario.Core.Entities.SuscripcionesColaboradores;
@@ -69,6 +68,4 @@ public class AppDbContext : DbContext
     public DbSet<Tarjeta> Tarjetas { get; set; } = null!;
     public DbSet<TarjetaColaboracion> TarjetasColaboracion { get; set; } = null!;
     public DbSet<TarjetaConsumo> TarjetasConsumo { get; set; } = null!;
-    public DbSet<Reporte> Reportes { get; set; } = null!;
-    public DbSet<FallasHeladeraReporteSchema> FallasHeladeraReporteSchema { get; set; } = null!;
 }

@@ -11,12 +11,20 @@ public class VisitaTecnica
     public int Id { get; private set; }
 
     public Tecnico Tecnico { get; set; } = null!;
-    public string? Foto { get; set; } = null;
+    public string? Foto { get; set; } = null!;
     public DateTime Fecha { get; set; } = DateTime.Now;
-    public string? Comentario { get; set; } = null;
+    public string? Comentario { get; set; } = null!;
 
     public VisitaTecnica()
     {
+    }
+
+    public VisitaTecnica(Tecnico tecnico, string? foto, string? comentario)
+    {
+        Tecnico = tecnico;
+        Foto = foto;
+        Fecha = DateTime.Now;
+        Comentario = comentario;
     }
     
     public VisitaTecnica(Tecnico tecnico, string? foto, DateTime fecha, string? comentario)

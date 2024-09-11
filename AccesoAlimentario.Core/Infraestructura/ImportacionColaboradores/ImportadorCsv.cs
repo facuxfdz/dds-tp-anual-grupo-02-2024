@@ -71,14 +71,14 @@ public class ImportadorCsv : FormaImportacion
 
         switch (tipoContribucion)
         {
-            case TipoContribucion.Dinero:
+            case TipoContribucion.DINERO:
             {
                 contribuciones.Add(new DonacionMonetaria(
                     date,
                     datos.Cantidad, 0));
                 break;
             }
-            case TipoContribucion.DonacionViandas:
+            case TipoContribucion.DONACION_VIANDAS:
             {
                 for (var i = 0; i < datos.Cantidad; i++)
                 {
@@ -87,13 +87,13 @@ public class ImportadorCsv : FormaImportacion
 
                 break;
             }
-            case TipoContribucion.RedistribucionViandas:
+            case TipoContribucion.REDISTRIBUCION_VIANDAS:
             {
                 contribuciones.Add(new DistribucionViandas(date, null, null,
                     datos.Cantidad, MotivoDistribucion.Desperfecto));
                 break;
             }
-            case TipoContribucion.EntregaTarjetas:
+            case TipoContribucion.ENTREGA_TARJETAS:
             {
                 for (var i = 0; i < datos.Cantidad; i++)
                 {

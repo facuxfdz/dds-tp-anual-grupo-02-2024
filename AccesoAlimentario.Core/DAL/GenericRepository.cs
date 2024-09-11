@@ -56,23 +56,10 @@ namespace AccesoAlimentario.Core.DAL
             }
         }
 
-        public virtual TEntity Insert(TEntity entity)
+        public virtual void Insert(TEntity entity)
         {
-            var obj = _dbSet.Add(entity);
+            _dbSet.Add(entity);
             _context.SaveChanges();
-            return obj.Entity;
-        }
-
-        public List<TEntity> InsertMany(IEnumerable<TEntity> entities)
-        {
-            var objs = new List<TEntity>();
-            foreach (var entity in entities)
-            {
-                var obj = _dbSet.Add(entity);
-                objs.Add(obj.Entity);
-            }
-            _context.SaveChanges();
-            return objs;
         }
 
         public virtual void Delete(TEntity entityToDelete)

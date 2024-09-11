@@ -11,8 +11,6 @@ using Microsoft.EntityFrameworkCore;
 
 const string testCsv = @"Test//csvE2.csv";
 
-Console.WriteLine("HOLA");
-
 var options = new DbContextOptionsBuilder<AppDbContext>(options: new DbContextOptions<AppDbContext>())
     .UseInMemoryDatabase(databaseName: "AccesoAlimentario")
     .Options;
@@ -45,7 +43,7 @@ personasServicio.CrearHumana
         "Avellaneda",
         "A123B"
     ),
-    new DocumentoIdentidad(TipoDocumento.Dni, 123456789, DateOnly.MinValue),
+    new DocumentoIdentidad(TipoDocumento.DNI, 123456789, DateOnly.MinValue),
     new List<MedioContacto>
     {
         new Email(true, "mpedaci@frba.utn.edu.ar")
@@ -66,7 +64,7 @@ personasServicio.CrearJuridica
         "Avellaneda",
         "A123B"
     ),
-    new DocumentoIdentidad(TipoDocumento.Cuit, 123456789, DateOnly.MinValue),
+    new DocumentoIdentidad(TipoDocumento.CUIT, 123456789, DateOnly.MinValue),
     new List<MedioContacto>
     {
         new Email(true, "mpedaci@frba.utn.edu.ar")
@@ -98,8 +96,6 @@ var password = Console.ReadLine();
 var usuarios = unitOfWork.UsuarioSistemaRepository.Get();
 
 var usuario = usuariosServicio.Login(username, password);
-
-
 
 
 Console.WriteLine("Fin de la ejecución");

@@ -22,8 +22,8 @@ public class Heladera : IObserverSensorMovimiento, IObserverSensorTemperatura, I
     public List<Sensor> Sensores { get; set; } = [];
     public List<Incidente> Incidentes { get; set; } = [];
     public ModeloHeladera Modelo { get; set; } = null!;
-    [NotMapped]
-    public List<IObserverHeladera> Observers { get; set; } = [];
+    
+    private List<IObserverHeladera> Observers { get; set; } = [];
 
     public Heladera()
     {
