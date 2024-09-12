@@ -28,14 +28,18 @@ public class TestPuntosColaboracion
     private ColaboradoresServicio colaboradoresServicio;
     private PersonasServicio personasServicio;
     private TarjetaConsumo unaTarjetaConsumo;
+    private PersonaJuridica unaPersonaJuridica;
+    private Colaborador unColaboradorJuridico;
 
 
     [SetUp]
     public void Setup()
     {
         unaPersonaHumana = new PersonaHumana("Pepe", "Gonzalez", null, null, null, SexoDocumento.Femenino);
+        unaPersonaJuridica = new PersonaJuridica("Pepe", "Gonzalez", TipoJuridico.Gubernamental, "", null, null, null);
         otraPersonaHumana = new PersonaHumana("Pepa", "Lopez", null, null, null, SexoDocumento.Femenino);
         unColaboradorSinPuntos = new Colaborador(unaPersonaHumana, []);
+        unColaboradorJuridico = new Colaborador(unaPersonaJuridica, []);
         unColaboradorConPuntos = new Colaborador(unaPersonaHumana, []);
         unColaboradorConPuntos.AgregarPuntos(250);
 
@@ -60,7 +64,7 @@ public class TestPuntosColaboracion
     [Test]
     public void CrearAdministracionHeladera_PuntosGenerados_CeroPuntos()
     {
-        colaboracionesServicio.CrearAdministracionHeladera(unColaboradorSinPuntos, unaHeladera, null);
+        colaboracionesServicio.CrearAdministracionHeladera(unColaboradorJuridico, unaHeladera, null);
         Assert.AreEqual(0, unColaboradorSinPuntos.ObtenerPuntos());
     }
 
@@ -96,7 +100,7 @@ public class TestPuntosColaboracion
     [Test]
     public void CrearOfertaPremio_PuntosGenerados_CeroPuntos()
     {
-        colaboracionesServicio.CrearOfertaPremio(unColaboradorSinPuntos, unPremio, null);
+        colaboracionesServicio.CrearOfertaPremio(unColaboradorJuridico, unPremio, null);
         Assert.AreEqual(0, unColaboradorSinPuntos.ObtenerPuntos());
     }
 }

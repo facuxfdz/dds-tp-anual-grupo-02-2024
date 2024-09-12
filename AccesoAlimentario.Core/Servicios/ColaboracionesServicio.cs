@@ -131,7 +131,31 @@ public class ColaboracionesServicio(UnitOfWork unitOfWork, ColaboradoresServicio
 
     public bool VerificarColab(FormaContribucion formaContri, DateTime? fecha, Colaborador colab)
     {
-        //return fecha != null && formaContri.EsValido(colab);
-        return true;
+        switch (colab.Persona)
+        {
+            case PersonaHumana _:
+                switch (formaContri)
+                {
+                    case DistribucionViandas _:
+                    case RegistroPersonaVulnerable _:
+                    case DonacionMonetaria _:
+                    case DonacionVianda _:
+                        return true;
+                    default:
+                        return false;
+                }
+            case PersonaJuridica _:
+                switch (formaContri)
+                {
+                    case AdministracionHeladera _:
+                    case DonacionMonetaria _:
+                    case OfertaPremio _:
+                        return true;
+                    default:
+                        return false;
+                }
+            default:
+                return false;
+        }
     }
 }
