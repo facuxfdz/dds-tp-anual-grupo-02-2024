@@ -13,7 +13,7 @@ public class Heladera : IObserverSensorMovimiento, IObserverSensorTemperatura, I
     public int Id { get; private set; }
 
     public PuntoEstrategico PuntoEstrategico { get; set; } = null!;
-    public List<Vianda> Viandas { get; set; } = null!;
+    public List<Vianda> Viandas { get; set; } = [];
     public EstadoHeladera EstadoHeladera { get; set; } = EstadoHeladera.FueraServicio;
     public DateTime FechaInstalacion { get; set; } = DateTime.Now;
     public float TemperaturaActual { get; set; } = 0;

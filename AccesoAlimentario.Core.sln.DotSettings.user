@@ -15,7 +15,7 @@
   &lt;Assembly Path="C:\Users\facuxfdz\.nuget\packages\csvhelper\32.0.3\lib\net8.0\CsvHelper.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=a4c590bf_002Dd6cd_002D4e55_002Dae38_002D22d3f80d392f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from &amp;lt;AccesoAlimentario.Testing&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;Project Location="C:\Users\marco\OneDrive\Escritorio\dds-tp-anual-grupo-02-2024\AccesoAlimentario.Testing" Presentation="&amp;lt;AccesoAlimentario.Testing&amp;gt;" /&gt;&#xD;
+  &lt;ProjectFile&gt;E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7/f:TestNotificaciones.cs&lt;/ProjectFile&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	
 	</wpf:ResourceDictionary>
