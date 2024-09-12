@@ -69,7 +69,7 @@ public class Heladera : IObserverSensorMovimiento, IObserverSensorTemperatura, I
             AgregarIncidente(new Alerta(TipoAlerta.Conexion));
         }
         TemperaturaActual = dato;
-        if (dato >= TemperaturaMinimaConfig || dato <= TemperaturaMaximaConfig)
+        if (dato <= TemperaturaMinimaConfig || dato >= TemperaturaMaximaConfig)
         {
             AgregarIncidente(new Alerta(TipoAlerta.Temperatura));
         }

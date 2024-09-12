@@ -21,8 +21,6 @@ public class SensorTemperatura : Sensor, ISubjectHeladeraTemperatura
         catch (Exception e)
         {
             Notificar(0, true);
-            Console.WriteLine(e);
-            throw;
         }
     }
 

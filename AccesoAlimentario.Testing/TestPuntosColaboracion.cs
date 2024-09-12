@@ -11,5 +11,5 @@ namespace AccesoAlimentario.Testing;
 */
 public class TestPuntosColaboracion
 {
-    
+    //objeto_loquesetestea_resultado[]SetUp{[]Rpublic void Setipup(){TTestpublic void COlaolaborador unCOlolaborador()
 }
