@@ -9,6 +9,7 @@ using AccesoAlimentario.API.Domain.Personas;
 using AccesoAlimentario.API.Domain.Premios;
 using AccesoAlimentario.API.Domain.Tecnicos;
 using AccesoAlimentario.API.Infrastructure.DAL;
+using AccesoAlimentario.API.Infrastructure.RabbitMQ;
 using AccesoAlimentario.API.Infrastructure.Repositories;
 using AccesoAlimentario.API.UseCases.AccesoHeladera;
 using AccesoAlimentario.API.UseCases.Colaboradores;
@@ -94,6 +95,8 @@ builder.Services
 // builder.Services.AddScoped(typeof(ModeloHeladeraServicio));
 //
 // // Register RabbitMQ background service
+builder.Services.AddHostedService<RabbitMQBackgroundService>();
+
 // builder.Services.AddScoped(typeof(GenericRepository<RegistroFraude>));
 // builder.Services.AddScoped(typeof(GenericRepository<RegistroTemperatura>));
 // builder.Services.AddScoped(typeof(RegistrarFraudeHeladera));

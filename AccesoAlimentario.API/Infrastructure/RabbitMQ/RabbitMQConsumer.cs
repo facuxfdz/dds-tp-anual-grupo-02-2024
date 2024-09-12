@@ -1,23 +1,22 @@
 using System.Text;
+using AccesoAlimentario.API.UseCases.RegistrarDataHeladera;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace AccesoAlimentario.API.Controllers;
+namespace AccesoAlimentario.API.Infrastructure.RabbitMQ;
 
 public class RabbitMQConsumer
 {
     private readonly string _queueName;
-    // private readonly ILogger<RabbitMQConsumer> _logger;
-    private readonly IHeladeraMessageProcessor _messageProcessor;
+    private readonly IRegistrarEventoHeladera _messageProcessor;
     private readonly IConnection _connection;
     private readonly IModel _channel;
 
     public RabbitMQConsumer(
         string queueName, 
-        IHeladeraMessageProcessor messageProcessor)
+        IRegistrarEventoHeladera messageProcessor)
     {
         _queueName = queueName;
-        // _logger = LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger<RabbitMQConsumer>();
         _messageProcessor = messageProcessor;
         // Configuración de la conexión RabbitMQ
         var factory = new ConnectionFactory() { HostName = "localhost" };
@@ -39,7 +38,7 @@ public class RabbitMQConsumer
             // _logger.LogInformation($"Received message from {_queueName}: {message}");
 
             // Procesar el mensaje (aquí puedes agregar la lógica de procesamiento)
-            _messageProcessor.ProcessMessage(message);
+            _messageProcessor.RegistrarEvento(message);
         };
 
         // Iniciar consumo de la cola
