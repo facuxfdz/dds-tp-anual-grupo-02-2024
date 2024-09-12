@@ -47,7 +47,7 @@ public class ColaboracionesServicio(UnitOfWork unitOfWork, ColaboradoresServicio
         unitOfWork.DistribucionViandasRepository.Insert(formaDistribucionViandas);
 
         //Se le asignan los puntos al colaborador
-        colaboradoresServicio.AgregarPuntos(colab, AppSettings.Instance.TarjetasRepartidasCoef * cantViandas);
+        colaboradoresServicio.AgregarPuntos(colab, AppSettings.Instance.ViandasDistribuidasCoef * cantViandas);
 
         return formaDistribucionViandas;
     }
