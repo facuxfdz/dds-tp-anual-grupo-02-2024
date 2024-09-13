@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using AccesoAlimentario.API.Domain.Colaboraciones;
-using AccesoAlimentario.Core.Entities.Heladeras;
 
 namespace AccesoAlimentario.API.Domain.Heladeras;
 

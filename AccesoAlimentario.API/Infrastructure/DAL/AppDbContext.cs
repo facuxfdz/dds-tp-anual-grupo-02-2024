@@ -6,7 +6,7 @@ using AccesoAlimentario.API.Domain.Incidentes;
 using AccesoAlimentario.API.Domain.Notificaciones;
 using AccesoAlimentario.API.Domain.Personas;
 using AccesoAlimentario.API.Domain.Premios;
-using AccesoAlimentario.Core.Entities.Heladeras;
+using AccesoAlimentario.API.Domain.Heladeras.RegistrosSensores;
 using Microsoft.EntityFrameworkCore;
 
 namespace AccesoAlimentario.API.Infrastructure.DAL;
@@ -50,5 +50,7 @@ public class AppDbContext : DbContext
     public DbSet<MovimientoInusual> MovimientosInusual { get; set; } = null!;
     public DbSet<Incidente> Incidentes { get; set; } = null!;
     public DbSet<VisitaTecnica> VisitasTecnicas { get; set; } = null!;
-    
+    public DbSet<RegistroSensor> RegistrosSensores { get; set; } = null!;
+    public DbSet<RegistroTemperatura> RegistrosTemperaturas { get; set; } = null!;
+    public DbSet<RegistroFraude> RegistrosFraudes { get; set; } = null!;
 }

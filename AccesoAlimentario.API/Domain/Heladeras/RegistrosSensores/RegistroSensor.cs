@@ -8,9 +8,10 @@ public abstract class RegistroSensor
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; private set; }
-    public Heladera Heladera { get; }
-    public DateTime FechaLectura { get; }
-    
+
+    public Heladera Heladera { get; set; }
+    public DateTime FechaLectura { get; set; }
+
     public RegistroSensor()
     {
     }

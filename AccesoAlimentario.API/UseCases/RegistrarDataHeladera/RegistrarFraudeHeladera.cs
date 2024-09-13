@@ -12,6 +12,8 @@ public class RegistrarFraudeHeladera : IRegistrarEventoHeladera
     }
     public void RegistrarEvento(string message)
     {
+        // Por el momento la logica de parseo esta aca pero podria parsearse en una capa superior
+        // Y podria trabajarse con un objeto de dominio en vez de un string
         Console.WriteLine("RegistrarFraudeHeladera: " + message);
     }
 }

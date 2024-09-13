@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace AccesoAlimentario.Core.Entities.Heladeras;
+namespace AccesoAlimentario.API.Domain.Heladeras;
 
 public class ViandaEstandar
 {

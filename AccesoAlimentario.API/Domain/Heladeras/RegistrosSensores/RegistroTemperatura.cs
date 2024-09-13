@@ -1,10 +1,8 @@
-using AccesoAlimentario.Core.Entities.Heladeras;
-
 namespace AccesoAlimentario.API.Domain.Heladeras.RegistrosSensores;
 
 public class RegistroTemperatura : RegistroSensor
 {
-    public float Temperatura { get; } // En grados Celsius
+    public float Temperatura { get; set; } // En grados Celsius
     
     public RegistroTemperatura()
     {
