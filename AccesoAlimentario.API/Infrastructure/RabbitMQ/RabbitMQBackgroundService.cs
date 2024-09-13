@@ -1,4 +1,6 @@
+using AccesoAlimentario.API.Domain.Heladeras;
 using AccesoAlimentario.API.Domain.Heladeras.RegistrosSensores;
+using AccesoAlimentario.API.Infrastructure.DAL;
 using AccesoAlimentario.API.Infrastructure.Repositories;
 using AccesoAlimentario.API.UseCases.RegistrarDataHeladera;
 
@@ -16,8 +18,11 @@ public class RabbitMQBackgroundService : BackgroundService
         // var registrarTemperaturaHeladera = factory.CreateScope().ServiceProvider.GetRequiredService<RegistrarTemperaturaHeladera>();
         var fraudeHeladeraRepository = factory.CreateScope().ServiceProvider.GetRequiredService<GenericRepository<RegistroFraude>>();
         var temperaturaHeladeraRepository = factory.CreateScope().ServiceProvider.GetRequiredService<GenericRepository<RegistroTemperatura>>();
-        var registrarFraude = new RegistrarFraudeHeladera(fraudeHeladeraRepository);
-        var registrarTemperatura = new RegistrarTemperaturaHeladera(temperaturaHeladeraRepository);
+        var heladeraRepository = factory.CreateScope().ServiceProvider.GetRequiredService<GenericRepository<Heladera>>();
+        var unitofworkTemp = new QueueTemperaturaConsumerUOW(factory.CreateScope().ServiceProvider.GetRequiredService<AppDbContext>());
+        var unitofworkFraude = new QueueFraudeConsumerUOW(factory.CreateScope().ServiceProvider.GetRequiredService<AppDbContext>());
+        var registrarFraude = new RegistrarFraudeHeladera(unitofworkFraude);
+        var registrarTemperatura = new RegistrarTemperaturaHeladera(unitofworkTemp);
         _consumers = new RabbitMQConsumer[]
         {
             new("temperature_queue", registrarTemperatura),

@@ -7,7 +7,7 @@ public class Heladera
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; private set; }
+    public int Id { get; set; }
 
     public PuntoEstrategico PuntoEstrategico { get; set; } = null!;
     public List<Vianda> Viandas { get; set; } = null!;

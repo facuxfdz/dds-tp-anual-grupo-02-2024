@@ -2,5 +2,5 @@ namespace AccesoAlimentario.API.UseCases.RegistrarDataHeladera;
 
 public interface IRegistrarEventoHeladera
 {
-    public void RegistrarEvento(string message);
+    public void RegistrarEvento(List<string> messages);
 }

@@ -47,8 +47,11 @@ namespace AccesoAlimentario.API.Infrastructure.Repositories
         {
             try
             {
-                var obj = _dbSet.Find(id);
-                return obj ?? null;
+                // make sure to track the entity
+                var obj = _context.Find(typeof(TEntity), id);
+                _context.Update(obj);
+                
+                return obj as TEntity;
             }
             catch (Exception)
             {
