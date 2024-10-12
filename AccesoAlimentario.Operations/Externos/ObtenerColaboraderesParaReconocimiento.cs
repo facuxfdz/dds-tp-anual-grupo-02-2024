@@ -1,5 +1,6 @@
 ﻿using AccesoAlimentario.Core.DAL;
 using AccesoAlimentario.Core.Entities.Contribuciones;
+using AccesoAlimentario.Core.Entities.Roles;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using MySqlX.XDevAPI.Common;
@@ -30,15 +31,26 @@ public static class ObtenerColaboraderesParaReconocimiento
             var query = _unitOfWork.ColaboradorRepository.GetQueryable();
             query = query.Where(c => c.Puntos >= request.PuntosMinimos);
             var colaboradores = await _unitOfWork.ColaboradorRepository.GetCollectionAsync(query);
+            
             colaboradores = colaboradores.Where(
                 c => c.ContribucionesRealizadas.Any(d => d.FechaContribucion >= DateTime.Now.AddDays(-30))
             );
-            var colaboradoresValidos = colaboradores.Where(
-                c => c.ContribucionesRealizadas.OfType<DonacionVianda>().Count() >= request.DonacionesViandasMinimas);
 
-            colaboradoresValidos = colaboradoresValidos.OrderBy(c => c.Puntos).Take(request.CantidadDeColaboradores);
+            var colaboradoresValidos = new List<Colaborador>();
+            foreach (var colaborador in colaboradores)
+            {
+                var donacionesViandas = colaborador.ContribucionesRealizadas.OfType<DonacionVianda>().ToList();
+                var cantidadDonadaUltimoMes = donacionesViandas.Count(d => d.FechaContribucion >= DateTime.Now.AddDays(-30));
+                if (cantidadDonadaUltimoMes >= request.DonacionesViandasMinimas)
+                {
+                    colaboradoresValidos.Add(colaborador);
+                }
+            }
 
-            var response = colaboradoresValidos.Take(request.CantidadDeColaboradores).ToList();
+            var response = colaboradoresValidos
+                .OrderBy(c => c.Puntos)
+                .Take(request.CantidadDeColaboradores)
+                .ToList();
 
             return Results.Ok(response);
         }
