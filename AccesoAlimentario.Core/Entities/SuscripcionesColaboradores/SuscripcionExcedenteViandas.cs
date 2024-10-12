@@ -6,7 +6,7 @@ namespace AccesoAlimentario.Core.Entities.SuscripcionesColaboradores;
 
 public class SuscripcionExcedenteViandas : Suscripcion
 {
-    public int Maximo { get; private set; } = 0;
+    public int Maximo { get; set; } = 0;
 
     public SuscripcionExcedenteViandas()
     {

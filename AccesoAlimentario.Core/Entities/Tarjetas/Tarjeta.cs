@@ -7,11 +7,9 @@ namespace AccesoAlimentario.Core.Entities.Tarjetas;
 
 public abstract class Tarjeta
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; private set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
-    public string Codigo { get; set; } = "";
+    public string Codigo { get; set; } = string.Empty;
     public Rol Propietario { get; set; } = null!;
     public List<AccesoHeladera> Accesos { get; set; } = [];
 

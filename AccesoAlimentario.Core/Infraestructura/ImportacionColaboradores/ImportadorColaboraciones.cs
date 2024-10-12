@@ -14,15 +14,15 @@ namespace AccesoAlimentario.Core.Infraestructura.ImportacionColaboradores
     public class ImportadorColaboraciones
 {
     private readonly ValidadorImportacionMasiva _validador;
-    private readonly IRepository<Colaborador> _colaboradorRepository;
+    /*private readonly IRepository<Colaborador> _colaboradorRepository;*/
 
-    public ImportadorColaboraciones(IRepository<Colaborador> colaboradorRepository, ValidadorImportacionMasiva validador)
+    /*public ImportadorColaboraciones(IRepository<Colaborador> colaboradorRepository, ValidadorImportacionMasiva validador)
     {
         _colaboradorRepository = colaboradorRepository;
         _validador = validador;
-    }
+    }*/
 
-    public void Importar(Stream? fileStream)
+    /*public void Importar(Stream? fileStream)
     {
         if (fileStream == null)
         {
@@ -63,7 +63,7 @@ namespace AccesoAlimentario.Core.Infraestructura.ImportacionColaboradores
                 _colaboradorRepository.Update(colaborador);
             }
         }
-    }
+    }*/
 
     public List<DatosColaboracion> LeerCsv(Stream fileStream)
     {

@@ -5,13 +5,11 @@ namespace AccesoAlimentario.Core.Entities.Heladeras;
 
 public class ViandaEstandar
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; private set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
-    public float Largo { get; private set; } = 0;
-    public float Ancho { get; private set; } = 0;
-    public float Profundidad { get; private set; } = 0;
+    public float Largo { get; set; } = 0;
+    public float Ancho { get; set; } = 0;
+    public float Profundidad { get; set; } = 0;
 
     public ViandaEstandar()
     {

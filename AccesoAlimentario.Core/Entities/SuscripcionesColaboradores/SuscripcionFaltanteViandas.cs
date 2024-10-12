@@ -6,7 +6,7 @@ namespace AccesoAlimentario.Core.Entities.SuscripcionesColaboradores;
 
 public class SuscripcionFaltanteViandas : Suscripcion
 {
-    public int Minimo { get; private set; } = 0;
+    public int Minimo { get; set; } = 0;
 
     public SuscripcionFaltanteViandas()
     {

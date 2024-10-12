@@ -6,14 +6,12 @@ namespace AccesoAlimentario.Core.Entities.Heladeras;
 
 public class PuntoEstrategico
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; private set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
-    public string Nombre { get; private set; } = null!;
-    public float Longitud { get; private set; } = 0;
-    public float Latitud { get; private set; } = 0;
-    public Direccion Direccion { get; private set; } = null!;
+    public string Nombre { get; set; } = null!;
+    public float Longitud { get; set; } = 0;
+    public float Latitud { get; set; } = 0;
+    public Direccion Direccion { get; set; } = null!;
 
     public PuntoEstrategico()
     {

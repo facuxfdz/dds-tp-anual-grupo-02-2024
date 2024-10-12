@@ -5,9 +5,7 @@ namespace AccesoAlimentario.Core.Entities.Heladeras;
 
 public class ModeloHeladera
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; private set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     public int Capacidad { get; set; } = 0;
     public int TemperaturaMinima { get; set; } = 0;

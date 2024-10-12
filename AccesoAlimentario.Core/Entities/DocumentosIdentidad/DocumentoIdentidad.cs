@@ -5,9 +5,7 @@ namespace AccesoAlimentario.Core.Entities.DocumentosIdentidad;
 
 public class DocumentoIdentidad
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; private set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     public TipoDocumento TipoDocumento { get; set; } = TipoDocumento.DNI;
     public int NroDocumento { get; set; } = 0;

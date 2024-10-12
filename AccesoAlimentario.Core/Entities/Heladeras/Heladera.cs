@@ -8,9 +8,7 @@ namespace AccesoAlimentario.Core.Entities.Heladeras;
 
 public class Heladera : IObserverSensorMovimiento, IObserverSensorTemperatura, ISubjectHeladera
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; private set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     public PuntoEstrategico PuntoEstrategico { get; set; } = null!;
     public List<Vianda> Viandas { get; set; } = [];

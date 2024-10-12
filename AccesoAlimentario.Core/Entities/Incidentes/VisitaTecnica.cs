@@ -6,9 +6,7 @@ namespace AccesoAlimentario.Core.Entities.Incidentes;
 
 public class VisitaTecnica
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; private set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     public Tecnico Tecnico { get; set; } = null!;
     public string? Foto { get; set; } = null!;

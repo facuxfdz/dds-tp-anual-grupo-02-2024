@@ -5,7 +5,7 @@ namespace AccesoAlimentario.Core.Entities.MediosContacto;
 
 public class Email : MedioContacto
 {
-    public string Direccion { get; set; } = "";
+    public string Direccion { get; set; } = string.Empty;
 
     public Email()
     {

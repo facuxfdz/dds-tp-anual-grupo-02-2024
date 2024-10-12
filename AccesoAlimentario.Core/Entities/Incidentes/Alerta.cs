@@ -2,7 +2,7 @@
 
 public class Alerta : Incidente
 {
-    public TipoAlerta Tipo { get; private set; } = TipoAlerta.Conexion;
+    public TipoAlerta Tipo { get; set; } = TipoAlerta.Conexion;
 
     public Alerta()
     {

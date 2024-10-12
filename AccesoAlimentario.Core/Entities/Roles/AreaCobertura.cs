@@ -5,9 +5,7 @@ namespace AccesoAlimentario.Core.Entities.Roles;
 
 public class AreaCobertura
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; private set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     public float Latitud { get; set; } = 0f;
     public float Longitud { get; set; } = 0f;

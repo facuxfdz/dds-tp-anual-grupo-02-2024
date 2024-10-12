@@ -6,9 +6,7 @@ namespace AccesoAlimentario.Core.Entities.Roles;
 
 public abstract class Rol
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; private set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     public Persona Persona { get; set; } = null!;
     

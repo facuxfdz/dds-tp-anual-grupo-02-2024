@@ -15,23 +15,25 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="CsvHelper" Version="32.0.3" />
-      <PackageReference Include="MailKit" Version="4.7.0" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.7" />
+      <PackageReference Include="CsvHelper" Version="33.0.1" />
+      <PackageReference Include="MailKit" Version="4.8.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.10" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.10" />
       <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.1" />
       <PackageReference Include="Moq.EntityFrameworkCore" Version="8.0.1.2" />
       <PackageReference Include="MySql.EntityFrameworkCore" Version="8.0.5" />
-      <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.0-preview.4.24266.19" />
+      <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.1" />
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-      <PackageReference Include="RestSharp" Version="111.0.1-alpha.0.5" />
+      <PackageReference Include="RestSharp" Version="112.1.0" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Infraestructura\" />
+      <Folder Include="Migrations\" />
     </ItemGroup>
 
 </Project>

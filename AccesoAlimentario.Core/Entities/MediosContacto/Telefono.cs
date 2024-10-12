@@ -4,7 +4,7 @@ namespace AccesoAlimentario.Core.Entities.MediosContacto;
 
 public class Telefono : MedioContacto
 {
-    public string Numero { get; set; } = "";
+    public string Numero { get; set; } = string.Empty;
     
     public Telefono()
     {

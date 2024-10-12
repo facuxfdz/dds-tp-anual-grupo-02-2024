@@ -7,9 +7,7 @@ namespace AccesoAlimentario.Core.Entities.Autorizaciones;
 
 public class AccesoHeladera
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     public Tarjeta Tarjeta { get; set; } = null!;
     public DateTime FechaAcceso { get; set; } = DateTime.Now;

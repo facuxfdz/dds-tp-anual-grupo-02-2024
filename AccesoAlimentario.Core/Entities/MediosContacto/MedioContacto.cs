@@ -6,9 +6,7 @@ namespace AccesoAlimentario.Core.Entities.MediosContacto;
 
 public abstract class MedioContacto
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; private set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     public List<Notificacion> Historial { get; set; } = [];
     public bool Preferida { get; set; } = false;

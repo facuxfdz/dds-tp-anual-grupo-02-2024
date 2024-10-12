@@ -6,19 +6,17 @@ namespace AccesoAlimentario.Core.Entities.Heladeras;
 
 public class Vianda
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; private set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
-    public string Comida { get; private set; } = null!;
-    public DateTime FechaDonacion { get; private set; } = DateTime.Now;
-    public DateTime FechaCaducidad { get; private set; } = DateTime.Now;
-    public Colaborador Colaborador { get; private set; } = null!;
-    public Heladera Heladera { get; private set; } = null!;
-    public float Calorias { get; private set; } = 0;
-    public float Peso { get; private set; } = 0;
-    public EstadoVianda EstadoVianda { get; private set; } = EstadoVianda.Disponible;
-    public ViandaEstandar UnidadEstandar { get; private set; } = null!;
+    public string Comida { get; set; } = null!;
+    public DateTime FechaDonacion { get; set; } = DateTime.Now;
+    public DateTime FechaCaducidad { get; set; } = DateTime.Now;
+    public Colaborador Colaborador { get; set; } = null!;
+    public Heladera Heladera { get; set; } = null!;
+    public float Calorias { get; set; } = 0;
+    public float Peso { get; set; } = 0;
+    public EstadoVianda EstadoVianda { get; set; } = EstadoVianda.Disponible;
+    public ViandaEstandar UnidadEstandar { get; set; } = null!;
 
     public Vianda()
     {

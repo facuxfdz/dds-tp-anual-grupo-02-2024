@@ -7,13 +7,11 @@ namespace AccesoAlimentario.Core.Entities.Autorizaciones;
 
 public class AutorizacionManipulacionHeladera
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     public DateTime FechaCreacion { get; set; } = DateTime.Now;
-    public DateTime FechaExpiracion { get; private set; } = DateTime.Now;
-    public Heladera Heladera { get; private set; } = null!;
+    public DateTime FechaExpiracion { get; set; } = DateTime.Now;
+    public Heladera Heladera { get; set; } = null!;
     public TarjetaColaboracion TarjetaAutorizada { get; set; } = null!;
 
     public AutorizacionManipulacionHeladera()

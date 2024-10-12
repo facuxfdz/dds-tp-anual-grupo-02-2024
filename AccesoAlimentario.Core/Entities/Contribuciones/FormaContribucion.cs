@@ -7,9 +7,7 @@ namespace AccesoAlimentario.Core.Entities.Contribuciones;
 
 public abstract class FormaContribucion
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     public DateTime FechaContribucion { get; set; } = DateTime.Now;
 

@@ -7,9 +7,9 @@ namespace AccesoAlimentario.Core.Entities.Roles;
 
 public class Colaborador : Rol
 {
-    public List<TipoContribucion> ContribucionesPreferidas { get; private set; } = [];
-    public List<FormaContribucion> ContribucionesRealizadas { get; private set; } = [];
-    public List<Suscripcion> Suscripciones { get; private set; } = [];
+    public List<TipoContribucion> ContribucionesPreferidas { get; set; } = [];
+    public List<FormaContribucion> ContribucionesRealizadas { get; set; } = [];
+    public List<Suscripcion> Suscripciones { get; set; } = [];
     public float Puntos { get; set; } = 0;
     public TarjetaColaboracion? TarjetaColaboracion = null;
 

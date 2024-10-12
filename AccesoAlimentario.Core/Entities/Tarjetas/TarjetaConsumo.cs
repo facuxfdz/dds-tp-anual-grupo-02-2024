@@ -5,7 +5,7 @@ namespace AccesoAlimentario.Core.Entities.Tarjetas;
 
 public class TarjetaConsumo : Tarjeta
 {
-    public Colaborador Responsable { get; private set; } = null!;
+    public Colaborador Responsable { get; set; } = null!;
 
     public TarjetaConsumo()
     {

@@ -15,103 +15,209 @@ using AccesoAlimentario.Core.Entities.Tarjetas;
 
 namespace AccesoAlimentario.Core.DAL;
 
-public class UnitOfWork(AppDbContext context)
+public class UnitOfWork(AppDbContext dbContext) : IUnitOfWork
 {
-    private GenericRepository<AccesoHeladera> _accesoHeladeraRepository = null!;
-    private GenericRepository<AutorizacionManipulacionHeladera> _autorizacionManipulacionHeladeraRepository = null!;
-    private GenericRepository<AdministracionHeladera> _administracionHeladeraRepository = null!;
-    private GenericRepository<DistribucionViandas> _distribucionViandasRepository = null!;
-    private GenericRepository<DonacionMonetaria> _donacionMonetariaRepository = null!;
-    private GenericRepository<DonacionVianda> _donacionViandaRepository = null!;
-    private GenericRepository<FormaContribucion> _formaContribucionRepository = null!;
-    private GenericRepository<OfertaPremio> _ofertaPremioRepository = null!;
-    private GenericRepository<RegistroPersonaVulnerable> _registroPersonaVulnerableRepository = null!;
-    private GenericRepository<Direccion> _direccionRepository = null!;
-    private GenericRepository<DocumentoIdentidad> _documentoIdentidadRepository = null!;
-    private GenericRepository<Heladera> _heladeraRepository = null!;
-    private GenericRepository<ModeloHeladera> _modeloHeladeraRepository = null!;
-    private GenericRepository<PuntoEstrategico> _puntoEstrategicoRepository = null!;
-    private GenericRepository<Vianda> _viandaRepository = null!;
-    private GenericRepository<ViandaEstandar> _viandaEstandarRepository = null!;
-    private GenericRepository<Alerta> _alertaRepository = null!;
-    private GenericRepository<FallaTecnica> _fallaTecnicaRepository = null!;
-    private GenericRepository<Incidente> _incidenteRepository = null!;
-    private GenericRepository<VisitaTecnica> _visitaTecnicaRepository = null!;
-    private GenericRepository<Email> _emailRepository = null!;
-    private GenericRepository<MedioContacto> _medioContactoRepository = null!;
-    private GenericRepository<Telefono> _telefonoRepository = null!;
-    private GenericRepository<Whatsapp> _whatsappRepository = null!;
-    private GenericRepository<Notificacion> _notificacionRepository = null!;
-    private GenericRepository<Persona> _personaRepository = null!;
-    private GenericRepository<PersonaHumana> _personaHumanaRepository = null!;
-    private GenericRepository<PersonaJuridica> _personaJuridicaRepository = null!;
-    private GenericRepository<Premio> _premioRepository = null!;
-    private GenericRepository<AreaCobertura> _areaCoberturaRepository = null!;
-    private GenericRepository<Colaborador> _colaboradorRepository = null!;
-    private GenericRepository<PersonaVulnerable> _personaVulnerableRepository = null!;
-    private GenericRepository<Rol> _rolRepository = null!;
-    private GenericRepository<Tecnico> _tecnicoRepository = null!;
-    private GenericRepository<UsuarioSistema> _usuarioSistemaRepository = null!;
-    private GenericRepository<RegistroMovimiento> _registroMovimientoRepository = null!;
-    private GenericRepository<RegistroTemperatura> _registroTemperaturaRepository = null!;
-    private GenericRepository<Sensor> _sensorRepository = null!;
-    private GenericRepository<SensorMovimiento> _sensorMovimientoRepository = null!;
-    private GenericRepository<SensorTemperatura> _sensorTemperaturaRepository = null!;
-    private GenericRepository<Suscripcion> _suscripcionRepository = null!;
-    private GenericRepository<SuscripcionExcedenteViandas> _suscripcionExcedenteViandasRepository = null!;
-    private GenericRepository<SuscripcionFaltanteViandas> _suscripcionFaltanteViandasRepository = null!;
-    private GenericRepository<SuscripcionIncidenteHeladera> _suscripcionIncidenteHeladeraRepository = null!;
-    private GenericRepository<Tarjeta> _tarjetaRepository = null!;
-    private GenericRepository<TarjetaColaboracion> _tarjetaColaboracionRepository = null!;
-    private GenericRepository<TarjetaConsumo> _tarjetaConsumoRepository = null!;
+    private BaseRepository<Persona> _personaRepository = null!;
+    private BaseRepository<PersonaHumana> _personaHumanaRepository = null!;
+    private BaseRepository<PersonaJuridica> _personaJuridicaRepository = null!;
+    private BaseRepository<MedioContacto> _medioContactoRepository = null!;
+    private BaseRepository<Telefono> _telefonoRepository = null!;
+    private BaseRepository<Email> _emailRepository = null!;
+    private BaseRepository<Whatsapp> _whatsappRepository = null!;
+    private BaseRepository<DocumentoIdentidad> _documentoIdentidadRepository = null!;
+    private BaseRepository<Direccion> _direccionRepository = null!;
+    private BaseRepository<Rol> _rolRepository = null!;
+    private BaseRepository<UsuarioSistema> _usuarioSistemaRepository = null!;
+    private BaseRepository<PersonaVulnerable> _personaVulnerableRepository = null!;
+    private BaseRepository<Tecnico> _tecnicoRepository = null!;
+    private BaseRepository<Colaborador> _colaboradorRepository = null!;
+    private BaseRepository<AreaCobertura> _areaCoberturaRepository = null!;
+    private BaseRepository<Tarjeta> _tarjetaRepository = null!;
+    private BaseRepository<TarjetaConsumo> _tarjetaConsumoRepository = null!;
+    private BaseRepository<TarjetaColaboracion> _tarjetaColaboracionRepository = null!;
+    private BaseRepository<FormaContribucion> _formaContribucionRepository = null!;
+    private BaseRepository<AdministracionHeladera> _administracionHeladeraRepository = null!;
+    private BaseRepository<DistribucionViandas> _distribucionViandasRepository = null!;
+    private BaseRepository<RegistroPersonaVulnerable> _registroPersonaVulnerableRepository = null!;
+    private BaseRepository<DonacionMonetaria> _donacionMonetariaRepository = null!;
+    private BaseRepository<DonacionVianda> _donacionViandaRepository = null!;
+    private BaseRepository<OfertaPremio> _ofertaPremioRepository = null!;
+    private BaseRepository<Heladera> _heladeraRepository = null!;
+    private BaseRepository<Vianda> _viandaRepository = null!;
+    private BaseRepository<ViandaEstandar> _viandaEstandarRepository = null!;
+    private BaseRepository<PuntoEstrategico> _puntoEstrategicoRepository = null!;
+    private BaseRepository<ModeloHeladera> _modeloHeladeraRepository = null!;
+    private BaseRepository<Sensor> _sensorRepository = null!;
+    private BaseRepository<SensorMovimiento> _sensorMovimientoRepository = null!;
+    private BaseRepository<SensorTemperatura> _sensorTemperaturaRepository = null!;
+    private BaseRepository<RegistroMovimiento> _registroMovimientoRepository = null!;
+    private BaseRepository<RegistroTemperatura> _registroTemperaturaRepository = null!;
+    private BaseRepository<Incidente> _incidenteRepository = null!;
+    private BaseRepository<VisitaTecnica> _visitaTecnicaRepository = null!;
+    private BaseRepository<Premio> _premioRepository = null!;
+    private BaseRepository<Notificacion> _notificacionRepository = null!;
+    private BaseRepository<Suscripcion> _suscripcionRepository = null!;
+    private BaseRepository<SuscripcionFaltanteViandas> _suscripcionFaltanteViandasRepository = null!;
+    private BaseRepository<SuscripcionExcedenteViandas> _suscripcionExcedenteViandasRepository = null!;
+    private BaseRepository<SuscripcionIncidenteHeladera> _suscripcionIncidenteHeladeraRepository = null!;
+    private BaseRepository<AccesoHeladera> _accesoHeladeraRepository = null!;
+    private BaseRepository<AutorizacionManipulacionHeladera> _autorizacionManipulacionHeladeraRepository = null!;
 
-    /* ------------------------------------ */
+    /* ------------------------ */
+    public IBaseRepository<Persona> PersonaRepository => _personaRepository ??= new BaseRepository<Persona>(dbContext);
 
-    public GenericRepository<AccesoHeladera> AccesoHeladeraRepository => _accesoHeladeraRepository ??= new GenericRepository<AccesoHeladera>(context);
-    public GenericRepository<AutorizacionManipulacionHeladera> AutorizacionManipulacionHeladeraRepository => _autorizacionManipulacionHeladeraRepository ??= new GenericRepository<AutorizacionManipulacionHeladera>(context);
-    public GenericRepository<AdministracionHeladera> AdministracionHeladeraRepository => _administracionHeladeraRepository ??= new GenericRepository<AdministracionHeladera>(context);
-    public GenericRepository<DistribucionViandas> DistribucionViandasRepository => _distribucionViandasRepository ??= new GenericRepository<DistribucionViandas>(context);
-    public GenericRepository<DonacionMonetaria> DonacionMonetariaRepository => _donacionMonetariaRepository ??= new GenericRepository<DonacionMonetaria>(context);
-    public GenericRepository<DonacionVianda> DonacionViandaRepository => _donacionViandaRepository ??= new GenericRepository<DonacionVianda>(context);
-    public GenericRepository<FormaContribucion> FormaContribucionRepository => _formaContribucionRepository ??= new GenericRepository<FormaContribucion>(context);
-    public GenericRepository<OfertaPremio> OfertaPremioRepository => _ofertaPremioRepository ??= new GenericRepository<OfertaPremio>(context);
-    public GenericRepository<RegistroPersonaVulnerable> RegistroPersonaVulnerableRepository => _registroPersonaVulnerableRepository ??= new GenericRepository<RegistroPersonaVulnerable>(context);
-    public GenericRepository<Direccion> DireccionRepository => _direccionRepository ??= new GenericRepository<Direccion>(context);
-    public GenericRepository<DocumentoIdentidad> DocumentoIdentidadRepository => _documentoIdentidadRepository ??= new GenericRepository<DocumentoIdentidad>(context);
-    public GenericRepository<Heladera> HeladeraRepository => _heladeraRepository ??= new GenericRepository<Heladera>(context);
-    public GenericRepository<ModeloHeladera> ModeloHeladeraRepository => _modeloHeladeraRepository ??= new GenericRepository<ModeloHeladera>(context);
-    public GenericRepository<PuntoEstrategico> PuntoEstrategicoRepository => _puntoEstrategicoRepository ??= new GenericRepository<PuntoEstrategico>(context);
-    public GenericRepository<Vianda> ViandaRepository => _viandaRepository ??= new GenericRepository<Vianda>(context);
-    public GenericRepository<ViandaEstandar> ViandaEstandarRepository => _viandaEstandarRepository ??= new GenericRepository<ViandaEstandar>(context);
-    public GenericRepository<Alerta> AlertaRepository => _alertaRepository ??= new GenericRepository<Alerta>(context);
-    public GenericRepository<FallaTecnica> FallaTecnicaRepository => _fallaTecnicaRepository ??= new GenericRepository<FallaTecnica>(context);
-    public GenericRepository<Incidente> IncidenteRepository => _incidenteRepository ??= new GenericRepository<Incidente>(context);
-    public GenericRepository<VisitaTecnica> VisitaTecnicaRepository => _visitaTecnicaRepository ??= new GenericRepository<VisitaTecnica>(context);
-    public GenericRepository<Email> EmailRepository => _emailRepository ??= new GenericRepository<Email>(context);
-    public GenericRepository<MedioContacto> MedioContactoRepository => _medioContactoRepository ??= new GenericRepository<MedioContacto>(context);
-    public GenericRepository<Telefono> TelefonoRepository => _telefonoRepository ??= new GenericRepository<Telefono>(context);
-    public GenericRepository<Whatsapp> WhatsappRepository => _whatsappRepository ??= new GenericRepository<Whatsapp>(context);
-    public GenericRepository<Notificacion> NotificacionRepository => _notificacionRepository ??= new GenericRepository<Notificacion>(context);
-    public GenericRepository<Persona> PersonaRepository => _personaRepository ??= new GenericRepository<Persona>(context);
-    public GenericRepository<PersonaHumana> PersonaHumanaRepository => _personaHumanaRepository ??= new GenericRepository<PersonaHumana>(context);
-    public GenericRepository<PersonaJuridica> PersonaJuridicaRepository => _personaJuridicaRepository ??= new GenericRepository<PersonaJuridica>(context);
-    public GenericRepository<Premio> PremioRepository => _premioRepository ??= new GenericRepository<Premio>(context);
-    public GenericRepository<AreaCobertura> AreaCoberturaRepository => _areaCoberturaRepository ??= new GenericRepository<AreaCobertura>(context);
-    public GenericRepository<Colaborador> ColaboradorRepository => _colaboradorRepository ??= new GenericRepository<Colaborador>(context);
-    public GenericRepository<PersonaVulnerable> PersonaVulnerableRepository => _personaVulnerableRepository ??= new GenericRepository<PersonaVulnerable>(context);
-    public GenericRepository<Rol> RolRepository => _rolRepository ??= new GenericRepository<Rol>(context);
-    public GenericRepository<Tecnico> TecnicoRepository => _tecnicoRepository ??= new GenericRepository<Tecnico>(context);
-    public GenericRepository<UsuarioSistema> UsuarioSistemaRepository => _usuarioSistemaRepository ??= new GenericRepository<UsuarioSistema>(context);
-    public GenericRepository<RegistroMovimiento> RegistroMovimientoRepository => _registroMovimientoRepository ??= new GenericRepository<RegistroMovimiento>(context);
-    public GenericRepository<RegistroTemperatura> RegistroTemperaturaRepository => _registroTemperaturaRepository ??= new GenericRepository<RegistroTemperatura>(context);
-    public GenericRepository<Sensor> SensorRepository => _sensorRepository ??= new GenericRepository<Sensor>(context);
-    public GenericRepository<SensorMovimiento> SensorMovimientoRepository => _sensorMovimientoRepository ??= new GenericRepository<SensorMovimiento>(context);
-    public GenericRepository<SensorTemperatura> SensorTemperaturaRepository => _sensorTemperaturaRepository ??= new GenericRepository<SensorTemperatura>(context);
-    public GenericRepository<Suscripcion> SuscripcionRepository => _suscripcionRepository ??= new GenericRepository<Suscripcion>(context);
-    public GenericRepository<SuscripcionExcedenteViandas> SuscripcionExcedenteViandasRepository => _suscripcionExcedenteViandasRepository ??= new GenericRepository<SuscripcionExcedenteViandas>(context);
-    public GenericRepository<SuscripcionFaltanteViandas> SuscripcionFaltanteViandasRepository => _suscripcionFaltanteViandasRepository ??= new GenericRepository<SuscripcionFaltanteViandas>(context);
-    public GenericRepository<SuscripcionIncidenteHeladera> SuscripcionIncidenteHeladeraRepository => _suscripcionIncidenteHeladeraRepository ??= new GenericRepository<SuscripcionIncidenteHeladera>(context);
-    public GenericRepository<Tarjeta> TarjetaRepository => _tarjetaRepository ??= new GenericRepository<Tarjeta>(context);
-    public GenericRepository<TarjetaColaboracion> TarjetaColaboracionRepository => _tarjetaColaboracionRepository ??= new GenericRepository<TarjetaColaboracion>(context);
-    public GenericRepository<TarjetaConsumo> TarjetaConsumoRepository => _tarjetaConsumoRepository ??= new GenericRepository<TarjetaConsumo>(context);
+    public IBaseRepository<PersonaHumana> PersonaHumanaRepository =>
+        _personaHumanaRepository ??= new BaseRepository<PersonaHumana>(dbContext);
+
+    public IBaseRepository<PersonaJuridica> PersonaJuridicaRepository =>
+        _personaJuridicaRepository ??= new BaseRepository<PersonaJuridica>(dbContext);
+
+    public IBaseRepository<MedioContacto> MedioContactoRepository =>
+        _medioContactoRepository ??= new BaseRepository<MedioContacto>(dbContext);
+
+    public IBaseRepository<Telefono> TelefonoRepository =>
+        _telefonoRepository ??= new BaseRepository<Telefono>(dbContext);
+
+    public IBaseRepository<Email> EmailRepository => _emailRepository ??= new BaseRepository<Email>(dbContext);
+
+    public IBaseRepository<Whatsapp> WhatsappRepository =>
+        _whatsappRepository ??= new BaseRepository<Whatsapp>(dbContext);
+
+    public IBaseRepository<DocumentoIdentidad> DocumentoIdentidadRepository =>
+        _documentoIdentidadRepository ??= new BaseRepository<DocumentoIdentidad>(dbContext);
+
+    public IBaseRepository<Direccion> DireccionRepository =>
+        _direccionRepository ??= new BaseRepository<Direccion>(dbContext);
+
+    public IBaseRepository<Rol> RolRepository => _rolRepository ??= new BaseRepository<Rol>(dbContext);
+
+    public IBaseRepository<UsuarioSistema> UsuarioSistemaRepository =>
+        _usuarioSistemaRepository ??= new BaseRepository<UsuarioSistema>(dbContext);
+
+    public IBaseRepository<PersonaVulnerable> PersonaVulnerableRepository =>
+        _personaVulnerableRepository ??= new BaseRepository<PersonaVulnerable>(dbContext);
+
+    public IBaseRepository<Tecnico> TecnicoRepository => _tecnicoRepository ??= new BaseRepository<Tecnico>(dbContext);
+
+    public IBaseRepository<Colaborador> ColaboradorRepository =>
+        _colaboradorRepository ??= new BaseRepository<Colaborador>(dbContext);
+
+    public IBaseRepository<AreaCobertura> AreaCoberturaRepository =>
+        _areaCoberturaRepository ??= new BaseRepository<AreaCobertura>(dbContext);
+
+    public IBaseRepository<Tarjeta> TarjetaRepository => _tarjetaRepository ??= new BaseRepository<Tarjeta>(dbContext);
+
+    public IBaseRepository<TarjetaConsumo> TarjetaConsumoRepository =>
+        _tarjetaConsumoRepository ??= new BaseRepository<TarjetaConsumo>(dbContext);
+
+    public IBaseRepository<TarjetaColaboracion> TarjetaColaboracionRepository =>
+        _tarjetaColaboracionRepository ??= new BaseRepository<TarjetaColaboracion>(dbContext);
+
+    public IBaseRepository<FormaContribucion> FormaContribucionRepository =>
+        _formaContribucionRepository ??= new BaseRepository<FormaContribucion>(dbContext);
+
+    public IBaseRepository<AdministracionHeladera> AdministracionHeladeraRepository =>
+        _administracionHeladeraRepository ??= new BaseRepository<AdministracionHeladera>(dbContext);
+
+    public IBaseRepository<DistribucionViandas> DistribucionViandasRepository =>
+        _distribucionViandasRepository ??= new BaseRepository<DistribucionViandas>(dbContext);
+
+    public IBaseRepository<RegistroPersonaVulnerable> RegistroPersonaVulnerableRepository =>
+        _registroPersonaVulnerableRepository ??= new BaseRepository<RegistroPersonaVulnerable>(dbContext);
+
+    public IBaseRepository<DonacionMonetaria> DonacionMonetariaRepository =>
+        _donacionMonetariaRepository ??= new BaseRepository<DonacionMonetaria>(dbContext);
+
+    public IBaseRepository<DonacionVianda> DonacionViandaRepository =>
+        _donacionViandaRepository ??= new BaseRepository<DonacionVianda>(dbContext);
+
+    public IBaseRepository<OfertaPremio> OfertaPremioRepository =>
+        _ofertaPremioRepository ??= new BaseRepository<OfertaPremio>(dbContext);
+
+    public IBaseRepository<Heladera> HeladeraRepository =>
+        _heladeraRepository ??= new BaseRepository<Heladera>(dbContext);
+
+    public IBaseRepository<Vianda> ViandaRepository => _viandaRepository ??= new BaseRepository<Vianda>(dbContext);
+
+    public IBaseRepository<ViandaEstandar> ViandaEstandarRepository =>
+        _viandaEstandarRepository ??= new BaseRepository<ViandaEstandar>(dbContext);
+
+    public IBaseRepository<PuntoEstrategico> PuntoEstrategicoRepository =>
+        _puntoEstrategicoRepository ??= new BaseRepository<PuntoEstrategico>(dbContext);
+
+    public IBaseRepository<ModeloHeladera> ModeloHeladeraRepository =>
+        _modeloHeladeraRepository ??= new BaseRepository<ModeloHeladera>(dbContext);
+
+    public IBaseRepository<Sensor> SensorRepository => _sensorRepository ??= new BaseRepository<Sensor>(dbContext);
+
+    public IBaseRepository<SensorMovimiento> SensorMovimientoRepository =>
+        _sensorMovimientoRepository ??= new BaseRepository<SensorMovimiento>(dbContext);
+
+    public IBaseRepository<SensorTemperatura> SensorTemperaturaRepository =>
+        _sensorTemperaturaRepository ??= new BaseRepository<SensorTemperatura>(dbContext);
+
+    public IBaseRepository<RegistroMovimiento> RegistroMovimientoRepository =>
+        _registroMovimientoRepository ??= new BaseRepository<RegistroMovimiento>(dbContext);
+
+    public IBaseRepository<RegistroTemperatura> RegistroTemperaturaRepository =>
+        _registroTemperaturaRepository ??= new BaseRepository<RegistroTemperatura>(dbContext);
+
+    public IBaseRepository<Incidente> IncidenteRepository =>
+        _incidenteRepository ??= new BaseRepository<Incidente>(dbContext);
+
+    public IBaseRepository<VisitaTecnica> VisitaTecnicaRepository =>
+        _visitaTecnicaRepository ??= new BaseRepository<VisitaTecnica>(dbContext);
+
+    public IBaseRepository<Premio> PremioRepository => _premioRepository ??= new BaseRepository<Premio>(dbContext);
+
+    public IBaseRepository<Notificacion> NotificacionRepository =>
+        _notificacionRepository ??= new BaseRepository<Notificacion>(dbContext);
+
+    public IBaseRepository<Suscripcion> SuscripcionRepository =>
+        _suscripcionRepository ??= new BaseRepository<Suscripcion>(dbContext);
+
+    public IBaseRepository<SuscripcionFaltanteViandas> SuscripcionFaltanteViandasRepository =>
+        _suscripcionFaltanteViandasRepository ??= new BaseRepository<SuscripcionFaltanteViandas>(dbContext);
+
+    public IBaseRepository<SuscripcionExcedenteViandas> SuscripcionExcedenteViandasRepository =>
+        _suscripcionExcedenteViandasRepository ??= new BaseRepository<SuscripcionExcedenteViandas>(dbContext);
+
+    public IBaseRepository<SuscripcionIncidenteHeladera> SuscripcionIncidenteHeladeraRepository =>
+        _suscripcionIncidenteHeladeraRepository ??= new BaseRepository<SuscripcionIncidenteHeladera>(dbContext);
+
+    public IBaseRepository<AccesoHeladera> AccesoHeladeraRepository =>
+        _accesoHeladeraRepository ??= new BaseRepository<AccesoHeladera>(dbContext);
+
+    public IBaseRepository<AutorizacionManipulacionHeladera> AutorizacionManipulacionHeladeraRepository =>
+        _autorizacionManipulacionHeladeraRepository ??= new BaseRepository<AutorizacionManipulacionHeladera>(dbContext);
+
+    public Task SaveChangesAsync()
+    {
+        return dbContext.SaveChangesAsync();
+    }
+
+    public async Task RollbackAsync()
+    {
+        await dbContext.DisposeAsync();
+    }
+
+    public Task BeginTransactionAsync()
+    {
+        return dbContext.Database.BeginTransactionAsync();
+    }
+
+    public Task CommitTransactionAsync()
+    {
+        return dbContext.Database.CommitTransactionAsync();
+    }
+
+    public Task RollbackTransactionAsync()
+    {
+        return dbContext.Database.RollbackTransactionAsync();
+    }
+
+    public void Dispose()
+    {
+        dbContext.Dispose();
+    }
 }

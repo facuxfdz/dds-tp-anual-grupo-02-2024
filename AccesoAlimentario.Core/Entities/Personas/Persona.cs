@@ -10,11 +10,9 @@ namespace AccesoAlimentario.Core.Entities.Personas;
 
 public abstract class Persona
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; private set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
-    public string Nombre { get; set; } = "";
+    public string Nombre { get; set; } = string.Empty;
     public Direccion? Direccion { get; set; } = null;
     public DocumentoIdentidad? DocumentoIdentidad { get; set; } = null;
 

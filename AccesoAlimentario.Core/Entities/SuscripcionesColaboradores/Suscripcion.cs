@@ -8,14 +8,12 @@ namespace AccesoAlimentario.Core.Entities.SuscripcionesColaboradores;
 
 public abstract class Suscripcion : IObserverHeladera
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; private set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
-    public List<Notificacion> Historial { get; private set; } = [];
-    public Heladera Heladera { get; private set; } = null!;
+    public List<Notificacion> Historial { get; set; } = [];
+    public Heladera Heladera { get; set; } = null!;
     
-    public Colaborador Colaborador { get; private set; } = null!;
+    public Colaborador Colaborador { get; set; } = null!;
 
     public Suscripcion()
     {

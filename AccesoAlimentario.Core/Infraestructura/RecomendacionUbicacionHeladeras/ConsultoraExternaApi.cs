@@ -10,11 +10,11 @@ public class ConsultoraExternaApi
 {
     private const string Url = "https://d75bfa97eb02d0219b7537f2d6a286b7.m.pipedream.net/";
 
-    public List<PuntoEstrategico> GetRecomendacion(float latitud, float longitud, float radio)
+    public async Task<List<PuntoEstrategico>> GetRecomendacion(float latitud, float longitud, float radio)
     {
         var client = new RestClient(Url);
         var request = new RestRequest($"longitud={longitud}&latitud={latitud}&radio={radio}", Method.Get);
-        var response = client.Get(request); //meterle un try catch
+        var response = await client.GetAsync(request); //meterle un try catch
         var recomendacionesUbicacionResponse =
             JsonConvert.DeserializeObject<RecomendacionesUbicacionResponse>(response.Content);
         return recomendacionesUbicacionResponse?.Data.Select((d, i) => new PuntoEstrategico(

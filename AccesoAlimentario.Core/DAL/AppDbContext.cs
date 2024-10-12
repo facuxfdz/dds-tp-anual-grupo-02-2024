@@ -22,50 +22,136 @@ public class AppDbContext : DbContext
     {
     }
 
-    public DbSet<AccesoHeladera> AccesosHeladeras { get; set; } = null!;
-    public DbSet<AutorizacionManipulacionHeladera> AutorizacionesManipulacionHeladeras { get; set; } = null!;
-    public DbSet<AdministracionHeladera> AdministracionesHeladeras { get; set; } = null!;
-    public DbSet<DistribucionViandas> DistribucionesViandas { get; set; } = null!;
-    public DbSet<DonacionMonetaria> DonacionesMonetarias { get; set; } = null!;
-    public DbSet<DonacionVianda> DonacionesViandas { get; set; } = null!;
-    public DbSet<OfertaPremio> OfertasPremios { get; set; } = null!;
-    public DbSet<RegistroPersonaVulnerable> RegistrosPersonasVulnerables { get; set; } = null!;
-    public DbSet<Direccion> Direcciones { get; set; } = null!;
+    // Personas
+    public DbSet<Persona> Personas { get; set; } = null!;
+
+    // Medios de Comunicacion
+    public DbSet<MedioContacto> MediosContacto { get; set; } = null!;
+
+    // Documentos de Identidad
     public DbSet<DocumentoIdentidad> DocumentosIdentidad { get; set; } = null!;
+
+    // Direcciones
+    public DbSet<Direccion> Direcciones { get; set; } = null!;
+
+    // Roles
+    public DbSet<Rol> Roles { get; set; } = null!;
+    public DbSet<AreaCobertura> AreasCobertura { get; set; } = null!;
+
+    // Tarjetas
+    public DbSet<Tarjeta> Tarjetas { get; set; } = null!;
+
+    // Contribuciones
+    public DbSet<FormaContribucion> FormasContribucion { get; set; } = null!;
+
+    // Heladeras
     public DbSet<Heladera> Heladeras { get; set; } = null!;
-    public DbSet<ModeloHeladera> ModelosHeladeras { get; set; } = null!;
-    public DbSet<PuntoEstrategico> PuntosEstrategicos { get; set; } = null!;
     public DbSet<Vianda> Viandas { get; set; } = null!;
-    public DbSet<ViandaEstandar> ViandasEstandares { get; set; } = null!;
-    public DbSet<Alerta> Alertas { get; set; } = null!;
-    public DbSet<FallaTecnica> FallasTecnicas { get; set; } = null!;
+    public DbSet<ViandaEstandar> ViandasEstandar { get; set; } = null!;
+    public DbSet<PuntoEstrategico> PuntosEstrategicos { get; set; } = null!;
+    public DbSet<ModeloHeladera> ModelosHeladera { get; set; } = null!;
+
+    // Sensores
+    public DbSet<Sensor> Sensores { get; set; } = null!;
+    public DbSet<RegistroMovimiento> RegistrosMovimiento { get; set; } = null!;
+    public DbSet<RegistroTemperatura> RegistrosTemperatura { get; set; } = null!;
+
+    // Incidentes
     public DbSet<Incidente> Incidentes { get; set; } = null!;
     public DbSet<VisitaTecnica> VisitasTecnicas { get; set; } = null!;
-    public DbSet<Email> Emails { get; set; } = null!;
-    public DbSet<MedioContacto> MediosContacto { get; set; } = null!;
-    public DbSet<Telefono> Telefonos { get; set; } = null!;
-    public DbSet<Whatsapp> Whatsapps { get; set; } = null!;
-    public DbSet<Notificacion> Notificaciones { get; set; } = null!;
-    public DbSet<Persona> Personas { get; set; } = null!;
-    public DbSet<PersonaHumana> PersonasHumanas { get; set; } = null!;
-    public DbSet<PersonaJuridica> PersonasJuridicas { get; set; } = null!;
+
+    // Premios
     public DbSet<Premio> Premios { get; set; } = null!;
-    public DbSet<AreaCobertura> AreasCobertura { get; set; } = null!;
-    public DbSet<Colaborador> Colaboradores { get; set; } = null!;
-    public DbSet<PersonaVulnerable> PersonasVulnerables { get; set; } = null!;
-    public DbSet<Rol> Roles { get; set; } = null!;
-    public DbSet<Tecnico> Tecnicos { get; set; } = null!;
-    public DbSet<UsuarioSistema> UsuariosSistema { get; set; } = null!;
-    public DbSet<RegistroMovimiento> RegistrosMovimientos { get; set; } = null!;
-    public DbSet<RegistroTemperatura> RegistrosTemperaturas { get; set; } = null!;
-    public DbSet<Sensor> Sensores { get; set; } = null!;
-    public DbSet<SensorMovimiento> SensoresMovimientos { get; set; } = null!;
-    public DbSet<SensorTemperatura> SensoresTemperaturas { get; set; } = null!;
+
+    // Notificaciones
+    public DbSet<Notificacion> Notificaciones { get; set; } = null!;
+
+    // Suscripciones Colaboradores
     public DbSet<Suscripcion> Suscripciones { get; set; } = null!;
-    public DbSet<SuscripcionExcedenteViandas> SuscripcionesExcedenteViandas { get; set; } = null!;
-    public DbSet<SuscripcionFaltanteViandas> SuscripcionesFaltanteViandas { get; set; } = null!;
-    public DbSet<SuscripcionIncidenteHeladera> SuscripcionesIncidenteHeladeras { get; set; } = null!;
-    public DbSet<Tarjeta> Tarjetas { get; set; } = null!;
-    public DbSet<TarjetaColaboracion> TarjetasColaboracion { get; set; } = null!;
-    public DbSet<TarjetaConsumo> TarjetasConsumo { get; set; } = null!;
+
+    // Autorizaciones
+    public DbSet<AccesoHeladera> AccesosHeladera { get; set; } = null!;
+    public DbSet<AutorizacionManipulacionHeladera> AutorizacionesManipulacionHeladera { get; set; } = null!;
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Persona>()
+            .HasDiscriminator<string>("Discriminador")
+            .HasValue<PersonaHumana>("Humana")
+            .HasValue<PersonaJuridica>("Juridica");
+
+        modelBuilder.Entity<MedioContacto>()
+            .HasDiscriminator<string>("Discriminador")
+            .HasValue<Telefono>("Telefono")
+            .HasValue<Email>("Email")
+            .HasValue<Whatsapp>("Whatsapp");
+
+        modelBuilder.Entity<Rol>()
+            .UseTpcMappingStrategy();
+        modelBuilder.Entity<UsuarioSistema>().ToTable("UsuariosSistema");
+        modelBuilder.Entity<PersonaVulnerable>().ToTable("PersonasVulnerables");
+        modelBuilder.Entity<Tecnico>().ToTable("Tecnicos");
+        modelBuilder.Entity<Colaborador>().ToTable("Colaboradores");
+
+        modelBuilder.Entity<Tarjeta>()
+            .HasDiscriminator<string>("Discriminador")
+            .HasValue<TarjetaConsumo>("Consumo")
+            .HasValue<TarjetaColaboracion>("Colaboracion");
+
+        modelBuilder.Entity<FormaContribucion>()
+            .UseTpcMappingStrategy();
+        modelBuilder.Entity<AdministracionHeladera>().ToTable("AdministracionesHeladera");
+        modelBuilder.Entity<DistribucionViandas>().ToTable("DistribucionesViandas");
+        modelBuilder.Entity<RegistroPersonaVulnerable>().ToTable("RegistrosPersonasVulnerables");
+        modelBuilder.Entity<DonacionMonetaria>().ToTable("DonacionesMonetarias");
+        modelBuilder.Entity<DonacionVianda>().ToTable("DonacionesViandas");
+        modelBuilder.Entity<OfertaPremio>().ToTable("OfertasPremios");
+
+        modelBuilder.Entity<Sensor>()
+            .UseTptMappingStrategy();
+        modelBuilder.Entity<SensorMovimiento>().ToTable("SensoresMovimiento");
+        modelBuilder.Entity<SensorTemperatura>().ToTable("SensoresTemperatura");
+
+        modelBuilder.Entity<Incidente>()
+            .HasDiscriminator<string>("Discriminador")
+            .HasValue<FallaTecnica>("FallaTecnica")
+            .HasValue<Alerta>("Alerta");
+
+        modelBuilder.Entity<Suscripcion>()
+            .HasDiscriminator<string>("Discriminador")
+            .HasValue<SuscripcionFaltanteViandas>("FaltanteViandas")
+            .HasValue<SuscripcionExcedenteViandas>("ExcedenteViandas")
+            .HasValue<SuscripcionIncidenteHeladera>("IncidenteHeladera");
+        
+        // Evitar ciclos en la eliminacion en cascada
+        modelBuilder.Entity<DistribucionViandas>()
+            .HasOne(d => d.HeladeraOrigen)
+            .WithMany()
+            .HasForeignKey("HeladeraOrigenId")
+            .OnDelete(DeleteBehavior.Restrict); // O DeleteBehavior.NoAction
+
+        modelBuilder.Entity<DistribucionViandas>()
+            .HasOne(d => d.HeladeraDestino)
+            .WithMany()
+            .HasForeignKey("HeladeraDestinoId")
+            .OnDelete(DeleteBehavior.Restrict); // O DeleteBehavior.NoAction
+        
+        modelBuilder.Entity<PersonaVulnerable>()
+            .HasOne(p => p.Tarjeta)
+            .WithMany()
+            .HasForeignKey("TarjetaId")
+            .OnDelete(DeleteBehavior.Restrict); // O DeleteBehavior.NoAction
+        
+        modelBuilder.Entity<DonacionVianda>()
+            .HasOne(d => d.Vianda)
+            .WithMany()
+            .HasForeignKey("ViandaId")
+            .OnDelete(DeleteBehavior.Restrict);  // O DeleteBehavior.NoAction
+
+        modelBuilder.Entity<DonacionVianda>()
+            .HasOne(d => d.Heladera)
+            .WithMany()
+            .HasForeignKey("HeladeraId")
+            .OnDelete(DeleteBehavior.Restrict);  // O DeleteBehavior.NoAction
+    }
 }

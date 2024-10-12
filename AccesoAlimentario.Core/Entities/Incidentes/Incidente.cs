@@ -5,9 +5,7 @@ namespace AccesoAlimentario.Core.Entities.Incidentes;
 
 public abstract class Incidente
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; private set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     public List<VisitaTecnica> VisitasTecnicas { get; set; } = [];
     public DateTime Fecha { get; set; } = DateTime.Now;

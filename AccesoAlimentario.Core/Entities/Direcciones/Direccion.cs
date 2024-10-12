@@ -5,16 +5,14 @@ namespace AccesoAlimentario.Core.Entities.Direcciones;
 
 public class Direccion
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; private set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
-    public string Calle { get; private set; } = "";
-    public string Numero { get; private set; } = "";
-    public string Localidad { get; private set; } = "";
-    public string? Piso { get; private set; } = null;
-    public string? Departamento { get; private set; } = null;
-    public string CodigoPostal { get; private set; } = "";
+    public string Calle { get; set; } = string.Empty;
+    public string Numero { get; set; } = string.Empty;
+    public string Localidad { get; set; } = string.Empty;
+    public string? Piso { get; set; } = null;
+    public string? Departamento { get; set; } = null;
+    public string CodigoPostal { get; set; } = string.Empty;
 
     public Direccion()
     {

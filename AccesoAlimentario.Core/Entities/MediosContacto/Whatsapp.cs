@@ -4,7 +4,7 @@ namespace AccesoAlimentario.Core.Entities.MediosContacto;
 
 public class Whatsapp : MedioContacto
 {
-    public string Numero { get; set; } = "";
+    public string Numero { get; set; } = string.Empty;
     
     public Whatsapp()
     {

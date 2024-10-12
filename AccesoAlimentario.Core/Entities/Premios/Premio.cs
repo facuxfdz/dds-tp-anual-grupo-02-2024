@@ -6,9 +6,7 @@ namespace AccesoAlimentario.Core.Entities.Premios;
 
 public class Premio
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; private set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     public string Nombre { get; set; } = null!;
     public float PuntosNecesarios { get; set; } = 0;
