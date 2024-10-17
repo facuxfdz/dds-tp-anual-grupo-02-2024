@@ -8,6 +8,7 @@ public abstract class Rol
 {
     public Guid Id { get; set; } = Guid.NewGuid();
 
+    public Guid PersonaId { get; set; } = Guid.Empty;
     public Persona Persona { get; set; } = null!;
     
     public Rol()
