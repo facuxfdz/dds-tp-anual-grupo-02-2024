@@ -2,7 +2,6 @@
 using AccesoAlimentario.API.UseCases.Colaboradores.Excepciones;
 using AccesoAlimentario.API.UseCases.Incidentes;
 using AccesoAlimentario.API.UseCases.Incidentes.Excepciones;
-using AccesoAlimentario.API.UseCases.RequestDTO.Heladera.Excepciones;
 using AccesoAlimentario.API.UseCases.RequestDTO.Incentes;
 using Microsoft.AspNetCore.Mvc;
 

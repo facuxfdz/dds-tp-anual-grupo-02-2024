@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using AccesoAlimentario.Core.Entities.Heladeras;
+﻿using AccesoAlimentario.Core.Entities.Heladeras;
 using AccesoAlimentario.Core.Entities.Tarjetas;
 
 namespace AccesoAlimentario.Core.Entities.Autorizaciones;

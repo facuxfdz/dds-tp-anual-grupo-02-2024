@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using AccesoAlimentario.Core.Entities.Autorizaciones;
 using AccesoAlimentario.Core.Entities.Roles;
 

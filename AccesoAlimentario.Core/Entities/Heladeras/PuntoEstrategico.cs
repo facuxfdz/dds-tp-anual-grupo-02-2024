@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using AccesoAlimentario.Core.Entities.Direcciones;
 
 namespace AccesoAlimentario.Core.Entities.Heladeras;

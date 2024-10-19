@@ -1,6 +1,4 @@
 using AccesoAlimentario.Core.Entities.Heladeras;
-using AccesoAlimentario.Core.Settings;
-using AccesoAlimentario.Core.Validadores.Contribuciones;
 
 namespace AccesoAlimentario.Core.Entities.Contribuciones;
 

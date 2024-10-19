@@ -1,10 +1,8 @@
 ﻿using AccesoAlimentario.Core.DAL;
-using AccesoAlimentario.Core.Entities.Sensores;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using MySqlX.XDevAPI.Common;
 
 namespace AccesoAlimentario.Operations.Sensores.Temperatura;
 

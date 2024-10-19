@@ -1,6 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace AccesoAlimentario.Core.Entities.DocumentosIdentidad;
 
 public class DocumentoIdentidad

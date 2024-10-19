@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using AccesoAlimentario.Core.Entities.Incidentes;
+﻿using AccesoAlimentario.Core.Entities.Incidentes;
 using AccesoAlimentario.Core.Entities.Sensores;
 using AccesoAlimentario.Core.Entities.SuscripcionesColaboradores;
 
@@ -12,7 +10,7 @@ public class Heladera : IObserverSensorMovimiento, IObserverSensorTemperatura, I
 
     public PuntoEstrategico PuntoEstrategico { get; set; } = null!;
     public List<Vianda> Viandas { get; set; } = [];
-    public EstadoHeladera EstadoHeladera { get; set; } = EstadoHeladera.FueraServicio;
+    public EstadoHeladera Estado { get; set; } = EstadoHeladera.FueraServicio;
     public DateTime FechaInstalacion { get; set; } = DateTime.Now;
     public float TemperaturaActual { get; set; } = 0;
     public float TemperaturaMinimaConfig { get; set; } = 0;
@@ -31,7 +29,7 @@ public class Heladera : IObserverSensorMovimiento, IObserverSensorTemperatura, I
         ModeloHeladera modelo)
     {
         PuntoEstrategico = puntoEstrategico;
-        EstadoHeladera = EstadoHeladera.Activa;
+        Estado = EstadoHeladera.Activa;
         FechaInstalacion = DateTime.Now;
         TemperaturaMinimaConfig = temperaturaMinima;
         TemperaturaMaximaConfig = temperaturaMaxima;
@@ -57,7 +55,7 @@ public class Heladera : IObserverSensorMovimiento, IObserverSensorTemperatura, I
 
     public void ActualizarEstado(EstadoHeladera estadoHeladera)
     {
-        EstadoHeladera = estadoHeladera;
+        Estado = estadoHeladera;
     }
 
     public void CambioSensorTemperatura(float dato, bool error)
@@ -129,7 +127,7 @@ public class Heladera : IObserverSensorMovimiento, IObserverSensorTemperatura, I
 
     public EstadoHeladera ObtenerEstadoHeladera()
     {
-        return EstadoHeladera;
+        return Estado;
     }
 
     public float ObtenerLatitud()

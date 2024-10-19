@@ -1,12 +1,9 @@
-namespace AccesoAlimentario.Core.Entities.Reportes;
-public class Reporte{
-    private string _descripcion;
-    private DateTime _fechaCreacion;
-    public string Cuerpo { get; private set; }
+﻿namespace AccesoAlimentario.Core.Entities.Reportes;
 
-    public Reporte(string descripcion, string cuerpo){
-        _descripcion = descripcion;
-        _fechaCreacion = DateTime.Now;
-        Cuerpo = cuerpo;
-    }
+public class Reporte
+{
+    public TipoReporte Tipo { get; set; }
+    public DateTime FechaCreacion { get; set; } = DateTime.Now;
+    public DateTime FechaExpiracion { get; set; } = DateTime.Now.AddDays(7);
+    public string Cuerpo { get; set; } = string.Empty;
 }

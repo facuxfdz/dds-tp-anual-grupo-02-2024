@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace AccesoAlimentario.Core.Entities.Incidentes;
+﻿namespace AccesoAlimentario.Core.Entities.Incidentes;
 
 public abstract class Incidente
 {

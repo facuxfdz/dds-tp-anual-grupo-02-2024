@@ -1,6 +1,3 @@
-using AccesoAlimentario.Core.Settings;
-using AccesoAlimentario.Core.Validadores.Contribuciones;
-
 namespace AccesoAlimentario.Core.Entities.Contribuciones;
 
 public class DonacionMonetaria : FormaContribucion

@@ -1,7 +1,4 @@
 ﻿using AccesoAlimentario.Core.Entities.Personas;
-using AccesoAlimentario.Operations.Dto.Requests.Direcciones;
-using AccesoAlimentario.Operations.Dto.Requests.DocumentosDeIdentidad;
-using AccesoAlimentario.Operations.Dto.Requests.MediosDeComunicacion;
 using JsonSubTypes;
 using Newtonsoft.Json;
 

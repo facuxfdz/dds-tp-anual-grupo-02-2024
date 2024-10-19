@@ -3,7 +3,6 @@ using AccesoAlimentario.Core.Entities.DocumentosIdentidad;
 using AccesoAlimentario.Core.Entities.MediosContacto;
 using AccesoAlimentario.Core.Entities.Personas;
 using AccesoAlimentario.Core.Entities.Roles;
-using AccesoAlimentario.Operations.Dto.Requests.Direcciones;
 using AccesoAlimentario.Operations.Dto.Requests.DocumentosDeIdentidad;
 using AccesoAlimentario.Operations.Dto.Requests.MediosDeComunicacion;
 using AccesoAlimentario.Operations.Dto.Requests.Personas;

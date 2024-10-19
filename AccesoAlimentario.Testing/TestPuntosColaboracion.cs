@@ -5,8 +5,6 @@ using AccesoAlimentario.Core.Entities.Personas;
 using AccesoAlimentario.Core.Entities.Premios;
 using AccesoAlimentario.Core.Entities.Roles;
 using AccesoAlimentario.Core.Entities.Tarjetas;
-using AccesoAlimentario.Core.Servicios;
-using AccesoAlimentario.Core.Settings;
 using Microsoft.EntityFrameworkCore;
 
 namespace AccesoAlimentario.Testing;

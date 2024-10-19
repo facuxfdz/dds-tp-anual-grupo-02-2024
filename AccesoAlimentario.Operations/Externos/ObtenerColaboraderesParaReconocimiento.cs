@@ -3,7 +3,6 @@ using AccesoAlimentario.Core.Entities.Contribuciones;
 using AccesoAlimentario.Core.Entities.Roles;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using MySqlX.XDevAPI.Common;
 
 namespace AccesoAlimentario.Operations.Externos;
 

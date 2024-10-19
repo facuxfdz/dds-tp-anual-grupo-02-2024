@@ -1,7 +1,6 @@
 using AccesoAlimentario.Core.Entities.Autorizaciones;
 using AccesoAlimentario.Core.Entities.Heladeras;
 using AccesoAlimentario.Core.Entities.Tarjetas;
-using AccesoAlimentario.Core.Servicios;
 
 namespace AccesoAlimentario.Testing;
 

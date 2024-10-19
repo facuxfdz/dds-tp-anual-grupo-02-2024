@@ -1,56 +1,31 @@
-using AccesoAlimentario.Core.Entities.Autorizaciones;
-using AccesoAlimentario.Core.Entities.Contribuciones;
-using AccesoAlimentario.Core.Entities.Heladeras;
-using AccesoAlimentario.Core.Entities.Incidentes;
-using AccesoAlimentario.Core.Entities.Roles;
+﻿using AccesoAlimentario.Core.DAL;
 
 namespace AccesoAlimentario.Core.Entities.Reportes;
 
 public class ReporteBuilderHeladeraCambioViandas : IReporteBuilder
 {
-    public ReporteBuilderHeladeraCambioViandas()
+    public IUnitOfWork UnitOfWork { get; }
+    
+    public ReporteBuilderHeladeraCambioViandas(IUnitOfWork unitOfWork)
     {
+        UnitOfWork = unitOfWork;
     }
-
-    public Reporte Generar(DateTime fechaInicio, DateTime fechaFinal, List<Heladera> heladeras,
-        List<Incidente> incidentes, List<AccesoHeladera> accesos, List<Colaborador> colaboradores)
+    
+    public async Task<Reporte> Generar(DateTime fechaInicio, DateTime fechaFin)
     {
-        var descripcion =
-            $"Reporte de Viandas Retiradas/Colocadas por Heladera \n Periodo: {fechaInicio:ddMMyy} - {fechaFinal:ddMMyy}";
-        var cuerpo = "Detalle: \n";
-
-        foreach (var heladera in heladeras)
-        {
-            var donacionesRealizadasEnIntervaloValido = new List<FormaContribucion>();
-            foreach (var colaborador in colaboradores)
-            {
-                var donacionesColaborador = colaborador.ContribucionesRealizadas.Where(c =>
-                    c.FechaContribucion.Date > fechaInicio.Date && c.FechaContribucion.Date < fechaFinal.Date).ToList();
-                donacionesRealizadasEnIntervaloValido =
-                    donacionesRealizadasEnIntervaloValido.Concat(donacionesColaborador).ToList();
-            }
-
-            var viandasDistribuidas =
-                donacionesRealizadasEnIntervaloValido.Where(v => v is DistribucionViandas).ToList();
-            var viandasDistribuidasIngreso = new List<DistribucionViandas>();
-            var viandasDistribuidasEgreso = new List<DistribucionViandas>();
-            foreach (var formaContribucion in viandasDistribuidas)
-            {
-                var distribucion = (DistribucionViandas)formaContribucion;
-                if (distribucion.HeladeraDestino == heladera)
-                    viandasDistribuidasIngreso.Add(distribucion);
-                else
-                    viandasDistribuidasEgreso.Add(distribucion);
-            }
-
-            var viandasDonadas = donacionesRealizadasEnIntervaloValido.Count(v => v is DonacionVianda) +
-                                 viandasDistribuidasIngreso.Count;
-            var viandasSacadas = viandasDistribuidasEgreso.Count;
-
-            cuerpo +=
-                $"La heladera {heladera.PuntoEstrategico.Nombre} recibió {viandasDonadas} viandas y se retiraron {viandasSacadas} viandas\n";
-        }
-
-        return new Reporte(descripcion, cuerpo);
+        var reporte = new Reporte();
+        var distribucionViandasQuery = UnitOfWork.DistribucionViandasRepository.GetQueryable();
+        var donacionViandasQuery = UnitOfWork.DonacionViandaRepository.GetQueryable();
+        
+        distribucionViandasQuery = distribucionViandasQuery.Where(d => d.FechaContribucion >= fechaInicio && d.FechaContribucion <= fechaFin);
+        donacionViandasQuery = donacionViandasQuery.Where(d => d.FechaContribucion >= fechaInicio && d.FechaContribucion <= fechaFin);
+        
+        var distribucionViandas = await UnitOfWork.DistribucionViandasRepository.GetCollectionAsync(distribucionViandasQuery);
+        var donacionViandas = await UnitOfWork.DonacionViandaRepository.GetCollectionAsync(donacionViandasQuery);
+        
+        // TODO: Implementar lógica para generar el reporte
+        
+        
+        return reporte;
     }
 }

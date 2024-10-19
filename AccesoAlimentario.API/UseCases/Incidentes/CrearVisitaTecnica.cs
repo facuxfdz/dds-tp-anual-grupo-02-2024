@@ -1,8 +1,6 @@
-﻿using AccesoAlimentario.API.Domain.Heladeras;
-using AccesoAlimentario.API.Domain.Incidentes;
+﻿using AccesoAlimentario.API.Domain.Incidentes;
 using AccesoAlimentario.API.Domain.Tecnicos;
 using AccesoAlimentario.API.Infrastructure.Controllers;
-using AccesoAlimentario.API.UseCases.AccesoHeladera.Excepciones;
 using AccesoAlimentario.API.UseCases.Incidentes.Excepciones;
 using AccesoAlimentario.API.UseCases.RequestDTO.Incentes;
 

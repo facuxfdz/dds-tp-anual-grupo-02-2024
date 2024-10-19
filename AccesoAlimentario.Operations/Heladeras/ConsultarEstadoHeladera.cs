@@ -5,14 +5,14 @@ using Microsoft.AspNetCore.Http;
 
 namespace AccesoAlimentario.Operations.Heladeras;
 
-public static class BajaHeladera
+public static class ConsultarEstadoHeladera
 {
-    public class BajaHeladeraCommand : IRequest<IResult>
+    public class ConsultarEstadoHeladeraCommand : IRequest<IResult>
     {
         public Guid Id { get; set; } = Guid.Empty;
     }
-    
-    public class Handler : IRequestHandler<BajaHeladeraCommand, IResult>
+
+    public class Handler : IRequestHandler<ConsultarEstadoHeladeraCommand, IResult>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -23,18 +23,15 @@ public static class BajaHeladera
             _mapper = mapper;
         }
 
-        public async Task<IResult> Handle(BajaHeladeraCommand request, CancellationToken cancellationToken)
+        public async Task<IResult> Handle(ConsultarEstadoHeladeraCommand request, CancellationToken cancellationToken)
         {
             var heladera = await _unitOfWork.HeladeraRepository.GetByIdAsync(request.Id);
             if (heladera == null)
             {
-                return Results.NotFound("La heladera no existe");
+                return Results.NotFound();
             }
 
-            await _unitOfWork.HeladeraRepository.RemoveAsync(heladera);
-            await _unitOfWork.SaveChangesAsync();
-
-            return Results.Ok();
+            return Results.Ok(heladera.Estado);
         }
     }
 }

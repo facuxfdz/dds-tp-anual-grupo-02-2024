@@ -1,6 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace AccesoAlimentario.Core.Entities.Notificaciones;
 
 public class Notificacion

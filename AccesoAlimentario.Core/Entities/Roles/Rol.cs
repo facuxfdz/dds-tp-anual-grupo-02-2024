@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using AccesoAlimentario.Core.Entities.Personas;
+﻿using AccesoAlimentario.Core.Entities.Personas;
 
 namespace AccesoAlimentario.Core.Entities.Roles;
 

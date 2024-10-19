@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace AccesoAlimentario.Core.Entities.Direcciones;
+﻿namespace AccesoAlimentario.Core.Entities.Direcciones;
 
 public class Direccion
 {

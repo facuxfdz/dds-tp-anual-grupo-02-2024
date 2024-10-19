@@ -1,54 +1,44 @@
-using AccesoAlimentario.Core.Entities.Autorizaciones;
+﻿using System.Text.Json;
+using AccesoAlimentario.Core.DAL;
 using AccesoAlimentario.Core.Entities.Contribuciones;
-using AccesoAlimentario.Core.Entities.Heladeras;
-using AccesoAlimentario.Core.Entities.Incidentes;
-using AccesoAlimentario.Core.Entities.Personas;
-using AccesoAlimentario.Core.Entities.Roles;
 
 namespace AccesoAlimentario.Core.Entities.Reportes;
 
 public class ReporteBuilderColaboradorViandasDonadas : IReporteBuilder
 {
-    public ReporteBuilderColaboradorViandasDonadas()
+    public IUnitOfWork UnitOfWork { get; }
+
+    public ReporteBuilderColaboradorViandasDonadas(IUnitOfWork unitOfWork)
     {
+        UnitOfWork = unitOfWork;
     }
 
-    public Reporte Generar(DateTime fechaInicio, DateTime fechaFinal, List<Heladera> heladeras,
-        List<Incidente> incidentes, List<AccesoHeladera> accesos, List<Colaborador> colaboradores)
+    public async Task<Reporte> Generar(DateTime fechaInicio, DateTime fechaFin)
     {
-        var descripcion = $"Reporte de viandas donadas por colaborador \n Periodo: {fechaInicio:ddMMyy} - {fechaFinal:ddMMyy}";
-        var cuerpo = "Detalle: \n";
+        var reporte = new Reporte();
+        var colaboradoresQuery = UnitOfWork.ColaboradorRepository.GetQueryable();
+        var colaboradores = await UnitOfWork.ColaboradorRepository.GetCollectionAsync(colaboradoresQuery);
+
+        var reporteColaboradores = new List<object>();
 
         foreach (var colaborador in colaboradores)
         {
-            var donacionesRealizadasEnIntervaloValido = colaborador.ContribucionesRealizadas.Where(c =>
-                c.FechaContribucion.Date > fechaInicio.Date && c.FechaContribucion.Date < fechaFinal.Date).ToList();
-            var viandasDonadas = donacionesRealizadasEnIntervaloValido.Count(v => v is DonacionVianda);
-            if (viandasDonadas > 0)
+            var viandasDonadas = colaborador.ContribucionesRealizadas.OfType<DonacionVianda>()
+                .Where(v => v.FechaContribucion >= fechaInicio && v.FechaContribucion <= fechaFin);
+            var cantidadViandas = viandasDonadas.Count();
+            var reporteColaborador = new
             {
-                switch (colaborador.Persona)
-                {
-                    case PersonaHumana personaHumana:
-                        cuerpo += $"Colaborador: {personaHumana.Nombre} {personaHumana.Apellido} donó {viandasDonadas} viandas\n";
-                        break;
-                    case PersonaJuridica personaJuridica:
-                        cuerpo += $"Colaborador: {personaJuridica.Nombre} {personaJuridica.RazonSocial} donó {viandasDonadas} viandas\n";
-                        break;
-                }
-            }
-            else
-            {
-                switch (colaborador.Persona)
-                {
-                    case PersonaHumana personaHumana:
-                        cuerpo += $"Colaborador: {personaHumana.Nombre} {personaHumana.Apellido} no donó ninguna vianda\n";
-                        break;
-                    case PersonaJuridica personaJuridica:
-                        cuerpo += $"Colaborador: {personaJuridica.Nombre} {personaJuridica.RazonSocial} no donó ninguna vianda\n";
-                        break;
-                }
-            } 
+                Colaborador = colaborador.Persona.Nombre,
+                CantidadViandas = cantidadViandas
+            };
+            reporteColaboradores.Add(reporteColaborador);
         }
-        return new Reporte(descripcion, cuerpo);
+
+        reporte.FechaCreacion = DateTime.Now;
+        reporte.FechaExpiracion = DateTime.Now.AddDays(7);
+        reporte.Cuerpo = JsonSerializer.Serialize(reporteColaboradores);
+        reporte.Tipo = TipoReporte.CANTIDAD_VIANDAS_POR_COLABORADOR;
+
+        return reporte;
     }
 }

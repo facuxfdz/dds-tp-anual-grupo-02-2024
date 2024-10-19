@@ -1,5 +1,4 @@
 using AccesoAlimentario.Core.Entities.Premios;
-using AccesoAlimentario.Core.Validadores.Contribuciones;
 
 namespace AccesoAlimentario.Core.Entities.Contribuciones;
 
