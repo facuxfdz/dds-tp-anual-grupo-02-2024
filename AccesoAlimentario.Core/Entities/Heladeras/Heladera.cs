@@ -42,15 +42,23 @@ public class Heladera : IObserverSensorMovimiento, IObserverSensorTemperatura, I
         Notificar(CambioHeladeraTipo.CambioViandas);
     }
     
-    public void RetirarViandas(int cantidad)
+    public List<Vianda> RetirarViandas(int cantidad)
     {
-        if (cantidad > Viandas.Count)
+        var viandasDisponibles = Viandas.Where(vianda => vianda.Estado == EstadoVianda.Disponible).ToList();
+        if (cantidad > viandasDisponibles.Count)
         {
-            Notificar(CambioHeladeraTipo.CambioViandas);
             throw new Exception("No hay suficientes viandas");
         }
-        Viandas.RemoveRange(0, cantidad);
+        var viandasARetirar = viandasDisponibles.GetRange(0, cantidad);
+        
+        foreach (var vianda in viandasARetirar)
+        {
+            Viandas.Remove(vianda);
+        }
+        
         Notificar(CambioHeladeraTipo.CambioViandas);
+        
+        return viandasARetirar;
     }
 
     public void ActualizarEstado(EstadoHeladera estadoHeladera)

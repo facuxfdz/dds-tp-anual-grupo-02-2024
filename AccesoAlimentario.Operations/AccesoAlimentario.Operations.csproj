@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Contribuciones\" />
       <Folder Include="Dto\Responses\" />
     </ItemGroup>
 

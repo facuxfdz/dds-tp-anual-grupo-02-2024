@@ -13,7 +13,7 @@ public class Vianda
     public Heladera Heladera { get; set; } = null!;
     public float Calorias { get; set; } = 0;
     public float Peso { get; set; } = 0;
-    public EstadoVianda EstadoVianda { get; set; } = EstadoVianda.Disponible;
+    public EstadoVianda Estado { get; set; } = EstadoVianda.Disponible;
     public ViandaEstandar UnidadEstandar { get; set; } = null!;
 
     public Vianda()
@@ -21,7 +21,7 @@ public class Vianda
     }
 
     public Vianda(string comida, DateTime fechaDonacion, DateTime fechaCaducidad, Colaborador colaborador,
-        Heladera heladera, float calorias, float peso, EstadoVianda estadoVianda, ViandaEstandar unidadEstandar)
+        Heladera heladera, float calorias, float peso, EstadoVianda estado, ViandaEstandar unidadEstandar)
     {
         Comida = comida;
         FechaDonacion = fechaDonacion;
@@ -30,7 +30,7 @@ public class Vianda
         Heladera = heladera;
         Calorias = calorias;
         Peso = peso;
-        EstadoVianda = estadoVianda;
+        Estado = estado;
         UnidadEstandar = unidadEstandar;
     }
 }
