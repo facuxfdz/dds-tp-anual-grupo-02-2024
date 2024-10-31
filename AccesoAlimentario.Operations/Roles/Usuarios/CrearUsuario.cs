@@ -21,7 +21,7 @@ public static class CrearUsuario
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public Handler(IUnitOfWork unitOfWork, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+        public Handler(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;

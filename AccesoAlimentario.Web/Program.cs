@@ -1,3 +1,4 @@
+using AccesoAlimentario.Core;
 using AccesoAlimentario.Core.DAL;
 using AccesoAlimentario.Operations;
 using AccesoAlimentario.Web.Swagger;
@@ -39,6 +40,7 @@ builder.Services.AddCors(options =>
                 .AllowAnyMethod();
         });
 });
+builder.Services.AddCoreLayer();
 builder.Services.AddOperationsLayer();
 
 var app = builder.Build();
