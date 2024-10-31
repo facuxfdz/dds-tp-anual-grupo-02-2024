@@ -6,8 +6,8 @@ namespace AccesoAlimentario.Web.Controllers;
 
 [ApiExplorerSettings(GroupName = ApiConstants.AccesoAlimentarioName)]
 [Produces("application/json")]
-[Tags("Test")]
 [Route("api/[controller]")]
+[Tags("Test")]
 [ApiController]
 public class TestController : ControllerBase
 {

@@ -1,4 +1,7 @@
+using AccesoAlimentario.Core.DAL;
+using AccesoAlimentario.Operations;
 using AccesoAlimentario.Web.Swagger;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +13,15 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
     options.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 });
+
+builder.Services.AddDbContext<AppDbContext>((sp, options) =>
+    options
+        .UseSqlServer("Data Source=192.168.1.51;Initial Catalog=AccesoAlimentario;User ID=dev;Password=Lpa1234$;Connect Timeout=60;Encrypt=False", x =>
+        {
+            x.MigrationsAssembly("AccesoAlimentario.Core");
+            x.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+        })
+);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -27,6 +39,7 @@ builder.Services.AddCors(options =>
                 .AllowAnyMethod();
         });
 });
+builder.Services.AddOperationsLayer();
 
 var app = builder.Build();
 
