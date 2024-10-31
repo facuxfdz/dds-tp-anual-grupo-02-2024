@@ -165,4 +165,24 @@ public class Heladera : IObserverSensorMovimiento, IObserverSensorTemperatura, I
         Notificar(CambioHeladeraTipo.CambioViandas);
         return vianda;
     }
+    
+    public void CambiarTemperaturaMinima(float temperatura)
+    {
+        if (!Modelo.TemperaturaConfiguracionValida(temperatura, TemperaturaMaximaConfig))
+        {
+            throw new Exception("La temperatura mínima no es válida"); //TODO: No se si esto se hace aca o no
+        }
+
+        TemperaturaMinimaConfig = temperatura;
+    }
+
+    public void CambiarTemperaturaMaxima(float temperatura)
+    {
+        if (!Modelo.TemperaturaConfiguracionValida(TemperaturaMinimaConfig, temperatura))
+        {
+            throw new Exception("La temperatura máxima no es válida"); //TODO: No se si esto se hace aca o no
+        }
+
+        TemperaturaMaximaConfig = temperatura;
+    }
 }
