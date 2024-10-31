@@ -1,7 +1,32 @@
+using AccesoAlimentario.Web.Swagger;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Add Swagger
+builder.Services.AddSwaggerService();
+
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+{
+    options.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Allow CORS
+const string corsDevelop = "_CORSDevelop";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: corsDevelop,
+        policy =>
+        {
+            policy
+                .AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
 
 var app = builder.Build();
 
@@ -13,6 +38,10 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseCors(corsDevelop);
+
+app.UseSwaggerConfiguration();
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -22,6 +51,9 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Login}/{action=Index}/{id?}");
+    pattern: "{controller=Login}/{action=Index}/{id?}"
+);
+
+app.MapControllers();
 
 app.Run();
