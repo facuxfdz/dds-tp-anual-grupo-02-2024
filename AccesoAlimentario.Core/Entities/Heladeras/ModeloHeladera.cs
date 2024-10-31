@@ -18,4 +18,13 @@ public class ModeloHeladera
         TemperaturaMinima = temperaturaMinima;
         TemperaturaMaxima = temperaturaMaxima;
     }
+    
+    public bool TemperaturaConfiguracionValida(float min, float max)
+    {
+        if (min < TemperaturaMinima || max > TemperaturaMaxima || min > max)
+        {
+            return false;
+        }
+        return true;
+    }
 }
