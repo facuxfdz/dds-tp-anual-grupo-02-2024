@@ -11,7 +11,7 @@ namespace AccesoAlimentario.Operations.Heladeras;
 
 public static class AltaHeladera
 {
-    public class AltaHeladeraCommand : IRequest<IResult>
+    public class AltaHeladeraCommand : IRequest<Heladera>
     {
         public PuntoEstrategicoRequest PuntoEstrategico { get; set; } = null!;
         public EstadoHeladera Estado { get; set; } = EstadoHeladera.FueraServicio;
@@ -43,7 +43,7 @@ public static class AltaHeladera
         }
     }
 
-    public class Handler : IRequestHandler<AltaHeladeraCommand, IResult>
+    public class Handler : IRequestHandler<AltaHeladeraCommand, Heladera>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -54,13 +54,13 @@ public static class AltaHeladera
             _mapper = mapper;
         }
 
-        public async Task<IResult> Handle(AltaHeladeraCommand request, CancellationToken cancellationToken)
+        public async Task<Heladera> Handle(AltaHeladeraCommand request, CancellationToken cancellationToken)
         {
             var validator = new AltaHeladeraValidator();
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
             if (!validationResult.IsValid)
             {
-                return Results.Problem();
+                throw new ValidationException(validationResult.Errors);
             }
             
             var puntoEstrategico = _mapper.Map<PuntoEstrategico>(request.PuntoEstrategico);
@@ -84,7 +84,7 @@ public static class AltaHeladera
             await _unitOfWork.HeladeraRepository.AddAsync(heladera);
             await _unitOfWork.SaveChangesAsync();
             
-            return Results.Ok();
+            return heladera;
         }
     }
 }

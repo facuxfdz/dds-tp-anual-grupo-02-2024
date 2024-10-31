@@ -153,4 +153,16 @@ public class Heladera : IObserverSensorMovimiento, IObserverSensorTemperatura, I
         Incidentes.Add(incidente);
         Notificar(CambioHeladeraTipo.IncidenteProducido);
     }
+    
+    public Vianda ConsumirVianda()
+    {
+        var vianda = Viandas.FirstOrDefault(vianda => vianda.Estado == EstadoVianda.Disponible);
+        if (vianda == null)
+        {
+            throw new Exception("No hay viandas disponibles");
+        }
+        vianda.Estado = EstadoVianda.Consumida;
+        Notificar(CambioHeladeraTipo.CambioViandas);
+        return vianda;
+    }
 }

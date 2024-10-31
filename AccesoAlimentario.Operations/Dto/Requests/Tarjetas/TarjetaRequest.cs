@@ -10,26 +10,14 @@ public abstract class TarjetaRequest : IDtoRequest
 {
     public string Codigo { get; set; } = string.Empty;
     public string Tipo { get; set; } = string.Empty;
-    
-    public abstract bool Validar();
 }
 
 public class TarjetaConsumoRequest : TarjetaRequest
 {
-    public int ResponsableId { get; set; } = 0;
-    
-    public override bool Validar()
-    {
-        return !string.IsNullOrEmpty(Codigo) && ResponsableId > 0;
-    }
+    public Guid ResponsableId { get; set; } = Guid.Empty;
 }
 
 public class TarjetaColaboracionRequest : TarjetaRequest
 {
-    public int ResponsableId { get; set; } = 0;
-    
-    public override bool Validar()
-    {
-        return !string.IsNullOrEmpty(Codigo) && ResponsableId > 0;
-    }
+    public Guid PropietarioId { get; set; } = Guid.Empty;
 }

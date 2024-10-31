@@ -8,6 +8,7 @@ public class AccesoHeladera
     public Guid Id { get; set; } = Guid.NewGuid();
 
     public Tarjeta Tarjeta { get; set; } = null!;
+    public List<Vianda> Viandas { get; set; } = [];
     public DateTime FechaAcceso { get; set; } = DateTime.Now;
     public TipoAcceso TipoAcceso { get; set; } = TipoAcceso.IngresoVianda;
     public Heladera Heladera { get; set; } = null!;
