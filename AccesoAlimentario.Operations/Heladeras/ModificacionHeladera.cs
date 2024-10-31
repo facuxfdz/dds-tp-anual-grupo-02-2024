@@ -48,16 +48,6 @@ public static class ModificacionHeladera
             _mapper = mapper;
         }
 
-        public bool IsDataValid(Heladera h)
-        {
-            if (h.TemperaturaMinimaConfig < h.Modelo.TemperaturaMinima ||
-                h.TemperaturaMaximaConfig > h.Modelo.TemperaturaMaxima)
-            {
-                return false;
-            }
-            return true;
-        }
-
         public async Task<IResult> Handle(ModificacionHeladeraCommand request, CancellationToken cancellationToken)
         {
             var heladera = await _unitOfWork.HeladeraRepository.GetByIdAsync(request.Id);
@@ -66,10 +56,10 @@ public static class ModificacionHeladera
                 return Results.NotFound("La heladera no existe");
             }
             
-            if (!IsDataValid(heladera))
-            {
-                return Results.BadRequest("Parametros fuera de los valores permitidos");
-            }
+            heladera.PuntoEstrategico = _mapper.Map<PuntoEstrategico>(request.PuntoEstrategico);
+            heladera.Estado = request.Estado;
+            heladera.CambiarTemperaturaMaxima(request.TemperaturaMaximaConfig);
+            heladera.CambiarTemperaturaMinima(request.TemperaturaMinimaConfig);
             
             await _unitOfWork.HeladeraRepository.UpdateAsync(heladera);
             await _unitOfWork.SaveChangesAsync();

@@ -18,7 +18,7 @@ public class Heladera : IObserverSensorMovimiento, IObserverSensorTemperatura, I
     public List<Sensor> Sensores { get; set; } = [];
     public List<Incidente> Incidentes { get; set; } = [];
     public ModeloHeladera Modelo { get; set; } = null!;
-    
+
     private List<IObserverHeladera> Observers { get; set; } = [];
 
     public Heladera()
@@ -41,7 +41,7 @@ public class Heladera : IObserverSensorMovimiento, IObserverSensorTemperatura, I
         Viandas.Add(vianda);
         Notificar(CambioHeladeraTipo.CambioViandas);
     }
-    
+
     public List<Vianda> RetirarViandas(int cantidad)
     {
         var viandasDisponibles = Viandas.Where(vianda => vianda.Estado == EstadoVianda.Disponible).ToList();
@@ -49,15 +49,16 @@ public class Heladera : IObserverSensorMovimiento, IObserverSensorTemperatura, I
         {
             throw new Exception("No hay suficientes viandas");
         }
+
         var viandasARetirar = viandasDisponibles.GetRange(0, cantidad);
-        
+
         foreach (var vianda in viandasARetirar)
         {
             Viandas.Remove(vianda);
         }
-        
+
         Notificar(CambioHeladeraTipo.CambioViandas);
-        
+
         return viandasARetirar;
     }
 
@@ -72,6 +73,7 @@ public class Heladera : IObserverSensorMovimiento, IObserverSensorTemperatura, I
         {
             AgregarIncidente(new Alerta(TipoAlerta.Conexion));
         }
+
         TemperaturaActual = dato;
         if (dato <= TemperaturaMinimaConfig || dato >= TemperaturaMaximaConfig)
         {
@@ -83,12 +85,12 @@ public class Heladera : IObserverSensorMovimiento, IObserverSensorTemperatura, I
     {
         Observers.Add(observer);
     }
-    
+
     public void Desuscribirse(IObserverHeladera observer)
     {
         Observers.Remove(observer);
     }
-    
+
     public void Notificar(CambioHeladeraTipo cambio)
     {
         foreach (var observer in Observers)
@@ -97,12 +99,13 @@ public class Heladera : IObserverSensorMovimiento, IObserverSensorTemperatura, I
         }
     }
 
-    public void CambioSensorMovimiento(bool dato, bool error) 
+    public void CambioSensorMovimiento(bool dato, bool error)
     {
         if (dato)
         {
             AgregarIncidente(new Alerta(TipoAlerta.Fraude));
         }
+
         if (error)
         {
             AgregarIncidente(new Alerta(TipoAlerta.Conexion));
@@ -147,10 +150,30 @@ public class Heladera : IObserverSensorMovimiento, IObserverSensorTemperatura, I
     {
         return PuntoEstrategico.Longitud;
     }
-    
+
     public void AgregarIncidente(Incidente incidente)
     {
         Incidentes.Add(incidente);
         Notificar(CambioHeladeraTipo.IncidenteProducido);
+    }
+
+    public void CambiarTemperaturaMinima(float temperatura)
+    {
+        if (!Modelo.TemperaturaConfiguracionValida(temperatura, TemperaturaMaximaConfig))
+        {
+            throw new Exception("La temperatura mínima no es válida"); //TODO: No se si esto se hace aca o no
+        }
+
+        TemperaturaMinimaConfig = temperatura;
+    }
+
+    public void CambiarTemperaturaMaxima(float temperatura)
+    {
+        if (!Modelo.TemperaturaConfiguracionValida(TemperaturaMinimaConfig, temperatura))
+        {
+            throw new Exception("La temperatura máxima no es válida"); //TODO: No se si esto se hace aca o no
+        }
+
+        TemperaturaMaximaConfig = temperatura;
     }
 }
