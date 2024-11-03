@@ -10,6 +10,7 @@ public static class SwaggerBuilder
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(options =>
             {
+                options.EnableAnnotations();
                 options.SwaggerDoc(ApiConstants.AccesoAlimentarioName,
                     new OpenApiInfo
                     {
