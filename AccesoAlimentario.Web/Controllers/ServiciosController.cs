@@ -26,8 +26,14 @@ public class ServiciosController(ISender sender) : ControllerBase
         Description = "Este endpoint obtiene una lista de colaboradores que cumplen con los requisitos de puntos mínimos y donaciones de viandas en el último mes."
     )]
     [ProducesResponseType(typeof(List<ColaboradorResponse>), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
     public async Task<IResult> Get([FromQuery] ObtenerColaboraderesParaReconocimiento.ObtenerColaboraderesParaReconocimientoCommand command)
+    {
+        return await sender.Send(command);
+    }
+    
+    [HttpGet("ObtenerRecomendacionUbicacionHeladera")]
+    public async Task<IResult> ObtenerRecomendacionUbicacionHeladera([FromQuery] ObtenerRecomendacionUbicacionHeladera.ObtenerRecomendacionUbicacionHeladeraCommand command)
     {
         return await sender.Send(command);
     }
