@@ -8,6 +8,7 @@ using AccesoAlimentario.Core.Entities.MediosContacto;
 using AccesoAlimentario.Core.Entities.Notificaciones;
 using AccesoAlimentario.Core.Entities.Personas;
 using AccesoAlimentario.Core.Entities.Premios;
+using AccesoAlimentario.Core.Entities.Reportes;
 using AccesoAlimentario.Core.Entities.Roles;
 using AccesoAlimentario.Core.Entities.Sensores;
 using AccesoAlimentario.Core.Entities.SuscripcionesColaboradores;
@@ -62,6 +63,7 @@ public interface IUnitOfWork : IDisposable
     public IBaseRepository<SuscripcionIncidenteHeladera> SuscripcionIncidenteHeladeraRepository { get; }
     public IBaseRepository<AccesoHeladera> AccesoHeladeraRepository { get; }
     public IBaseRepository<AutorizacionManipulacionHeladera> AutorizacionManipulacionHeladeraRepository { get; }
+    public IBaseRepository<Reporte> ReporteRepository { get; }
 
     public Task SaveChangesAsync();
 

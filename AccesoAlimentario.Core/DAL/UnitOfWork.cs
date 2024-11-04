@@ -8,6 +8,7 @@ using AccesoAlimentario.Core.Entities.MediosContacto;
 using AccesoAlimentario.Core.Entities.Notificaciones;
 using AccesoAlimentario.Core.Entities.Personas;
 using AccesoAlimentario.Core.Entities.Premios;
+using AccesoAlimentario.Core.Entities.Reportes;
 using AccesoAlimentario.Core.Entities.Roles;
 using AccesoAlimentario.Core.Entities.Sensores;
 using AccesoAlimentario.Core.Entities.SuscripcionesColaboradores;
@@ -62,6 +63,7 @@ public class UnitOfWork(AppDbContext dbContext) : IUnitOfWork
     private BaseRepository<SuscripcionIncidenteHeladera> _suscripcionIncidenteHeladeraRepository = null!;
     private BaseRepository<AccesoHeladera> _accesoHeladeraRepository = null!;
     private BaseRepository<AutorizacionManipulacionHeladera> _autorizacionManipulacionHeladeraRepository = null!;
+    private BaseRepository<Reporte> _reporteRepository = null!;
 
     /* ------------------------ */
     public IBaseRepository<Persona> PersonaRepository => _personaRepository ??= new BaseRepository<Persona>(dbContext);
@@ -190,6 +192,8 @@ public class UnitOfWork(AppDbContext dbContext) : IUnitOfWork
 
     public IBaseRepository<AutorizacionManipulacionHeladera> AutorizacionManipulacionHeladeraRepository =>
         _autorizacionManipulacionHeladeraRepository ??= new BaseRepository<AutorizacionManipulacionHeladera>(dbContext);
+    
+    public IBaseRepository<Reporte> ReporteRepository => _reporteRepository ??= new BaseRepository<Reporte>(dbContext);
 
     public Task SaveChangesAsync()
     {

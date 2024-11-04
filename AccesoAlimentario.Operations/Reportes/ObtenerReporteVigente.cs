@@ -15,20 +15,26 @@ public static class ObtenerReporteVigente
     public class Handler : IRequestHandler<ObtenerReporteVigenteCommand, IResult>
     {
         private readonly IUnitOfWork _unitOfWork;
-        
+
         public Handler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
-        
+
         public async Task<IResult> Handle(ObtenerReporteVigenteCommand request, CancellationToken cancellationToken)
         {
-            var creador = new CreadorDeReportes();
-            
-            // TODO: Revisar el uso de la variable creador
-            
-            var reporte = creador.ObtenerReporteVigente(request.TipoReporte);
-            
+            var query = _unitOfWork.ReporteRepository.GetQueryable();
+            query = query
+                .Where(r => r.Tipo == request.TipoReporte)
+                .Where(r => r.FechaExpiracion < DateTime.Now);
+
+            var reporte = await _unitOfWork.ReporteRepository.GetAsync(query);
+
+            if (reporte == null)
+            {
+                return Results.NotFound();
+            }
+
             return Results.Ok(reporte);
         }
     }
