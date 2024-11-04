@@ -8,6 +8,7 @@ using AccesoAlimentario.Core.Entities.MediosContacto;
 using AccesoAlimentario.Core.Entities.Notificaciones;
 using AccesoAlimentario.Core.Entities.Personas;
 using AccesoAlimentario.Core.Entities.Premios;
+using AccesoAlimentario.Core.Entities.Reportes;
 using AccesoAlimentario.Core.Entities.Roles;
 using AccesoAlimentario.Core.Entities.Sensores;
 using AccesoAlimentario.Core.Entities.SuscripcionesColaboradores;
@@ -72,6 +73,9 @@ public class AppDbContext : DbContext
     // Autorizaciones
     public DbSet<AccesoHeladera> AccesosHeladera { get; set; } = null!;
     public DbSet<AutorizacionManipulacionHeladera> AutorizacionesManipulacionHeladera { get; set; } = null!;
+    
+    // Reportes
+    public DbSet<Reporte> Reportes { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
