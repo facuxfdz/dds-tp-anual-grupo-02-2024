@@ -1,0 +1,24 @@
+﻿name: Deployment
+run-name: ${{ github.actor }}
+
+on: [push]
+
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: read # This is required for actions/checkout
+  
+jobs:
+  VPCList:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Clone the repository
+        uses: actions/checkout@v4
+      - name: Configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+            role-to-assume: arn:aws:iam::034781041905:role/GhActionsRunner
+            role-session-name: ${{ github.actor }}-session
+            aws-region: ${{ secrets.AWS_REGION }}
+      - name: Get VPC List
+        run: |
+          aws ec2 describe-vpcs --query 'Vpcs[*].[VpcId,CidrBlock]' --output table
