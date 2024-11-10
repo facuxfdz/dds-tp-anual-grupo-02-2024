@@ -25,6 +25,9 @@ module "ecs" {
   
   cluster_name = var.cluster_name
 
+  create_task_exec_iam_role = true
+  create_task_exec_policy = true
+
   fargate_capacity_providers = {
     FARGATE = {
       default_capacity_provider_strategy = {
