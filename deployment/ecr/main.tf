@@ -14,7 +14,7 @@ module "ecr" {
 
   repository_name = var.repository_name
   
-  repository_lifecycle_policy = templatefile(var.lifecycle_policy_file)
+  repository_lifecycle_policy = templatefile(var.lifecycle_policy_file,{})
 
   tags = {
     Terraform   = "true"
