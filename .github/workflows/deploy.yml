@@ -109,20 +109,20 @@ jobs:
         with:
           registries: ${{ secrets.AWS_ACCOUNT_ID }}
           
-#      - name: Build, tag, and push image to Amazon ECR
-#        id: build-publish
-#        shell: bash        
-#        env:
-#          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-#          ECR_REPOSITORY: ${{ env.ECR_REPO_NAME }}
-#          IMAGE_TAG: ${{ github.sha }}
-#        run: |
-#          docker build "." -f "./Dockerfile" -t "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-#          docker push "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-#          echo "IMAGE $IMAGE_TAG is pushed to $ECR_REGISTRY/$ECR_REPOSITORY"
-#          echo "image_tag=$IMAGE_TAG"           
-#          echo "full_image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-#          echo "full_image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-publish
+        shell: bash        
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{ env.ECR_REPO_NAME }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          #          docker build "." -f "./Dockerfile" -t "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          #          docker push "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          echo "IMAGE $IMAGE_TAG is pushed to $ECR_REGISTRY/$ECR_REPOSITORY"
+          echo "image_tag=$IMAGE_TAG"           
+          echo "full_image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          echo "full_image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
 
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
