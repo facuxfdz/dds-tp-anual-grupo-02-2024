@@ -61,15 +61,16 @@ jobs:
         shell: bash
         run: |
           set -eux
-          terraform destroy -var-file="prod.tfvars" -var 'region=${{ secrets.AWS_REGION }}' -auto-approve
+          ls -la
+          terraform destroy -var-file="prod.tfvars" -var='region=${{ secrets.AWS_REGION }}' -auto-approve
         working-directory: "./deployment/rds"
 
-      - name: Destroy ECS Cluster
-        shell: bash
-        run: |
-          set -eux
-          terraform destroy -var-file "prod.tfvars" -var "region=${{ secrets.AWS_REGION }}" -auto-approve          
-        working-directory: "./deployment/ecs"
+#      - name: Destroy ECS Cluster
+#        shell: bash
+#        run: |
+#          set -eux
+#          terraform destroy -var-file "prod.tfvars" -var "region=${{ secrets.AWS_REGION }}" -auto-approve          
+#        working-directory: "./deployment/ecs"
   
 #      - name: Destroy ALB
 #        shell: bash
