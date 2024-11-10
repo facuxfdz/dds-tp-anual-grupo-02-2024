@@ -4,8 +4,7 @@
       "rulePriority": 1,
       "description": "Keep last 1 images",
       "selection": {
-        "tagStatus": "tagged",
-        "tagPrefixList": [ "snapshot" ],
+        "tagStatus": "any",
         "countType": "imageCountMoreThan",
         "countNumber": 1
       },
