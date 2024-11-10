@@ -111,7 +111,7 @@ module "alb" {
         port     = 8085
         target_type      = "ip"
         health_check = {
-          path                = "/health"
+          path                = "/"
           protocol            = "HTTP"
           matcher             = "200-399"
           interval            = 30

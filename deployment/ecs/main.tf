@@ -32,6 +32,9 @@ module "ecs" {
 
   create_task_exec_iam_role = true
   create_task_exec_policy = true
+  task_exec_iam_role_policies = {
+    logs = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
+  }
   task_exec_iam_role_name = "${var.service_name}-task-exec-role"
 
   fargate_capacity_providers = {
