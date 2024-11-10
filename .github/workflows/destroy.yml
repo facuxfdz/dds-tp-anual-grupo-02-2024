@@ -63,6 +63,7 @@ jobs:
           set -eux
           ls -la
           aws sts get-caller-identity
+          terraform plan -var-file="prod.tfvars" -var="region=${{ secrets.AWS_REGION }}"
           terraform destroy -var-file="prod.tfvars" -var='region=${{ secrets.AWS_REGION }}' -auto-approve
         working-directory: "./deployment/rds"
 
