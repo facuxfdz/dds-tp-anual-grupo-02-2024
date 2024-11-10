@@ -4,6 +4,8 @@
     {
       "name": "accesoalimentario",
       "image": "034781041905.dkr.ecr.sa-east-1.amazonaws.com/acceso-alimentario_releases:fa3aa1331a7c60ddbadefa51b3e8f5dcf3bae830",
+      "executionRoleArn": "arn:aws:iam::034781041905:role/accesoalimentario-task-exec-role",
+      "taskRoleArn": "arn:aws:iam::034781041905:role/accesoalimentario-task-role",
       "essential": true,
       "memory": 512,
       "cpu": 256,

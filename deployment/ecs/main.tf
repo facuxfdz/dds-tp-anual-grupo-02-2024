@@ -27,6 +27,7 @@ module "ecs" {
 
   create_task_exec_iam_role = true
   create_task_exec_policy = true
+  task_exec_iam_role_name = "${var.service_name}-task-exec-role"
 
   fargate_capacity_providers = {
     FARGATE = {
@@ -44,6 +45,7 @@ module "ecs" {
   services = {
     initial_svc = {
       name = var.service_name
+      tasks_iam_role_name = "${var.service_name}-task-role" 
       ignore_task_definition_changes = true
       cpu    = 512
       memory = 1024
