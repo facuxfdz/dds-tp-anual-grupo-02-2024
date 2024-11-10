@@ -22,7 +22,7 @@
         },
         {
           "name": "DB_HOST",
-          "value": "rds-endpoint"
+          "value": "acceso-alimentario.cdi8y4a4ye2e.sa-east-1.rds.amazonaws.com"
         },
         {
           "name": "DB_PORT",
@@ -34,11 +34,11 @@
         },
         {
           "name": "DB_USER",
-          "value": "production"
+          "value": "admin"
         },
         {
           "name": "DB_PASSWORD",
-          "value": "YourStrongPassword!123"
+          "value": "yGHwTfrG]:ya_{oW"
         }
       ]
     }
