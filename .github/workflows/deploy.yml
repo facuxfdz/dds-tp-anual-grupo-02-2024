@@ -1,7 +1,7 @@
 ﻿name: Deployment
 run-name: ${{ github.event.head_commit.message }}
 
-on: [push]
+on: [workflow_dispatch]
 
 permissions:
   id-token: write # This is required for requesting the JWT
@@ -19,6 +19,7 @@ env:
 jobs:
   build_and_deploy:
     runs-on: ubuntu-22.04
+    if: github.event_name == 'workflow_dispatch' # Ensures it only runs manually
     outputs:
       image_tag: ${{ steps.build-publish.outputs.image_tag }}
       full_image: ${{ steps.build-publish.outputs.full_image }}
