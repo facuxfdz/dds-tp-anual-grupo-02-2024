@@ -1,4 +1,14 @@
 ﻿
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+  backend "s3" {}
+}
+
 data "aws_lb_target_group" "alb_tg" {
   name = var.alb_name
 }
