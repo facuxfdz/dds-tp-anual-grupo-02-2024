@@ -1,5 +1,5 @@
 ﻿name: Deployment
-run-name: ${{ github.actor }}
+run-name: ${{ github.event.head_commit.message }}
 
 on: [push]
 
@@ -8,7 +8,7 @@ permissions:
   contents: read # This is required for actions/checkout
 
 env:
-  backend_s3_bucket: "acceso-alimentario-infra"
+  backend_s3_bucket: "acceso-alimentario"
   backend_dynamodb_table: "acceso-alimentario-terraform-state-lock"
   repo_name: "acceso-alimentario/releases"
 jobs:
