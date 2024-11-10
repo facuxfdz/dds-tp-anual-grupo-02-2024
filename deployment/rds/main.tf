@@ -21,6 +21,32 @@ data "aws_subnets" "private" {
   }
 }
 
+data "aws_vpc" "selected" {
+    filter {
+        name   = "tag:Name"
+        values = [var.vpc_name]
+    }
+}
+
+resource "aws_security_group" "db" {
+  name        = "${var.db_identifier}-sg"
+  description = "Security group for RDS instance"
+  vpc_id      = data.aws_vpc.selected.id
+
+  ingress {
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    }
+    egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+    }
+}
+
 module "db" {
   source  = "terraform-aws-modules/rds/aws"
   version = "6.10.0"
@@ -36,8 +62,9 @@ module "db" {
   subnet_ids = data.aws_subnets.private.ids
   allocated_storage     = 20
   max_allocated_storage = 40
+  vpc_security_group_ids = [aws_security_group.db.id]
 
-  db_name  = var.db_name
+db_name  = var.db_name
   username = var.db_username
   manage_master_user_password = false
   password = random_password.master_passwd.result
