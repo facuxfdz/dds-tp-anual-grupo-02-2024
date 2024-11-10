@@ -48,7 +48,15 @@ module "ecs" {
       
       # Container definition(s)
       container_definitions = {
-
+        essential = true
+        image    = "public.ecr.aws/aws-containers/ecsdemo-frontend:776fd50"
+        name     = var.service_name
+        cpu      = 512
+        memory   = 1024
+        port_mappings = {
+          host_port      = 8085
+          container_port = 8085
+        }
         load_balancer = {
           service = {
             target_group_arn = data.aws_lb_target_group.alb_tg.arn
