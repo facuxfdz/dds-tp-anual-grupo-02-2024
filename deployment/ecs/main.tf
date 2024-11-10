@@ -1,14 +1,19 @@
-﻿
-terraform {
+﻿terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
       version = "~> 5.0"
     }
   }
-  backend "s3" {}
+  backend "s3" {
+    region = var.region
+    key     = "ecs/terraform-acceso-alimentario_releases.tfstate"
+  }
 }
 
+provider "aws" {
+    region = var.region
+}
 data "aws_lb_target_group" "alb_tg" {
   name = var.alb_name
 }

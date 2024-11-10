@@ -5,3 +5,7 @@
 
 appsettings.json
 **/Migrations/
+
+# Terraform
+.terraform/*
+.terraform*
