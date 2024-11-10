@@ -1,11 +1,11 @@
 ﻿{
   "family": "acceso-alimentario-task",
+  "executionRoleArn": "arn:aws:iam::034781041905:role/accesoalimentario-task-exec-role-20241110131511387400000001",
+  "taskRoleArn": "arn:aws:iam::034781041905:role/accesoalimentario-task-role-20241110131511391800000003",
   "containerDefinitions": [
     {
       "name": "accesoalimentario",
       "image": "034781041905.dkr.ecr.sa-east-1.amazonaws.com/acceso-alimentario_releases:fa3aa1331a7c60ddbadefa51b3e8f5dcf3bae830",
-      "executionRoleArn": "arn:aws:iam::034781041905:role/accesoalimentario-task-exec-role-20241110131511387400000001",
-      "taskRoleArn": "arn:aws:iam::034781041905:role/accesoalimentario-task-role-20241110131511391800000003",
       "essential": true,
       "memory": 512,
       "cpu": 256,
