@@ -1,0 +1,65 @@
+﻿name: Destroy
+run-name: ${{ github.event.head_commit.message }}
+
+on: [workflow_dispatch]
+
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: read # This is required for actions/checkout
+  
+env:
+  backend_s3_bucket: "acceso-alimentario"
+  backend_dynamodb_table: "acceso-alimentario-terraform-state-lock"
+  repo_name: "acceso-alimentario/releases"
+  vpc_name: "acceso-alimentario"
+  domain_record: "acceso-alimentario.opsconsultingservices.com"
+  ECS_TASK_DEFINITION: "deployment/task_def.json"
+  alb_name: "acceso-alimentario"
+
+jobs:  
+  destroy_infrastructure:
+    runs-on: ubuntu-22.04
+    if: github.event_name == 'workflow_dispatch' # Ensures it only runs manually
+    steps:
+      - name: Clone the repository
+        uses: actions/checkout@v4
+  
+      - name: Configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::034781041905:role/GhActionsRunner
+          role-session-name: ${{ github.actor }}-session
+          aws-region: ${{ secrets.AWS_REGION }}
+  
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_wrapper: false
+  
+      - name: Destroy ECS Cluster
+        shell: bash
+        run: |
+          set -eux
+          terraform destroy -var 'vpc_name=${{ env.vpc_name }}' -var "cluster_name=accesoalimentario" -var "service_name=accesoalimentario" -var "alb_name=${{ env.alb_name }}" -auto-approve
+        working-directory: "./deployment/ecs"
+  
+      - name: Destroy ALB
+        shell: bash
+        run: |
+          set -eux
+          terraform destroy -var="alb_name=${{ env.alb_name }}" -var 'vpc_name=${{ env.vpc_name }}' -var 'public_subnet_name=${{ env.vpc_name }}-public' -var 'domain_zone_id=${{ secrets.ROUTE53_ZONE_ID }}' -var 'domain_record=${{ env.domain_record }}' -auto-approve
+        working-directory: "./deployment/alb"
+  
+      - name: Destroy VPC
+        shell: bash
+        run: |
+          set -eux
+          terraform destroy -var 'vpc_name=${{ env.vpc_name }}' -auto-approve
+        working-directory: "./deployment/vpc"
+  
+      - name: Destroy ECR
+        shell: bash
+        run: |
+          set -eux
+          terraform destroy -var 'repository_name=${{ env.ECR_REPO_NAME }}' -auto-approve
+        working-directory: "./deployment/ecr"
