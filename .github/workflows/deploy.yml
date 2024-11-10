@@ -122,6 +122,7 @@ jobs:
           echo "IMAGE $IMAGE_TAG is pushed to $ECR_REGISTRY/$ECR_REPOSITORY"
           echo "image_tag=$IMAGE_TAG"           
           echo "full_image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          echo "full_image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
 
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
@@ -129,7 +130,7 @@ jobs:
         with:
           task-definition: ${{ env.ECS_TASK_DEFINITION }}
           container-name: "accesoalimentario"
-          image: ${{ steps.build-publish.outputs.full_image }}
+          image: ${{ env.full_image }}
           
       - name: Echo the new ECS task definition
         run: echo "${{ steps.task-def.outputs.task-definition }}"
@@ -139,6 +140,6 @@ jobs:
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: ${{ steps.ecs_cluster.outputs.service_name }}
-          cluster: ${{ steps.ecs_cluster.outputs.cluster_name }}
+          service: "accesoalimentario"
+          cluster: "accesoalimentario"
           wait-for-service-stability: true
