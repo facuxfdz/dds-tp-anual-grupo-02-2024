@@ -61,7 +61,7 @@ jobs:
               -backend-config='skip_credentials_validation=true' \
               -backend-config='region=${{ secrets.AWS_REGION }}' \
               -backend-config='bucket=${{ env.backend_s3_bucket }}' \
-              -backend-config='key=${module}/terraform-${{ env.ECR_REPO_NAME }}.tfstate' \
+              -backend-config='key=$module/terraform-${{ env.ECR_REPO_NAME }}.tfstate' \
               -backend-config='dynamodb_table=${{ env.backend_dynamodb_table }}'
             cd ..
           done            
