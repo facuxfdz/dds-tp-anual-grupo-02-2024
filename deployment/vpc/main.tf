@@ -1,4 +1,14 @@
-﻿module "vpc" {
+﻿terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+  backend "s3" {}
+}
+
+module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
   version = "5.15.0"
   public_subnet_names = [ "${var.vpc_name}-public", "${var.vpc_name}-public", "${var.vpc_name}-public" ]
