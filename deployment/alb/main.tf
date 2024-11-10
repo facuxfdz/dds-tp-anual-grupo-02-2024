@@ -96,11 +96,11 @@ module "alb" {
       port            = 443
       protocol        = "HTTPS"
       certificate_arn = module.acm.acm_certificate_arn
+      forward = {
+        target_group_key = "ex-tg"
+      }
     }
     
-    forward = {
-      target_group_key = "ex-tg"
-    }
   }
   
   target_groups = {
