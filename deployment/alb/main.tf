@@ -98,6 +98,9 @@ module "alb" {
       certificate_arn = module.acm.acm_certificate_arn
     }
     
+    forward = {
+      target_group_key = "ex-tg"
+    }
   }
   
   target_groups = {
