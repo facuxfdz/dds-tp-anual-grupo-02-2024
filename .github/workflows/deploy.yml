@@ -53,7 +53,7 @@ jobs:
           set -eux
           modules=(ecr vpc alb)
           for module in "${modules[@]}"; do
-            terraform init -upgrade -reconfigure \
+            terraform init -upgrade -migrate-state \
               -backend-config='skip_metadata_api_check=true' \
               -backend-config='skip_region_validation=true' \
               -backend-config='skip_credentials_validation=true' \
