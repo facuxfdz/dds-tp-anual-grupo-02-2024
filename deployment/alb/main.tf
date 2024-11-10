@@ -105,6 +105,7 @@ module "alb" {
   
   target_groups = {
     ex-tg = {
+        create_attachment = false
         protocol = "HTTP"
         port     = 8080
         target_type      = "ip"
