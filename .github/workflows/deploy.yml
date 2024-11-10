@@ -55,7 +55,7 @@ jobs:
             -backend-config='bucket=${{ env.backend_s3_bucket }}' \
             -backend-config='key=docker-ecr/terraform-${{ env.ECR_REPO_NAME }}.tfstate' \
             -backend-config='dynamodb_table=${{ env.backend_dynamodb_table }}'            
-        working-directory: ${{ github.action_path }}/deployment/ecr
+        working-directory: "${{ github.action_path }}/deployment/ecr"
         
       - name: Create ECR repo [TF apply]
         shell: bash
@@ -65,7 +65,7 @@ jobs:
             -var 'repository_name=${{ env.ECR_REPO_NAME }}' \
             -var 'lifecycle_policy_file=deployment/ecr_policy.json' \            
             -auto-approve
-        working-directory: ${{ github.action_path }}/deployment/ecr
+        working-directory: "${{ github.action_path }}/deployment/ecr"
       
       - name: Login to Amazon ECR
         id: login-ecr
