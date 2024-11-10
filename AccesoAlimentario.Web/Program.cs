@@ -15,9 +15,16 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 });
 
+// Obtener parámetros de conexión desde variables de entorno
+string dbServer = Environment.GetEnvironmentVariable("DB_SERVER") ?? "localhost";
+string dbName = Environment.GetEnvironmentVariable("DB_NAME") ?? "AccesoAlimentario";
+string dbUser = Environment.GetEnvironmentVariable("DB_USER") ?? "dev";
+string dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "Lpa1234$";
+string connectionString = $"Data Source={dbServer};Initial Catalog={dbName};User ID={dbUser};Password={dbPassword};Connect Timeout=60;Encrypt=False";
+
 builder.Services.AddDbContext<AppDbContext>((sp, options) =>
     options
-        .UseSqlServer("Data Source=192.168.1.51;Initial Catalog=AccesoAlimentario;User ID=dev;Password=Lpa1234$;Connect Timeout=60;Encrypt=False", x =>
+        .UseSqlServer(connectionString, x =>
         {
             x.MigrationsAssembly("AccesoAlimentario.Core");
             x.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);

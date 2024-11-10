@@ -1,0 +1,37 @@
+﻿version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=YourStrongPassword!123
+      - MYSQL_DATABASE=AccesoAlimentario
+      - MYSQL_USER=dev
+      - MYSQL_PASSWORD=YourStrongPassword!123
+    ports:
+      - "3306:3306"
+    networks:
+      - accesodb
+
+  accesoalimentario:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_NAME=AccesoAlimentario
+      - DB_USER=dev
+      - DB_PASSWORD=YourStrongPassword!123
+    ports:
+      - "5000:8080" # Mapea el puerto 80 del contenedor al puerto 5000 en el host
+    depends_on:
+      - mysql
+    networks:
+      - accesodb
+      - default
+
+networks:
+  accesodb:
+    driver: bridge

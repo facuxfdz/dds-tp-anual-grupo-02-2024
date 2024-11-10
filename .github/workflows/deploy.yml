@@ -6,19 +6,84 @@ on: [push]
 permissions:
   id-token: write # This is required for requesting the JWT
   contents: read # This is required for actions/checkout
-  
+
+env:
+  backend_s3_bucket: "acceso-alimentario-infra"
+  backend_dynamodb_table: "acceso-alimentario-terraform-state-lock"
 jobs:
-  VPCList:
+  build_and_deploy:
     runs-on: ubuntu-22.04
+    outputs:
+      image_tag: ${{ steps.build-publish.outputs.image_tag }}
+      full_image: ${{ steps.build-publish.outputs.full_image }}
     steps:
+      
       - name: Clone the repository
         uses: actions/checkout@v4
+
+      
       - name: Configure aws credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-            role-to-assume: arn:aws:iam::034781041905:role/GhActionsRunner
-            role-session-name: ${{ github.actor }}-session
-            aws-region: ${{ secrets.AWS_REGION }}
-      - name: Get VPC List
+          role-to-assume: arn:aws:iam::034781041905:role/GhActionsRunner
+          role-session-name: ${{ github.actor }}-session
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_wrapper: false
+          
+      - name: prepare ECR repo name based on the Github repository
+        shell: bash
         run: |
-          aws ec2 describe-vpcs --query 'Vpcs[*].[VpcId,CidrBlock]' --output table
+          set -eux
+          # lowercase the name
+          repo="${GITHUB_REPOSITORY,,}"
+          # replace / with _
+          echo "ECR_REPO_NAME=${repo//\//_}" >> $GITHUB_ENV
+
+      - name: TF init
+        shell: bash
+        run: |
+          set -eux
+          terraform init -upgrade -reconfigure \
+            -backend-config='skip_metadata_api_check=true' \
+            -backend-config='skip_region_validation=true' \
+            -backend-config='skip_credentials_validation=true' \
+            -backend-config='region=${{ secrets.AWS_REGION }}' \
+            -backend-config='bucket=${{ env.backend_s3_bucket }}' \
+            -backend-config='key=docker-ecr/terraform-${{ env.ECR_REPO_NAME }}.tfstate' \
+            -backend-config='dynamodb_table=${{ env.backend_dynamodb_table }}'            
+        working-directory: ${{ github.action_path }}      
+        
+      - name: Create ECR repo [TF apply]
+        shell: bash
+        run: |
+          set -eux
+          terraform apply \
+            -var 'repository_name=${{ env.ECR_REPO_NAME }}' \
+            -var 'lifecycle_policy=deployment/ecr_policy.json' \
+            -var 'aws_account_id=${{ secrets.AWS_ACCOUNT_ID }}' \
+            -auto-approve
+        working-directory: ${{ github.action_path }}
+      
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          registries: ${{ secrets.AWS_ACCOUNT_ID }}
+          
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-publish
+        shell: bash        
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{ env.ECR_REPO_NAME }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build "." -f "./Dockerfile" -t "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          docker push "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          echo "IMAGE $IMAGE_TAG is pushed to $ECR_REGISTRY/$ECR_REPOSITORY"
+          echo "image_tag=$IMAGE_TAG" 
+          echo "full_image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
