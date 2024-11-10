@@ -52,10 +52,10 @@ jobs:
         run: |
           set -eux
           cd "${module}"
-          terraform destroy -var 'vpc_name=${{ env.vpc_name }}' -auto-approve
+          terraform destroy -auto-approve
           cd ..
           cd '$module'
-          terraform destroy -var 'vpc_name=${{ env.vpc_name }}' -auto-approve
+          terraform destroy -auto-approve
           modules=(ecr vpc alb)
           
           for module in "${modules[@]}"; do
