@@ -22,7 +22,7 @@ data "aws_subnets" "private" {
 module "ecs" {
   source = "terraform-aws-modules/ecs/aws"
   version = "5.11.4"
-
+  
   cluster_name = var.cluster_name
 
   fargate_capacity_providers = {
@@ -71,11 +71,9 @@ module "ecs" {
         }
       }
       }
-    }
+  }
+  tags = {
+    Terraform = "true"
   }
 
-  tags = {
-    Environment = "Development"
-    Project     = "Example"
-  }
 }
