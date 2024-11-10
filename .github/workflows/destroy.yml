@@ -35,7 +35,16 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_wrapper: false
-
+      
+      - name: prepare ECR repo name based on the Github repository
+        shell: bash
+        run: |
+          set -eux
+          # lowercase the name
+          repo="${{ env.repo_name }}"
+          # replace / with _
+          echo "ECR_REPO_NAME=${repo//\//_}" >> $GITHUB_ENV
+          
       - name: TF init
         shell: bash
         run: |
@@ -61,18 +70,15 @@ jobs:
         shell: bash
         run: |
           set -eux
-          ls -la
-          aws sts get-caller-identity
-          terraform plan -var-file="prod.tfvars" -var="region=${{ secrets.AWS_REGION }}"
           terraform destroy -var-file="prod.tfvars" -var='region=${{ secrets.AWS_REGION }}' -auto-approve
         working-directory: "./deployment/rds"
 
-#      - name: Destroy ECS Cluster
-#        shell: bash
-#        run: |
-#          set -eux
-#          terraform destroy -var-file "prod.tfvars" -var "region=${{ secrets.AWS_REGION }}" -auto-approve          
-#        working-directory: "./deployment/ecs"
+      - name: Destroy ECS Cluster
+        shell: bash
+        run: |
+          set -eux
+          terraform destroy -var-file "prod.tfvars" -var "region=${{ secrets.AWS_REGION }}" -auto-approve          
+        working-directory: "./deployment/ecs"
   
 #      - name: Destroy ALB
 #        shell: bash
@@ -80,14 +86,14 @@ jobs:
 #          set -eux
 #          terraform destroy -var="alb_name=${{ env.alb_name }}" -var 'vpc_name=${{ env.vpc_name }}' -var 'public_subnet_name=${{ env.vpc_name }}-public' -var 'domain_zone_id=${{ secrets.ROUTE53_ZONE_ID }}' -var 'domain_record=${{ env.domain_record }}' -auto-approve
 #        working-directory: "./deployment/alb"
-#  
+#
 #      - name: Destroy VPC
 #        shell: bash
 #        run: |
 #          set -eux
 #          terraform destroy -var 'vpc_name=${{ env.vpc_name }}' -auto-approve
 #        working-directory: "./deployment/vpc"
-#  
+#
 #      - name: Destroy ECR
 #        shell: bash
 #        run: |
