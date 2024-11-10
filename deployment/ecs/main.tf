@@ -70,10 +70,26 @@ module "ecs" {
           cidr_blocks = ["0.0.0.0/0"]
         }
       }
+      container_definitions = {
+        ecs-sample = {
+          name      = var.service_name
+          cpu       = 512
+          memory    = 1024
+          essential = true
+          image     = "public.ecr.aws/aws-containers/ecsdemo-frontend:776fd50"
+          port_mappings = [
+            {
+              name          = "ecs-sample"
+              containerPort = 8085
+              hostPort      = 8085
+              protocol      = "tcp"
+            }
+          ]
+        }
       }
+    }
   }
   tags = {
     Terraform = "true"
   }
-
 }
