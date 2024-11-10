@@ -72,21 +72,21 @@ jobs:
         shell: bash
         run: |
           set -eux 
-          terraform destroy -var 'repository_name=${{ env.ECR_REPO_NAME }}' -var 'lifecycle_policy_file=../ecr_policy.json' -auto-approve
+          terraform apply -var 'repository_name=${{ env.ECR_REPO_NAME }}' -var 'lifecycle_policy_file=../ecr_policy.json' -auto-approve
         working-directory: "./deployment/ecr"
         
       - name: Create VPC [TF apply]
         shell: bash
         run: |
           set -eux
-          terraform destroy -var 'vpc_name=${{ env.vpc_name }}' -auto-approve
+          terraform apply -var 'vpc_name=${{ env.vpc_name }}' -auto-approve
         working-directory: "./deployment/vpc"
         
       - name: Create ALB [TF apply]
         shell: bash
         run: |
           set -eux
-          terraform destroy -var 'vpc_name=${{ env.vpc_name }}' -var 'public_subnet_name=${{ env.vpc_name }}-public' -var 'domain_zone_id=${{ secrets.ROUTE53_ZONE_ID }}' -var 'domain_record=${{ env.domain_record }}' -auto-approve
+          terraform apply -var 'vpc_name=${{ env.vpc_name }}' -var 'public_subnet_name=${{ env.vpc_name }}-public' -var 'domain_zone_id=${{ secrets.ROUTE53_ZONE_ID }}' -var 'domain_record=${{ env.domain_record }}' -auto-approve
         working-directory: "./deployment/alb"
       
       - name: Login to Amazon ECR

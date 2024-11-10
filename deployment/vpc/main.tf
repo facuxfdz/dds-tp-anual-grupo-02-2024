@@ -14,7 +14,8 @@ module "vpc" {
   public_subnet_names = [ "${var.vpc_name}-public", "${var.vpc_name}-public", "${var.vpc_name}-public" ]
   private_subnet_names = [ "${var.vpc_name}-private", "${var.vpc_name}-private", "${var.vpc_name}-private" ]
   name = var.vpc_name
-  cidr = "10.0.0.0/16"
+  single_nat_gateway = true
+cidr = "10.0.0.0/16"
 
   azs             = ["sa-east-1a", "sa-east-1b", "sa-east-1c"]
   private_subnets = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
