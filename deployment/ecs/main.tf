@@ -42,7 +42,6 @@ module "ecs" {
     initial_svc = {
       name = var.service_name
       ignore_task_definition_changes = true
-      create_task_definition = false
       cpu    = 512
       memory = 1024
       subnet_ids = data.aws_subnets.private.ids
