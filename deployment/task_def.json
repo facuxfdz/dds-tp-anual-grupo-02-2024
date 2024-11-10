@@ -5,14 +5,14 @@
   "containerDefinitions": [
     {
       "name": "accesoalimentario",
-      "image": "034781041905.dkr.ecr.sa-east-1.amazonaws.com/acceso-alimentario_releases:fa3aa1331a7c60ddbadefa51b3e8f5dcf3bae830",
+      "image": "034781041905.dkr.ecr.sa-east-1.amazonaws.com/acceso-alimentario_releases:abfbee3225cd705656d49b2cfa85aab6a76ce736",
       "essential": true,
       "memory": 512,
       "cpu": 256,
       "portMappings": [
         {
-          "containerPort": 8080,
-          "hostPort": 8080
+          "containerPort": 8085,
+          "hostPort": 8085
         }
       ],
       "environment": [
