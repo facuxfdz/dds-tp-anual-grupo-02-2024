@@ -1,4 +1,4 @@
-﻿terraform {
+terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -9,29 +9,29 @@
 }
 data "aws_subnets" "public" {
   filter {
-    name = "tag:Name"
+    name   = "tag:Name"
     values = [var.public_subnet_name]
   }
 }
 
 data "aws_vpc" "vpc" {
   filter {
-    name = "tag:Name"
+    name   = "tag:Name"
     values = [var.vpc_name]
   }
 }
 
 locals {
   public_subnet_ids = data.aws_subnets.public.ids
-  vpc_id = data.aws_vpc.vpc.id
+  vpc_id            = data.aws_vpc.vpc.id
 }
 
 module "acm" {
   source  = "terraform-aws-modules/acm/aws"
   version = "5.1.1"
 
-  domain_name  = var.domain_record
-  zone_id      = var.domain_zone_id
+  domain_name       = var.domain_record
+  zone_id           = var.domain_zone_id
   validation_method = "DNS"
 
   wait_for_validation = true
@@ -42,7 +42,7 @@ resource "aws_route53_record" "acceso_alimentario" {
   zone_id = var.domain_zone_id
   name    = var.domain_record
   type    = "A"
-  
+
   alias {
     name                   = module.alb.dns_name
     zone_id                = module.alb.zone_id
@@ -51,7 +51,7 @@ resource "aws_route53_record" "acceso_alimentario" {
 }
 
 module "alb" {
-  source = "terraform-aws-modules/alb/aws"
+  source  = "terraform-aws-modules/alb/aws"
   version = "9.12.0"
 
   name    = var.alb_name
@@ -100,25 +100,25 @@ module "alb" {
         target_group_key = "ex-tg"
       }
     }
-    
+
   }
-  
+
   target_groups = {
     ex-tg = {
-        name = var.alb_name
-        create_attachment = false
-        protocol = "HTTP"
-        port     = 8085
-        target_type      = "ip"
-        health_check = {
-          path                = "/"
-          protocol            = "HTTP"
-          matcher             = "200-399"
-          interval            = 30
-          timeout             = 5
-          healthy_threshold   = 2
-          unhealthy_threshold = 2
-        }
+      name              = var.alb_name
+      create_attachment = false
+      protocol          = "HTTP"
+      port              = 8085
+      target_type       = "ip"
+      health_check = {
+        path                = "/"
+        protocol            = "HTTP"
+        matcher             = "200-399"
+        interval            = 30
+        timeout             = 5
+        healthy_threshold   = 2
+        unhealthy_threshold = 2
+      }
     }
   }
 

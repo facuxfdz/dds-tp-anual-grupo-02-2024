@@ -89,7 +89,7 @@ jobs:
         shell: bash
         run: |
           set -eux
-          terraform apply -var="alb_name=${{ env.alb_name }}" -var 'vpc_name=${{ env.vpc_name }}' -var 'public_subnet_name=${{ env.vpc_name }}-public' -var 'domain_zone_id=${{ secrets.ROUTE53_ZONE_ID }}' -var 'domain_record=${{ env.domain_record }}' -auto-approve
+          terraform apply -var="alb_name=${{ env.alb_name }}" -var 'vpc_name=${{ env.vpc_name }}' -var 'domain_zone_id=${{ secrets.ROUTE53_ZONE_ID }}' -var 'domain_record=${{ env.domain_record }}' -auto-approve
         working-directory: "./deployment/alb"
         
       - name: Create ECS Cluster [TF apply]
