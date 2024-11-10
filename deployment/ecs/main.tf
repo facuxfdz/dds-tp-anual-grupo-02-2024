@@ -42,46 +42,34 @@ module "ecs" {
     initial_svc = {
       name = var.service_name
       ignore_task_definition_changes = true
+      create_task_definition = false
       cpu    = 512
       memory = 1024
       subnet_ids = data.aws_subnets.private.ids
-      
-      # Container definition(s)
-      container_definitions = {
-        essential = true
-        image    = "public.ecr.aws/aws-containers/ecsdemo-frontend:776fd50"
-        name     = var.service_name
-        cpu      = 512
-        memory   = 1024
-        port_mappings = {
-          host_port      = 8085
-          container_port = 8085
+      load_balancer = {
+        service = {
+          target_group_arn = data.aws_lb_target_group.alb_tg.arn
+          container_name   = var.service_name
+          container_port   = 8085
         }
-        load_balancer = {
-          service = {
-            target_group_arn = data.aws_lb_target_group.alb_tg.arn
-            container_name   = var.service_name
-            container_port   = 8085
-          }
+      }
+      security_group_rules = {
+        alb_ingress = {
+          type        = "ingress"
+          from_port   = 8085
+          to_port     = 8085
+          protocol    = "tcp"
+          description = "Service port"
+          cidr_blocks = ["0.0.0.0/0"]
         }
-        
-        security_group_rules = {
-          alb_ingress = {
-            type        = "ingress"
-            from_port   = 8085
-            to_port     = 8085
-            protocol    = "tcp"
-            description = "Service port"
-            cidr_blocks = ["0.0.0.0/0"]
-          }
-          egress_all = {
-            type      = "egress"
-            from_port = 0
-            to_port   = 0
-            protocol  = "-1"
-            cidr_blocks = ["0.0.0.0/0"]
-          }
+        egress_all = {
+          type      = "egress"
+          from_port = 0
+          to_port   = 0
+          protocol  = "-1"
+          cidr_blocks = ["0.0.0.0/0"]
         }
+      }
       }
     }
   }
