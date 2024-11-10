@@ -47,12 +47,10 @@ jobs:
           # replace / with _
           echo "ECR_REPO_NAME=${repo//\//_}" >> $GITHUB_ENV
 
-
       - name: TF init
         shell: bash
         run: |
           set -eux
-#          Run terraform init for every module
           modules=(ecr vpc alb)
           for module in "${modules[@]}"; do
             terraform init -upgrade -reconfigure \
