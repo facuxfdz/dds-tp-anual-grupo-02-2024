@@ -10,3 +10,7 @@
     key     = "rds/terraform-acceso-alimentario_releases.tfstate"
   }
 }
+
+provider "aws" {
+  region = var.region
+}
