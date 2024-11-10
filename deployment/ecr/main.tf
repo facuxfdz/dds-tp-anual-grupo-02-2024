@@ -1,4 +1,14 @@
-﻿module "ecr" {
+﻿terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+  backend "s3" {}
+}
+
+module "ecr" {
   source = "terraform-aws-modules/ecr/aws"
   version = "2.3.0"
 
