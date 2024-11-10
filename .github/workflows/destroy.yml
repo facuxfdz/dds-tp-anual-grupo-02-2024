@@ -35,7 +35,28 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_wrapper: false
-  
+
+      - name: TF init
+        shell: bash
+        run: |
+          set -eux
+          modules=(ecr vpc alb ecs)
+          
+          for module in "${modules[@]}"; do
+            echo "module: $module" 
+            cd $module 
+            terraform init -upgrade -migrate-state \
+              -backend-config='skip_metadata_api_check=true' \
+              -backend-config='skip_region_validation=true' \
+              -backend-config='skip_credentials_validation=true' \
+              -backend-config='region=${{ secrets.AWS_REGION }}' \
+              -backend-config='bucket=${{ env.backend_s3_bucket }}' \
+              -backend-config="key=$module/terraform-${{ env.ECR_REPO_NAME }}.tfstate" \
+              -backend-config='dynamodb_table=${{ env.backend_dynamodb_table }}'
+            cd ..
+          done            
+        working-directory: "./deployment"
+
       - name: Destroy ECS Cluster
         shell: bash
         run: |
