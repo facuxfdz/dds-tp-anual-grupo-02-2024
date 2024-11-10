@@ -13,6 +13,7 @@ env:
   repo_name: "acceso-alimentario/releases"
   vpc_name: "acceso-alimentario"
   domain_record: "acceso-alimentario.opsconsultingservices.com"
+  ECS_TASK_DEFINITION: "deployment/task_def.json"
   
 jobs:
   build_and_deploy:
@@ -106,5 +107,16 @@ jobs:
           docker build "." -f "./Dockerfile" -t "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
           docker push "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
           echo "IMAGE $IMAGE_TAG is pushed to $ECR_REGISTRY/$ECR_REPOSITORY"
-          echo "image_tag=$IMAGE_TAG" 
+          echo "image_tag=$IMAGE_TAG"           
           echo "full_image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@1
+        with:
+          task-definition: ${{ env.ECS_TASK_DEFINITION }}
+          container-name: "accesoalimentario"
+          image: ${{ steps.build-image.outputs.full_image }}
+          
+      - name: Echo the new ECS task definition
+        run: echo "${{ steps.task-def.outputs.task-definition }}"
