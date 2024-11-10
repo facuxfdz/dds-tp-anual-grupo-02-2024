@@ -97,6 +97,24 @@ module "alb" {
       protocol        = "HTTPS"
       certificate_arn = module.acm.acm_certificate_arn
     }
+    
+  }
+  
+  target_groups = {
+    ex-tg = {
+        protocol = "HTTP"
+        port     = 8080
+        target_type      = "ip"
+        health_check = {
+          path                = "/health"
+          protocol            = "HTTP"
+          matcher             = "200-399"
+          interval            = 30
+          timeout             = 5
+          healthy_threshold   = 2
+          unhealthy_threshold = 2
+        }
+    }
   }
 
   tags = {
