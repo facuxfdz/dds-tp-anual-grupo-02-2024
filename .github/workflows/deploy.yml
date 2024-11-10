@@ -14,6 +14,7 @@ env:
   vpc_name: "acceso-alimentario"
   domain_record: "acceso-alimentario.opsconsultingservices.com"
   ECS_TASK_DEFINITION: "deployment/task_def.json"
+  alb_name: "acceso-alimentario"
   
 jobs:
   build_and_deploy:
@@ -52,7 +53,7 @@ jobs:
         shell: bash
         run: |
           set -eux
-          modules=(ecr vpc alb)
+          modules=(ecr vpc alb ecs)
           
           for module in "${modules[@]}"; do
             echo "module: $module" 
@@ -87,8 +88,20 @@ jobs:
         shell: bash
         run: |
           set -eux
-          terraform apply -var 'vpc_name=${{ env.vpc_name }}' -var 'public_subnet_name=${{ env.vpc_name }}-public' -var 'domain_zone_id=${{ secrets.ROUTE53_ZONE_ID }}' -var 'domain_record=${{ env.domain_record }}' -auto-approve
+          terraform apply -var="alb_name=${{ env.alb_name }}" -var 'vpc_name=${{ env.vpc_name }}' -var 'public_subnet_name=${{ env.vpc_name }}-public' -var 'domain_zone_id=${{ secrets.ROUTE53_ZONE_ID }}' -var 'domain_record=${{ env.domain_record }}' -auto-approve
         working-directory: "./deployment/alb"
+        
+      - name: Create ECS Cluster [TF apply]
+        id: ecs_cluster
+        shell: bash
+        run: |
+          set -eux
+          service_name="accesoalimentario"
+          cluster_name="accesoalimentario"
+          terraform apply -var 'vpc_name=${{ env.vpc_name }}' -var "cluster_name=accesoalimentario" -var "service_name=$service_name" -var "alb_name=${{ env.alb_name }}" -auto-approve
+          echo "service_name=$service_name"
+          echo "cluster_name=$cluster_name"
+        working-directory: "./deployment/ecs"
       
       - name: Login to Amazon ECR
         id: login-ecr
@@ -116,7 +129,16 @@ jobs:
         with:
           task-definition: ${{ env.ECS_TASK_DEFINITION }}
           container-name: "accesoalimentario"
-          image: ${{ steps.build-image.outputs.full_image }}
+          image: ${{ steps.build-publish.outputs.full_image }}
           
       - name: Echo the new ECS task definition
         run: echo "${{ steps.task-def.outputs.task-definition }}"
+        
+      - name: Deploy Amazon ECS task definition
+        id: deploy
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ steps.ecs_cluster.outputs.service_name }}
+          cluster: ${{ steps.ecs_cluster.outputs.cluster_name }}
+          wait-for-service-stability: true

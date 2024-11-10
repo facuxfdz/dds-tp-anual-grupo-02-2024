@@ -54,7 +54,7 @@ module "alb" {
   source = "terraform-aws-modules/alb/aws"
   version = "9.12.0"
 
-  name    = "acceso-alimentario"
+  name    = var.alb_name
   vpc_id  = local.vpc_id
   subnets = local.public_subnet_ids
 
@@ -105,6 +105,7 @@ module "alb" {
   
   target_groups = {
     ex-tg = {
+        name = var.alb_name
         create_attachment = false
         protocol = "HTTP"
         port     = 8080
