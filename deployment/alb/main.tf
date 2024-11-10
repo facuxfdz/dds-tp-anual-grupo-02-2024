@@ -108,7 +108,7 @@ module "alb" {
         name = var.alb_name
         create_attachment = false
         protocol = "HTTP"
-        port     = 8080
+        port     = 8085
         target_type      = "ip"
         health_check = {
           path                = "/health"
