@@ -52,6 +52,7 @@ jobs:
         run: |
           set -eux
           modules=(ecr vpc alb)
+          
           for module in "${modules[@]}"; do
             echo "module: $module" 
             cd $module 
@@ -61,7 +62,7 @@ jobs:
               -backend-config='skip_credentials_validation=true' \
               -backend-config='region=${{ secrets.AWS_REGION }}' \
               -backend-config='bucket=${{ env.backend_s3_bucket }}' \
-              -backend-config='key=$module/terraform-${{ env.ECR_REPO_NAME }}.tfstate' \
+              -backend-config="key=$module/terraform-${{ env.ECR_REPO_NAME }}.tfstate" \
               -backend-config='dynamodb_table=${{ env.backend_dynamodb_table }}'
             cd ..
           done            
@@ -70,7 +71,7 @@ jobs:
       - name: Create ECR repo [TF apply]
         shell: bash
         run: |
-          set -eux
+          set -eux 
           terraform apply -var 'repository_name=${{ env.ECR_REPO_NAME }}' -var 'lifecycle_policy_file=../ecr_policy.json' -auto-approve
         working-directory: "./deployment/ecr"
         
