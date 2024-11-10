@@ -1,4 +1,8 @@
-﻿variable "db_identifier" {
+﻿variable "vpc_name" {
+    description = "The name of the VPC"
+    type = string
+}
+variable "db_identifier" {
   description = "The identifier for the DB instance"
   type        = string
 }

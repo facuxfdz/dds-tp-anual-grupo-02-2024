@@ -14,6 +14,13 @@ resource "aws_secretsmanager_secret_version" "db_secret_version"{
     secret_string = random_password.master_passwd.result
 }
 
+data "aws_subnets" "private" {
+  filter {
+    name = "tag:Name"
+    values = ["${var.vpc_name}-private"]
+  }
+}
+
 module "db" {
   source  = "terraform-aws-modules/rds/aws"
   version = "6.10.0"
@@ -26,7 +33,7 @@ module "db" {
   family               = "mysql8.0" # DB parameter group
   major_engine_version = "8.0"      # DB option group
   instance_class       = "db.t3.micro"
-
+  subnet_ids = data.aws_subnets.private.ids
   allocated_storage     = 20
   max_allocated_storage = 40
 
