@@ -53,8 +53,8 @@ jobs:
           set -eux
           modules=(ecr vpc alb)
           for module in "${modules[@]}"; do
-            pwd
             echo "module: $module" 
+            cd deployment/$module 
             terraform init -upgrade -migrate-state \
               -backend-config='skip_metadata_api_check=true' \
               -backend-config='skip_region_validation=true' \
