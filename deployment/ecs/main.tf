@@ -44,7 +44,8 @@ module "ecs" {
       ignore_task_definition_changes = true
       cpu    = 512
       memory = 1024
-
+      subnet_ids = data.aws_subnets.private.ids
+      
       # Container definition(s)
       container_definitions = {
 
@@ -55,8 +56,7 @@ module "ecs" {
             container_port   = 8085
           }
         }
-
-        subnet_ids = data.aws_subnets.private.ids
+        
         security_group_rules = {
           alb_ingress = {
             type        = "ingress"
