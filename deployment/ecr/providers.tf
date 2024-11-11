@@ -7,7 +7,7 @@ terraform {
   }
   backend "s3" {
     region = var.region
-    key    = "vpc/terraform-acceso-alimentario_releases.tfstate"
+    key    = "ecr/terraform-acceso-alimentario_releases.tfstate"
   }
 }
 
