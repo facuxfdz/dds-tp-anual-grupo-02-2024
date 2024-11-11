@@ -74,8 +74,8 @@ jobs:
           aws ecr list-images --repository-name "${{ env.ECR_REPO_NAME }}" --query 'imageIds[*]' --output json | \
           jq -c '.[] | {imageDigest: .imageDigest, imageTag: .imageTag}' | \
           xargs -I '{}' aws ecr batch-delete-image --repository-name "${{ env.ECR_REPO_NAME }}" --image-ids '{}'
-  
-  working-directory: "./deployment"
+        working-directory: "./deployment"
+ 
       - name: Destroy Infrastructure [TF Destroy]
         shell: bash
         run: |
