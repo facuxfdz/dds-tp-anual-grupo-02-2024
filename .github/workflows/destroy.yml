@@ -65,7 +65,14 @@ jobs:
             cd ..
           done            
         working-directory: "./deployment"
-
+      
+      - name: Pre-destroy cleanup
+        shell: bash
+        run: |
+          set -eux
+          # Delete all images in the ECR repository
+          aws ecr batch-delete-image --repository-name ${{ env.ECR_REPO_NAME }} --image-ids $(aws ecr list-images --repository-name ${{ env.ECR_REPO_NAME }} --query 'imageIds[*]' --output json)
+        working-directory: "./deployment"
       - name: Destroy Infrastructure [TF Destroy]
         shell: bash
         run: |
