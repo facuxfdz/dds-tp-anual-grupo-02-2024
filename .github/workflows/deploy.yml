@@ -75,21 +75,21 @@ jobs:
         shell: bash
         run: |
           set -eux 
-          terraform apply -var 'repository_name=${{ env.ECR_REPO_NAME }}' -var 'lifecycle_policy_file=../ecr_policy.json' -auto-approve
+          terraform apply -var-file ="prod.tfvars" -auto-approve
         working-directory: "./deployment/ecr"
 
       - name: Create VPC [TF apply]
         shell: bash
         run: |
           set -eux
-          terraform apply -var 'vpc_name=${{ env.vpc_name }}' -auto-approve
+          terraform apply -var-file ="prod.tfvars" -auto-approve
         working-directory: "./deployment/vpc"
 
       - name: Create ALB [TF apply]
         shell: bash
         run: |
           set -eux
-          terraform apply -var="alb_name=${{ env.alb_name }}" -var 'vpc_name=${{ env.vpc_name }}' -var 'domain_zone_id=${{ secrets.ROUTE53_ZONE_ID }}' -var 'domain_record=${{ env.domain_record }}' -auto-approve
+          terraform apply -var-file ="prod.tfvars" -auto-approve
         working-directory: "./deployment/alb"
         
       - name: Create ECS Cluster [TF apply]
@@ -97,7 +97,7 @@ jobs:
         shell: bash
         run: |
           set -eux
-          terraform apply -var-file="prod.tfvars" -var="region=${{ secrets.AWS_REGION }}" -auto-approve
+          terraform apply -var-file ="prod.tfvars" -auto-approve
           echo "task_role_arn=$(terraform output -raw task_role_arn)" >> $GITHUB_OUTPUT
           echo "task_execution_role_arn=$(terraform output -raw task_execution_role_arn)" >> $GITHUB_OUTPUT
         working-directory: "./deployment/ecs"
