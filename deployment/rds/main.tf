@@ -11,7 +11,12 @@ resource "aws_secretsmanager_secret" "db_secret" {
 
 resource "aws_secretsmanager_secret_version" "db_secret_version" {
   secret_id     = aws_secretsmanager_secret.db_secret.id
-  secret_string = random_password.master_passwd.result
+  secret_string = jsonencode({
+    DB_SERVER   = module.db.db_instance_endpoint,
+    DB_NAME     = var.db_name,
+    DB_USERNAME = var.db_username,
+    DB_PASSWORD = random_password.master_passwd.result
+  })
 }
 
 data "aws_subnets" "private" {
