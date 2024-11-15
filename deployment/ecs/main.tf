@@ -39,8 +39,7 @@ module "ecs" {
   create_task_exec_iam_role = true
   create_task_exec_policy   = true
   task_exec_iam_role_policies = {
-    logs = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
-    secrets_manager = aws_iam_policy.secrets_manager.arn
+    logs = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
   }
   task_exec_iam_role_name = "${var.service_name}-task-exec-role"
 
@@ -65,6 +64,9 @@ module "ecs" {
       cpu                            = 512
       memory                         = 1024
       subnet_ids                     = data.aws_subnets.private.ids
+      tasks_iam_role_policies = {
+        secrets_manager = aws_iam_policy.secrets_manager.arn
+      }
       load_balancer = {
         service = {
           target_group_arn = data.aws_lb_target_group.alb_tg.arn
@@ -72,6 +74,7 @@ module "ecs" {
           container_port   = 8085
         }
       }
+      tasks_iam_role_policies = {}
       security_group_rules = {
         alb_ingress = {
           type        = "ingress"
