@@ -22,7 +22,7 @@ resource "aws_iam_policy" "secrets_manager" {
       {
         Effect = "Allow",
         Action = [
-          "secretsmanager:GetSecretValue",
+          "secretsmanager:*",
         ],
         Resource = "*",
       },
