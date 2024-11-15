@@ -10,6 +10,7 @@ data "aws_subnets" "private" {
 
 data "aws_iam_role" "task_role_arn" {
   name = var.service_name
+  depends_on = [module.ecs]
 }
 
 resource "aws_iam_policy" "secrets_manager" {
@@ -38,7 +39,8 @@ module "ecs" {
   create_task_exec_iam_role = true
   create_task_exec_policy   = true
   task_exec_iam_role_policies = {
-    logs = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
+    logs = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
+    secrets_manager = aws_iam_policy.secrets_manager.arn
   }
   task_exec_iam_role_name = "${var.service_name}-task-exec-role"
 
