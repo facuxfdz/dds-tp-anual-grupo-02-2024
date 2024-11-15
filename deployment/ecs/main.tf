@@ -74,7 +74,6 @@ module "ecs" {
           container_port   = 8085
         }
       }
-      tasks_iam_role_policies = {}
       security_group_rules = {
         alb_ingress = {
           type        = "ingress"
