@@ -75,21 +75,21 @@ jobs:
         shell: bash
         run: |
           set -eux 
-          terraform apply -var-file ="prod.tfvars" -auto-approve
+          terraform apply -var-file="prod.tfvars" -auto-approve
         working-directory: "./deployment/ecr"
 
       - name: Create VPC [TF apply]
         shell: bash
         run: |
           set -eux
-          terraform apply -var-file ="prod.tfvars" -auto-approve
+          terraform apply -var-file="prod.tfvars" -auto-approve
         working-directory: "./deployment/vpc"
 
       - name: Create ALB [TF apply]
         shell: bash
         run: |
           set -eux
-          terraform apply -var-file ="prod.tfvars" -auto-approve
+          terraform apply -var-file="prod.tfvars" -auto-approve
         working-directory: "./deployment/alb"
         
       - name: Create ECS Cluster [TF apply]
@@ -97,7 +97,7 @@ jobs:
         shell: bash
         run: |
           set -eux
-          terraform apply -var-file ="prod.tfvars" -auto-approve
+          terraform apply -var-file="prod.tfvars" -auto-approve
           echo "task_role_arn=$(terraform output -raw task_role_arn)" >> $GITHUB_OUTPUT
           echo "task_execution_role_arn=$(terraform output -raw task_execution_role_arn)" >> $GITHUB_OUTPUT
         working-directory: "./deployment/ecs"
