@@ -1,7 +1,7 @@
 ﻿{
   "family": "acceso-alimentario-task",
-  "executionRoleArn": "arn:aws:iam::034781041905:role/accesoalimentario-task-exec-role-20241110131511387400000001",
-  "taskRoleArn": "arn:aws:iam::034781041905:role/accesoalimentario-task-role-20241110131511391800000003",
+  "executionRoleArn": "TASK_EXECUTION_ROLE_ARN",
+  "taskRoleArn": "TASK_ROLE_ARN",
   "containerDefinitions": [
     {
       "name": "accesoalimentario",
@@ -28,26 +28,6 @@
         {
           "name": "ASPNETCORE_ENVIRONMENT",
           "value": "Production"
-        },
-        {
-          "name": "DB_HOST",
-          "value": "acceso-alimentario.cdi8y4a4ye2e.sa-east-1.rds.amazonaws.com"
-        },
-        {
-          "name": "DB_PORT",
-          "value": "3306"
-        },
-        {
-          "name": "DB_NAME",
-          "value": "AccesoAlimentario"
-        },
-        {
-          "name": "DB_USER",
-          "value": "admin"
-        },
-        {
-          "name": "DB_PASSWORD",
-          "value": "yGHwTfrG]:ya_{oW"
         }
       ]
     }

@@ -97,11 +97,9 @@ jobs:
         shell: bash
         run: |
           set -eux
-          service_name="accesoalimentario"
-          cluster_name="accesoalimentario"
           terraform apply -var-file="prod.tfvars" -var="region=${{ secrets.AWS_REGION }}" -auto-approve
-          echo "service_name=$service_name"
-          echo "cluster_name=$cluster_name"
+          echo "task_role_arn=$(terraform output -raw task_role_arn)" >> $GITHUB_OUTPUT
+          echo "task_execution_role_arn=$(terraform output -raw task_execution_role_arn)" >> $GITHUB_OUTPUT
         working-directory: "./deployment/ecs"
         
       - name: Create RDS [TF apply]
@@ -139,7 +137,17 @@ jobs:
           task-definition: ${{ env.ECS_TASK_DEFINITION }}
           container-name: "accesoalimentario"
           image: ${{ env.full_image }}
-          
+      
+      - name: Update Task def to use the deployed TASK role and ECS task execution role
+        run: |
+          set -eux
+          if [ -z "${{ steps.ecs_cluster.outputs.task_role_arn }}" ] || [ -z "${{ steps.ecs_cluster.outputs.task_execution_role_arn }}" ]; then
+            echo "ERROR: Required ECS role ARNs are missing!"
+            exit 1
+          fi
+          sed -i "s#TASK_ROLE_ARN#${{ steps.ecs_cluster.outputs.task_role_arn }}#" "${{ steps.task-def.outputs.task-definition }}"
+          sed -i "s#TASK_EXECUTION_ROLE_ARN#${{ steps.ecs_cluster.outputs.task_execution_role_arn }}#" "${{ steps.task-def.outputs.task-definition }}"
+
       - name: Echo the new ECS task definition
         run: cat "${{ steps.task-def.outputs.task-definition }}"
         

@@ -8,6 +8,27 @@ data "aws_subnets" "private" {
   }
 }
 
+data "aws_iam_role" "task_role_arn" {
+  name = var.service_name
+}
+
+resource "aws_iam_policy" "secrets_manager" {
+  name        = "secrets_manager_policy"
+  description = "Policy to allow ECS task to access secrets manager"
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "secretsmanager:GetSecretValue",
+        ],
+        Resource = "*",
+      },
+    ],
+  })
+}
+
 module "ecs" {
   source  = "terraform-aws-modules/ecs/aws"
   version = "5.11.4"
@@ -37,7 +58,7 @@ module "ecs" {
   services = {
     initial_svc = {
       name                           = var.service_name
-      tasks_iam_role_name            = "${var.service_name}-task-role"
+      tasks_iam_role_use_name_prefix = false
       ignore_task_definition_changes = true
       cpu                            = 512
       memory                         = 1024

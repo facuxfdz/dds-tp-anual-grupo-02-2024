@@ -5,7 +5,7 @@ resource "random_password" "master_passwd" {
 }
 
 resource "aws_secretsmanager_secret" "db_secret" {
-  name        = var.db_identifier
+  name        = "acceso_alimentario/db_connection_data"
   description = "Master password for RDS instance"
 }
 

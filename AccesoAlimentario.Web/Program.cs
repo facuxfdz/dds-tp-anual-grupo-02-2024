@@ -3,6 +3,7 @@ using AccesoAlimentario.Core.DAL;
 using AccesoAlimentario.Operations;
 using AccesoAlimentario.Web.Swagger;
 using Microsoft.EntityFrameworkCore;
+using AccesoAlimentario.Web.SecretRetrieve;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,12 +16,35 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 });
 
-// Obtener parámetros de conexión desde variables de entorno
-string dbServer = Environment.GetEnvironmentVariable("DB_SERVER") ?? "localhost";
-string dbName = Environment.GetEnvironmentVariable("DB_NAME") ?? "AccesoAlimentario";
-string dbUser = Environment.GetEnvironmentVariable("DB_USER") ?? "dev";
-string dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "Lpa1234$";
-string connectionString = $"Data Source={dbServer};Initial Catalog={dbName};User ID={dbUser};Password={dbPassword};Connect Timeout=60;Encrypt=False";
+string connectionString;
+// Obtener parametros de conexion de AWS Secrets Manager (AWS) si se encuentra en ambiente de producción
+if (builder.Environment.IsProduction())
+{
+    var awsSecretsManager = new SecretRetrieve();
+    var dbConnectionData = awsSecretsManager.GetSecretAs<DbConnectionData>("acceso_alimentario/db_connection_data");
+
+    if (dbConnectionData != null)
+    {
+        connectionString = $"Data Source={dbConnectionData.DB_SERVER};" +
+                           $"Initial Catalog={dbConnectionData.DB_NAME};" +
+                           $"User ID={dbConnectionData.DB_USER};" +
+                           $"Password={dbConnectionData.DB_PASSWORD};" +
+                           $"Connect Timeout=60;Encrypt=False";
+    }
+    else
+    {
+        throw new Exception("No se pudo obtener los datos de conexión desde Secrets Manager.");
+    }
+}
+else
+{
+    string dbServer = Environment.GetEnvironmentVariable("DB_SERVER") ?? "localhost";
+    string dbName = Environment.GetEnvironmentVariable("DB_NAME") ?? "AccesoAlimentario";
+    string dbUser = Environment.GetEnvironmentVariable("DB_USER") ?? "dev";
+    string dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "Lpa1234$";
+    connectionString = $"Data Source={dbServer};Initial Catalog={dbName};User ID={dbUser};Password={dbPassword};Connect Timeout=60;Encrypt=False";
+}
+
 
 builder.Services.AddDbContext<AppDbContext>((sp, options) =>
     options
