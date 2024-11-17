@@ -27,3 +27,19 @@ variable "region" {
   description = "The region"
   type        = string
 }
+
+# Cognito
+variable "user_pool_arn" {
+  description = "The ARN of the Cognito user pool"
+  type        = string
+}
+
+variable "user_pool_client_id" {
+  description = "The client ID of the Cognito user pool"
+  type        = string
+}
+
+variable "user_pool_domain" {
+  description = "The domain of the Cognito user pool"
+  type        = string
+}

@@ -9,7 +9,7 @@ data "aws_subnets" "private" {
 }
 
 data "aws_iam_role" "task_role_arn" {
-  name = var.service_name
+  name       = var.service_name
   depends_on = [module.ecs]
 }
 
