@@ -1,2 +1,2 @@
 vpc_name = "acceso-alimentario"
-region   = "sa-east-1"
+region   = "us-east-1"
