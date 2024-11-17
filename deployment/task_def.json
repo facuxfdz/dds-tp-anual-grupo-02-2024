@@ -20,7 +20,7 @@
         "options": {
             "awslogs-create-group": "true",
             "awslogs-group": "/aws/ecs/acceso-alimentario",
-            "awslogs-region": "sa-east-1",
+            "awslogs-region": "us-east-1",
             "awslogs-stream-prefix": "acceso-alimentario"
         }
       },
