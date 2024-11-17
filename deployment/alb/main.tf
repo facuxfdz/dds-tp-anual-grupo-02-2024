@@ -112,6 +112,12 @@ module "alb" {
               user_pool_domain           = var.user_pool_domain
             }
           ]
+          
+          conditions = [{
+            path_pattern = {
+              values = ["/", "/*"]
+            }
+          }]
         }
       }
     }
