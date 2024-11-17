@@ -83,45 +83,14 @@ module "alb" {
         status_code = "HTTP_301"
       }
     }
-    # ex-https = {
-    #   port            = 443
-    #   protocol        = "HTTPS"
-    #   certificate_arn = module.acm.acm_certificate_arn
-    #   forward = {
-    #     target_group_key = "ex-tg"
-    #   }
-    # }
-    ex-cognito = {
+    ex-https = {
       port            = 443
       protocol        = "HTTPS"
       certificate_arn = module.acm.acm_certificate_arn
       forward = {
         target_group_key = "ex-tg"
       }
-      rules = {
-        cognito = {
-          priority = 1
-          actions = [
-            {
-              type                       = "authenticate-cognito"
-              on_unauthenticated_request = "authenticate"
-              session_cookie_name        = "AWSELBAuthSessionCookie"
-              session_timeout            = 3600
-              user_pool_arn              = var.user_pool_arn
-              user_pool_client_id        = var.user_pool_client_id
-              user_pool_domain           = var.user_pool_domain
-            }
-          ]
-          
-          conditions = [{
-            path_pattern = {
-              values = ["/", "/*"]
-            }
-          }]
-        }
-      }
     }
-
   }
 
   target_groups = {
