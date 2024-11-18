@@ -8,7 +8,7 @@ namespace AccesoAlimentario.Core.Infraestructura.RecomendacionUbicacionHeladeras
 
 public class ConsultoraExternaApi
 {
-    private const string Url = "https://d75bfa97eb02d0219b7537f2d6a286b7.m.pipedream.net/";
+    private const string Url = "https://f8286f90193a04f0926530d01c4def4d.m.pipedream.net/";
 
     public async Task<List<PuntoEstrategico>> GetRecomendacion(float latitud, float longitud, float radio)
     {
