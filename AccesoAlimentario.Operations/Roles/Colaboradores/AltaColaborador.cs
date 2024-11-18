@@ -15,6 +15,7 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace AccesoAlimentario.Operations.Roles.Colaboradores;
 
@@ -58,19 +59,22 @@ public static class AltaColaborador
     }
     
     // Handler
-    public class Handler : IRequestHandler<AltaColaboradorCommand, IResult>
+    public class AltaColaboradorHandler : IRequestHandler<AltaColaboradorCommand, IResult>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly ILogger _logger;
         
-        public Handler(IUnitOfWork unitOfWork, IMapper mapper)
+        public AltaColaboradorHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<AltaColaboradorHandler> logger)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _logger = logger;
         }
         
         public async Task<IResult> Handle(AltaColaboradorCommand request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation("Alta de colaborador");
             var validator = new AltaColaboradorValidator();
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
             if (!validationResult.IsValid)
