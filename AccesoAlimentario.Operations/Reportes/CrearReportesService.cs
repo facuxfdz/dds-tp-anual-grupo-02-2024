@@ -17,15 +17,32 @@ namespace AccesoAlimentario.Operations.Reportes
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            // Calcula el tiempo inicial de espera para el próximo lunes a las 00:00
+            // Get current time
             var now = DateTime.Now;
-            var nextMonday = now.AddDays((int)DayOfWeek.Monday - (int)now.DayOfWeek + (now.DayOfWeek == DayOfWeek.Monday && now.TimeOfDay < TimeSpan.FromHours(24) ? 0 : 7));
-            var timeUntilNextRun = nextMonday.Date.AddHours(0) - now;
 
-            // Configura el timer para que se ejecute cada semana (7 días)
+            // Calculate next Monday
+            var daysUntilNextMonday = (7 - (int)now.DayOfWeek) + 1;
+            Console.WriteLine($"Days until next Monday: {daysUntilNextMonday}");
+            var nextMonday = now.Date.AddDays(daysUntilNextMonday).AddHours(0); // Midnight on Monday
+
+            // Calculate delay
+            var timeUntilNextRun = nextMonday - now;
+
+            // Validate the delay
+            if (timeUntilNextRun < TimeSpan.Zero)
+            {
+                // Log additional details for debugging
+                Console.WriteLine($"Now: {now}");
+                Console.WriteLine($"Next Monday: {nextMonday}");
+                throw new InvalidOperationException("Calculated delay is negative. Check the logic.");
+            }
+
+            // Set up the timer to execute weekly
             _timer = new Timer(RunTask, null, timeUntilNextRun, TimeSpan.FromDays(7));
             return Task.CompletedTask;
         }
+
+
 
         private async void RunTask(object state)
         {

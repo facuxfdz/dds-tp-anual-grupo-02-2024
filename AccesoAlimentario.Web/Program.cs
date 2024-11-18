@@ -4,6 +4,8 @@ using AccesoAlimentario.Operations;
 using AccesoAlimentario.Web.Swagger;
 using Microsoft.EntityFrameworkCore;
 using AccesoAlimentario.Web.SecretRetrieve;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -58,6 +60,39 @@ builder.Services.AddDbContext<AppDbContext>((sp, options) =>
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+var authenticationBuilder = builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+});
+
+authenticationBuilder
+    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+    {
+        // configuring cookie options
+        options.Cookie.Name = "google-auth";
+        options.Cookie.SameSite = SameSiteMode.None;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+        options.Cookie.IsEssential = true;
+        // Redirect to login page if user is not authenticated
+        options.LoginPath = "/";
+        // Redirect to access denied page if user is not authorized
+        options.AccessDeniedPath = "/Error";
+    })
+    .AddGoogle(GoogleDefaults.AuthenticationScheme,options =>
+    {
+        if (builder.Environment.IsDevelopment())
+        {
+            options.ClientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID");
+            options.ClientSecret = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET");
+        }
+        else
+        {
+            var awsSecretsManager = new SecretRetrieve();
+            options.ClientId = awsSecretsManager.GetSecret("acceso_alimentario/google_client_id");
+            options.ClientSecret = awsSecretsManager.GetSecret("acceso_alimentario/google_client_secret");
+        }
+    });
+
 // Allow CORS
 const string corsDevelop = "_CORSDevelop";
 builder.Services.AddCors(options =>
@@ -93,6 +128,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

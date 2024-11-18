@@ -17,6 +17,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    image: accesoalimentario:latest
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - DB_HOST=mysql
@@ -24,13 +25,16 @@ services:
       - DB_NAME=AccesoAlimentario
       - DB_USER=dev
       - DB_PASSWORD=YourStrongPassword!123
+      - GOOGLE_CLIENT_ID=478798027963-88ordqooemog7dh7dekdvs6krb00bkp4.apps.googleusercontent.com
+      - GOOGLE_CLIENT_SECRET=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
     ports:
-      - "5000:8080" # Mapea el puerto 80 del contenedor al puerto 5000 en el host
+      - "5000:8085" # Mapea el puerto 8080 del contenedor al puerto 5000 del host
     depends_on:
       - mysql
     networks:
       - accesodb
       - default
+
 
 networks:
   accesodb:
