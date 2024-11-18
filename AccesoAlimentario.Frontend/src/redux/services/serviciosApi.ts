@@ -1,17 +1,29 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {config} from "@config/config";
+import {
+    IRecomendacionUbicacionHeladeraResponse
+} from "@models/responses/servicios/iRecomendacionUbicacionHeladeraResponse";
 
 export const serviciosApi = createApi({
     reducerPath: "ServiciosApi",
     baseQuery: fetchBaseQuery({baseUrl: config.apiUrl}),
     tagTypes: ["Servicio"],
     endpoints: (builder) => ({
-        getServicio: builder.query<
-            void,
-            { servicioId: string }
+        getRecomendacionesUbicacionHeladera: builder.query<
+            IRecomendacionUbicacionHeladeraResponse[],
+            {
+                latitud: number,
+                longitud: number,
+                radio: number
+            }
         >({
-            query: ({servicioId}) => ({
-                url: `servicios/${servicioId}`,
+            query: ({latitud, longitud, radio}) => ({
+                url: `servicios/ObtenerRecomendacionUbicacionHeladera`,
+                params: {
+                    latitud,
+                    longitud,
+                    radio
+                }
             }),
             providesTags: ["Servicio"]
         })
@@ -19,5 +31,6 @@ export const serviciosApi = createApi({
 });
 
 export const {
-    useGetServicioQuery
+    useLazyGetRecomendacionesUbicacionHeladeraQuery,
+    useGetRecomendacionesUbicacionHeladeraQuery
 } = serviciosApi;

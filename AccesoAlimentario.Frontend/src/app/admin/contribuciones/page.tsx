@@ -1,8 +1,9 @@
 "use client";
 import {
+    Backdrop,
     Box,
     Button,
-    CardActions,
+    CardActions, Divider, Fade, MenuItem, Modal, Select,
     Stack,
     Table,
     TableBody,
@@ -17,6 +18,13 @@ import MainCard from "@components/Cards/MainCard";
 import Typography from "@mui/material/Typography";
 import CardContent from "@mui/material/CardContent";
 import {useTheme} from "@mui/material/styles";
+import {FormContainer, useForm} from "react-hook-form-mui";
+import {FormFieldValue} from "@components/Forms/Form";
+import {DonacionMonetariaForm} from "@/app/admin/contribuciones/DonacionMonetariaForm";
+import {DonacionViandasForm} from "@/app/admin/contribuciones/DonacionViandasForm";
+import {OfertaPremioForm} from "@/app/admin/contribuciones/OfertaPremioForm";
+import {AdministracionHeladera} from "@/app/admin/contribuciones/AdministracionHeladera";
+import {DistribucionViandas} from "@/app/admin/contribuciones/DistribucionViandas";
 
 function createData(name: string, calories: number, fat: number, carbs: number, protein: number) {
     return {name, calories, fat, carbs, protein};
@@ -32,6 +40,12 @@ const rows = [
 
 export default function ContribucionesPage() {
     const theme = useTheme();
+    const [showModal, setShowModal] = React.useState(false);
+    const [tipoContribucion, setTipoContribucion] = React.useState<"DonacionMonetaria" | "DonacionVianda" | "OfertaPremio" | "AdministracionHeladera" | "DistribucionViandas">("DonacionMonetaria");
+    const formContext = useForm();
+    const handleSave = async (data: FormFieldValue) => {
+        console.log(data);
+    };
 
     return (
         <MainCard content={false} sx={{overflow: 'visible'}}>
@@ -56,7 +70,7 @@ export default function ContribucionesPage() {
                     </Box>
                 </Stack>
                 <Stack direction="row" spacing={1} sx={{px: 1.5, py: 0.75}}>
-                    <Button color="primary" variant="contained" type={"submit"} disabled={false}>
+                    <Button color="primary" variant="contained" onClick={() => setShowModal(true)}>
                         Crear
                     </Button>
                 </Stack>
@@ -98,6 +112,64 @@ export default function ContribucionesPage() {
                         </TableBody>
                     </Table>
                 </TableContainer>
+                <Modal
+                    open={showModal}
+                    onClose={() => setShowModal(false)}
+                    closeAfterTransition
+                    slots={{
+                        backdrop: Backdrop
+                    }}
+                    slotProps={{
+                        backdrop: {
+                            timeout: 500
+                        }
+                    }}
+                >
+                    <Fade in={showModal}>
+                        <MainCard modal darkTitle content={false} title={"Crear contribución"} sx={{width: "80%"}}>
+                            <FormContainer
+                                formContext={formContext}
+                                onSuccess={handleSave}
+                            >
+                                <CardContent>
+                                    <Select variant="outlined" value={tipoContribucion}
+                                            onChange={(e) => {
+                                                setTipoContribucion(e.target.value as "DonacionMonetaria" | "DonacionVianda" | "OfertaPremio" | "AdministracionHeladera" | "DistribucionViandas");
+                                                formContext.reset();
+                                            }} fullWidth sx={{mb: 2}}>
+                                        <MenuItem value="DonacionMonetaria">Donación Monetaria</MenuItem>
+                                        <MenuItem value="DonacionVianda">Donación de Viandas</MenuItem>
+                                        <MenuItem value="OfertaPremio">Oferta de Premio</MenuItem>
+                                        <MenuItem value="AdministracionHeladera">Administración de Heladera</MenuItem>
+                                        <MenuItem value="DistribucionViandas">Distribución de Viandas</MenuItem>
+                                    </Select>
+                                    {
+                                        tipoContribucion === "DonacionMonetaria" ? (
+                                            <DonacionMonetariaForm/>
+                                        ) : tipoContribucion === "DonacionVianda" ? (
+                                            <DonacionViandasForm/>
+                                        ) : tipoContribucion === "OfertaPremio" ? (
+                                            <OfertaPremioForm/>
+                                        ) : tipoContribucion === "AdministracionHeladera" ? (
+                                            <AdministracionHeladera/>
+                                        ) : tipoContribucion === "DistribucionViandas" ? (
+                                            <DistribucionViandas/>
+                                        ) : <></>
+                                    }
+                                </CardContent>
+                                <Divider/>
+                                <Stack direction="row" spacing={1} justifyContent="flex-end" sx={{px: 2.5, py: 2}}>
+                                    <Button color="error" size="small" onClick={() => setShowModal(false)}>
+                                        Cancelar
+                                    </Button>
+                                    <Button variant="contained" size="small">
+                                        Enviar
+                                    </Button>
+                                </Stack>
+                            </FormContainer>
+                        </MainCard>
+                    </Fade>
+                </Modal>
             </CardContent>
         </MainCard>
     );
