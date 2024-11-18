@@ -10,41 +10,90 @@ namespace AccesoAlimentario.Web.Controllers;
 [Route("api/[controller]")]
 [Tags("Heladeras")]
 [ApiController]
-public class HeladerasController(ISender sender) : ControllerBase
+public class HeladerasController(ISender sender, ILogger<HeladerasController> logger) : ControllerBase
 {
     [HttpDelete]
     public async Task<IResult> Delete([FromBody] BajaHeladera.BajaHeladeraCommand command)
     {
-        return await sender.Send(command);
+        try
+        {
+            return await sender.Send(command);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Error al dar de baja una heladera");
+            return Results.StatusCode(500);
+        }
     }
-    
+
     [HttpGet("{id}")]
     public async Task<IResult> Get(Guid id)
     {
-        return await sender.Send(new ConsultarEstadoHeladera.ConsultarEstadoHeladeraCommand { Id = id });
+        try
+        {
+            return await sender.Send(new ConsultarEstadoHeladera.ConsultarEstadoHeladeraCommand { Id = id });
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Error al consultar el estado de una heladera");
+            return Results.StatusCode(500);
+        }
     }
-    
+
     [HttpPut]
     public async Task<IResult> Put([FromBody] ModificacionHeladera.ModificacionHeladeraCommand command)
     {
-        return await sender.Send(command);
+        try
+        {
+            return await sender.Send(command);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Error al modificar una heladera");
+            return Results.StatusCode(500);
+        }
     }
-    
+
     [HttpPost]
     public async Task<IResult> Post([FromBody] RegistrarAperturaHeladera.RegistrarAperturaHeladeraCommand command)
     {
-        return await sender.Send(command);
+        try
+        {
+            return await sender.Send(command);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Error al registrar la apertura de una heladera");
+            return Results.StatusCode(500);
+        }
     }
-    
+
     [HttpPost("RetirarVianda")]
     public async Task<IResult> RetirarVianda([FromBody] RetirarVianda.RetirarViandaCommand command)
     {
-        return await sender.Send(command);
+        try
+        {
+            return await sender.Send(command);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Error al retirar una vianda");
+            return Results.StatusCode(500);
+        }
     }
-    
+
     [HttpPost("SolicitarAutorizacionAperturaDeHeladera")]
-    public async Task<IResult> SolicitarAutorizacionAperturaDeHeladera([FromBody] SolicitarAutorizacionAperturaDeHeladera.SolicitarAutorizacionAperturaDeHeladeraCommand command)
+    public async Task<IResult> SolicitarAutorizacionAperturaDeHeladera(
+        [FromBody] SolicitarAutorizacionAperturaDeHeladera.SolicitarAutorizacionAperturaDeHeladeraCommand command)
     {
-        return await sender.Send(command);
+        try
+        {
+            return await sender.Send(command);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Error al solicitar autorización para la apertura de una heladera");
+            return Results.StatusCode(500);
+        }
     }
 }

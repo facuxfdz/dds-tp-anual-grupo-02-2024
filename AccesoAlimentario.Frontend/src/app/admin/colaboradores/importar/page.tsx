@@ -7,6 +7,8 @@ import React from "react";
 import {styled, useTheme} from "@mui/material/styles";
 import {useDropzone} from "react-dropzone";
 import Grid from "@mui/material/Grid2";
+import {usePostImportarColaboradoresCsvMutation} from "@redux/services/colaboradoresApi";
+import {useNotification} from "@components/Notifications/NotificationContext";
 
 const DropzoneWrapper = styled('div')(({theme}) => ({
     outline: 'none',
@@ -39,9 +41,25 @@ export default function ColaboradoresImportarPage() {
             reader.readAsDataURL(file);
         }
     });
+    const [postImportarColaboradoresCsv, {
+        isLoading: isImporting,
+        isError,
+    }] = usePostImportarColaboradoresCsvMutation();
+    const {addNotification} = useNotification();
 
-    const handleSave = () => {
-        console.log(file);
+    const handleSave = async () => {
+        if (file) {
+            await postImportarColaboradoresCsv({
+                archivo: file.split(",")[1]
+            }).unwrap()
+            if (isError) {
+                addNotification("Ocurrió un error al importar los colaboradores", "error");
+            } else {
+                addNotification("Colaboradores importados correctamente", "success");
+            }
+        } else {
+            addNotification("Debe seleccionar un archivo", "error");
+        }
     }
 
     return (
@@ -76,16 +94,24 @@ export default function ColaboradoresImportarPage() {
                                     spacing={2}
                                     alignItems="center"
                                     justifyContent="center"
-                                    direction={{xs: 'column', md: 'row'}}
-                                    sx={{width: 1, textAlign: {xs: 'center', md: 'left'}}}
+                                    direction={'column'}
+                                    sx={{width: 1}}
                                 >
-                                    <Icon sx={{width: "auto"}} className="fa-duotone fa-solid fa-file-csv"
-                                          fontSize={"large"}/>
-                                    <Stack sx={{p: 3}} spacing={1}>
-                                        <Typography variant="h5">Archivo seleccionado</Typography>
-                                        <Typography color="secondary">
-                                            {fileName}
-                                        </Typography>
+                                    <Stack
+                                        spacing={2}
+                                        alignItems="center"
+                                        justifyContent="center"
+                                        direction={{xs: 'column', md: 'row'}}
+                                        sx={{width: 1, textAlign: {xs: 'center', md: 'left'}}}
+                                    >
+                                        <Icon sx={{width: "auto"}} className="fa-duotone fa-solid fa-file-csv"
+                                              fontSize={"large"}/>
+                                        <Stack sx={{p: 2}} spacing={1}>
+                                            <Typography variant="h5">Archivo seleccionado</Typography>
+                                            <Typography color="secondary">
+                                                {fileName}
+                                            </Typography>
+                                        </Stack>
                                     </Stack>
                                     <Button
                                         variant="contained"
@@ -95,7 +121,12 @@ export default function ColaboradoresImportarPage() {
                                             setFileName("");
                                         }}
                                         endIcon={<i className="fa-sharp-duotone fa-solid fa-trash"></i>}
-                                        color="error">
+                                        color="error"
+                                        disabled={isImporting}
+                                        sx={{
+                                            mt: 2,
+                                        }}
+                                    >
                                         Cambiar archivo
                                     </Button>
                                 </Stack>
@@ -146,7 +177,8 @@ export default function ColaboradoresImportarPage() {
             }}>
                 <Stack direction="row" spacing={1} justifyContent="center"
                        sx={{width: 1, px: 1.5, py: 0.75}}>
-                    <Button color="primary" variant="contained" type={"submit"} disabled={false} onClick={handleSave}>
+                    <Button color="primary" variant="contained" type={"submit"} disabled={!file || isImporting}
+                            onClick={handleSave}>
                         Importar
                     </Button>
                 </Stack>

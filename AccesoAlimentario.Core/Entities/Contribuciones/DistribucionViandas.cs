@@ -4,8 +4,8 @@ namespace AccesoAlimentario.Core.Entities.Contribuciones;
 
 public class DistribucionViandas : FormaContribucion
 {
-    public virtual Heladera HeladeraOrigen { get; set; } = null!;
-    public virtual Heladera HeladeraDestino { get; set; } = null!;
+    public virtual Heladera? HeladeraOrigen { get; set; } = null!;
+    public virtual Heladera? HeladeraDestino { get; set; } = null!;
     public int CantViandas { get; set; } = 0;
     public MotivoDistribucion MotivoDistribucion { get; set; } = MotivoDistribucion.Desperfecto;
 

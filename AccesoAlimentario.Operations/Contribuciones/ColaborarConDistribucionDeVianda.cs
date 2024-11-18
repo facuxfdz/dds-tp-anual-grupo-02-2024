@@ -1,5 +1,6 @@
 ﻿using AccesoAlimentario.Core.DAL;
 using AccesoAlimentario.Core.Entities.Contribuciones;
+using AccesoAlimentario.Core.Settings;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -51,6 +52,8 @@ public static class ColaborarConDistribucionDeVianda
 
             var viandas = heladeraOrigen.RetirarViandas(request.CantidadDeViandas);
             viandas.ForEach(vianda => heladeraDestino.IngresarVianda(vianda));
+            var appSettings = AppSettings.Instance;
+            colaborador.AgregarPuntos(appSettings.ViandasDistribuidasCoef * request.CantidadDeViandas);
             
             await _unitOfWork.SaveChangesAsync();
 

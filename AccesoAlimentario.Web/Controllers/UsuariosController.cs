@@ -10,11 +10,19 @@ namespace AccesoAlimentario.Web.Controllers;
 [Route("api/[controller]")]
 [Tags("Usuarios")]
 [ApiController]
-public class UsuariosController(ISender sender) : ControllerBase
+public class UsuariosController(ISender sender, ILogger<UsuariosController> logger) : ControllerBase
 {
     [HttpPost]
     public async Task<IResult> Post([FromBody] CrearUsuario.CrearUsuarioCommand command)
     {
-        return await sender.Send(command);
+        try
+        {
+            return await sender.Send(command);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Error al crear un usuario");
+            return Results.StatusCode(500);
+        }
     }
 }

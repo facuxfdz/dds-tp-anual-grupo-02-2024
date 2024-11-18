@@ -4,7 +4,7 @@ namespace AccesoAlimentario.Core.Entities.Contribuciones;
 
 public class RegistroPersonaVulnerable : FormaContribucion
 {
-    public virtual Tarjeta Tarjeta { get; set; } = null!;
+    public virtual Tarjeta? Tarjeta { get; set; } = null!;
     
     public RegistroPersonaVulnerable()
     {
