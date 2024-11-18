@@ -7,6 +7,7 @@ using AccesoAlimentario.Web.SecretRetrieve;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Serilog;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
