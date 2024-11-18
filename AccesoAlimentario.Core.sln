@@ -6,8 +6,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccesoAlimentario.Console",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccesoAlimentario.Testing", "AccesoAlimentario.Testing\AccesoAlimentario.Testing.csproj", "{E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccesoAlimentario.API", "AccesoAlimentario.API\AccesoAlimentario.API.csproj", "{AA94688B-3F78-4ABD-96BD-FAFD3A89B4B2}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccesoAlimentario.Web", "AccesoAlimentario.Web\AccesoAlimentario.Web.csproj", "{F082E374-AF63-4999-8AE7-F79881135150}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccesoAlimentario.Operations", "AccesoAlimentario.Operations\AccesoAlimentario.Operations.csproj", "{92F56147-5E44-428E-8E24-5070B9F70407}"
@@ -30,10 +28,6 @@ Global
 		{E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AA94688B-3F78-4ABD-96BD-FAFD3A89B4B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AA94688B-3F78-4ABD-96BD-FAFD3A89B4B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AA94688B-3F78-4ABD-96BD-FAFD3A89B4B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AA94688B-3F78-4ABD-96BD-FAFD3A89B4B2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F082E374-AF63-4999-8AE7-F79881135150}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F082E374-AF63-4999-8AE7-F79881135150}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F082E374-AF63-4999-8AE7-F79881135150}.Release|Any CPU.ActiveCfg = Release|Any CPU

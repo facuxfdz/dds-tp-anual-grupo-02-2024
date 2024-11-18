@@ -4,7 +4,7 @@ namespace AccesoAlimentario.Core.Entities.Contribuciones;
 
 public class AdministracionHeladera : FormaContribucion
 {
-    public Heladera Heladera { get; set; } = null!;
+    public virtual Heladera Heladera { get; set; } = null!;
 
     public AdministracionHeladera()
     {

@@ -4,7 +4,7 @@ namespace AccesoAlimentario.Core.Entities.Sensores;
 
 public class SensorTemperatura : Sensor, ISubjectHeladeraTemperatura
 {
-    public List<RegistroTemperatura> RegistrosTemperatura { get; set; } = [];
+    public virtual List<RegistroTemperatura> RegistrosTemperatura { get; set; } = [];
     private List<IObserverSensorTemperatura> Observadores { get; set; } = [];
 
     public SensorTemperatura()

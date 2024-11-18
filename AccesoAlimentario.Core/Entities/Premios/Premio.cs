@@ -9,7 +9,7 @@ public class Premio
     public string Nombre { get; set; } = null!;
     public float PuntosNecesarios { get; set; } = 0;
     public string Imagen { get; set; } = null!;
-    public Colaborador? ReclamadoPor { get; set; } = null!;
+    public virtual Colaborador? ReclamadoPor { get; set; } = null!;
     public DateTime FechaReclamo { get; set; } = DateTime.Now;
     public TipoRubro Rubro { get; set; } = TipoRubro.Otros;
 

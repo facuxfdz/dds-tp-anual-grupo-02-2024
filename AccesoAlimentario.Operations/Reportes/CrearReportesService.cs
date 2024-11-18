@@ -21,7 +21,10 @@ namespace AccesoAlimentario.Operations.Reportes
             var now = DateTime.Now;
             var nextMonday = now.AddDays((int)DayOfWeek.Monday - (int)now.DayOfWeek + (now.DayOfWeek == DayOfWeek.Monday && now.TimeOfDay < TimeSpan.FromHours(24) ? 0 : 7));
             var timeUntilNextRun = nextMonday.Date.AddHours(0) - now;
-
+            if (timeUntilNextRun < TimeSpan.Zero)
+            {
+                timeUntilNextRun = TimeSpan.Zero;
+            }
             // Configura el timer para que se ejecute cada semana (7 días)
             _timer = new Timer(RunTask, null, timeUntilNextRun, TimeSpan.FromDays(7));
             return Task.CompletedTask;
@@ -33,10 +36,20 @@ namespace AccesoAlimentario.Operations.Reportes
             var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
             
             var today = DateTime.Today;
-            var currentDay = today.DayOfWeek;
-            var daysSinceLastSunday = (int)currentDay + 1;
-            var endOfLastWeek = today.AddDays(-daysSinceLastSunday);
-            var startOfLastWeek = endOfLastWeek.AddDays(-6);
+            var currentDayOfWeek = (int)today.DayOfWeek;
+            var startOfWeek = today.AddDays(-currentDayOfWeek);
+            var endOfWeek = startOfWeek.AddDays(6).AddHours(23).AddMinutes(59).AddSeconds(59);
+            
+            var lastReports = await unitOfWork.ReporteRepository.GetCollectionAsync(
+                unitOfWork.ReporteRepository.GetQueryable()
+            );
+            
+            var lastReport = lastReports.OrderByDescending(r => r.FechaCreacion).FirstOrDefault();
+            
+            if (lastReport != null && lastReport.FechaCreacion.Date >= startOfWeek.Date)
+            {
+                return;
+            }
 
             List<IReporteBuilder> conceptos =
             [
@@ -47,7 +60,7 @@ namespace AccesoAlimentario.Operations.Reportes
 
             foreach (var concepto in conceptos)
             {
-                var reporte = await concepto.Generar(startOfLastWeek, endOfLastWeek);
+                var reporte = await concepto.Generar(startOfWeek, endOfWeek);
                 await unitOfWork.ReporteRepository.AddAsync(reporte);
             }
             

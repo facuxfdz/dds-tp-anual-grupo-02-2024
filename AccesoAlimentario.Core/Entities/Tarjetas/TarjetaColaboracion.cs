@@ -6,7 +6,7 @@ namespace AccesoAlimentario.Core.Entities.Tarjetas;
 
 public class TarjetaColaboracion : Tarjeta
 {
-    public List<AutorizacionManipulacionHeladera> Autorizaciones { get; set; } = [];
+    public virtual List<AutorizacionManipulacionHeladera> Autorizaciones { get; set; } = [];
 
     public TarjetaColaboracion()
     {

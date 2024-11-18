@@ -8,10 +8,10 @@ public abstract class Suscripcion : IObserverHeladera
 {
     public Guid Id { get; set; } = Guid.NewGuid();
 
-    public List<Notificacion> Historial { get; set; } = [];
-    public Heladera Heladera { get; set; } = null!;
+    public virtual List<Notificacion> Historial { get; set; } = [];
+    public virtual Heladera Heladera { get; set; } = null!;
     
-    public Colaborador Colaborador { get; set; } = null!;
+    public virtual Colaborador Colaborador { get; set; } = null!;
 
     public Suscripcion()
     {

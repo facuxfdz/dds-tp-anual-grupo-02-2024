@@ -9,8 +9,8 @@ public class AutorizacionManipulacionHeladera
 
     public DateTime FechaCreacion { get; set; } = DateTime.Now;
     public DateTime FechaExpiracion { get; set; } = DateTime.Now;
-    public Heladera Heladera { get; set; } = null!;
-    public TarjetaColaboracion TarjetaAutorizada { get; set; } = null!;
+    public virtual Heladera Heladera { get; set; } = null!;
+    public virtual TarjetaColaboracion TarjetaAutorizada { get; set; } = null!;
 
     public AutorizacionManipulacionHeladera()
     {

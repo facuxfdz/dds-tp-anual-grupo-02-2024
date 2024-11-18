@@ -4,7 +4,7 @@ namespace AccesoAlimentario.Core.Entities.Sensores;
 
 public class SensorMovimiento : Sensor, ISubjectHeladeraMovimiento
 {
-    public List<RegistroMovimiento> RegistrosMovimiento { get; set; } = [];
+    public virtual List<RegistroMovimiento> RegistrosMovimiento { get; set; } = [];
     private List<IObserverSensorMovimiento> Observadores { get; set; } = [];
     
     public SensorMovimiento()

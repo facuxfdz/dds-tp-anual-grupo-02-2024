@@ -6,7 +6,7 @@ public abstract class MedioContacto
 {
     public Guid Id { get; set; } = Guid.NewGuid();
 
-    public List<Notificacion> Historial { get; set; } = [];
+    public virtual List<Notificacion> Historial { get; set; } = [];
     public bool Preferida { get; set; } = false;
 
     public MedioContacto()
