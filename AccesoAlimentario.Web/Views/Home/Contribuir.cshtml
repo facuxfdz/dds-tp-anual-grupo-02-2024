@@ -348,3 +348,75 @@
     }
     
 </script>
+
+<script>
+    async function enviarFormulario(){
+        const tipoContribucion = document.getElementById("tipoContribucion").value;
+        let data = { FechaContribucion: new Date().toISOString() };
+
+        switch (tipoContribucion) {
+            case "DonacionMonetaria":
+                data.Monto = document.getElementById("montoDonacionMonetaria").value;
+                data.Frecuencia = document.getElementById("frencuenciaDonacionDiasMonetaria").value;
+                await enviarDatos('/api/Contribuciones/DonacionMonetaria', data);
+                break;
+
+            case "DonacionVianda":
+                data.Comida = document.getElementById("comidaVianda").value;
+                data.Calorias = document.getElementById("caloriasVianda").value;
+                data.Peso = document.getElementById("pesoVianda").value;
+                data.FechaCaducidad = document.getElementById("fechaCaducidadVianda").value;
+                data.HeladeraId = document.getElementById("heladeraVianda").value;
+                await enviarDatos('/api/Contribuciones/DonacionVianda', data);
+                break;
+
+            case "OfertaPremio":
+                data.Nombre = document.getElementById("nombrePremio").value;
+                data.Descripcion = document.getElementById("descripcionPremio").value;
+                data.Puntos = document.getElementById("puntosPremio").value;
+                await enviarDatos('/api/Contribuciones/OfertaPremio', data);
+                break;
+
+            case "AdministracionHeladera":
+                data.Nombre = document.getElementById("nombreHeladera").value;
+                data.Latitud = document.getElementById("latitudHeladera").value;
+                data.Longitud = document.getElementById("longitudHeladera").value;
+                await enviarDatos('/api/Contribuciones/DonacionHeladera', data);
+                break;
+
+            case "DistribucionViandas":
+                data.Motivo = document.getElementById("motivoDistribucion").value;
+                data.HeladeraOrigenId = document.getElementById("heladeraOrigenDistribucion").value;
+                data.HeladeraDestinoId = document.getElementById("heladeraDestinoDistribucion").value;
+                data.CantidadDeViandas = document.getElementById("cantidadViandasDistribucion").value;
+                await enviarDatos('/api/Contribuciones/DistribucionVianda', data);
+                break;
+
+            default:
+                alert("Selecciona un tipo de contribución.");
+                return;
+        }
+    }
+
+    async function enviarDatos(url, data) {
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                alert("Contribución enviada exitosamente.");
+            } else {
+                const error = await response.json();
+                alert(`Error: ${error.message}`);
+            }
+        } catch (error) {
+            console.error("Error al enviar los datos:", error);
+            alert("Ocurrió un error al enviar la contribución.");
+        }
+    }
+</script>

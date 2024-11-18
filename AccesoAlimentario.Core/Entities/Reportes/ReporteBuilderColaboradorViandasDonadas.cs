@@ -35,7 +35,7 @@ public class ReporteBuilderColaboradorViandasDonadas : IReporteBuilder
         }
 
         reporte.FechaCreacion = DateTime.Now;
-        reporte.FechaExpiracion = DateTime.Now.AddDays(7);
+        reporte.FechaExpiracion = fechaFin;
         reporte.Cuerpo = JsonSerializer.Serialize(reporteColaboradores);
         reporte.Tipo = TipoReporte.CANTIDAD_VIANDAS_POR_COLABORADOR;
 

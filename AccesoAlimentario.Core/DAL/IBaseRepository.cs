@@ -4,8 +4,8 @@ public interface IBaseRepository<TEntity> where TEntity : class
 {
     IQueryable<TEntity> GetQueryable();
     
-    Task<TEntity> GetByIdAsync(Guid id);
-    Task<TEntity> GetAsync(IQueryable<TEntity> query, bool track = true);
+    Task<TEntity?> GetByIdAsync(Guid id);
+    Task<TEntity?> GetAsync(IQueryable<TEntity> query, bool track = true);
     Task<IEnumerable<TEntity>> GetCollectionAsync(IQueryable<TEntity> query, bool track = true);
     
     Task<int> CountAsync(IQueryable<TEntity> query);

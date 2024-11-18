@@ -33,7 +33,7 @@ public class ReporteBuilderHeladeraFallas : IReporteBuilder
         }
         
         reporte.FechaCreacion = DateTime.Now;
-        reporte.FechaExpiracion = DateTime.Now.AddDays(7);
+        reporte.FechaExpiracion = fechaFin;
         reporte.Cuerpo = JsonSerializer.Serialize(reporteHeladeras);
         reporte.Tipo = TipoReporte.CANTIDAD_FALLAS_POR_HELADERA;
         

@@ -10,47 +10,109 @@ namespace AccesoAlimentario.Web.Controllers;
 [Route("api/[controller]")]
 [Tags("Contribuciones")]
 [ApiController]
-public class ContribucionesController(ISender sender) : ControllerBase
+public class ContribucionesController(ISender sender, ILogger<ContribucionesController> logger) : ControllerBase
 {
     [HttpPost("DistribucionVianda")]
-    public async Task<IResult> DistribucionVianda([FromBody] ColaborarConDistribucionDeVianda.ColaborarConDistribucionDeViandaCommand command)
+    public async Task<IResult> DistribucionVianda(
+        [FromBody] ColaborarConDistribucionDeVianda.ColaborarConDistribucionDeViandaCommand command)
     {
-        return await sender.Send(command);
+        try
+        {
+            return await sender.Send(command);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Error al colaborar con la distribución de viandas");
+            return Results.StatusCode(500);
+        }
     }
-    
+
     [HttpPost("DonacionHeladera")]
-    public async Task<IResult> DonacionHeladera([FromBody] ColaborarConDonacionDeHeladera.ColaborarConDonacionDeHeladeraCommand command)
+    public async Task<IResult> DonacionHeladera(
+        [FromBody] ColaborarConDonacionDeHeladera.ColaborarConDonacionDeHeladeraCommand command)
     {
-        return await sender.Send(command);
+        try
+        {
+            return await sender.Send(command);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Error al colaborar con la donación de heladeras");
+            return Results.StatusCode(500);
+        }
     }
-    
+
     [HttpPost("DonacionVianda")]
-    public async Task<IResult> DonacionVianda([FromBody] ColaborarConDonacionDeVianda.ColaborarConDonacionDeViandaCommand command)
+    public async Task<IResult> DonacionVianda(
+        [FromBody] ColaborarConDonacionDeVianda.ColaborarConDonacionDeViandaCommand command)
     {
-        return await sender.Send(command);
+        try
+        {
+            return await sender.Send(command);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Error al colaborar con la donación de viandas");
+            return Results.StatusCode(500);
+        }
     }
-    
+
     [HttpPost("DonacionMonetaria")]
-    public async Task<IResult> DonacionMonetaria([FromBody] ColaborarConDonacionMonetaria.ColaborarConDonacionMonetariaCommand command)
+    public async Task<IResult> DonacionMonetaria(
+        [FromBody] ColaborarConDonacionMonetaria.ColaborarConDonacionMonetariaCommand command)
     {
-        return await sender.Send(command);
+        try
+        {
+            return await sender.Send(command);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Error al colaborar con la donación monetaria");
+            return Results.StatusCode(500);
+        }
     }
-    
+
     [HttpPost("OfertaPremio")]
-    public async Task<IResult> OfertaPremio([FromBody] ColaborarConOfertaDePremio.ColaborarConOfertaDePremioCommand command)
+    public async Task<IResult> OfertaPremio(
+        [FromBody] ColaborarConOfertaDePremio.ColaborarConOfertaDePremioCommand command)
     {
-        return await sender.Send(command);
+        try
+        {
+            return await sender.Send(command);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Error al colaborar con la oferta de premios");
+            return Results.StatusCode(500);
+        }
     }
-    
+
     [HttpPost("RegistroPersonaVulnerable")]
-    public async Task<IResult> RegistroPersonaVulnerable([FromBody] ColaborarConRegistroPersonaVulnerable.ColaborarConRegistroPersonaVulnerableCommand command)
+    public async Task<IResult> RegistroPersonaVulnerable(
+        [FromBody] ColaborarConRegistroPersonaVulnerable.ColaborarConRegistroPersonaVulnerableCommand command)
     {
-        return await sender.Send(command);
+        try
+        {
+            return await sender.Send(command);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Error al colaborar con el registro de personas vulnerables");
+            return Results.StatusCode(500);
+        }
     }
-    
+
     [HttpPost("CanjeDePremio")]
     public async Task<IResult> CanjeDePremio([FromBody] RegistrarCanjeDePremio.RegistrarCanjeDePremioCommand command)
     {
-        return await sender.Send(command);
+        try
+        {
+            return await sender.Send(command);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Error al registrar el canje de premios");
+            return Results.StatusCode(500);
+        }
     }
 }

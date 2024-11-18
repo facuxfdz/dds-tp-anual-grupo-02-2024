@@ -11,17 +11,33 @@ namespace AccesoAlimentario.Web.Controllers;
 [Route("api/[controller]")]
 [Tags("Sensores")]
 [ApiController]
-public class SensoresController(ISender sender) : ControllerBase
+public class SensoresController(ISender sender, ILogger<SensoresController> logger) : ControllerBase
 {
     [HttpPost("movimiento")]
     public async Task<IResult> Post([FromBody] AltaRegistroMovimiento.AltaRegistroMovimientoCommand command)
     {
-        return await sender.Send(command);
+        try
+        {
+            return await sender.Send(command);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Error al dar de alta un registro de movimiento");
+            return Results.StatusCode(500);
+        }
     }
 
     [HttpPost("temperatura")]
     public async Task<IResult> Post([FromBody] AltaRegistroTemperatura.AltaRegistroTemperaturaCommand command)
     {
-        return await sender.Send(command);
+        try
+        {
+            return await sender.Send(command);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Error al dar de alta un registro de temperatura");
+            return Results.StatusCode(500);
+        }
     }
 }

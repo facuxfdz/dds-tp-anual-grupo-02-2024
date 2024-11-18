@@ -7,11 +7,11 @@ namespace AccesoAlimentario.Core.Entities.Roles;
 
 public class Colaborador : Rol
 {
-    public List<TipoContribucion> ContribucionesPreferidas { get; set; } = [];
-    public List<FormaContribucion> ContribucionesRealizadas { get; set; } = [];
-    public List<Suscripcion> Suscripciones { get; set; } = [];
+    public virtual List<TipoContribucion> ContribucionesPreferidas { get; set; } = [];
+    public virtual List<FormaContribucion> ContribucionesRealizadas { get; set; } = [];
+    public virtual List<Suscripcion> Suscripciones { get; set; } = [];
     public float Puntos { get; set; } = 0;
-    public TarjetaColaboracion? TarjetaColaboracion = null;
+    public virtual TarjetaColaboracion? TarjetaColaboracion { get; set; } = null;
 
     public Colaborador()
     {

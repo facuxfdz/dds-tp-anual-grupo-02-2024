@@ -5,7 +5,7 @@ namespace AccesoAlimentario.Core.Entities.Roles;
 
 public class Tecnico : Rol
 {
-    public AreaCobertura AreaCobertura { get; set; } = null!;
+    public virtual AreaCobertura AreaCobertura { get; set; } = null!;
     
     public Tecnico()
     {

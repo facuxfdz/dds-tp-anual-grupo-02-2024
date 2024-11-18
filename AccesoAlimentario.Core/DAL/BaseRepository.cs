@@ -13,24 +13,18 @@ public class BaseRepository<TEntity>(AppDbContext context) : IBaseRepository<TEn
         return _dbSet;
     }
     
-    public async Task<TEntity> GetByIdAsync(Guid id)
+    public async Task<TEntity?> GetByIdAsync(Guid id)
     {
         var result = await _dbSet.FindAsync(id);
-
-        if (result == null)
-            throw new ArgumentException();
         
         return result;
     }
 
-    public async Task<TEntity> GetAsync(IQueryable<TEntity> query, bool track = true)
+    public async Task<TEntity?> GetAsync(IQueryable<TEntity> query, bool track = true)
     {
         var result = track
             ? await query.FirstOrDefaultAsync()
             : await query.AsNoTracking().FirstOrDefaultAsync();
-        
-        if (result == null)
-            throw new ArgumentException();
         
         return result;
     }
@@ -40,9 +34,6 @@ public class BaseRepository<TEntity>(AppDbContext context) : IBaseRepository<TEn
         var result = track
             ? await query.ToListAsync()
             : await query.AsNoTracking().ToListAsync();
-        
-        if (result == null)
-            throw new ArgumentException();
         
         return result;
     }

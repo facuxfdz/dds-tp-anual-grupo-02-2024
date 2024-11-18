@@ -1,4 +1,5 @@
-﻿using AccesoAlimentario.Core.DAL;
+﻿using System.Text.Json;
+using AccesoAlimentario.Core.DAL;
 
 namespace AccesoAlimentario.Core.Entities.Reportes;
 
@@ -25,6 +26,10 @@ public class ReporteBuilderHeladeraCambioViandas : IReporteBuilder
         
         // TODO: Implementar lógica para generar el reporte
         
+        reporte.FechaCreacion = DateTime.Now;
+        reporte.FechaExpiracion = fechaFin;
+        reporte.Cuerpo = JsonSerializer.Serialize(new List<string>());
+        reporte.Tipo = TipoReporte.CANTIDAD_VIANDAS_RET_COL_POR_HELADERA;
         
         return reporte;
     }

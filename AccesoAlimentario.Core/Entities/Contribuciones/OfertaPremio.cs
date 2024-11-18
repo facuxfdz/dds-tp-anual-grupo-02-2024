@@ -4,7 +4,7 @@ namespace AccesoAlimentario.Core.Entities.Contribuciones;
 
 public class OfertaPremio : FormaContribucion
 {
-    public Premio Premio { get; set; } = null!;
+    public virtual Premio Premio { get; set; } = null!;
 
     public OfertaPremio()
     {

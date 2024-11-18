@@ -9,12 +9,12 @@ public class Vianda
     public string Comida { get; set; } = null!;
     public DateTime FechaDonacion { get; set; } = DateTime.Now;
     public DateTime FechaCaducidad { get; set; } = DateTime.Now;
-    public Colaborador Colaborador { get; set; } = null!;
-    public Heladera Heladera { get; set; } = null!;
+    public virtual Colaborador Colaborador { get; set; } = null!;
+    public virtual Heladera Heladera { get; set; } = null!;
     public float Calorias { get; set; } = 0;
     public float Peso { get; set; } = 0;
     public EstadoVianda Estado { get; set; } = EstadoVianda.Disponible;
-    public ViandaEstandar UnidadEstandar { get; set; } = null!;
+    public virtual ViandaEstandar UnidadEstandar { get; set; } = null!;
 
     public Vianda()
     {

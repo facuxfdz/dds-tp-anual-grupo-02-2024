@@ -4,8 +4,8 @@ namespace AccesoAlimentario.Core.Entities.Contribuciones;
 
 public class DonacionVianda : FormaContribucion
 {
-    public Heladera Heladera { get; set; } = null!;
-    public Vianda Vianda { get; set; } = null!;
+    public virtual Heladera? Heladera { get; set; } = null!;
+    public virtual Vianda? Vianda { get; set; } = null!;
 
     public DonacionVianda()
     {

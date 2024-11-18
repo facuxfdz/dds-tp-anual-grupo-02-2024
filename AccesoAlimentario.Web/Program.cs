@@ -6,8 +6,16 @@ using Microsoft.EntityFrameworkCore;
 using AccesoAlimentario.Web.SecretRetrieve;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Logging.ClearProviders();
+builder.Services.AddSerilog((services, loggerConfiguration) => loggerConfiguration
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .Enrich.WithThreadId()
+);
 
 // Add Swagger
 builder.Services.AddSwaggerService();
@@ -27,11 +35,10 @@ if (builder.Environment.IsProduction())
 
     if (dbConnectionData != null)
     {
-        connectionString = $"Data Source={dbConnectionData.DB_SERVER};" +
-                           $"Initial Catalog={dbConnectionData.DB_NAME};" +
-                           $"User ID={dbConnectionData.DB_USER};" +
-                           $"Password={dbConnectionData.DB_PASSWORD};" +
-                           $"Connect Timeout=60;Encrypt=False";
+        connectionString = $"server={dbConnectionData.DB_SERVER};" +
+                           $"database={dbConnectionData.DB_NAME};" +
+                           $"user={dbConnectionData.DB_USER};" +
+                           $"password={dbConnectionData.DB_PASSWORD};";
     }
     else
     {
@@ -40,21 +47,29 @@ if (builder.Environment.IsProduction())
 }
 else
 {
-    string dbServer = Environment.GetEnvironmentVariable("DB_SERVER") ?? "localhost";
-    string dbName = Environment.GetEnvironmentVariable("DB_NAME") ?? "AccesoAlimentario";
-    string dbUser = Environment.GetEnvironmentVariable("DB_USER") ?? "dev";
-    string dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "Lpa1234$";
-    connectionString = $"Data Source={dbServer};Initial Catalog={dbName};User ID={dbUser};Password={dbPassword};Connect Timeout=60;Encrypt=False";
+    connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "";
+    if (string.IsNullOrEmpty(connectionString))
+    {
+        var dbServer = Environment.GetEnvironmentVariable("DB_SERVER") ?? "192.168.1.41";
+        var dbName = Environment.GetEnvironmentVariable("DB_NAME") ?? "AccesoAlimentario";
+        var dbUser = Environment.GetEnvironmentVariable("DB_USER") ?? "root";
+        var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "YourStrongPassword!123";
+        connectionString = $"server={dbServer};" +
+                           $"database={dbName};" +
+                           $"user={dbUser};" +
+                           $"password={dbPassword};";
+    }
 }
 
 
 builder.Services.AddDbContext<AppDbContext>((sp, options) =>
     options
-        .UseSqlServer(connectionString, x =>
+        .UseMySQL(connectionString, x =>
         {
             x.MigrationsAssembly("AccesoAlimentario.Core");
             x.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
         })
+        .UseLazyLoadingProxies()
 );
 
 // Add services to the container.

@@ -11,12 +11,12 @@ public abstract class Persona
     public Guid Id { get; set; } = Guid.NewGuid();
 
     public string Nombre { get; set; } = string.Empty;
-    public Direccion? Direccion { get; set; } = null;
-    public DocumentoIdentidad? DocumentoIdentidad { get; set; } = null;
+    public virtual Direccion? Direccion { get; set; } = null;
+    public virtual DocumentoIdentidad? DocumentoIdentidad { get; set; } = null;
 
-    public List<MedioContacto> MediosDeContacto { get; set; } = [];
+    public virtual List<MedioContacto> MediosDeContacto { get; set; } = [];
 
-    public List<Rol> Roles { get; set; } = [];
+    public virtual List<Rol> Roles { get; set; } = [];
     public DateTime FechaAlta { get; set; } = DateTime.Now;
 
     public Persona()

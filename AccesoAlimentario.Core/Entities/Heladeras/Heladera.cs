@@ -8,16 +8,16 @@ public class Heladera : IObserverSensorMovimiento, IObserverSensorTemperatura, I
 {
     public Guid Id { get; set; } = Guid.NewGuid();
 
-    public PuntoEstrategico PuntoEstrategico { get; set; } = null!;
-    public List<Vianda> Viandas { get; set; } = [];
+    public virtual PuntoEstrategico PuntoEstrategico { get; set; } = null!;
+    public virtual List<Vianda> Viandas { get; set; } = [];
     public EstadoHeladera Estado { get; set; } = EstadoHeladera.FueraServicio;
     public DateTime FechaInstalacion { get; set; } = DateTime.Now;
     public float TemperaturaActual { get; set; } = 0;
     public float TemperaturaMinimaConfig { get; set; } = 0;
     public float TemperaturaMaximaConfig { get; set; } = 0;
-    public List<Sensor> Sensores { get; set; } = [];
-    public List<Incidente> Incidentes { get; set; } = [];
-    public ModeloHeladera Modelo { get; set; } = null!;
+    public virtual List<Sensor> Sensores { get; set; } = [];
+    public virtual List<Incidente> Incidentes { get; set; } = [];
+    public virtual ModeloHeladera Modelo { get; set; } = null!;
     
     private List<IObserverHeladera> Observers { get; set; } = [];
 

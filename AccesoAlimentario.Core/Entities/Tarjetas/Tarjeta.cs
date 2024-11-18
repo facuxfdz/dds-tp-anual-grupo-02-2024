@@ -8,8 +8,8 @@ public abstract class Tarjeta
     public Guid Id { get; set; } = Guid.NewGuid();
 
     public string Codigo { get; set; } = string.Empty;
-    public Rol Propietario { get; set; } = null!;
-    public List<AccesoHeladera> Accesos { get; set; } = [];
+    public virtual Rol Propietario { get; set; } = null!;
+    public virtual List<AccesoHeladera> Accesos { get; set; } = [];
 
     public Tarjeta()
     {

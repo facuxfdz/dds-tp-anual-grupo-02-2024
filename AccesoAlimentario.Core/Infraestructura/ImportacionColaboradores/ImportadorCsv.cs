@@ -4,6 +4,7 @@ using AccesoAlimentario.Core.Entities.DocumentosIdentidad;
 using AccesoAlimentario.Core.Entities.MediosContacto;
 using AccesoAlimentario.Core.Entities.Personas;
 using AccesoAlimentario.Core.Entities.Roles;
+using AccesoAlimentario.Core.Settings;
 using AccesoAlimentario.Core.Validadores.ImportacionMasiva;
 using CsvHelper;
 
@@ -33,8 +34,6 @@ public class ImportadorCsv : FormaImportacion
             {
                 x.ContribucionesRealizadas.ForEach(col.AgregarContribucion);
             }
-            /*col.AgregarPuntos(c.Sum(x => x.ObtenerPuntos()));*/
-            // TODO COMO CONECTAR CON EL SERVICIO DE CALCULO DE PUNTOS
             colaboradores.Add(col);
         }
 
@@ -66,6 +65,7 @@ public class ImportadorCsv : FormaImportacion
         personaHumana.AgregarRol(colaborador);
         var tipoContribucion = (TipoContribucion)Enum.Parse(typeof(TipoContribucion), datos.FormaColaboracion);
         var contribuciones = new List<FormaContribucion>();
+        var appSettings = AppSettings.Instance;
 
         var date = DateTime.ParseExact(datos.FechaColaboracion, "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
@@ -76,6 +76,7 @@ public class ImportadorCsv : FormaImportacion
                 contribuciones.Add(new DonacionMonetaria(
                     date,
                     datos.Cantidad, 0));
+                colaborador.AgregarPuntos(appSettings.PesoDonadosCoef * datos.Cantidad);
                 break;
             }
             case TipoContribucion.DONACION_VIANDAS:
@@ -83,6 +84,7 @@ public class ImportadorCsv : FormaImportacion
                 for (var i = 0; i < datos.Cantidad; i++)
                 {
                     contribuciones.Add(new DonacionVianda(date, null, null));
+                    colaborador.AgregarPuntos(appSettings.ViandasDonadasCoef * 1);
                 }
 
                 break;
@@ -91,6 +93,7 @@ public class ImportadorCsv : FormaImportacion
             {
                 contribuciones.Add(new DistribucionViandas(date, null, null,
                     datos.Cantidad, MotivoDistribucion.Desperfecto));
+                colaborador.AgregarPuntos(appSettings.ViandasDistribuidasCoef * datos.Cantidad);
                 break;
             }
             case TipoContribucion.ENTREGA_TARJETAS:
@@ -98,6 +101,7 @@ public class ImportadorCsv : FormaImportacion
                 for (var i = 0; i < datos.Cantidad; i++)
                 {
                     contribuciones.Add(new RegistroPersonaVulnerable(date, null));
+                    colaborador.AgregarPuntos(appSettings.TarjetasRepartidasCoef * 1);
                 }
 
                 break;
