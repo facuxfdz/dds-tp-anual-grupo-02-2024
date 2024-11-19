@@ -1,7 +1,5 @@
 "use client";
-import React from 'react';
-
-// material-ui
+import React, { useState, useEffect } from "react";
 import {
     Button,
     Grid2 as Grid,
@@ -9,21 +7,65 @@ import {
     InputLabel,
     OutlinedInput,
     Stack,
-} from '@mui/material';
+} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import Next from "next/link";
-import {inicioRoute} from "@routes/router";
-
+import { useRouter } from "next/navigation";
 
 // ============================|| JWT - LOGIN ||============================ //
 
 const AuthLogin = () => {
-    const [password, setPassword] = React.useState('');
-    const [username, setUsername] = React.useState('');
-    const [showPassword, setShowPassword] = React.useState(false);
+    const [password, setPassword] = useState("");
+    const [username, setUsername] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [error, setError] = useState(null);
+
+    const router = useRouter();
 
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
+    };
+
+    useEffect(() => {
+        if (isSubmitting) {
+            const authenticateUser = async () => {
+                try {
+                    const response = await fetch("http://localhost:5000/api/auth/login", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({ username, password }),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error("Error en la autenticación. Por favor, verifica tus credenciales.");
+                    }
+
+                    const data = await response.json();
+
+                    // Guardar token en almacenamiento local o cookies si es necesario
+                    if (data.token) {
+                        localStorage.setItem("authToken", data.token);
+                        router.push("/admin/inicio"); // Redirige a la ruta deseada
+                    } else {
+                        throw new Error("Autenticación fallida. Token no recibido.");
+                    }
+                } catch (err : any) {
+                    setError(err.message);
+                } finally {
+                    setIsSubmitting(false);
+                }
+            };
+
+            authenticateUser();
+        }
+    }, [isSubmitting, username, password, router]);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setError(null); // Resetear errores previos
+        setIsSubmitting(true);
     };
 
     return (
@@ -48,7 +90,7 @@ const AuthLogin = () => {
                     <OutlinedInput
                         fullWidth
                         id="-password-login"
-                        type={showPassword ? 'text' : 'password'}
+                        type={showPassword ? "text" : "password"}
                         value={password}
                         name="password"
                         onChange={(e) => setPassword(e.target.value)}
@@ -60,8 +102,11 @@ const AuthLogin = () => {
                                     edge="end"
                                     color="secondary"
                                 >
-                                    {showPassword ? <i className="fa-duotone fa-solid fa-eye-slash"/> :
-                                        <i className="fa-duotone fa-solid fa-eye"/>}
+                                    {showPassword ? (
+                                        <i className="fa-duotone fa-solid fa-eye-slash" />
+                                    ) : (
+                                        <i className="fa-duotone fa-solid fa-eye" />
+                                    )}
                                 </IconButton>
                             </InputAdornment>
                         }
@@ -69,10 +114,23 @@ const AuthLogin = () => {
                     />
                 </Stack>
             </Grid>
+            {error && (
+                <Grid size={12}>
+                    <p style={{ color: "red" }}>{error}</p>
+                </Grid>
+            )}
             <Grid size={12}>
-                <Button disableElevation disabled={false} fullWidth size="large" type="submit" variant="contained"
-                        color="primary" component={Next} href={inicioRoute()}>
-                    Ingresar
+                <Button
+                    disableElevation
+                    disabled={isSubmitting}
+                    fullWidth
+                    size="large"
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    onClick={handleSubmit}
+                >
+                    {isSubmitting ? "Ingresando..." : "Ingresar"}
                 </Button>
             </Grid>
         </Grid>
