@@ -1,14 +1,14 @@
-import { Form, FormFieldType, IFormField } from "@components/Forms/Form";
-import React, { useEffect, useRef, } from "react";
-import { Box, Button, Modal, Stack, TextField } from "@mui/material";
+import {Form, FormFieldType, IFormField} from "@components/Forms/Form";
+import React, {useEffect, useRef,} from "react";
+import {Box, Button, Modal, Stack, TextField} from "@mui/material";
 import MainCard from "@components/Cards/MainCard";
 import CardContent from "@mui/material/CardContent";
 import IconButton from "@mui/material/IconButton";
 import {
     useGetRecomendacionesUbicacionHeladeraQuery,
 } from "@redux/services/serviciosApi";
-import { useNotification } from "@components/Notifications/NotificationContext";
-import { useFormContext } from "react-hook-form";
+import {useNotification} from "@components/Notifications/NotificationContext";
+import {useFormContext} from "react-hook-form";
 /*import Map from "./Map";*/
 import dynamic from 'next/dynamic'
 
@@ -181,17 +181,15 @@ export const AdministracionHeladera = () => {
     const [latitud, setLatitud] = React.useState<number>(-34.56);
     const [longitud, setLongitud] = React.useState<number>(-58.45);
     const [radio, setRadio] = React.useState<number>(10);
-    const { data, error, isLoading, refetch } = useGetRecomendacionesUbicacionHeladeraQuery({
+    const {data, error, isLoading, refetch} = useGetRecomendacionesUbicacionHeladeraQuery({
         latitud: latitud,
         longitud: longitud,
         radio: radio
     });
-    const { addNotification } = useNotification();
+    const {addNotification} = useNotification();
     const [errorInformed, setErrorInformed] = React.useState(false);
     const mapRef = useRef<L.Map>(null);
-    const { setValue } = useFormContext();
-
-
+    const {setValue} = useFormContext();
 
     useEffect(() => {
         if (error && !errorInformed) {
@@ -214,23 +212,23 @@ export const AdministracionHeladera = () => {
             }}>
                 Solicitar puntos de colocación
             </Button>
-            <Form fields={fields} />
+            <Form fields={fields}/>
             <Modal open={open} onClose={() => setOpen(false)}>
-                <MainCard modal darkTitle content={false} title={"Crear contribución"} sx={{ width: "80%" }}>
+                <MainCard modal darkTitle content={false} title={"Crear contribución"} sx={{width: "80%"}}>
                     <CardContent>
-                        <Stack direction="row" justifyContent={"space-between"} sx={{ py: 2 }}>
+                        <Stack direction="row" justifyContent={"space-between"} sx={{py: 2}}>
                             <TextField label="Latitud" type="number" value={latitud}
-                                onChange={(e) => setLatitud(parseFloat(e.target.value))} />
+                                       onChange={(e) => setLatitud(parseFloat(e.target.value))}/>
                             <TextField label="Longitud" type="number" value={longitud}
-                                onChange={(e) => setLongitud(parseFloat(e.target.value))} />
+                                       onChange={(e) => setLongitud(parseFloat(e.target.value))}/>
                             <TextField label="Radio" type="number" value={radio}
-                                onChange={(e) => setRadio(parseFloat(e.target.value))} />
+                                       onChange={(e) => setRadio(parseFloat(e.target.value))}/>
                             <IconButton onClick={() => {
                                 setErrorInformed(false);
                                 refetch();
                                 moveToLocation(latitud, longitud);
                             }} disabled={isLoading}>
-                                <i className="fa-duotone fa-solid fa-magnifying-glass-location" />
+                                <i className="fa-duotone fa-solid fa-magnifying-glass-location"/>
                             </IconButton>
                         </Stack>
                         <Box>

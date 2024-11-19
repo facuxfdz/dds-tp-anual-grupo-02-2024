@@ -1,4 +1,4 @@
-﻿namespace AccesoAlimentario.Operations.Externos;
+﻿namespace AccesoAlimentario.Operations.Dto.Responses.Externos;
 
 public class ColaboradorResponse
 {

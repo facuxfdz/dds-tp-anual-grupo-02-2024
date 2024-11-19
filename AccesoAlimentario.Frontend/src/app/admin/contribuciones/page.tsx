@@ -162,7 +162,7 @@ export default function ContribucionesPage() {
                                     <Button color="error" size="small" onClick={() => setShowModal(false)}>
                                         Cancelar
                                     </Button>
-                                    <Button variant="contained" size="small">
+                                    <Button variant="contained" size="small" type="submit">
                                         Enviar
                                     </Button>
                                 </Stack>

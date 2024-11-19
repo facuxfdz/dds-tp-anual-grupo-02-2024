@@ -16,7 +16,7 @@ const fields: IFormField[] = [
         options: []
     },
     {
-        id: "frecuencia",
+        id: "frecuenciaDias",
         label: "Frecuencia de la donación",
         type: FormFieldType.NUMBER,
         width: 12,

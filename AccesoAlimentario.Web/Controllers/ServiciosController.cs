@@ -1,4 +1,5 @@
-﻿using AccesoAlimentario.Operations.Externos;
+﻿using AccesoAlimentario.Operations.Dto.Responses.Externos;
+using AccesoAlimentario.Operations.Externos;
 using AccesoAlimentario.Web.Constants;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
