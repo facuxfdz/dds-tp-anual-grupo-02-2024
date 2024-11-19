@@ -4,7 +4,7 @@ import {Box, Button, CardActions, Divider, MenuItem, Select, Stack} from "@mui/m
 import {FormContainer, useForm} from "react-hook-form-mui";
 import Typography from "@mui/material/Typography";
 import CardContent from "@mui/material/CardContent";
-import {Form, FormFieldValue} from "@components/Forms/Form";
+import {FormFieldValue} from "@components/Forms/Form";
 import MainCard from "@components/Cards/MainCard";
 import {useTheme} from "@mui/material/styles";
 import {RegistroPersonaFisica} from "@/app/admin/colaboradores/registro/RegistroPersonaFisica";

@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {Table, TableBody, TableContainer, TableHead, TableRow} from "@mui/material";
 import {StyledTableCell} from "@components/Tables/StyledTableCell";

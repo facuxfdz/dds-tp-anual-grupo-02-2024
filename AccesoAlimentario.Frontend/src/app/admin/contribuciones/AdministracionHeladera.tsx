@@ -1,5 +1,6 @@
+"use client";
 import {Form, FormFieldType, IFormField} from "@components/Forms/Form";
-import React, {useEffect, useRef} from "react";
+import React, {useEffect, useRef,} from "react";
 import {Box, Button, CircularProgress, Divider, Modal, Stack, TextField} from "@mui/material";
 import MainCard from "@components/Cards/MainCard";
 import CardContent from "@mui/material/CardContent";
@@ -13,13 +14,6 @@ import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import {useFormContext} from "react-hook-form";
-
-const icon = L.divIcon({
-    html: `<i class="fa-solid fa-location-dot" style="color: #f00000; font-size: 2rem;"></i>`,
-    className: "custom-map-icon",
-    iconSize: [25, 41],
-    iconAnchor: [12, 41]
-});
 
 const fields: IFormField[] = [
     {
@@ -180,6 +174,14 @@ const fields: IFormField[] = [
     }
 ];
 
+const icon = L.divIcon({
+    html: `<i class="fa-solid fa-location-dot" style="color: #f00000; font-size: 2rem;"></i>`,
+    className: "custom-map-icon",
+    iconSize: [25, 41],
+    iconAnchor: [12, 41]
+});
+
+
 export const AdministracionHeladera = () => {
     const [open, setOpen] = React.useState(false);
     const [latitud, setLatitud] = React.useState<number>(-34.56);
@@ -194,7 +196,7 @@ export const AdministracionHeladera = () => {
     const [errorInformed, setErrorInformed] = React.useState(false);
     const theme = useAppSelector(state => state.theme);
     const mapRef = useRef<L.Map>(null);
-    const { setValue } = useFormContext();
+    const {setValue} = useFormContext();
 
     const tileURL = theme.mode === "dark"
         ? "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"

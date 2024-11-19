@@ -1,3 +1,4 @@
+"use client";
 import {Form, FormFieldType, IFormField} from "@components/Forms/Form";
 import React from "react";
 
