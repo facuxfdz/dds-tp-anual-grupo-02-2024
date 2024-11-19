@@ -23,10 +23,8 @@ import {FormFieldValue} from "@components/Forms/Form";
 import {DonacionMonetariaForm} from "@/app/admin/contribuciones/DonacionMonetariaForm";
 import {DonacionViandasForm} from "@/app/admin/contribuciones/DonacionViandasForm";
 import {OfertaPremioForm} from "@/app/admin/contribuciones/OfertaPremioForm";
-// import {AdministracionHeladera} from "@/app/admin/contribuciones/AdministracionHeladera";
+import {AdministracionHeladera} from "@/app/admin/contribuciones/AdministracionHeladera";
 import {DistribucionViandas} from "@/app/admin/contribuciones/DistribucionViandas";
-import dynamic from 'next/dynamic';
-
 
 function createData(name: string, calories: number, fat: number, carbs: number, protein: number) {
     return {name, calories, fat, carbs, protein};
@@ -39,8 +37,6 @@ const rows = [
     createData('Cupcake', 305, 3.7, 67, 4.3),
     createData('Gingerbread', 356, 16.0, 49, 3.9)
 ];
-
-const AdministracionHeladera = dynamic(() => import("@/app/admin/contribuciones/AdministracionHeladera"), { ssr: false });
 
 export default function ContribucionesPage() {
     const theme = useTheme();
