@@ -98,8 +98,17 @@ authenticationBuilder
     {
         if (builder.Environment.IsDevelopment())
         {
-            options.ClientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID");
-            options.ClientSecret = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET");
+            if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID")) ||
+                string.IsNullOrEmpty(Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET")))
+            {
+                options.ClientId = builder.Configuration.GetSection("Google").GetValue<string>("ClientId");
+                options.ClientSecret = builder.Configuration.GetSection("Google").GetValue<string>("ClientSecret");
+            }
+            else
+            {
+                options.ClientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID");
+                options.ClientSecret = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET");
+            }
         }
         else
         {
