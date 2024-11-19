@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AccesoAlimentario.Web.Controllers;
+
+[ApiController]
+[Route("api/auth/[controller]")]
 public class LoginController : Controller
 {
     private readonly ILogger<HomeController> _logger;
@@ -16,8 +19,8 @@ public class LoginController : Controller
         _logger = logger;
     }
     
-    [HttpGet]
-    public IActionResult GoogleSignIn(string returnUrl)
+    [HttpPost]
+    public IActionResult GoogleSignIn()
     {
         var redirectUrl = Url.Action("SigninGoogle", "Login", null, Request.Scheme);
         Console.WriteLine($"redirectUrl: {redirectUrl}");
@@ -47,14 +50,4 @@ public class LoginController : Controller
         return RedirectToAction("Index", "Home");
     }
     
-    public IActionResult Index()
-    {
-        return View();
-    }
-    
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    }
 }

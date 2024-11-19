@@ -117,6 +117,7 @@ builder.Services.AddCors(options =>
         policy =>
         {
             policy
+                .WithOrigins("http://localhost:3000")
                 .AllowAnyOrigin()
                 .AllowAnyHeader()
                 .AllowAnyMethod();
@@ -135,22 +136,13 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseCors(corsDevelop);
-
 app.UseSwaggerConfiguration();
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseRouting();
+app.UseCors(corsDevelop);
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Login}/{action=Index}/{id?}"
-);
 
 app.MapControllers();
 
