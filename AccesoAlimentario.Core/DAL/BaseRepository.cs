@@ -19,6 +19,7 @@ public class BaseRepository<TEntity>(AppDbContext context) : IBaseRepository<TEn
         
         return result;
     }
+    
 
     public async Task<TEntity?> GetAsync(IQueryable<TEntity> query, bool track = true)
     {

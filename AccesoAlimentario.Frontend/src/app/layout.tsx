@@ -1,6 +1,7 @@
 import type {Metadata} from "next";
 import React from "react";
 import {Providers} from "@redux/providers";
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import ThemeClient from "@components/themes/themeClient/themeClient";
 import "@styles/fonts/fa.all.css";
 
@@ -51,7 +52,9 @@ export default function RootLayout({
         <Providers>
             <NotificationProvider>
                 <ThemeClient>
-                    {children}
+                    <GoogleOAuthProvider clientId="478798027963-belsqia05uq126u8jb7aagvhu1vmt1lv.apps.googleusercontent.com">
+                        {children}
+                    </GoogleOAuthProvider>
                 </ThemeClient>
             </NotificationProvider>
         </Providers>
