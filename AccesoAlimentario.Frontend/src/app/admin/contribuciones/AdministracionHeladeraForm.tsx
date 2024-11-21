@@ -9,7 +9,6 @@ import {
 } from "@redux/services/serviciosApi";
 import {useNotification} from "@components/Notifications/NotificationContext";
 import {useFormContext} from "react-hook-form";
-/*import Map from "./Map";*/
 import dynamic from 'next/dynamic'
 
 const Map = dynamic(() => import('./Map'), {
@@ -176,7 +175,7 @@ const fields: IFormField[] = [
 ];
 
 
-export const AdministracionHeladera = () => {
+export const AdministracionHeladeraForm = () => {
     const [open, setOpen] = React.useState(false);
     const [latitud, setLatitud] = React.useState<number>(-34.56);
     const [longitud, setLongitud] = React.useState<number>(-58.45);

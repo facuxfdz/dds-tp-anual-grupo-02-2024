@@ -1,4 +1,4 @@
-export interface IDonacionHeladeraRequest{
+export interface IDonacionHeladeraRequest {
     colaboradorId: string;
     fechaContribucion: string;
     estado: "Activa" | "Desperfecto" | "FueraServicio";

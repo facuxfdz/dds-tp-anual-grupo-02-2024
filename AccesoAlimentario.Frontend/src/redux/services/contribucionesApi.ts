@@ -6,6 +6,7 @@ import {IDonacionHeladeraRequest} from "@models/requests/contribuciones/iDonacio
 import {IDonacionMonetariaRequest} from "@models/requests/contribuciones/iDonacionMonetariaRequest";
 import {IRegistroPersonaVulnerableRequest} from "@models/requests/contribuciones/iRegistroPersonaVulnerableRequest";
 import {ICanjeDePremioRequest} from "@models/requests/contribuciones/iCanjeDePremioRequest";
+import {IOfertaPremioRequest} from "@models/requests/contribuciones/iOfertaPremioRequest";
 
 export const contribucionesApi = createApi({
     reducerPath: "ContribucionesApi",
@@ -53,7 +54,7 @@ export const contribucionesApi = createApi({
         }),
         postOfertaPremio: builder.mutation<
             void,
-            IDonacionMonetariaRequest
+            IOfertaPremioRequest
         >({
             query: (data) => ({
                 url: "contribuciones/ofertapremio",

@@ -23,8 +23,19 @@ import {FormFieldValue} from "@components/Forms/Form";
 import {DonacionMonetariaForm} from "@/app/admin/contribuciones/DonacionMonetariaForm";
 import {DonacionViandasForm} from "@/app/admin/contribuciones/DonacionViandasForm";
 import {OfertaPremioForm} from "@/app/admin/contribuciones/OfertaPremioForm";
-import {AdministracionHeladera} from "@/app/admin/contribuciones/AdministracionHeladera";
-import {DistribucionViandas} from "@/app/admin/contribuciones/DistribucionViandas";
+import {AdministracionHeladeraForm} from "@/app/admin/contribuciones/AdministracionHeladeraForm";
+import {DistribucionViandasForm} from "@/app/admin/contribuciones/DistribucionViandasForm";
+import {
+    usePostDistribucionViandasMutation, usePostDonacionHeladeraMutation,
+    usePostDonacionMonetariaMutation, usePostDonacionViandaMutation,
+    usePostOfertaPremioMutation
+} from "@redux/services/contribucionesApi";
+import {IDonacionMonetariaRequest} from "@models/requests/contribuciones/iDonacionMonetariaRequest";
+import {useNotification} from "@components/Notifications/NotificationContext";
+import {IDonacionViandaRequest} from "@models/requests/contribuciones/iDonacionViandaRequest";
+import {IOfertaPremioRequest} from "@models/requests/contribuciones/iOfertaPremioRequest";
+import {IDonacionHeladeraRequest} from "@models/requests/contribuciones/iDonacionHeladeraRequest";
+import {IDistribucionViandaRequest} from "@models/requests/contribuciones/iDistribucionViandaRequest";
 
 function createData(name: string, calories: number, fat: number, carbs: number, protein: number) {
     return {name, calories, fat, carbs, protein};
@@ -37,14 +48,131 @@ const rows = [
     createData('Cupcake', 305, 3.7, 67, 4.3),
     createData('Gingerbread', 356, 16.0, 49, 3.9)
 ];
-
+const colaboradorId = "28a57265-a0c4-4813-86a2-38a15d6ebc8a";
 export default function ContribucionesPage() {
     const theme = useTheme();
     const [showModal, setShowModal] = React.useState(false);
     const [tipoContribucion, setTipoContribucion] = React.useState<"DonacionMonetaria" | "DonacionVianda" | "OfertaPremio" | "AdministracionHeladera" | "DistribucionViandas">("DonacionMonetaria");
     const formContext = useForm();
+    const {addNotification} = useNotification();
+    const [
+        postDistribucionViandas,
+        {error: distribucionViandasError, isLoading: isLoadingDistribucionViandas}
+    ] = usePostDistribucionViandasMutation();
+    const [
+        postDonacionMonetaria,
+        {error: donacionMonetariaError, isLoading: isLoadingDonacionMonetaria}
+    ] = usePostDonacionMonetariaMutation();
+    const [
+        postDonacionViandas,
+        {error: donacionViandasError, isLoading: isLoadingDonacionViandas}
+    ] = usePostDonacionViandaMutation();
+    const [
+        postOfertaPremio,
+        {error: ofertaPremioError, isLoading: isLoadingOfertaPremio}
+    ] = usePostOfertaPremioMutation();
+    const [
+        postDonacionHeladera,
+        {error: donacionHeladeraError, isLoading: isLoadingDonacionHeladera}
+    ] = usePostDonacionHeladeraMutation();
+
+
     const handleSave = async (data: FormFieldValue) => {
-        console.log(data);
+        switch (tipoContribucion) {
+            case "DonacionMonetaria":
+                const donacionMonetariaData: IDonacionMonetariaRequest = {
+                    colaboradorId: colaboradorId,
+                    fechaContribucion: data.fechaContribucion,
+                    monto: Number(data.monto),
+                    frecuenciaDias: Number(data.frecuenciaDias)
+                };
+                await postDonacionMonetaria(donacionMonetariaData).unwrap();
+                if (donacionMonetariaError) {
+                    addNotification("Error al crear la donación monetaria", "error");
+                } else {
+                    addNotification("Donación monetaria creada con éxito", "success");
+                    setShowModal(false);
+                }
+                break;
+            case "DonacionVianda":
+                const donacionViandaData: IDonacionViandaRequest = {
+                    colaboradorId: colaboradorId,
+                    fechaContribucion: data.fechaContribucion,
+                    heladeraId: data.heladeraId,
+                    comida: data.comida,
+                    fechaCaducidad: data.fechaCaducidad,
+                    calorias: Number(data.calorias),
+                    peso: Number(data.peso),
+                    estadoVianda: "Disponible"
+                };
+                await postDonacionViandas(donacionViandaData).unwrap();
+                if (donacionViandasError) {
+                    addNotification("Error al crear la donación de vianda", "error");
+                } else {
+                    addNotification("Donación de vianda creada con éxito", "success");
+                    setShowModal(false);
+                }
+                break;
+            case "OfertaPremio":
+                const ofertaPremioData: IOfertaPremioRequest = {
+                    colaboradorId: colaboradorId,
+                    fechaContribucion: data.fechaContribucion,
+                    nombre: data.nombre,
+                    puntosNecesarios: Number(data.puntosNecesarios),
+                    imagen: data.imagen,
+                    rubro: data.rubro as "Gastronomia" | "Electronica" | "ArticulosHogar" | "Otros"
+                };
+                await postOfertaPremio(ofertaPremioData).unwrap();
+                if (ofertaPremioError) {
+                    addNotification("Error al crear la oferta de premio", "error");
+                } else {
+                    addNotification("Oferta de premio creada con éxito", "success");
+                    setShowModal(false);
+                }
+                break;
+            case "AdministracionHeladera":
+                const donacionHeladeraData: IDonacionHeladeraRequest = {
+                    colaboradorId: colaboradorId,
+                    fechaContribucion: data.fechaContribucion,
+                    estado: "Activa",
+                    fechaInstalacion: data.fechaInstalacion,
+                    temperaturaMinimaConfig: Number(data.temperaturaMinimaConfig),
+                    temperaturaMaximaConfig: Number(data.temperaturaMaximaConfig),
+                    sensores: [],
+                    modelo: {
+                        capacidad: Number(data.modelocapacidad),
+                        temperaturaMinima: Number(data.modelotemperaturaMinima),
+                        temperaturaMaxima: Number(data.modelotemperaturaMaxima)
+                    }
+                };
+                await postDonacionHeladera(donacionHeladeraData).unwrap();
+                if (donacionHeladeraError) {
+                    addNotification("Error al crear la donación de heladera", "error");
+                } else {
+                    addNotification("Donación de heladera creada con éxito", "success");
+                    setShowModal(false);
+                }
+                break;
+            case "DistribucionViandas":
+                const distribucionViandasData: IDistribucionViandaRequest = {
+                    colaboradorId: colaboradorId,
+                    fechaContribucion: data.fechaContribucion,
+                    heladeraOrigenId: data.heladeraOrigenId,
+                    heladeraDestinoId: data.heladeraDestinoId,
+                    cantidadDeViandas: Number(data.cantidadDeViandas),
+                    motivo: data.motivo as "Desperfecto" | "FaltaDeViandas"
+                };
+                await postDistribucionViandas(distribucionViandasData).unwrap();
+                if (distribucionViandasError) {
+                    addNotification("Error al crear la distribución de viandas", "error");
+                } else {
+                    addNotification("Distribución de viandas creada con éxito", "success");
+                    setShowModal(false);
+                }
+                break;
+            default:
+                break;
+        }
     };
 
     return (
@@ -151,9 +279,9 @@ export default function ContribucionesPage() {
                                         ) : tipoContribucion === "OfertaPremio" ? (
                                             <OfertaPremioForm/>
                                         ) : tipoContribucion === "AdministracionHeladera" ? (
-                                            <AdministracionHeladera/>
+                                            <AdministracionHeladeraForm/>
                                         ) : tipoContribucion === "DistribucionViandas" ? (
-                                            <DistribucionViandas/>
+                                            <DistribucionViandasForm/>
                                         ) : <></>
                                     }
                                 </CardContent>
@@ -162,7 +290,18 @@ export default function ContribucionesPage() {
                                     <Button color="error" size="small" onClick={() => setShowModal(false)}>
                                         Cancelar
                                     </Button>
-                                    <Button variant="contained" size="small" type="submit">
+                                    <Button
+                                        variant="contained"
+                                        size="small"
+                                        type="submit"
+                                        disabled={
+                                            isLoadingDistribucionViandas ||
+                                            isLoadingDonacionMonetaria ||
+                                            isLoadingDonacionViandas ||
+                                            isLoadingOfertaPremio ||
+                                            isLoadingDonacionHeladera
+                                        }
+                                    >
                                         Enviar
                                     </Button>
                                 </Stack>
@@ -172,5 +311,6 @@ export default function ContribucionesPage() {
                 </Modal>
             </CardContent>
         </MainCard>
-    );
+    )
+        ;
 }

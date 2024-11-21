@@ -28,7 +28,7 @@ const fields: IFormField[] = [
         options: []
     },
     {
-        id: "puntos",
+        id: "puntosNecesarios",
         label: "Puntos Necesarios",
         type: FormFieldType.NUMBER,
         width: 12,
@@ -61,7 +61,7 @@ const fields: IFormField[] = [
         isRequired: true,
         regex: "",
         errorMessage: "Por favor seleccione una opción",
-        options: ["Categoría 1", "Categoría 2", "Categoría 3"]
+        options: ["Gastronomia", "Electronica", "ArticulosHogar", "Otros"]
     }
 ];
 

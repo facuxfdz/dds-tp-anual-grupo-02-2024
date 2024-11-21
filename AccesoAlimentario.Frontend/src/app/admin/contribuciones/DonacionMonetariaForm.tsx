@@ -4,6 +4,18 @@ import React from "react";
 
 const fields: IFormField[] = [
     {
+        id: "fechaContribucion",
+        label: "Fecha de la donación",
+        type: FormFieldType.DATE,
+        width: 12,
+        value: "",
+        placeholder: "Ingrese una fecha",
+        isRequired: true,
+        regex: "",
+        errorMessage: "Por favor ingrese una fecha",
+        options: []
+    },
+    {
         id: "monto",
         label: "Monto de la donación",
         type: FormFieldType.NUMBER,

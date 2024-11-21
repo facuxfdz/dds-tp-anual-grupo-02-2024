@@ -53,7 +53,7 @@ const fields: IFormField[] = [
     }
 ];
 
-export const DistribucionViandas = () => {
+export const DistribucionViandasForm = () => {
     return (
         <Form fields={fields}/>
     );
