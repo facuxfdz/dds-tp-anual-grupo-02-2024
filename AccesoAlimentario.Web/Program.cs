@@ -11,6 +11,33 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Custom command to get the connection string
+if (args.Contains("get-connection-string"))
+{
+    var environment = builder.Environment;
+    if (environment.IsProduction())
+    {
+        var awsSecretsManager = new SecretRetrieve();
+        var dbConnectionData = awsSecretsManager.GetSecretAs<DbConnectionData>("acceso_alimentario/db_connection_data");
+
+        if (dbConnectionData != null)
+        {
+            Console.WriteLine($"server={dbConnectionData.DB_SERVER};database={dbConnectionData.DB_NAME};user={dbConnectionData.DB_USER};password={dbConnectionData.DB_PASSWORD};");
+        }
+        else
+        {
+            Console.WriteLine("Error: Could not retrieve database connection details from AWS Secrets Manager.");
+            Environment.Exit(1);
+        }
+    }
+    else
+    {
+        Console.WriteLine("Error: get-connection-string is only available in the Production environment.");
+        Environment.Exit(1);
+    }
+    return; // Prevent the application from starting
+}
+
 builder.Logging.ClearProviders();
 builder.Services.AddSerilog((services, loggerConfiguration) => loggerConfiguration
     .ReadFrom.Configuration(builder.Configuration)

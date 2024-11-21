@@ -1,15 +1,8 @@
 ﻿using AccesoAlimentario.Operations.Roles.Usuarios; // for CrearUsuario
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
 using AccesoAlimentario.Core.DAL;
 using MediatR;
-using AccesoAlimentario.Core.Entities.Roles;
-using Castle.Components.DictionaryAdapter.Xml;
 
 namespace AccesoAlimentario.Api.Controllers
 {
