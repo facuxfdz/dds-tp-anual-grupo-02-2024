@@ -5,6 +5,7 @@ import storageEngine from './storageEngine';
 import themeSlice from "@redux/features/themeSlice";
 import customizationSlice from "@redux/features/customizationSlice";
 import sessionSlice from "@redux/features/sessionSlice";
+import userSlice from "@redux/features/userSlice";
 
 import {colaboradoresApi} from "@redux/services/colaboradoresApi";
 import {contribucionesApi} from "@redux/services/contribucionesApi";
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
     theme: themeSlice,
     customization: customizationSlice,
     session: sessionSlice,
+    user: userSlice,
 
     // Services
     [colaboradoresApi.reducerPath]: colaboradoresApi.reducer,

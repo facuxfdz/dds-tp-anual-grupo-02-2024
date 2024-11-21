@@ -62,14 +62,14 @@ const AuthLogin = () => {
         }
     }, [isSubmitting, username, password, router]);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e : any) => {
         e.preventDefault();
         setError(null); // Resetear errores previos
         setIsSubmitting(true);
     };
 
     return (
-        <Grid container spacing={3}>
+        <Grid container spacing={3} marginBottom={2}>
             <Grid size={12}>
                 <Stack spacing={1}>
                     <InputLabel htmlFor="username-login">Usuario</InputLabel>
