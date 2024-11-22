@@ -30,6 +30,28 @@
           "value": "Production"
         }
       ]
+    },
+    {
+      "name": "accesoalimentario-front",
+      "image": "034781041905.dkr.ecr.sa-east-1.amazonaws.com/acceso-alimentario_releases:abfbee3225cd705656d49b2cfa85aab6a76ce736",
+      "essential": true,
+      "memory": 512,
+      "cpu": 256,
+      "portMappings": [
+        {
+          "containerPort": 3000,
+          "hostPort": 3000
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-create-group": "true",
+          "awslogs-group": "/aws/ecs/acceso-alimentario-front",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "acceso-alimentario-front"
+        }
+      }
     }
   ],
   "networkMode": "awsvpc",

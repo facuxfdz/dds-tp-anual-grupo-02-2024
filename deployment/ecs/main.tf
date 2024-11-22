@@ -57,7 +57,7 @@ module "ecs" {
   }
 
   services = {
-    front_svc = {
+    acceso_alimentario = {
       name                           = "${var.service_name}-front"
       tasks_iam_role_use_name_prefix = false
       ignore_task_definition_changes = true
@@ -71,14 +71,14 @@ module "ecs" {
         service = {
           target_group_arn = data.aws_lb_target_group.alb_tg.arn
           container_name   = "${var.service_name}-front"
-          container_port   = 8085
+          container_port   = 3000
         }
       }
       security_group_rules = {
         alb_ingress = {
           type        = "ingress"
-          from_port   = 8085
-          to_port     = 8085
+          from_port   = 3000
+          to_port     = 3000
           protocol    = "tcp"
           description = "Service port"
           cidr_blocks = ["0.0.0.0/0"]
@@ -101,54 +101,8 @@ module "ecs" {
           port_mappings = [
             {
               name          = "ecs-sample"
-              containerPort = 8085
-              hostPort      = 8085
-              protocol      = "tcp"
-            }
-          ]
-        }
-      }
-    }
-    
-    back_svc = {
-      name                           = var.service_name
-      tasks_iam_role_use_name_prefix = false
-      ignore_task_definition_changes = true
-      cpu                            = 512
-      memory                         = 1024
-      subnet_ids                     = data.aws_subnets.private.ids
-      tasks_iam_role_policies = {
-        secrets_manager = aws_iam_policy.secrets_manager.arn
-      }
-      security_group_rules = {
-        alb_ingress = {
-          type        = "ingress"
-          from_port   = 8085
-          to_port     = 8085
-          protocol    = "tcp"
-          description = "Service port"
-          cidr_blocks = ["0.0.0.0/0"]
-        }
-        egress_all = {
-          type        = "egress"
-          from_port   = 0
-          to_port     = 0
-          protocol    = "-1"
-          cidr_blocks = ["0.0.0.0/0"]
-        }
-      }
-      container_definitions = {
-        ecs-sample = {
-          name      = var.service_name
-          cpu       = 512
-          memory    = 1024
-          essential = true
-          image     = "public.ecr.aws/aws-containers/ecsdemo-frontend:776fd50"
-          port_mappings = [
-            {
-              name          = "ecs-sample"
-              containerPort = 8085
-              hostPort      = 8085
+              containerPort = 3000
+              hostPort      = 3000
               protocol      = "tcp"
             }
           ]

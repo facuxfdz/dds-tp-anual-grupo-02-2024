@@ -142,8 +142,8 @@ jobs:
           docker push "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
           echo "IMAGE $IMAGE_TAG is pushed to $ECR_REGISTRY/$ECR_REPOSITORY"
           echo "image_tag_front=$IMAGE_TAG"           
-          echo "full_image_front=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-          echo "full_image_front=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
+          echo "full_image_front=$ECR_REGISTRY/$ECR_REPOSITORY/front:$IMAGE_TAG"
+          echo "full_image_front=$ECR_REGISTRY/$ECR_REPOSITORY/front:$IMAGE_TAG" >> $GITHUB_ENV
         working-directory: "./AccesoAlimentario.Frontend"
 
       - name: Fill in the new image ID in the Amazon ECS task definition
@@ -154,14 +154,6 @@ jobs:
           container-name: "accesoalimentario"
           image: ${{ env.full_image }}
       
-      - name: Fill in the new image ID in the Amazon ECS task definition for frontend
-        id: task-def-frontend
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: "deployment/task_def_front.json"
-          container-name: "accesoalimentario-frontend"
-          image: ${{ env.full_image_front }}
-      
       - name: Update Task def to use the deployed TASK role and ECS task execution role
         run: |
           set -eux
@@ -171,8 +163,7 @@ jobs:
           fi
           sed -i "s#TASK_ROLE_ARN#${{ steps.ecs_cluster.outputs.task_role_arn }}#" "${{ steps.task-def.outputs.task-definition }}"
           sed -i "s#TASK_EXECUTION_ROLE_ARN#${{ steps.ecs_cluster.outputs.task_execution_role_arn }}#" "${{ steps.task-def.outputs.task-definition }}"
-          sed -i "s#TASK_ROLE_ARN#${{ steps.ecs_cluster.outputs.task_role_arn }}#" "${{ steps.task-def-frontend.outputs.task-definition }}"
-          sed -i "s#TASK_EXECUTION_ROLE_ARN#${{ steps.ecs_cluster.outputs.task_execution_role_arn }}#" "${{ steps.task-def-frontend.outputs.task-definition }}"
+          sed -i "s#IMAGE_FRONT#${{ env.full_image_front }}#" "${{ steps.task-def.outputs.task-definition }}"
           
 
       - name: Echo the new ECS task definition
@@ -185,13 +176,4 @@ jobs:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
           service: "accesoalimentario"
           cluster: "accesoalimentario"
-          wait-for-service-stability: false
-          
-      - name: Deploy Amazon ECS task definition
-        id: deploy
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
-        with:
-          task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: "accesoalimentario"
-          cluster: "accesoalimentario"
-          wait-for-service-stability: false      
+          wait-for-service-stability: false   
