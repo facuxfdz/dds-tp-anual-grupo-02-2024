@@ -34,7 +34,7 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::034781041905:role/GhActionsRunner
           role-session-name: ${{ github.actor }}-session
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: us-east-1
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
