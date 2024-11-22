@@ -33,7 +33,7 @@
     },
     {
       "name": "accesoalimentario-front",
-      "image": "034781041905.dkr.ecr.sa-east-1.amazonaws.com/acceso-alimentario_releases:abfbee3225cd705656d49b2cfa85aab6a76ce736",
+      "image": "IMAGE_FRONT",
       "essential": true,
       "memory": 512,
       "cpu": 256,
