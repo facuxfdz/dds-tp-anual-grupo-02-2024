@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import {
     Button,
     Grid2 as Grid,
@@ -9,7 +9,8 @@ import {
     Stack,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import { useRouter } from "next/navigation";
+import {useRouter} from "next/navigation";
+import {useNotification} from "@components/Notifications/NotificationContext";
 
 // ============================|| JWT - LOGIN ||============================ //
 
@@ -19,6 +20,7 @@ const AuthLogin = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState(null);
+    const {addNotification} = useNotification();
 
     const router = useRouter();
 
@@ -35,25 +37,23 @@ const AuthLogin = () => {
                         headers: {
                             "Content-Type": "application/json",
                         },
-                        mode: "no-cors",
-                        body: JSON.stringify({ username, password }),
+                        body: JSON.stringify({username, password}),
                     });
 
                     if (!response.ok) {
-                        throw new Error("Error en la autenticación. Por favor, verifica tus credenciales.");
+                        addNotification("Error en la autenticación. Por favor, verifica tus credenciales.", "error");
+                        return;
                     }
 
                     const data = await response.json();
 
-                    // Guardar token en almacenamiento local o cookies si es necesario
                     if (data.token) {
-                        localStorage.setItem("authToken", data.token);
-                        router.push("/admin/inicio"); // Redirige a la ruta deseada
+                        router.push("/admin/inicio");
                     } else {
-                        throw new Error("Autenticación fallida. Token no recibido.");
+                        addNotification("Error en la autenticación. Fallo al obtener las credenciales.", "error");
                     }
-                } catch (err : any) {
-                    setError(err.message);
+                } catch {
+                    addNotification("Error en la autenticación. Por favor, verifica tus credenciales.", "error");
                 } finally {
                     setIsSubmitting(false);
                 }
@@ -61,10 +61,9 @@ const AuthLogin = () => {
 
             authenticateUser();
         }
-    }, [isSubmitting, username, password, router]);
+    }, [isSubmitting, username, password, router, addNotification]);
 
-    const handleSubmit = (e : any) => {
-        e.preventDefault();
+    const handleSubmit = () => {
         setError(null); // Resetear errores previos
         setIsSubmitting(true);
     };
@@ -104,9 +103,9 @@ const AuthLogin = () => {
                                     color="secondary"
                                 >
                                     {showPassword ? (
-                                        <i className="fa-duotone fa-solid fa-eye-slash" />
+                                        <i className="fa-duotone fa-solid fa-eye-slash"/>
                                     ) : (
-                                        <i className="fa-duotone fa-solid fa-eye" />
+                                        <i className="fa-duotone fa-solid fa-eye"/>
                                     )}
                                 </IconButton>
                             </InputAdornment>
@@ -117,7 +116,7 @@ const AuthLogin = () => {
             </Grid>
             {error && (
                 <Grid size={12}>
-                    <p style={{ color: "red" }}>{error}</p>
+                    <p style={{color: "red"}}>{error}</p>
                 </Grid>
             )}
             <Grid size={12}>

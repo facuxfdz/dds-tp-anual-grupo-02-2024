@@ -1,7 +1,7 @@
-import { useRef, useState } from 'react';
+import {useRef, useState} from 'react';
 
 // material-ui
-import { useTheme } from '@mui/material/styles';
+import {useTheme} from '@mui/material/styles';
 import {
     Avatar,
     Box,
@@ -20,26 +20,23 @@ import {
 import ProfileTab from './ProfileTab';
 import MainCard from '@components/Cards/MainCard';
 import Transitions from '@components/@extended/Transitions';
-
-// assets
-import {useAppDispatch, useAppSelector} from "@redux/hook";
-import { selectUser, setUser } from '@/redux/features/userSlice';
-import { parseJwt } from '@/utils/decode_jwt';
+import {useAppSelector} from "@redux/hook";
 
 // tab panel wrapper
-function TabPanel({ children, value, index }:{
+function TabPanel({children, value, index}: {
     children: React.ReactNode;
     value: number;
     index: number;
 }) {
     return (
-        <div role="tabpanel" hidden={value !== index} id={`profile-tabpanel-${index}`} aria-labelledby={`profile-tab-${index}`}>
+        <div role="tabpanel" hidden={value !== index} id={`profile-tabpanel-${index}`}
+             aria-labelledby={`profile-tab-${index}`}>
             {value === index && children}
         </div>
     );
 }
 
-function a11yProps(index:number) {
+function a11yProps(index: number) {
     return {
         id: `profile-tab-${index}`,
         'aria-controls': `profile-tabpanel-${index}`
@@ -50,13 +47,7 @@ function a11yProps(index:number) {
 
 const Profile = () => {
     const theme = useTheme();
-    let user = useAppSelector(selectUser);
-    const dispatch = useAppDispatch();
-    if (!user) {
-        const session_token = useAppSelector(state => state.session.token);
-        user = parseJwt(session_token);
-        dispatch(setUser(user));
-    }
+    const user = useAppSelector(state => state.user);
 
     const anchorRef = useRef(null);
     const [open, setOpen] = useState(false);
@@ -66,20 +57,20 @@ const Profile = () => {
 
     const [value, setValue] = useState(0);
 
-    const handleChange = (event: React.SyntheticEvent, newValue:number) => {
+    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
 
     const iconBackColorOpen = theme.palette.mode === "dark" ? 'grey.200' : 'grey.300';
 
     return (
-        <Box sx={{ flexShrink: 0, ml: 0.75 }}>
+        <Box sx={{flexShrink: 0, ml: 0.75}}>
             <ButtonBase
                 sx={{
                     p: 0.25,
                     bgcolor: open ? iconBackColorOpen : 'transparent',
                     borderRadius: 1,
-                    '&:hover': { bgcolor: theme.palette.mode === "dark" ? 'secondary.light' : 'secondary.lighter' },
+                    '&:hover': {bgcolor: theme.palette.mode === "dark" ? 'secondary.light' : 'secondary.lighter'},
                     '&:focus-visible': {
                         outline: `2px solid ${theme.palette.secondary.dark}`,
                         outlineOffset: 2
@@ -91,8 +82,8 @@ const Profile = () => {
                 aria-haspopup="true"
                 onClick={handleToggle}
             >
-                <Stack direction="row" spacing={2} alignItems="center" sx={{ p: 0.5 }}>
-                    <Avatar src={user.profile_picture} />
+                <Stack direction="row" spacing={2} alignItems="center" sx={{p: 0.5}}>
+                    <Avatar src={user.profile_picture}/>
                     <Typography variant="subtitle1">{user.name}</Typography>
                 </Stack>
             </ButtonBase>
@@ -114,7 +105,7 @@ const Profile = () => {
                     ]
                 }}
             >
-                {({ TransitionProps }) => (
+                {({TransitionProps}) => (
                     <Transitions type="grow" position="top-right" in={open} {...TransitionProps}>
                         <Paper
                             sx={{
@@ -127,19 +118,20 @@ const Profile = () => {
                                 }
                             }}
                         >
-                            <ClickAwayListener onClickAway={()=>setOpen(false)}>
+                            <ClickAwayListener onClickAway={() => setOpen(false)}>
                                 <MainCard elevation={0} border={false} content={false}>
-                                    <CardContent sx={{ px: 2.5, pt: 3 }}>
+                                    <CardContent sx={{px: 2.5, pt: 3}}>
                                         <Stack direction="row" spacing={1.25} alignItems="center">
-                                            <Avatar sx={{ width: 32, height: 32 }} src={user.profile_picture} />
+                                            <Avatar sx={{width: 32, height: 32}} src={user.profile_picture}/>
                                             <Stack>
                                                 <Typography variant="h6">{user.name}</Typography>
                                             </Stack>
                                         </Stack>
                                     </CardContent>
 
-                                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                                        <Tabs variant="fullWidth" value={value} onChange={handleChange} aria-label="profile tabs">
+                                    <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
+                                        <Tabs variant="fullWidth" value={value} onChange={handleChange}
+                                              aria-label="profile tabs">
                                             <Tab
                                                 sx={{
                                                     display: 'flex',
@@ -148,14 +140,15 @@ const Profile = () => {
                                                     alignItems: 'center',
                                                     textTransform: 'capitalize'
                                                 }}
-                                                icon={<i className="fas fa-user" style={{ marginBottom: 0, marginRight: '10px' }} />}
+                                                icon={<i className="fas fa-user"
+                                                         style={{marginBottom: 0, marginRight: '10px'}}/>}
                                                 label="Perfil"
                                                 {...a11yProps(0)}
                                             />
                                         </Tabs>
                                     </Box>
                                     <TabPanel value={value} index={0}>
-                                        <ProfileTab />
+                                        <ProfileTab/>
                                     </TabPanel>
                                 </MainCard>
                             </ClickAwayListener>

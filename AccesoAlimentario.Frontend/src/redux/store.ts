@@ -13,7 +13,6 @@ import {reportesApi} from "@redux/services/reportesApi";
 import {serviciosApi} from "@redux/services/serviciosApi";
 import {tecnicosApi} from "@redux/services/tecnicosApi";
 import {heladerasApi} from "@redux/services/heladerasApi";
-import {loginApi} from "@redux/services/loginApi";
 
 const persistConfig = {
     key: 'root',
@@ -36,7 +35,6 @@ const rootReducer = combineReducers({
     [serviciosApi.reducerPath]: serviciosApi.reducer,
     [tecnicosApi.reducerPath]: tecnicosApi.reducer,
     [heladerasApi.reducerPath]: heladerasApi.reducer,
-    [loginApi.reducerPath]: loginApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -58,7 +56,6 @@ export const store = configureStore({
                 serviciosApi.middleware,
                 tecnicosApi.middleware,
                 heladerasApi.middleware,
-                loginApi.middleware,
             ),
 });
 
