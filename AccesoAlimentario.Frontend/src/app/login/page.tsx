@@ -12,6 +12,8 @@ import { useDispatch } from 'react-redux';
 import { config } from '@config/config';
 import { useRouter } from 'next/navigation'
 import { parseJwt } from "@utils/decode_jwt";
+import { useGoogleLogin } from '@react-oauth/google';
+
 
 
 
@@ -20,6 +22,10 @@ export default function LoginPage() {
 
     const dispatch = useDispatch();
     const router = useRouter();
+    const login = useGoogleLogin({
+        onSuccess: (response) => handleSuccess(response),
+        onError: () => handleFailure()
+    })
 
     const handleSuccess = async (credentialResponse: any) => {
         try {
@@ -66,6 +72,14 @@ export default function LoginPage() {
         console.log("Error");
     }
 
+    const GoogleButton = ({ onClick }: any) => {
+        return (
+            <button onClick={onClick} style={{ width: '100%', backgroundColor: '#f45b39', color: 'white', padding: '15px 25px', borderRadius: '5px', border: 'none', cursor: 'pointer' }}>
+                Sign in with Google
+            </button>
+        );
+    }
+
     return (
         <AuthWrapper>
             <Grid container spacing={3}>
@@ -77,14 +91,7 @@ export default function LoginPage() {
                 </Grid>
                 <Grid size={12}>
                     <AuthLogin/>
-                    <GoogleLogin 
-                        onSuccess={(credentialResponse) => {
-                            handleSuccess(credentialResponse);
-                        }}
-                        onError={() => {
-                            handleFailure();
-                        }}
-                    />
+                    <GoogleButton onClick={() => login()}>Sign in with Gugl</GoogleButton>
                 </Grid>
             </Grid>
         </AuthWrapper>
