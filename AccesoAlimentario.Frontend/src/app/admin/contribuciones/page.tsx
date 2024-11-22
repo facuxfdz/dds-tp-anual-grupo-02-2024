@@ -37,17 +37,19 @@ import {IOfertaPremioRequest} from "@models/requests/contribuciones/iOfertaPremi
 import {IDonacionHeladeraRequest} from "@models/requests/contribuciones/iDonacionHeladeraRequest";
 import {IDistribucionViandaRequest} from "@models/requests/contribuciones/iDistribucionViandaRequest";
 
-function createData(name: string, calories: number, fat: number, carbs: number, protein: number) {
-    return {name, calories, fat, carbs, protein};
+function createData(tipo: string, fechaContribucion: string) {
+    return {tipo, fechaContribucion};
 }
 
 const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9)
+    createData('DonacionMonetaria', '2021-10-10'),
+    createData('DonacionVianda', '2021-10-10'),
+    createData('OfertaPremio', '2021-10-10'),
+    createData('AdministracionHeladera', '2021-10-10'),
+    createData('DistribucionViandas', '2021-10-10'),
+    createData('DonacionMonetaria', '2021-10-10'),
 ];
+
 const colaboradorId = "28a57265-a0c4-4813-86a2-38a15d6ebc8a";
 export default function ContribucionesPage() {
     const theme = useTheme();
@@ -230,32 +232,24 @@ export default function ContribucionesPage() {
                     <Table sx={{minWidth: 350}} aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <StyledTableCell sx={{pl: 3}}>Dessert (100g serving)</StyledTableCell>
-                                <StyledTableCell align="right">Calories</StyledTableCell>
-                                <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-                                <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-                                <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
-                                <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
-                                <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
-                                <StyledTableCell align="right" sx={{pr: 3}}>
-                                    Protein&nbsp;(g)
-                                </StyledTableCell>
+                                <StyledTableCell sx={{pl: 3}}>#</StyledTableCell>
+                                <StyledTableCell align="center">Tipo</StyledTableCell>
+                                <StyledTableCell align="center">Fecha de contribución</StyledTableCell>
+                                <StyledTableCell sx={{pr: 3}} align="center">Acciones</StyledTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rows.map((row) => (
-                                <StyledTableRow hover key={row.name}>
+                            {rows.map((row, index) => (
+                                <StyledTableRow hover key={`${row.tipo}-${index}`}>
                                     <StyledTableCell sx={{pl: 3}} component="th" scope="row">
-                                        {row.name}
+                                        {index + 1}
                                     </StyledTableCell>
-                                    <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                                    <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                                    <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                                    <StyledTableCell align="right">{row.protein}</StyledTableCell>
-                                    <StyledTableCell align="right">{row.protein}</StyledTableCell>
-                                    <StyledTableCell align="right">{row.protein}</StyledTableCell>
-                                    <StyledTableCell sx={{pr: 3}} align="right">
-                                        {row.protein}
+                                    <StyledTableCell align="center">{row.tipo}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.fechaContribucion}</StyledTableCell>
+                                    <StyledTableCell sx={{pr: 3}} align="center">
+                                        <Button color="primary" size="small" variant="contained">
+                                            Ver
+                                        </Button>
                                     </StyledTableCell>
                                 </StyledTableRow>
                             ))}

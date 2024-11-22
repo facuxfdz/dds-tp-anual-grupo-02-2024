@@ -4,16 +4,16 @@ import {Table, TableBody, TableContainer, TableHead, TableRow} from "@mui/materi
 import {StyledTableCell} from "@components/Tables/StyledTableCell";
 import {StyledTableRow} from "@components/Tables/StyledTableRow";
 
-function createData(name: string, calories: number, fat: number, carbs: number, protein: number) {
-    return {name, calories, fat, carbs, protein};
+function createData(nombre: string, estado: string, cantidad: number) {
+    return {nombre, estado, cantidad};
 }
 
 const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9)
+    createData('Heladera 1', 'Activa', 2),
+    createData('Heladera 2', 'Desperfecto', 87),
+    createData('Heladera 3', 'Fuera de Servicio', 31),
+    createData('Heladera 4', 'Activa', 45),
+    createData('Heladera 5', 'Activa', 0),
 ];
 
 export const CantidadDeFallasPorHeladeraReport = () => {
@@ -22,32 +22,22 @@ export const CantidadDeFallasPorHeladeraReport = () => {
             <Table sx={{minWidth: 350}} aria-label="simple table">
                 <TableHead>
                     <TableRow>
-                        <StyledTableCell sx={{pl: 3}}>Dessert (100g serving)</StyledTableCell>
-                        <StyledTableCell align="right">Calories</StyledTableCell>
-                        <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-                        <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-                        <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
-                        <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
-                        <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
-                        <StyledTableCell align="right" sx={{pr: 3}}>
-                            Protein&nbsp;(g)
-                        </StyledTableCell>
+                        <StyledTableCell sx={{pl: 3}}>#</StyledTableCell>
+                        <StyledTableCell align="center">Nombre</StyledTableCell>
+                        <StyledTableCell align="center">Estado</StyledTableCell>
+                        <StyledTableCell align="center" sx={{pr: 3}}>Cantidad de Fallas</StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row) => (
-                        <StyledTableRow hover key={row.name}>
+                    {rows.map((row, index) => (
+                        <StyledTableRow hover key={`${row.nombre}-${index}`}>
                             <StyledTableCell sx={{pl: 3}} component="th" scope="row">
-                                {row.name}
+                                {index + 1}
                             </StyledTableCell>
-                            <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                            <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                            <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                            <StyledTableCell align="right">{row.protein}</StyledTableCell>
-                            <StyledTableCell align="right">{row.protein}</StyledTableCell>
-                            <StyledTableCell align="right">{row.protein}</StyledTableCell>
-                            <StyledTableCell sx={{pr: 3}} align="right">
-                                {row.protein}
+                            <StyledTableCell align="center">{row.nombre}</StyledTableCell>
+                            <StyledTableCell align="center">{row.estado}</StyledTableCell>
+                            <StyledTableCell align="center" sx={{pr: 3}}>
+                                {row.cantidad}
                             </StyledTableCell>
                         </StyledTableRow>
                     ))}
