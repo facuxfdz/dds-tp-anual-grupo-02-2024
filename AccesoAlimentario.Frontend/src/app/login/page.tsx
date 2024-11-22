@@ -91,7 +91,7 @@ export default function LoginPage() {
                 </Grid>
                 <Grid size={12}>
                     <AuthLogin/>
-                    <GoogleButton onClick={() => login()}>Sign in with Gugl</GoogleButton>
+                    <GoogleButton onClick={() => login()}/>
                 </Grid>
             </Grid>
         </AuthWrapper>
