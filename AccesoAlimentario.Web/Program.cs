@@ -35,7 +35,7 @@ if (builder.Environment.IsProduction())
     {
         connectionString = $"server={dbConnectionData.DB_SERVER};" +
                            $"database={dbConnectionData.DB_NAME};" +
-                           $"user={dbConnectionData.DB_USER};" +
+                           $"user={dbConnectionData.DB_USERNAME};" +
                            $"password={dbConnectionData.DB_PASSWORD};";
     }
     else
