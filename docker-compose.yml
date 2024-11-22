@@ -20,13 +20,10 @@ services:
     image: accesoalimentario:latest
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - DB_HOST=mysql
-      - DB_PORT=3306
+      - DB_SERVER=mysql
       - DB_NAME=AccesoAlimentario
       - DB_USER=dev
       - DB_PASSWORD=YourStrongPassword!123
-      - GOOGLE_CLIENT_ID=<replace_with_client_id>
-      - GOOGLE_CLIENT_SECRET=<replace_with_client_secret>
     ports:
       - "5000:8085" # Mapea el puerto 8080 del contenedor al puerto 5000 del host
     depends_on:

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
 using AccesoAlimentario.Core.DAL;
 using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace AccesoAlimentario.Api.Controllers
 {
@@ -60,15 +61,15 @@ namespace AccesoAlimentario.Api.Controllers
                 if (existingUser == null)
                 {
                     // Step 3: If User doesn't exist, create new user
-                    var createUserCommand = new CrearUsuario.CrearUsuarioCommand
+                    var createUserSSOCommand = new CrearUsuarioSSO.CrearUsuarioSSOCommand
                     {
-                        PersonaId = Guid.NewGuid(), // You should obtain the correct PersonaId
                         Username = userName ?? userEmail, // Use username or email
                         Password = "" // For users logging in via JWT, we set an empty password
                     };
 
-                    var result = await _mediator.Send(createUserCommand);
-                    if (result.GetType() == typeof(OkResult))
+                    var result = await _mediator.Send(createUserSSOCommand);
+                    Console.WriteLine(result);
+                    if (result == Results.Ok())
                     {
                         _logger.LogInformation("User created successfully.");
                     }

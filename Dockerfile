@@ -1,49 +1,32 @@
-﻿# Base image for running the application
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+﻿FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-# Use the .NET SDK image for building the application
+# Usa la imagen de .NET SDK para construir la aplicación
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copy project files and restore dependencies
+# Copia los archivos de proyecto y restaura las dependencias
 COPY ["AccesoAlimentario.Web/AccesoAlimentario.Web.csproj", "AccesoAlimentario.Web/"]
 COPY ["AccesoAlimentario.Core/AccesoAlimentario.Core.csproj", "AccesoAlimentario.Core/"]
 COPY ["AccesoAlimentario.Operations/AccesoAlimentario.Operations.csproj", "AccesoAlimentario.Operations/"]
 RUN dotnet restore "AccesoAlimentario.Web/AccesoAlimentario.Web.csproj"
 
-# Copy the rest of the code and build the application
+# Copia el resto del código y compila la aplicación
 COPY . .
 WORKDIR "/src/AccesoAlimentario.Web"
 RUN dotnet build "AccesoAlimentario.Web.csproj" -c Release -o /app/build
 
-# Publish the application
+# Publica la aplicación
 FROM build AS publish
-RUN dotnet tool install --global dotnet-ef
-ENV PATH="${PATH}:/root/.dotnet/tools"
 RUN dotnet publish "AccesoAlimentario.Web.csproj" -c Release -o /app/publish
 
-# Create the migration bundle
-FROM publish AS migrations
-WORKDIR /app/publish
-RUN dotnet ef migrations bundle --project ../AccesoAlimentario.Core/AccesoAlimentario.Core.csproj \
-    --startup-project ../AccesoAlimentario.Web/AccesoAlimentario.Web.csproj \
-    --context AccesoAlimentario.Core.DAL.AppDbContext --output ./efbundle
-
-# Final runtime image
+# Usa la imagen base para ejecutar la aplicación
 FROM base AS final
 WORKDIR /app
-
-# Copy the published app and the EF bundle
-COPY --from=migrations /app/publish .
-
-# Copy the initialization script into the image
-COPY scripts/init.sh /app/init.sh
-RUN chmod +x /app/init.sh
+COPY --from=publish /app/publish .
 
 ENV ASPNETCORE_URLS=http://+:8085
 
-# Run the initialization script as the entrypoint
-ENTRYPOINT ["/app/init.sh"]
+ENTRYPOINT ["dotnet", "AccesoAlimentario.Web.dll"]
