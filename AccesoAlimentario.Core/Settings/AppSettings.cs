@@ -6,7 +6,7 @@ namespace AccesoAlimentario.Core.Settings;
 public sealed class AppSettings
 {
     public static readonly AppSettings Instance = Instance ?? new AppSettings();
-    public string PathPasswordMasComunes = "Resources\\10mil-mas-comunes.txt";
+    public string PathPasswordMasComunes = "Resources/10mil-mas-comunes.txt";
     public List<string> Contrasenias { get; set; } = [];
     public float PesoDonadosCoef { get; set; }
     public float ViandasDistribuidasCoef { get; set; }
@@ -20,8 +20,8 @@ public sealed class AppSettings
         {
             Contrasenias = File.ReadAllLines(PathPasswordMasComunes).ToList();
             var build = new ConfigurationBuilder()
-                .AddJsonFile("Resources\\CoeficientesPuntos.json", optional: true, reloadOnChange: true)
-                .AddJsonFile("Resources\\appsettings.json")
+                .AddJsonFile("Resources/CoeficientesPuntos.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("Resources/appsettings.json")
                 .Build();
             PesoDonadosCoef = float.Parse(build["PesoDonadosCoef"]);
             ViandasDistribuidasCoef = float.Parse(build["ViandasDistribuidasCoef"]);
