@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
 using AccesoAlimentario.Core.DAL;
 using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace AccesoAlimentario.Api.Controllers
 {

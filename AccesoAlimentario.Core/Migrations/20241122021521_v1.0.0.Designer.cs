@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AccesoAlimentario.Core.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241121023140_Initial")]
-    partial class Initial
+    [Migration("20241122021521_v1.0.0")]
+    partial class v100
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -144,8 +144,8 @@ namespace AccesoAlimentario.Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<DateOnly?>("FechaNacimiento")
-                        .HasColumnType("date");
+                    b.Property<DateTime?>("FechaNacimiento")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("NroDocumento")
                         .HasColumnType("int");

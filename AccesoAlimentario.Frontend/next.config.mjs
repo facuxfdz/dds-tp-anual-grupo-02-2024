@@ -9,6 +9,15 @@ const nextConfig = {
         remotePatterns: [
         ],
     },
+    async redirects() {
+        return [
+            {
+                source: '/',
+                destination: '/login',
+                permanent: true,
+            },
+        ]
+    },
 };
 
 export default nextConfig;

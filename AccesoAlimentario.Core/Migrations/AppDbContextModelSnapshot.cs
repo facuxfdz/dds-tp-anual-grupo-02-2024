@@ -141,8 +141,8 @@ namespace AccesoAlimentario.Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<DateOnly?>("FechaNacimiento")
-                        .HasColumnType("date");
+                    b.Property<DateTime?>("FechaNacimiento")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("NroDocumento")
                         .HasColumnType("int");
