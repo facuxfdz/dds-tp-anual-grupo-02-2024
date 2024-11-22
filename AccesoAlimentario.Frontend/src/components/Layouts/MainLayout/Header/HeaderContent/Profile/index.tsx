@@ -22,7 +22,9 @@ import MainCard from '@components/Cards/MainCard';
 import Transitions from '@components/@extended/Transitions';
 
 // assets
-import {useAppSelector} from "@redux/hook";
+import {useAppDispatch, useAppSelector} from "@redux/hook";
+import { selectUser, setUser } from '@/redux/features/userSlice';
+import { parseJwt } from '@/utils/decode_jwt';
 
 // tab panel wrapper
 function TabPanel({ children, value, index }:{
@@ -48,7 +50,13 @@ function a11yProps(index:number) {
 
 const Profile = () => {
     const theme = useTheme();
-    const user = useAppSelector((state) => state.session);
+    let user = useAppSelector(selectUser);
+    const dispatch = useAppDispatch();
+    if (!user) {
+        const session_token = useAppSelector(state => state.session.token);
+        user = parseJwt(session_token);
+        dispatch(setUser(user));
+    }
 
     const anchorRef = useRef(null);
     const [open, setOpen] = useState(false);
@@ -84,7 +92,7 @@ const Profile = () => {
                 onClick={handleToggle}
             >
                 <Stack direction="row" spacing={2} alignItems="center" sx={{ p: 0.5 }}>
-                    <Avatar src={user.photo} />
+                    <Avatar src={user.profile_picture} />
                     <Typography variant="subtitle1">{user.name}</Typography>
                 </Stack>
             </ButtonBase>
@@ -123,7 +131,7 @@ const Profile = () => {
                                 <MainCard elevation={0} border={false} content={false}>
                                     <CardContent sx={{ px: 2.5, pt: 3 }}>
                                         <Stack direction="row" spacing={1.25} alignItems="center">
-                                            <Avatar sx={{ width: 32, height: 32 }} src={user.photo} />
+                                            <Avatar sx={{ width: 32, height: 32 }} src={user.profile_picture} />
                                             <Stack>
                                                 <Typography variant="h6">{user.name}</Typography>
                                             </Stack>

@@ -1,4 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { parseJwt } from "@utils/decode_jwt";
+
+import { RootState } from '../store';
 
 interface User {
     id?: string;
@@ -28,6 +31,8 @@ const userSlice = createSlice({
         },
     },
 });
+
+export const selectUser = (state: RootState) => state.user.user;
 
 export const { setUser, clearUser } = userSlice.actions;
 export default userSlice.reducer;
