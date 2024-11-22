@@ -7,20 +7,38 @@ import React from "react";
 import AuthLogin from "@components/Auth/AuthLogin";
 import { GoogleLogin } from "@react-oauth/google";
 import { setUser } from '@redux/features/userSlice';
+import { setSession } from '@redux/features/sessionSlice';
 import { useDispatch } from 'react-redux';
 import { config } from '@config/config';
+import { useRouter } from 'next/navigation'
+import { jwtDecode  } from 'jwt-decode' // import dependency
 
-/*import Link from "next/link";*/
+
+interface DecodedUser {
+    aud?: string;
+    name?: string;
+    email?: string;
+    picture?: string;
+    // Add other fields as necessary
+}
 
 export default function LoginPage() {
 
     const dispatch = useDispatch();
+    const router = useRouter();
+
+    const parseJwt = (token: string) : DecodedUser => {
+        try {
+            return jwtDecode(token);
+        } catch (e) {
+            return {} as DecodedUser;
+        }
+    }
 
     const handleSuccess = async (credentialResponse: any) => {
         try {
             const jwtToken = credentialResponse.credential;
-            console.log(jwtToken);
-            console.log(credentialResponse)
+
             // Call the backend to authenticate the user and get the user information
             const response = await fetch(`${config.apiUrl}/auth/login`, {
                 method: 'POST',
@@ -34,10 +52,17 @@ export default function LoginPage() {
             if (response.ok) {
                 const data = await response.json();  // Destructure the data from the backend
                 console.log(data);
-    
+                const jsonRes = parseJwt(data.token);
+                const user = {
+                    id: jsonRes.aud,
+                    name: jsonRes.name,
+                    email: jsonRes.email,
+                    picture: jsonRes.picture,
+                    // Add other fields as necessary
+                };
                 // Dispatch the action to update the Redux state with the user info
-                dispatch(setUser(data.user));  // Assuming you have a setUser action
-    
+                dispatch(setUser(user));  // Assuming you have a setUser action
+                dispatch(setSession(data.token));  // Assuming you have a setSession action
                 // Optionally, handle any other necessary state changes here
     
             } else {
@@ -46,6 +71,9 @@ export default function LoginPage() {
         } catch (error) {
             console.error('Error during login request:', error);
         }
+
+        router.push("/admin/inicio");
+
     };
     
     const handleFailure = () => {

@@ -51,7 +51,7 @@ else
     connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "";
     if (string.IsNullOrEmpty(connectionString))
     {
-        var dbServer = Environment.GetEnvironmentVariable("DB_SERVER") ?? "192.168.1.41";
+        var dbServer = Environment.GetEnvironmentVariable("DB_SERVER") ?? "mysql";
         var dbName = Environment.GetEnvironmentVariable("DB_NAME") ?? "AccesoAlimentario";
         var dbUser = Environment.GetEnvironmentVariable("DB_USER") ?? "root";
         var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "YourStrongPassword!123";
@@ -61,6 +61,8 @@ else
                            $"password={dbPassword};";
     }
 }
+
+Console.WriteLine($"Connection String: {connectionString}");
 
 
 builder.Services.AddDbContext<AppDbContext>((sp, options) =>
@@ -76,59 +78,19 @@ builder.Services.AddDbContext<AppDbContext>((sp, options) =>
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-var authenticationBuilder = builder.Services.AddAuthentication(options =>
-{
-    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-});
-
-authenticationBuilder
-    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
-    {
-        // configuring cookie options
-        options.Cookie.Name = "google-auth";
-        options.Cookie.SameSite = SameSiteMode.None;
-        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-        options.Cookie.IsEssential = true;
-        // Redirect to login page if user is not authenticated
-        options.LoginPath = "/";
-        // Redirect to access denied page if user is not authorized
-        options.AccessDeniedPath = "/Error";
-    })
-    .AddGoogle(GoogleDefaults.AuthenticationScheme,options =>
-    {
-        if (builder.Environment.IsDevelopment())
-        {
-            if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID")) ||
-                string.IsNullOrEmpty(Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET")))
-            {
-                options.ClientId = builder.Configuration.GetSection("Google").GetValue<string>("ClientId");
-                options.ClientSecret = builder.Configuration.GetSection("Google").GetValue<string>("ClientSecret");
-            }
-            else
-            {
-                options.ClientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID");
-                options.ClientSecret = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET");
-            }
-        }
-        else
-        {
-            var awsSecretsManager = new SecretRetrieve();
-            options.ClientId = awsSecretsManager.GetSecret("acceso_alimentario/google_client_id");
-            options.ClientSecret = awsSecretsManager.GetSecret("acceso_alimentario/google_client_secret");
-        }
-    });
 
 // Allow CORS
-const string corsDevelop = "_CORSDevelop";
+var corsDevelop = "_CORSDevelop";
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: corsDevelop,
         policy =>
         {
             policy
-                .WithOrigins("http://localhost:3000")
-                .AllowAnyOrigin()
                 .AllowAnyHeader()
+                .WithOrigins("http://localhost:3000")
+                .AllowCredentials()
+                .SetIsOriginAllowed((host) => true)
                 .AllowAnyMethod();
         });
 });
@@ -137,18 +99,16 @@ builder.Services.AddOperationsLayer();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+app.UseCors(corsDevelop);
+
+using (var scope = app.Services.GetService<IServiceScopeFactory>()!.CreateScope())
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    context.Database.Migrate();
 }
 
-app.UseSwaggerConfiguration();
 
-app.UseHttpsRedirection();
-app.UseCors(corsDevelop);
+app.UseSwaggerConfiguration();
 
 app.UseAuthentication();
 app.UseAuthorization();
