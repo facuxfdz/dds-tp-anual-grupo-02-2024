@@ -18,6 +18,7 @@ interface DecodedUser {
     aud?: string;
     name?: string;
     email?: string;
+    picture?: string;
     // Add other fields as necessary
 }
 
@@ -56,6 +57,7 @@ export default function LoginPage() {
                     id: jsonRes.aud,
                     name: jsonRes.name,
                     email: jsonRes.email,
+                    picture: jsonRes.picture,
                     // Add other fields as necessary
                 };
                 // Dispatch the action to update the Redux state with the user info
