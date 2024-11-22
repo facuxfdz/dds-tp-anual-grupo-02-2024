@@ -17,6 +17,7 @@ export const OfertaPremioForm = () => {
         };
         reader.readAsDataURL(newFile as Blob);
     };
+
     return (
         <Grid container spacing={3} alignItems="center">
             <Grid size={12} key={"fechaContribucion"}>
