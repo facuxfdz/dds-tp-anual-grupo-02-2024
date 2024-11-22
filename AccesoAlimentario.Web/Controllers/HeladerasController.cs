@@ -25,6 +25,20 @@ public class HeladerasController(ISender sender, ILogger<HeladerasController> lo
             return Results.StatusCode(500);
         }
     }
+    
+    [HttpGet]
+    public async Task<IResult> Get()
+    {
+        try
+        {
+            return await sender.Send(new ObtenerHeladeras.ObtenerHeladerasQuery());
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Error al obtener las heladeras");
+            return Results.StatusCode(500);
+        }
+    }
 
     [HttpGet("{id}")]
     public async Task<IResult> Get(Guid id)

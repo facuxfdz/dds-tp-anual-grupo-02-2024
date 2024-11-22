@@ -1,48 +1,60 @@
 "use client";
-import {Form, FormFieldType, IFormField} from "@components/Forms/Form";
 import React from "react";
+import Grid from "@mui/material/Grid2";
+import {LocalizationProvider} from "@mui/x-date-pickers";
+import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
+import {DatePickerElement} from "react-hook-form-mui/date-pickers";
+import {TextFieldElement} from "react-hook-form-mui";
 
-const fields: IFormField[] = [
-    {
-        id: "fechaContribucion",
-        label: "Fecha de la donación",
-        type: FormFieldType.DATE,
-        width: 12,
-        value: "",
-        placeholder: "Ingrese una fecha",
-        isRequired: true,
-        regex: "",
-        errorMessage: "Por favor ingrese una fecha",
-        options: []
-    },
-    {
-        id: "monto",
-        label: "Monto de la donación",
-        type: FormFieldType.NUMBER,
-        width: 12,
-        value: "",
-        placeholder: "Ingrese un monto",
-        isRequired: true,
-        regex: "",
-        errorMessage: "Por favor ingrese un monto",
-        options: []
-    },
-    {
-        id: "frecuenciaDias",
-        label: "Frecuencia de la donación",
-        type: FormFieldType.NUMBER,
-        width: 12,
-        value: "",
-        placeholder: "Ingrese una frecuencia",
-        isRequired: true,
-        regex: "",
-        errorMessage: "Por favor ingrese una frecuencia",
-        options: []
-    }
-];
 
 export const DonacionMonetariaForm = () => {
     return (
-        <Form fields={fields}/>
+        <Grid container spacing={3} alignItems="center">
+            <Grid size={12} key={"fechaContribucion"}>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DatePickerElement
+                        label={"Fecha de la donación"}
+                        name={"fechaContribucion"}
+                        required={true}
+                        rules={
+                            {
+                                required: "Por favor ingrese una fecha"
+                            }
+                        }
+                        sx={{width: '100%'}}
+                    />
+                </LocalizationProvider>
+            </Grid>
+            <Grid size={12} key={"monto"}>
+                <TextFieldElement
+                    name={"monto"}
+                    label={"Monto de la donación"}
+                    placeholder={"Ingrese un monto"}
+                    required={true}
+                    fullWidth
+                    type="number"
+                    rules={
+                        {
+                            required: "Por favor ingrese un monto"
+                        }
+                    }
+                />
+            </Grid>
+            <Grid size={12} key={"frecuenciaDias"}>
+                <TextFieldElement
+                    name={"frecuenciaDias"}
+                    label={"Frecuencia de la donación"}
+                    placeholder={"Ingrese una frecuencia en dias"}
+                    required={true}
+                    fullWidth
+                    type="number"
+                    rules={
+                        {
+                            required: "Por favor ingrese una frecuencia"
+                        }
+                    }
+                />
+            </Grid>
+        </Grid>
     );
 }

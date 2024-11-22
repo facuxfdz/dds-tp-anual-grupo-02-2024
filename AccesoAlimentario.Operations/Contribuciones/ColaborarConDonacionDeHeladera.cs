@@ -14,6 +14,7 @@ public static class ColaborarConDonacionDeHeladera
     public class ColaborarConDonacionDeHeladeraCommand : IRequest<IResult>
     {
         public Guid ColaboradorId { get; set; } = Guid.Empty;
+        public DateTime FechaContribucion { get; set; } = DateTime.Now;
         public PuntoEstrategicoRequest PuntoEstrategico { get; set; } = null!;
         public EstadoHeladera Estado { get; set; } = EstadoHeladera.FueraServicio;
         public DateTime FechaInstalacion { get; set; } = DateTime.Now;
@@ -58,7 +59,7 @@ public static class ColaborarConDonacionDeHeladera
 
             var contribucion = new AdministracionHeladera
             {
-                FechaContribucion = DateTime.Now,
+                FechaContribucion = request.FechaContribucion,
                 Heladera = heladera,
             };
 

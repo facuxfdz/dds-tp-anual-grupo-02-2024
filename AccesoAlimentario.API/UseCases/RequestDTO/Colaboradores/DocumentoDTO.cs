@@ -6,5 +6,5 @@ public class DocumentoDTO
 {
     public TipoDocumento Tipo { get; set; }
     public string Numero { get; set; }
-    public DateOnly FechaVencimiento { get; set; }
+    public DateTime FechaVencimiento { get; set; }
 }

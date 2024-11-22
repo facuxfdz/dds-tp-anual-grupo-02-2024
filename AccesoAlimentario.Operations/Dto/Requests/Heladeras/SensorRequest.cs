@@ -8,6 +8,7 @@ namespace AccesoAlimentario.Operations.Dto.Requests.Heladeras;
 [JsonSubtypes.KnownSubType(typeof(SensorMovimientoRequest), "Movimiento")]
 public abstract class SensorRequest
 {
+    public Guid Id { get; set; } = Guid.NewGuid();
     public string Tipo = string.Empty;
 }
 

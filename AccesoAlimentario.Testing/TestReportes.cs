@@ -48,8 +48,8 @@ public class TestReportes
         _modelo1 = new ModeloHeladera(20, -15, 5);
         _heladera1 = new Heladera(_punto1, -10f, 5f, _modelo1);
         _medioContacto = new Email(true, "direccionfalsa@gmail.com");
-        _documentoIdentidad1 = new DocumentoIdentidad(TipoDocumento.DNI, 214214515, DateOnly.Parse("February 1, 1999", CultureInfo.InvariantCulture));
-        _documentoIdentidad2 = new DocumentoIdentidad(TipoDocumento.CUIL, 2145345343, DateOnly.Parse("February 1, 1999", CultureInfo.InvariantCulture));
+        _documentoIdentidad1 = new DocumentoIdentidad(TipoDocumento.DNI, 214214515, DateTime.Parse("February 1, 1999", CultureInfo.InvariantCulture));
+        _documentoIdentidad2 = new DocumentoIdentidad(TipoDocumento.CUIL, 2145345343, DateTime.Parse("February 1, 1999", CultureInfo.InvariantCulture));
         _persona1 = new PersonaHumana("Pepito", "Terrabusi", [_medioContacto] , _direccion1, _documentoIdentidad1, SexoDocumento.Otro);
         _colaborador1 = new Colaborador(_persona1, [TipoContribucion.DINERO]);
         _persona2 = new PersonaJuridica("Terrabusi", "SA", TipoJuridico.Empresa, "Alimentos", [_medioContacto], _direccion1, _documentoIdentidad2);

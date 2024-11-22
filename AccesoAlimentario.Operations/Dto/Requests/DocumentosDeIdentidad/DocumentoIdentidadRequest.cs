@@ -6,7 +6,7 @@ public class DocumentoIdentidadRequest : IDtoRequest
 {
     public TipoDocumento TipoDocumento { get; set; } = TipoDocumento.DNI;
     public int NroDocumento { get; set; } = 0;
-    public DateOnly FechaNacimiento { get; set; } = new DateOnly();
+    public DateTime FechaNacimiento { get; set; } = new DateTime();
 
     public bool Validar()
     {

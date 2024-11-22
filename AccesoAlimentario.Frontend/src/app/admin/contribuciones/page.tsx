@@ -57,23 +57,23 @@ export default function ContribucionesPage() {
     const {addNotification} = useNotification();
     const [
         postDistribucionViandas,
-        {error: distribucionViandasError, isLoading: isLoadingDistribucionViandas}
+        {isLoading: isLoadingDistribucionViandas}
     ] = usePostDistribucionViandasMutation();
     const [
         postDonacionMonetaria,
-        {error: donacionMonetariaError, isLoading: isLoadingDonacionMonetaria}
+        {isLoading: isLoadingDonacionMonetaria}
     ] = usePostDonacionMonetariaMutation();
     const [
         postDonacionViandas,
-        {error: donacionViandasError, isLoading: isLoadingDonacionViandas}
+        {isLoading: isLoadingDonacionViandas}
     ] = usePostDonacionViandaMutation();
     const [
         postOfertaPremio,
-        {error: ofertaPremioError, isLoading: isLoadingOfertaPremio}
+        {isLoading: isLoadingOfertaPremio}
     ] = usePostOfertaPremioMutation();
     const [
         postDonacionHeladera,
-        {error: donacionHeladeraError, isLoading: isLoadingDonacionHeladera}
+        {isLoading: isLoadingDonacionHeladera}
     ] = usePostDonacionHeladeraMutation();
 
 
@@ -86,31 +86,33 @@ export default function ContribucionesPage() {
                     monto: Number(data.monto),
                     frecuenciaDias: Number(data.frecuenciaDias)
                 };
-                await postDonacionMonetaria(donacionMonetariaData).unwrap();
-                if (donacionMonetariaError) {
-                    addNotification("Error al crear la donación monetaria", "error");
-                } else {
+                try {
+                    await postDonacionMonetaria(donacionMonetariaData).unwrap();
                     addNotification("Donación monetaria creada con éxito", "success");
                     setShowModal(false);
+                    formContext.reset();
+                } catch {
+                    addNotification("Error al crear la donación monetaria", "error");
                 }
                 break;
             case "DonacionVianda":
                 const donacionViandaData: IDonacionViandaRequest = {
                     colaboradorId: colaboradorId,
                     fechaContribucion: data.fechaContribucion,
-                    heladeraId: data.heladeraId,
+                    heladeraId: data.heladera,
                     comida: data.comida,
                     fechaCaducidad: data.fechaCaducidad,
                     calorias: Number(data.calorias),
                     peso: Number(data.peso),
                     estadoVianda: "Disponible"
                 };
-                await postDonacionViandas(donacionViandaData).unwrap();
-                if (donacionViandasError) {
-                    addNotification("Error al crear la donación de vianda", "error");
-                } else {
+                try {
+                    await postDonacionViandas(donacionViandaData).unwrap();
                     addNotification("Donación de vianda creada con éxito", "success");
                     setShowModal(false);
+                    formContext.reset();
+                } catch {
+                    addNotification("Error al crear la donación de vianda", "error");
                 }
                 break;
             case "OfertaPremio":
@@ -118,39 +120,58 @@ export default function ContribucionesPage() {
                     colaboradorId: colaboradorId,
                     fechaContribucion: data.fechaContribucion,
                     nombre: data.nombre,
-                    puntosNecesarios: Number(data.puntosNecesarios),
+                    puntosNecesarios: Number(data.puntos),
                     imagen: data.imagen,
                     rubro: data.rubro as "Gastronomia" | "Electronica" | "ArticulosHogar" | "Otros"
                 };
-                await postOfertaPremio(ofertaPremioData).unwrap();
-                if (ofertaPremioError) {
-                    addNotification("Error al crear la oferta de premio", "error");
-                } else {
+                try {
+                    await postOfertaPremio(ofertaPremioData).unwrap();
                     addNotification("Oferta de premio creada con éxito", "success");
                     setShowModal(false);
+                    formContext.reset();
+                } catch {
+                    addNotification("Error al crear la oferta de premio", "error");
                 }
                 break;
             case "AdministracionHeladera":
+                const sensores = formContext.watch("sensores") as FormFieldValue[];
                 const donacionHeladeraData: IDonacionHeladeraRequest = {
                     colaboradorId: colaboradorId,
                     fechaContribucion: data.fechaContribucion,
-                    estado: "Activa",
+                    puntoEstrategico: {
+                        nombre: data.puntoEstrategicoNombre,
+                        longitud: Number(data.puntoEstrategicoLongitud),
+                        latitud: Number(data.puntoEstrategicoLatitud),
+                        direccion: {
+                            calle: data.puntoEstrategicoCalle,
+                            numero: data.puntoEstrategicoNumero,
+                            localidad: data.puntoEstrategicoLocalidad,
+                            piso: data.puntoEstrategicoPiso,
+                            departamento: data.puntoEstrategicoDepartamento,
+                            codigoPostal: data.puntoEstrategicoCodigoPostal
+                        }
+                    },
+                    estado: data.estado as "Activa" | "Desperfecto" | "FueraServicio",
                     fechaInstalacion: data.fechaInstalacion,
                     temperaturaMinimaConfig: Number(data.temperaturaMinimaConfig),
                     temperaturaMaximaConfig: Number(data.temperaturaMaximaConfig),
-                    sensores: [],
+                    sensores: sensores.map((sensor: FormFieldValue) => ({
+                        id: sensor.id,
+                        tipo: sensor.tipo as "Temperatura" | "Movimiento"
+                    })),
                     modelo: {
-                        capacidad: Number(data.modelocapacidad),
-                        temperaturaMinima: Number(data.modelotemperaturaMinima),
-                        temperaturaMaxima: Number(data.modelotemperaturaMaxima)
+                        capacidad: Number(data.modeloCapacidad),
+                        temperaturaMinima: Number(data.modeloTemperaturaMinima),
+                        temperaturaMaxima: Number(data.modeloTemperaturaMaxima)
                     }
                 };
-                await postDonacionHeladera(donacionHeladeraData).unwrap();
-                if (donacionHeladeraError) {
-                    addNotification("Error al crear la donación de heladera", "error");
-                } else {
+                try {
+                    await postDonacionHeladera(donacionHeladeraData).unwrap();
                     addNotification("Donación de heladera creada con éxito", "success");
                     setShowModal(false);
+                    formContext.reset();
+                } catch {
+                    addNotification("Error al crear la donación de heladera", "error");
                 }
                 break;
             case "DistribucionViandas":
@@ -162,12 +183,13 @@ export default function ContribucionesPage() {
                     cantidadDeViandas: Number(data.cantidadDeViandas),
                     motivo: data.motivo as "Desperfecto" | "FaltaDeViandas"
                 };
-                await postDistribucionViandas(distribucionViandasData).unwrap();
-                if (distribucionViandasError) {
-                    addNotification("Error al crear la distribución de viandas", "error");
-                } else {
+                try {
+                    await postDistribucionViandas(distribucionViandasData).unwrap();
                     addNotification("Distribución de viandas creada con éxito", "success");
                     setShowModal(false);
+                    formContext.reset();
+                } catch {
+                    addNotification("Error al crear la distribución de viandas", "error");
                 }
                 break;
             default:
