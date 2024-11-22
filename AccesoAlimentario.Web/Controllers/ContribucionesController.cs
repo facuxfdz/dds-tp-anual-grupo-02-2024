@@ -12,7 +12,7 @@ namespace AccesoAlimentario.Web.Controllers;
 [ApiController]
 public class ContribucionesController(ISender sender, ILogger<ContribucionesController> logger) : ControllerBase
 {
-    [HttpPost("DistribucionVianda")]
+    [HttpPost("DistribucionViandas")]
     public async Task<IResult> DistribucionVianda(
         [FromBody] ColaborarConDistribucionDeVianda.ColaborarConDistribucionDeViandaCommand command)
     {

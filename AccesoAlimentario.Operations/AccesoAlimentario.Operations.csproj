@@ -6,10 +6,6 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <ItemGroup>
-      <Folder Include="Dto\Responses\" />
-    </ItemGroup>
-
 
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />

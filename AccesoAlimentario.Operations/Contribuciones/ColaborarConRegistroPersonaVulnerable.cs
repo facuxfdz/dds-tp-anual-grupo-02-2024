@@ -27,7 +27,7 @@ public static class ColaborarConRegistroPersonaVulnerable
         public TarjetaConsumoRequest Tarjeta { get; set; } = null!;
 
         // Para conformar la persona
-        public PersonaRequest Persona { get; set; } = null!;
+        public PersonaHumanaRequest Persona { get; set; } = null!;
         public DireccionRequest? Direccion = null!;
         public DocumentoIdentidadRequest? Documento = null!;
         public List<MedioDeContactoRequest> MediosDeContacto = [];
