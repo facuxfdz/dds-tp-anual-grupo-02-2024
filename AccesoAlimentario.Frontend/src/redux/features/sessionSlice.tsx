@@ -1,25 +1,24 @@
 import {createSlice} from "@reduxjs/toolkit";
+import { RootState } from "@redux/store";
+
 
 const initialState = {
-    token: "",
-    participantId: "1",
-    name: "asdasd",
-    photo: "/AccesoAlimentario.Icon.png",
+    token: ""
 };
 
 export const sessionSlice = createSlice({
     name: "session",
     initialState,
     reducers: {
-        setToken: (state, action) => {
+        setSession: (state, action) => {
             state.token = action.payload;
-        },
-        setParticipantId: (state, action) => {
-            state.participantId = action.payload;
-        },
+        }
     },
 });
 
-export const {setToken, setParticipantId} = sessionSlice.actions;
+// Selector to check if the session is valid
+export const hasValidSession = (state : RootState) => state.session.token !== "";
+
+export const { setSession } = sessionSlice.actions;
 
 export default sessionSlice.reducer;
