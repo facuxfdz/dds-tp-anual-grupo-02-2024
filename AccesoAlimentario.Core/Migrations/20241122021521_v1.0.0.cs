@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AccesoAlimentario.Core.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class v100 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -54,7 +54,7 @@ namespace AccesoAlimentario.Core.Migrations
                     Id = table.Column<Guid>(type: "char(36)", nullable: false),
                     TipoDocumento = table.Column<int>(type: "int", nullable: false),
                     NroDocumento = table.Column<int>(type: "int", nullable: false),
-                    FechaNacimiento = table.Column<DateOnly>(type: "date", nullable: true)
+                    FechaNacimiento = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {

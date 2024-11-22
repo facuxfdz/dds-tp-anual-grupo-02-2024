@@ -4,9 +4,6 @@ using AccesoAlimentario.Operations;
 using AccesoAlimentario.Web.Swagger;
 using Microsoft.EntityFrameworkCore;
 using AccesoAlimentario.Web.SecretRetrieve;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.Google;
-using Serilog;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -62,9 +59,6 @@ else
     }
 }
 
-Console.WriteLine($"Connection String: {connectionString}");
-
-
 builder.Services.AddDbContext<AppDbContext>((sp, options) =>
     options
         .UseMySQL(connectionString, x =>
@@ -74,10 +68,6 @@ builder.Services.AddDbContext<AppDbContext>((sp, options) =>
         })
         .UseLazyLoadingProxies()
 );
-
-// Add services to the container.
-builder.Services.AddControllersWithViews();
-
 
 // Allow CORS
 var corsDevelop = "_CORSDevelop";
