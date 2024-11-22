@@ -58,7 +58,7 @@ module "ecs" {
 
   services = {
     acceso_alimentario = {
-      name                           = "${var.service_name}-front"
+      name                           = "${var.service_name}"
       tasks_iam_role_use_name_prefix = false
       ignore_task_definition_changes = true
       cpu                            = 512
@@ -70,7 +70,7 @@ module "ecs" {
       load_balancer = {
         service = {
           target_group_arn = data.aws_lb_target_group.alb_tg.arn
-          container_name   = "${var.service_name}-front"
+          container_name   = "${var.service_name}"
           container_port   = 3000
         }
       }
