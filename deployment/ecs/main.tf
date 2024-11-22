@@ -57,8 +57,8 @@ module "ecs" {
   }
 
   services = {
-    initial_svc = {
-      name                           = var.service_name
+    acceso_alimentario = {
+      name                           = "${var.service_name}"
       tasks_iam_role_use_name_prefix = false
       ignore_task_definition_changes = true
       cpu                            = 512
@@ -70,15 +70,15 @@ module "ecs" {
       load_balancer = {
         service = {
           target_group_arn = data.aws_lb_target_group.alb_tg.arn
-          container_name   = var.service_name
-          container_port   = 8085
+          container_name   = "${var.service_name}"
+          container_port   = 3000
         }
       }
       security_group_rules = {
         alb_ingress = {
           type        = "ingress"
-          from_port   = 8085
-          to_port     = 8085
+          from_port   = 3000
+          to_port     = 3000
           protocol    = "tcp"
           description = "Service port"
           cidr_blocks = ["0.0.0.0/0"]
@@ -101,8 +101,8 @@ module "ecs" {
           port_mappings = [
             {
               name          = "ecs-sample"
-              containerPort = 8085
-              hostPort      = 8085
+              containerPort = 3000
+              hostPort      = 3000
               protocol      = "tcp"
             }
           ]

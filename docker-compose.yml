@@ -31,6 +31,16 @@ services:
     networks:
       - accesodb
       - default
+  
+  front:
+      build:
+        context: ./AccesoAlimentario.Frontend
+        dockerfile: Dockerfile
+      image: accesoalimentario-frontend:latest
+      ports:
+        - "3000:3000"
+      networks:
+        - default
 
 
 networks:

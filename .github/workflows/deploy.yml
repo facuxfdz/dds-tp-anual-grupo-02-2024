@@ -129,6 +129,22 @@ jobs:
           echo "image_tag=$IMAGE_TAG"           
           echo "full_image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
           echo "full_image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
+          
+      - name: Build, tag, and push frontend to Amazon ECR
+        id: build-publish-frontend
+        shell: bash        
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: "acceso-alimentario-frontend"
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build "." -f "./Dockerfile" -t "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          docker push "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          echo "IMAGE $IMAGE_TAG is pushed to $ECR_REGISTRY/$ECR_REPOSITORY"
+          echo "image_tag_front=$IMAGE_TAG"           
+          echo "full_image_front=$ECR_REGISTRY/$ECR_REPOSITORY/front:$IMAGE_TAG"
+          echo "full_image_front=$ECR_REGISTRY/$ECR_REPOSITORY/front:$IMAGE_TAG" >> $GITHUB_ENV
+        working-directory: "./AccesoAlimentario.Frontend"
 
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
@@ -147,6 +163,8 @@ jobs:
           fi
           sed -i "s#TASK_ROLE_ARN#${{ steps.ecs_cluster.outputs.task_role_arn }}#" "${{ steps.task-def.outputs.task-definition }}"
           sed -i "s#TASK_EXECUTION_ROLE_ARN#${{ steps.ecs_cluster.outputs.task_execution_role_arn }}#" "${{ steps.task-def.outputs.task-definition }}"
+          sed -i "s#IMAGE_FRONT#${{ env.full_image_front }}#" "${{ steps.task-def.outputs.task-definition }}"
+          
 
       - name: Echo the new ECS task definition
         run: cat "${{ steps.task-def.outputs.task-definition }}"
@@ -158,4 +176,4 @@ jobs:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
           service: "accesoalimentario"
           cluster: "accesoalimentario"
-          wait-for-service-stability: true
+          wait-for-service-stability: false   
