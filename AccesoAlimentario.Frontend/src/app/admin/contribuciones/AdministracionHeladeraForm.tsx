@@ -1,4 +1,3 @@
-import {Form, FormFieldType, IFormField} from "@components/Forms/Form";
 import React, {useEffect, useRef,} from "react";
 import {Box, Button, Modal, Stack, TextField} from "@mui/material";
 import MainCard from "@components/Cards/MainCard";
@@ -8,172 +7,19 @@ import {
     useGetRecomendacionesUbicacionHeladeraQuery,
 } from "@redux/services/serviciosApi";
 import {useNotification} from "@components/Notifications/NotificationContext";
-import {useFormContext} from "react-hook-form";
+import {useFieldArray, useFormContext} from "react-hook-form";
 import dynamic from 'next/dynamic'
+import Grid from "@mui/material/Grid2";
+import {LocalizationProvider} from "@mui/x-date-pickers";
+import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
+import {DatePickerElement} from "react-hook-form-mui/date-pickers";
+import {SelectElement, TextFieldElement} from "react-hook-form-mui";
+import Typography from "@mui/material/Typography";
+import {v4 as uuidv4} from 'uuid';
 
 const Map = dynamic(() => import('./Map'), {
     ssr: false,
 })
-
-const fields: IFormField[] = [
-    {
-        id: "nombre",
-        label: "Nombre",
-        type: FormFieldType.TEXT,
-        width: 12,
-        value: "",
-        placeholder: "Nombre de la heladera",
-        isRequired: true,
-        regex: "",
-        errorMessage: "Ingrese un nombre válido",
-        options: [],
-    },
-    {
-        id: "latitud",
-        label: "Latitud",
-        type: FormFieldType.NUMBER,
-        width: 6,
-        value: "",
-        placeholder: "Ingrese la latitud",
-        isRequired: true,
-        regex: "",
-        errorMessage: "Por favor ingrese la latitud",
-        options: []
-    },
-    {
-        id: "longitud",
-        label: "Longitud",
-        type: FormFieldType.NUMBER,
-        width: 6,
-        value: "",
-        placeholder: "Ingrese la longitud",
-        isRequired: true,
-        regex: "",
-        errorMessage: "Por favor ingrese la longitud",
-        options: []
-    },
-    {
-        id: "calle",
-        label: "Calle",
-        type: FormFieldType.TEXT,
-        width: 6,
-        value: "",
-        placeholder: "Ingrese su calle",
-        isRequired: true,
-        regex: "",
-        errorMessage: "Por favor ingrese su calle",
-        options: []
-    },
-    {
-        id: "numero",
-        label: "Número",
-        type: FormFieldType.NUMBER,
-        width: 6,
-        value: "",
-        placeholder: "Ingrese su número",
-        isRequired: true,
-        regex: "",
-        errorMessage: "Por favor ingrese su número",
-        options: []
-    },
-    {
-        id: "localidad",
-        label: "Localidad",
-        type: FormFieldType.TEXT,
-        width: 4,
-        value: "",
-        placeholder: "Ingrese su localidad",
-        isRequired: true,
-        regex: "",
-        errorMessage: "Por favor ingrese su localidad",
-        options: []
-    },
-    {
-        id: "piso",
-        label: "Piso",
-        type: FormFieldType.NUMBER,
-        width: 2,
-        value: "",
-        placeholder: "Ingrese su piso",
-        isRequired: false,
-        regex: "",
-        errorMessage: "Por favor ingrese su piso",
-        options: []
-    },
-    {
-        id: "departamento",
-        label: "Departamento",
-        type: FormFieldType.TEXT,
-        width: 4,
-        value: "",
-        placeholder: "Ingrese su departamento",
-        isRequired: false,
-        regex: "",
-        errorMessage: "Por favor ingrese su departamento",
-        options: []
-    },
-    {
-        id: "codigoPostal",
-        label: "Código Postal",
-        type: FormFieldType.NUMBER,
-        width: 2,
-        value: "",
-        placeholder: "Ingrese su código postal",
-        isRequired: true,
-        regex: "\\d{4,8}",
-        errorMessage: "Por favor ingrese su código postal",
-        options: []
-    },
-    {
-        id: "fechaInstalacion",
-        label: "Fecha de instalación",
-        type: FormFieldType.DATE,
-        width: 12,
-        value: "",
-        placeholder: "Ingrese la fecha de instalación",
-        isRequired: true,
-        regex: "",
-        errorMessage: "Por favor ingrese la fecha de instalación",
-        options: []
-    },
-    {
-        id: "modelo",
-        label: "Modelo",
-        type: FormFieldType.SELECT,
-        width: 12,
-        value: "",
-        placeholder: "Ingrese el modelo de la heladera",
-        isRequired: true,
-        regex: "",
-        errorMessage: "Por favor ingrese el modelo de la heladera",
-        options: ["Modelo 1", "Modelo 2", "Modelo 3"]
-    },
-    {
-        id: "temperaturaMinima",
-        label: "Temperatura mínima",
-        type: FormFieldType.NUMBER,
-        width: 6,
-        value: "",
-        placeholder: "Ingrese la temperatura mínima",
-        isRequired: true,
-        regex: "",
-        errorMessage: "Por favor ingrese la temperatura mínima",
-        options: []
-    },
-    {
-        id: "temperaturaMaxima",
-        label: "Temperatura máxima",
-        type: FormFieldType.NUMBER,
-        width: 6,
-        value: "",
-        placeholder: "Ingrese la temperatura máxima",
-        isRequired: true,
-        regex: "",
-        errorMessage: "Por favor ingrese la temperatura máxima",
-        options: []
-    }
-];
-
 
 export const AdministracionHeladeraForm = () => {
     const [open, setOpen] = React.useState(false);
@@ -189,6 +35,9 @@ export const AdministracionHeladeraForm = () => {
     const [errorInformed, setErrorInformed] = React.useState(false);
     const mapRef = useRef<L.Map>(null);
     const {setValue} = useFormContext();
+    const {fields: sensores, append, remove} = useFieldArray({
+        name: "sensores",
+    });
 
     useEffect(() => {
         if (error && !errorInformed) {
@@ -199,19 +48,345 @@ export const AdministracionHeladeraForm = () => {
 
     const moveToLocation = (lat: number, lng: number) => {
         if (mapRef.current) {
-            mapRef.current.setView([lat, lng], 13);
+            mapRef.current.flyTo([lat, lng], 13);
         }
     };
 
     return (
         <>
-            <Button variant="contained" color="primary" onClick={() => setOpen(true)} sx={{
-                width: "100%",
-                mb: 2
-            }}>
-                Solicitar puntos de colocación
-            </Button>
-            <Form fields={fields}/>
+            <Grid container spacing={3} alignItems="center">
+                <Grid size={12} key={"fechaContribucion"}>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <DatePickerElement
+                            label={"Fecha de la donación"}
+                            name={"fechaContribucion"}
+                            required={true}
+                            rules={
+                                {
+                                    required: "Por favor ingrese una fecha"
+                                }
+                            }
+                            sx={{width: '100%'}}
+                        />
+                    </LocalizationProvider>
+                </Grid>
+                <Grid size={9} key={"puntoEstrategico"}>
+                    <Typography variant="h4" gutterBottom>
+                        Punto estratégico
+                    </Typography>
+                </Grid>
+                <Grid size={3} key={"puntoEstrategicoBuscar"}>
+                    <Button variant="contained" color="primary" onClick={() => setOpen(true)} sx={{
+                        width: "100%",
+                        mb: 2
+                    }}>
+                        Solicitar puntos de colocación
+                    </Button>
+                </Grid>
+                <Grid size={6} key={"puntoEstrategicoNombre"}>
+                    <TextFieldElement
+                        name={"puntoEstrategicoNombre"}
+                        label={"Nombre del punto estratégico"}
+                        placeholder={"Ingrese el nombre del punto estratégico"}
+                        required={true}
+                        fullWidth
+                        rules={
+                            {
+                                required: "Por favor ingrese el nombre del punto estratégico"
+                            }
+                        }
+                    />
+                </Grid>
+                <Grid size={3} key={"puntoEstrategicoLongitud"}>
+                    <TextFieldElement
+                        name={"puntoEstrategicoLongitud"}
+                        label={"Longitud"}
+                        placeholder={"Ingrese la longitud"}
+                        required={true}
+                        fullWidth
+                        type="number"
+                        rules={
+                            {
+                                required: "Por favor ingrese la longitud"
+                            }
+                        }
+                    />
+                </Grid>
+                <Grid size={3} key={"puntoEstrategicoLatitud"}>
+                    <TextFieldElement
+                        name={"puntoEstrategicoLatitud"}
+                        label={"Latitud"}
+                        placeholder={"Ingrese la latitud"}
+                        required={true}
+                        fullWidth
+                        type="number"
+                        rules={
+                            {
+                                required: "Por favor ingrese la latitud"
+                            }
+                        }
+                    />
+                </Grid>
+                <Grid size={9} key={"puntoEstrategicoCalle"}>
+                    <TextFieldElement
+                        name={"puntoEstrategicoCalle"}
+                        label={"Calle"}
+                        placeholder={"Ingrese la calle"}
+                        required={true}
+                        fullWidth
+                        rules={
+                            {
+                                required: "Por favor ingrese la calle"
+                            }
+                        }
+                    />
+                </Grid>
+                <Grid size={3} key={"puntoEstrategicoNumero"}>
+                    <TextFieldElement
+                        name={"puntoEstrategicoNumero"}
+                        label={"Número"}
+                        placeholder={"Ingrese el número"}
+                        required={true}
+                        fullWidth
+                        rules={
+                            {
+                                required: "Por favor ingrese el número"
+                            }
+                        }
+                    />
+                </Grid>
+                <Grid size={4} key={"puntoEstrategicoLocalidad"}>
+                    <TextFieldElement
+                        name={"puntoEstrategicoLocalidad"}
+                        label={"Localidad"}
+                        placeholder={"Ingrese la localidad"}
+                        required={true}
+                        fullWidth
+                        rules={
+                            {
+                                required: "Por favor ingrese la localidad"
+                            }
+                        }
+                    />
+                </Grid>
+                <Grid size={3} key={"puntoEstrategicoPiso"}>
+                    <TextFieldElement
+                        name={"puntoEstrategicoPiso"}
+                        label={"Piso"}
+                        placeholder={"Ingrese el piso"}
+                        required={false}
+                        fullWidth
+                    />
+                </Grid>
+                <Grid size={3} key={"puntoEstrategicoDepartamento"}>
+                    <TextFieldElement
+                        name={"puntoEstrategicoDepartamento"}
+                        label={"Departamento"}
+                        placeholder={"Ingrese el departamento"}
+                        required={false}
+                        fullWidth
+                    />
+                </Grid>
+                <Grid size={2} key={"puntoEstrategicoCodigoPostal"}>
+                    <TextFieldElement
+                        name={"puntoEstrategicoCodigoPostal"}
+                        label={"Código Postal"}
+                        placeholder={"Ingrese el código postal"}
+                        required={true}
+                        fullWidth
+                        rules={
+                            {
+                                required: "Por favor ingrese el código postal"
+                            }
+                        }
+                    />
+                </Grid>
+                <Grid size={12} key={"estadoInstalacion"}>
+                    <Typography variant="h4" gutterBottom>
+                        Estado e instalación
+                    </Typography>
+                </Grid>
+                <Grid size={6} key={"estado"}>
+                    <SelectElement
+                        name={"estado"}
+                        label={"Estado"}
+                        options={[
+                            {label: "Activa", id: "Activa"},
+                            {label: "Desperfecto", id: "Desperfecto"},
+                            {label: "Fuera de servicio", id: "FueraServicio"}
+                        ]}
+                        required={true}
+                        fullWidth
+                        rules={
+                            {
+                                required: "Por favor seleccione un estado"
+                            }
+                        }
+                    />
+                </Grid>
+                <Grid size={6} key={"fechaInstalacion"}>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <DatePickerElement
+                            label={"Fecha de instalación"}
+                            name={"fechaInstalacion"}
+                            required={true}
+                            rules={
+                                {
+                                    required: "Por favor ingrese una fecha de instalación"
+                                }
+                            }
+                            sx={{width: '100%'}}
+                        />
+                    </LocalizationProvider>
+                </Grid>
+                <Grid size={12} key={"temperaturaConfiguracion"}>
+                    <Typography variant="h4" gutterBottom>
+                        Temperatura de configuración
+                    </Typography>
+                </Grid>
+                <Grid size={6} key={"temperaturaMinimaConfig"}>
+                    <TextFieldElement
+                        name={"temperaturaMinimaConfig"}
+                        label={"Temperatura mínima de configuración"}
+                        placeholder={"Ingrese la temperatura mínima de configuración"}
+                        required={true}
+                        fullWidth
+                        rules={
+                            {
+                                required: "Por favor ingrese la temperatura mínima de configuración"
+                            }
+                        }
+                    />
+                </Grid>
+                <Grid size={6} key={"temperaturaMaximaConfig"}>
+                    <TextFieldElement
+                        name={"temperaturaMaximaConfig"}
+                        label={"Temperatura máxima de configuración"}
+                        placeholder={"Ingrese la temperatura máxima de configuración"}
+                        required={true}
+                        fullWidth
+                        type="number"
+                        rules={
+                            {
+                                required: "Por favor ingrese la temperatura máxima de configuración"
+                            }
+                        }
+                    />
+                </Grid>
+                <Grid size={9} key={"sensores"}>
+                    <Typography variant="h4" gutterBottom>
+                        Sensores
+                    </Typography>
+                </Grid>
+                <Grid size={3} key={"sensoresAgregar"}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => append({id: uuidv4(), tipo: "Temperatura"})}
+                        sx={{width: "100%", mb: 2}}
+                    >
+                        Agregar sensor
+                    </Button>
+                </Grid>
+                <Grid size={12} key={"sensoress"}>
+                    {
+                        sensores.map((sensor, index) => {
+                            return (
+                                <Grid container spacing={1} alignItems={"center"} mb={2} key={`sensor.${index}`}>
+                                    <Grid size={6} key={`sensoresId${index}`}>
+                                        <TextFieldElement
+                                            name={`sensores[${index}].id`}
+                                            label={"ID del sensor"}
+                                            placeholder={"Ingrese el ID del sensor (GUID)"}
+                                            required={true}
+                                            fullWidth
+                                            rules={
+                                                {
+                                                    required: "Por favor ingrese el ID del sensor"
+                                                }
+                                            }
+                                        />
+                                    </Grid>
+                                    <Grid size={5} key={"sensoresTipo"}>
+                                        <SelectElement
+                                            name={`sensores[${index}].tipo`}
+                                            label={"Tipo de sensor"}
+                                            options={[
+                                                {label: "Temperatura", id: "Temperatura"},
+                                                {label: "Movimiento", id: "Movimiento"}
+                                            ]}
+                                            required={true}
+                                            fullWidth
+                                            rules={
+                                                {
+                                                    required: "Por favor seleccione un tipo de sensor"
+                                                }
+                                            }
+                                        />
+                                    </Grid>
+                                    <Grid size={1} key={"sensoresEliminar"} textAlign={"center"}>
+                                        <IconButton onClick={() => remove(index)}>
+                                            <i className="fa-duotone fa-solid fa-trash"/>
+                                        </IconButton>
+                                    </Grid>
+                                </Grid>
+                            )
+                        })
+                    }
+                </Grid>
+                <Grid size={12} key={"modelo"}>
+                    <Typography variant="h4" gutterBottom>
+                        Modelo
+                    </Typography>
+                </Grid>
+                <Grid size={4} key={"modeloCapacidad"}>
+                    <TextFieldElement
+                        name={"modeloCapacidad"}
+                        label={"Capacidad del modelo"}
+                        placeholder={"Ingrese la capacidad del modelo"}
+                        required={true}
+                        fullWidth
+                        type="number"
+                        rules={
+                            {
+                                required: "Por favor ingrese la capacidad del modelo"
+                            }
+                        }
+                    />
+                </Grid>
+                <Grid size={4} key={"modeloTemperaturaMinima"}>
+                    <TextFieldElement
+                        name={"modeloTemperaturaMinima"}
+                        label={"Temperatura mínima del modelo"}
+                        placeholder={"Ingrese la temperatura mínima del modelo"}
+                        required={true}
+                        fullWidth
+                        type="number"
+                        rules={
+                            {
+                                required: "Por favor ingrese la temperatura mínima del modelo"
+                            }
+                        }
+                    />
+                </Grid>
+                <Grid size={4} key={"modeloTemperaturaMaxima"}>
+                    <TextFieldElement
+                        name={"modeloTemperaturaMaxima"}
+                        label={"Temperatura máxima del modelo"}
+                        placeholder={"Ingrese la temperatura máxima del modelo"}
+                        required={true}
+                        fullWidth
+                        type="number"
+                        rules={
+                            {
+                                required: "Por favor ingrese la temperatura máxima del modelo"
+                            }
+                        }
+                    />
+                </Grid>
+            </Grid>
+
+
             <Modal open={open} onClose={() => setOpen(false)}>
                 <MainCard modal darkTitle content={false} title={"Crear contribución"} sx={{width: "80%"}}>
                     <CardContent>

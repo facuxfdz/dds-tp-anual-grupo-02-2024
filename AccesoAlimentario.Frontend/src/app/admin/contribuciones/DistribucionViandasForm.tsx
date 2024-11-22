@@ -1,60 +1,114 @@
 "use client";
-import {Form, FormFieldType, IFormField} from "@components/Forms/Form";
 import React from "react";
-
-const fields: IFormField[] = [
-    {
-        id: "motivo",
-        label: "Motivo",
-        type: FormFieldType.TEXT,
-        width: 12,
-        value: "",
-        placeholder: "Ingrese un motivo",
-        isRequired: true,
-        regex: "",
-        errorMessage: "Por favor ingrese un motivo",
-        options: []
-    },
-    {
-        id: "heladeraOrigen",
-        label: "Heladera Origen",
-        type: FormFieldType.SELECT,
-        width: 12,
-        value: "",
-        placeholder: "Seleccione una opción",
-        isRequired: true,
-        regex: "",
-        errorMessage: "Por favor seleccione una opción",
-        options: ["Heladera 1", "Heladera 2", "Heladera 3"]
-    },
-    {
-        id: "helaeraDestino",
-        label: "Heladera Destino",
-        type: FormFieldType.SELECT,
-        width: 12,
-        value: "",
-        placeholder: "Seleccione una opción",
-        isRequired: true,
-        regex: "",
-        errorMessage: "Por favor seleccione una opción",
-        options: ["Heladera 1", "Heladera 2", "Heladera 3"]
-    },
-    {
-        id: "cantidad",
-        label: "Cantidad de viandas",
-        type: FormFieldType.NUMBER,
-        width: 12,
-        value: "",
-        placeholder: "Ingrese una cantidad",
-        isRequired: true,
-        regex: "",
-        errorMessage: "Por favor ingrese una cantidad",
-        options: []
-    }
-];
+import Grid from "@mui/material/Grid2";
+import {SelectElement, TextFieldElement} from "react-hook-form-mui";
+import {useGetHeladerasQuery} from "@redux/services/heladerasApi";
+import {CircularProgress} from "@mui/material";
+import {LocalizationProvider} from "@mui/x-date-pickers";
+import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
+import {DatePickerElement} from "react-hook-form-mui/date-pickers";
 
 export const DistribucionViandasForm = () => {
+    const {data, isLoading} = useGetHeladerasQuery();
+
+    if (isLoading) {
+        return (
+            <Grid container spacing={3} alignItems="center" textAlign={"center"}>
+                <Grid size={12}>
+                    <CircularProgress/>
+                </Grid>
+            </Grid>
+        );
+    }
+
     return (
-        <Form fields={fields}/>
+        <Grid container spacing={3} alignItems="center">
+            <Grid size={12} key={"fechaContribucion"}>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DatePickerElement
+                        label={"Fecha de la donación"}
+                        name={"fechaContribucion"}
+                        required={true}
+                        rules={
+                            {
+                                required: "Por favor ingrese una fecha"
+                            }
+                        }
+                        sx={{width: '100%'}}
+                    />
+                </LocalizationProvider>
+            </Grid>
+            <Grid size={6} key={"motivo"}>
+                <TextFieldElement
+                    name={"motivo"}
+                    label={"Motivo"}
+                    placeholder={"Ingrese un motivo"}
+                    required={true}
+                    fullWidth
+                    rules={
+                        {
+                            required: "Por favor ingrese un motivo"
+                        }
+                    }
+                />
+            </Grid>
+            <Grid size={6} key={"cantidad"}>
+                <TextFieldElement
+                    name={"cantidad"}
+                    label={"Cantidad de viandas"}
+                    placeholder={"Ingrese una cantidad"}
+                    required={true}
+                    fullWidth
+                    type="number"
+                    rules={
+                        {
+                            required: "Por favor ingrese una cantidad"
+                        }
+                    }
+                />
+            </Grid>
+            <Grid size={12} key={"heladeraOrigen"}>
+                <SelectElement
+                    name={"heladeraOrigen"}
+                    label={"Heladera Origen"}
+                    options={
+                        (data ?? []).map(heladera => {
+                            return {
+                                label: heladera.puntoEstrategico.nombre,
+                                id: heladera.id
+                            }
+                        })
+                    }
+                    required={true}
+                    fullWidth
+                    rules={
+                        {
+                            required: "Por favor seleccione una opción"
+                        }
+                    }
+                />
+            </Grid>
+            <Grid size={12} key={"heladeraDestino"}>
+                <SelectElement
+                    name={"heladeraDestino"}
+                    label={"Heladera Destino"}
+                    options={
+                        (data ?? []).map(heladera => {
+                            return {
+                                label: heladera.puntoEstrategico.nombre,
+                                id: heladera.id
+                            }
+                        })
+                    }
+                    required={true}
+                    fullWidth
+                    rules={
+                        {
+                            required: "Por favor seleccione una opción"
+                        }
+                    }
+                />
+            </Grid>
+        </Grid>
     );
 }

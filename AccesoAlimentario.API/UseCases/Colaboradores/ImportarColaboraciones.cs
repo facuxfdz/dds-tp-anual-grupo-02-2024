@@ -39,7 +39,7 @@ public class ImportarColaboraciones(IRepository<Colaborador> colaboradorReposito
             && _between(0, 50, colaborador.Mail.Length)
             && colaborador.Mail.Contains("@")
             && !colaborador.Mail.Last().ToString().Equals("@")
-            && DateOnly.TryParseExact(colaborador.FechaColaboracion, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out _)
+            && DateTime.TryParseExact(colaborador.FechaColaboracion, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out _)
             && _tiposContribucion.Contains(colaborador.FormaColaboracion)
             && _between(0, 9999999, colaborador.Cantidad)
         ).ToList();
@@ -84,7 +84,7 @@ public class ImportarColaboraciones(IRepository<Colaborador> colaboradorReposito
     {
         colaboradorCsv.TipoDocumento = colaboradorCsv.TipoDocumento.ToUpper();
         TipoDocumento tipoDocumento = Enum.Parse<TipoDocumento>(colaboradorCsv.TipoDocumento);
-        DocumentoIdentidad documentoIdentidad = new DocumentoIdentidad(tipoDocumento, colaboradorCsv.Documento, DateOnly.MinValue);
+        DocumentoIdentidad documentoIdentidad = new DocumentoIdentidad(tipoDocumento, colaboradorCsv.Documento, DateTime.MinValue);
         Persona persona = new PersonaHumana(colaboradorCsv.Nombre, colaboradorCsv.Apellido ,null, documentoIdentidad, SexoDocumento.Otro);
         Colaborador colaborador = new Colaborador(persona);
         // UsuarioSistema usuario = new UsuarioSistema(persona, colaboradorCsv.Mail, CrearPassword());

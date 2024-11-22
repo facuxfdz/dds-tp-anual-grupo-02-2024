@@ -54,7 +54,7 @@ public class ImportadorCsv : FormaImportacion
     private static Colaborador Parsear(DatosColaboracion datos)
     {
         var tipoDoc = (TipoDocumento)Enum.Parse(typeof(TipoDocumento), datos.TipoDoc);
-        var documento = new DocumentoIdentidad(tipoDoc, datos.Documento, DateOnly.MinValue);
+        var documento = new DocumentoIdentidad(tipoDoc, datos.Documento, DateTime.MinValue);
         var personaHumana = new PersonaHumana(datos.Nombre, datos.Apellido, new List<MedioContacto>()
         {
             new Email(true, datos.Mail)

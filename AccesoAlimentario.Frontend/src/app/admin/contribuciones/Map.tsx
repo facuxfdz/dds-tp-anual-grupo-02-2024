@@ -57,14 +57,15 @@ export const Map = ({
                                 <Divider />
                                 <Button variant="contained" color="primary" onClick={() => {
                                     setOpen(false);
-                                    setValue("latitud", item.latitud);
-                                    setValue("longitud", item.longitud);
-                                    setValue("calle", item.direccion.calle);
-                                    setValue("numero", item.direccion.numero);
-                                    setValue("localidad", item.direccion.localidad);
-                                    setValue("piso", item.direccion.piso);
-                                    setValue("departamento", item.direccion.departamento);
-                                    setValue("codigoPostal", item.direccion.codigoPostal);
+                                    setValue("puntoEstrategicoNombre", item.nombre);
+                                    setValue("puntoEstrategicoLongitud", item.longitud);
+                                    setValue("puntoEstrategicoLatitud", item.latitud);
+                                    setValue("puntoEstrategicoCalle", item.direccion.calle);
+                                    setValue("puntoEstrategicoNumero", item.direccion.numero);
+                                    setValue("puntoEstrategicoLocalidad", item.direccion.localidad);
+                                    setValue("puntoEstrategicoPiso", item.direccion.piso);
+                                    setValue("puntoEstrategicoDepartamento", item.direccion.departamento);
+                                    setValue("puntoEstrategicoCodigoPostal", item.direccion.codigoPostal);
                                 }}>
                                     Seleccionar
                                 </Button>

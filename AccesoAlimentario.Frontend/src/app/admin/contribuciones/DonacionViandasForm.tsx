@@ -1,72 +1,123 @@
 "use client";
-import {Form, FormFieldType, IFormField} from "@components/Forms/Form";
 import React from "react";
-
-const fields: IFormField[] = [
-    {
-        id: "comida",
-        label: "Comida",
-        type: FormFieldType.TEXT,
-        width: 12,
-        value: "",
-        placeholder: "Ingrese el nombre de la comida",
-        isRequired: true,
-        regex: "",
-        errorMessage: "Por favor ingrese el nombre de la comida",
-        options: []
-    },
-    {
-        id: "calorias",
-        label: "Calorias",
-        type: FormFieldType.NUMBER,
-        width: 12,
-        value: "",
-        placeholder: "Ingrese la cantidad de calorias",
-        isRequired: true,
-        regex: "",
-        errorMessage: "Por favor ingrese la cantidad de calorias",
-        options: []
-    },
-    {
-        id: "peso",
-        label: "Peso",
-        type: FormFieldType.NUMBER,
-        width: 12,
-        value: "",
-        placeholder: "Ingrese el peso de la comida",
-        isRequired: true,
-        regex: "",
-        errorMessage: "Por favor ingrese el peso de la comida",
-        options: []
-    },
-    {
-        id: "fechaCaducidad",
-        label: "Fecha de caducidad",
-        type: FormFieldType.DATE,
-        width: 12,
-        value: "",
-        placeholder: "Ingrese la fecha de caducidad",
-        isRequired: true,
-        regex: "",
-        errorMessage: "Por favor ingrese la fecha de caducidad",
-        options: []
-    },
-    {
-        id: "heladera",
-        label: "Heladera",
-        type: FormFieldType.SELECT,
-        width: 12,
-        value: "",
-        placeholder: "Seleccione una opción",
-        isRequired: true,
-        regex: "",
-        errorMessage: "Por favor seleccione una opción",
-        options: ["Heladera 1", "Heladera 2", "Heladera 3"]
-    }
-];
+import Grid from "@mui/material/Grid2";
+import {LocalizationProvider} from "@mui/x-date-pickers";
+import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
+import {DatePickerElement} from "react-hook-form-mui/date-pickers";
+import {SelectElement, TextFieldElement} from "react-hook-form-mui";
+import {useGetHeladerasQuery} from "@redux/services/heladerasApi";
+import {CircularProgress} from "@mui/material";
 
 export const DonacionViandasForm = () => {
+    const {data, isLoading} = useGetHeladerasQuery();
+
+    if (isLoading) {
+        return (
+            <Grid container spacing={3} alignItems="center" textAlign={"center"}>
+                <Grid size={12}>
+                    <CircularProgress/>
+                </Grid>
+            </Grid>
+        );
+    }
+
     return (
-        <Form fields={fields}/>
+        <Grid container spacing={3} alignItems="center">
+            <Grid size={12} key={"fechaContribucion"}>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DatePickerElement
+                        label={"Fecha de la donación"}
+                        name={"fechaContribucion"}
+                        required={true}
+                        rules={
+                            {
+                                required: "Por favor ingrese una fecha"
+                            }
+                        }
+                        sx={{width: '100%'}}
+                    />
+                </LocalizationProvider>
+            </Grid>
+            <Grid size={12} key={"comida"}>
+                <TextFieldElement
+                    name={"comida"}
+                    label={"Comida"}
+                    placeholder={"Comida"}
+                    required={true}
+                    fullWidth
+                    rules={
+                        {
+                            required: "Por favor ingrese el nombre de la comida"
+                        }
+                    }
+                />
+            </Grid>
+            <Grid size={4} key={"calorias"}>
+                <TextFieldElement
+                    name={"calorias"}
+                    label={"Calorias"}
+                    placeholder={"Ingrese la cantidad de calorias"}
+                    required={true}
+                    fullWidth
+                    type="number"
+                    rules={
+                        {
+                            required: "Por favor ingrese la cantidad de calorias"
+                        }
+                    }
+                />
+            </Grid>
+            <Grid size={4} key={"peso"}>
+                <TextFieldElement
+                    name={"peso"}
+                    label={"Peso"}
+                    placeholder={"Ingrese el peso de la comida"}
+                    required={true}
+                    fullWidth
+                    type="number"
+                    rules={
+                        {
+                            required: "Por favor ingrese el peso de la comida"
+                        }
+                    }
+                />
+            </Grid>
+            <Grid size={4} key={"fechaCaducidad"}>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DatePickerElement
+                        label={"Fecha de caducidad"}
+                        name={"fechaCaducidad"}
+                        required={true}
+                        rules={
+                            {
+                                required: "Por favor ingrese una fecha de caducidad"
+                            }
+                        }
+                        sx={{width: '100%'}}
+                    />
+                </LocalizationProvider>
+            </Grid>
+            <Grid size={12} key={"heladera"}>
+                <SelectElement
+                    name={"heladera"}
+                    label={"Heladera"}
+                    options={
+                        (data ?? []).map(heladera => {
+                            return {
+                                label: heladera.puntoEstrategico.nombre,
+                                id: heladera.id
+                            }
+                        })
+                    }
+                    required={true}
+                    fullWidth
+                    rules={
+                        {
+                            required: "Por favor seleccione una opción"
+                        }
+                    }
+                />
+            </Grid>
+        </Grid>
     );
 }
