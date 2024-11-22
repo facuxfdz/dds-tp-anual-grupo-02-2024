@@ -59,6 +59,8 @@ else
     }
 }
 
+Console.WriteLine($"Connection String: {connectionString}");
+
 builder.Services.AddDbContext<AppDbContext>((sp, options) =>
     options
         .UseMySQL(connectionString, x =>
@@ -93,8 +95,26 @@ app.UseCors(corsDevelop);
 
 using (var scope = app.Services.GetService<IServiceScopeFactory>()!.CreateScope())
 {
-    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    context.Database.Migrate();
+    int retries = 5;
+    for (int i = 0; i < retries; i++)
+    {
+        try
+        {
+            var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            context.Database.Migrate();
+            break;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            if (i == retries - 1)
+            {
+                throw;
+            }
+            Thread.Sleep(10000);
+        }
+    }
+    
 }
 
 
