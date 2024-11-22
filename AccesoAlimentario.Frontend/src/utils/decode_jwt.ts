@@ -1,4 +1,4 @@
-import { jwtDecode  } from 'jwt-decode'
+import {jwtDecode} from 'jwt-decode'
 
 export interface DecodedUser {
     aud?: string;
@@ -8,10 +8,10 @@ export interface DecodedUser {
     // Add other fields as necessary
 }
 
-export const parseJwt = (token: string) : DecodedUser => {
+export const parseJwt = (token: string): DecodedUser => {
     try {
         return jwtDecode(token);
-    } catch (e) {
+    } catch {
         return {} as DecodedUser;
     }
 }

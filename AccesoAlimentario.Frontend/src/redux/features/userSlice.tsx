@@ -1,22 +1,17 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { parseJwt } from "@utils/decode_jwt";
-
-import { RootState } from '../store';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 interface User {
-    id?: string;
-    name?: string;
-    email?: string;
-    profile_picture?: string;
-    // Add other fields as necessary
+    id: string;
+    name: string;
+    email: string;
+    profile_picture: string;
 }
 
-interface UserState {
-    user: User | null;
-}
-
-const initialState: UserState = {
-    user: null,
+const initialState: User = {
+    id: '',
+    name: '',
+    email: '',
+    profile_picture: '',
 };
 
 const userSlice = createSlice({
@@ -24,15 +19,19 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         setUser: (state, action: PayloadAction<User>) => {
-            state.user = action.payload;
+            state.id = action.payload.id;
+            state.name = action.payload.name;
+            state.email = action.payload.email;
+            state.profile_picture = action.payload.profile_picture
         },
         clearUser: (state) => {
-            state.user = null;
+            state.id = '';
+            state.name = '';
+            state.email = '';
+            state.profile_picture = '';
         },
     },
 });
 
-export const selectUser = (state: RootState) => state.user.user;
-
-export const { setUser, clearUser } = userSlice.actions;
+export const {setUser, clearUser} = userSlice.actions;
 export default userSlice.reducer;
