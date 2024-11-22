@@ -72,7 +72,7 @@ jobs:
           set -eux
           # Delete all images in the ECR repository
           aws ecr batch-delete-image --repository-name ${{ env.ECR_REPO_NAME }} --image-ids "$(aws ecr list-images --repository-name ${{ env.ECR_REPO_NAME }} --query 'imageIds[*]' --output json)" || true
-          aws ecr batch-delete-image --repository-name ${{ env.ECR_REPO_NAME }}/front --image-ids "$(aws ecr list-images --repository-name ${{ env.ECR_REPO_NAME }} --query 'imageIds[*]' --output json)" || true
+          aws ecr batch-delete-image --repository-name ${{ env.ECR_REPO_NAME }}/front --image-ids "$(aws ecr list-images --repository-name ${{ env.ECR_REPO_NAME }}/front --query 'imageIds[*]' --output json)" || true
         working-directory: "./deployment"
  
       - name: Destroy Infrastructure [TF Destroy]
