@@ -9,10 +9,11 @@ resource "aws_secretsmanager_secret" "db_secret" {
   description = "Master password for RDS instance"
 }
 
+# We need to remove the ":3306" from the endpoint module.db.db_instance_endpoint
 resource "aws_secretsmanager_secret_version" "db_secret_version" {
   secret_id = aws_secretsmanager_secret.db_secret.id
   secret_string = jsonencode({
-    DB_SERVER   = module.db.db_instance_endpoint,
+    DB_SERVER   = replace(module.db.db_instance_endpoint, ":3306", ""),
     DB_NAME     = var.db_name,
     DB_USERNAME = var.db_username,
     DB_PASSWORD = random_password.master_passwd.result
