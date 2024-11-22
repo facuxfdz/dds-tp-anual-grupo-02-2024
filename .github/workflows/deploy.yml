@@ -50,85 +50,85 @@ jobs:
           # replace / with _
           echo "ECR_REPO_NAME=${repo//\//_}" >> $GITHUB_ENV
 
-      - name: TF init
-        shell: bash
-        run: |
-          set -eux
-          modules=(ecr vpc alb ecs rds)
-          
-          for module in "${modules[@]}"; do
-            echo "module: $module" 
-            cd $module 
-            terraform init -upgrade -migrate-state \
-              -backend-config='skip_metadata_api_check=true' \
-              -backend-config='skip_region_validation=true' \
-              -backend-config='skip_credentials_validation=true' \
-              -backend-config='region=${{ secrets.AWS_REGION }}' \
-              -backend-config='bucket=${{ env.backend_s3_bucket }}' \
-              -backend-config="key=$module/terraform-${{ env.ECR_REPO_NAME }}.tfstate" \
-              -backend-config='dynamodb_table=${{ env.backend_dynamodb_table }}'
-            cd ..
-          done            
-        working-directory: "./deployment"
-        
-      - name: Create ECR repo [TF apply]
-        shell: bash
-        run: |
-          set -eux 
-          terraform apply -var-file="prod.tfvars" -auto-approve
-        working-directory: "./deployment/ecr"
-
-      - name: Create VPC [TF apply]
-        shell: bash
-        run: |
-          set -eux
-          terraform apply -var-file="prod.tfvars" -auto-approve
-        working-directory: "./deployment/vpc"
-
-      - name: Create ALB [TF apply]
-        shell: bash
-        run: |
-          set -eux
-          terraform apply -var-file="prod.tfvars" -auto-approve
-        working-directory: "./deployment/alb"
-        
-      - name: Create ECS Cluster [TF apply]
-        id: ecs_cluster
-        shell: bash
-        run: |
-          set -eux
-          terraform apply -var-file="prod.tfvars" -auto-approve
-          echo "task_role_arn=$(terraform output -raw task_role_arn)" >> $GITHUB_OUTPUT
-          echo "task_execution_role_arn=$(terraform output -raw task_execution_role_arn)" >> $GITHUB_OUTPUT
-        working-directory: "./deployment/ecs"
-        
-      - name: Create RDS [TF apply]
-        shell: bash
-        run: |
-          set -eux
-          terraform apply -var-file="prod.tfvars" -auto-approve
-        working-directory: "./deployment/rds"
-      
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
-        with:
-          registries: ${{ secrets.AWS_ACCOUNT_ID }}
-          
-      - name: Build, tag, and push image to Amazon ECR
-        id: build-publish
-        shell: bash        
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: ${{ env.ECR_REPO_NAME }}
-          IMAGE_TAG: ${{ github.sha }}
-        run: |
-          docker build "." -f "./Dockerfile" -t "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-          docker push "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-          echo "IMAGE $IMAGE_TAG is pushed to $ECR_REGISTRY/$ECR_REPOSITORY"
-          echo "image_tag=$IMAGE_TAG"           
-          echo "full_image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-          echo "full_image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
+#      - name: TF init
+#        shell: bash
+#        run: |
+#          set -eux
+#          modules=(ecr vpc alb ecs rds)
+#          
+#          for module in "${modules[@]}"; do
+#            echo "module: $module" 
+#            cd $module 
+#            terraform init -upgrade -migrate-state \
+#              -backend-config='skip_metadata_api_check=true' \
+#              -backend-config='skip_region_validation=true' \
+#              -backend-config='skip_credentials_validation=true' \
+#              -backend-config='region=${{ secrets.AWS_REGION }}' \
+#              -backend-config='bucket=${{ env.backend_s3_bucket }}' \
+#              -backend-config="key=$module/terraform-${{ env.ECR_REPO_NAME }}.tfstate" \
+#              -backend-config='dynamodb_table=${{ env.backend_dynamodb_table }}'
+#            cd ..
+#          done            
+#        working-directory: "./deployment"
+#        
+#      - name: Create ECR repo [TF apply]
+#        shell: bash
+#        run: |
+#          set -eux 
+#          terraform apply -var-file="prod.tfvars" -auto-approve
+#        working-directory: "./deployment/ecr"
+#
+#      - name: Create VPC [TF apply]
+#        shell: bash
+#        run: |
+#          set -eux
+#          terraform apply -var-file="prod.tfvars" -auto-approve
+#        working-directory: "./deployment/vpc"
+#
+#      - name: Create ALB [TF apply]
+#        shell: bash
+#        run: |
+#          set -eux
+#          terraform apply -var-file="prod.tfvars" -auto-approve
+#        working-directory: "./deployment/alb"
+#        
+#      - name: Create ECS Cluster [TF apply]
+#        id: ecs_cluster
+#        shell: bash
+#        run: |
+#          set -eux
+#          terraform apply -var-file="prod.tfvars" -auto-approve
+#          echo "task_role_arn=$(terraform output -raw task_role_arn)" >> $GITHUB_OUTPUT
+#          echo "task_execution_role_arn=$(terraform output -raw task_execution_role_arn)" >> $GITHUB_OUTPUT
+#        working-directory: "./deployment/ecs"
+#        
+#      - name: Create RDS [TF apply]
+#        shell: bash
+#        run: |
+#          set -eux
+#          terraform apply -var-file="prod.tfvars" -auto-approve
+#        working-directory: "./deployment/rds"
+#      
+#      - name: Login to Amazon ECR
+#        id: login-ecr
+#        uses: aws-actions/amazon-ecr-login@v2
+#        with:
+#          registries: ${{ secrets.AWS_ACCOUNT_ID }}
+#          
+#      - name: Build, tag, and push image to Amazon ECR
+#        id: build-publish
+#        shell: bash        
+#        env:
+#          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+#          ECR_REPOSITORY: ${{ env.ECR_REPO_NAME }}
+#          IMAGE_TAG: ${{ github.sha }}
+#        run: |
+#          docker build "." -f "./Dockerfile" -t "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+#          docker push "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+#          echo "IMAGE $IMAGE_TAG is pushed to $ECR_REGISTRY/$ECR_REPOSITORY"
+#          echo "image_tag=$IMAGE_TAG"           
+#          echo "full_image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+#          echo "full_image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
           
       - name: Build, tag, and push frontend to Amazon ECR
         id: build-publish-frontend
@@ -138,9 +138,9 @@ jobs:
           ECR_REPOSITORY: ${{ env.ECR_REPO_NAME }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build "." -f "./Dockerfile" -t "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-          docker push "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-          echo "IMAGE $IMAGE_TAG is pushed to $ECR_REGISTRY/$ECR_REPOSITORY"
+          docker build "." -f "./Dockerfile" -t "$ECR_REGISTRY/$ECR_REPOSITORY/front:$IMAGE_TAG"
+          docker push "$ECR_REGISTRY/$ECR_REPOSITORY/front:$IMAGE_TAG"
+          echo "IMAGE $IMAGE_TAG is pushed to $ECR_REGISTRY/$ECR_REPOSITORY/front"
           echo "image_tag_front=$IMAGE_TAG"           
           echo "full_image_front=$ECR_REGISTRY/$ECR_REPOSITORY/front:$IMAGE_TAG"
           echo "full_image_front=$ECR_REGISTRY/$ECR_REPOSITORY/front:$IMAGE_TAG" >> $GITHUB_ENV
