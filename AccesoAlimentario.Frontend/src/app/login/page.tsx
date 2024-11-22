@@ -11,7 +11,7 @@ import { setSession } from '@redux/features/sessionSlice';
 import { useDispatch } from 'react-redux';
 import { config } from '@config/config';
 import { useRouter } from 'next/navigation'
-import { parseJwt, DecodedUser } from "@utils/decode_jwt";
+import { parseJwt } from "@utils/decode_jwt";
 
 
 
@@ -20,14 +20,6 @@ export default function LoginPage() {
 
     const dispatch = useDispatch();
     const router = useRouter();
-
-    const parseJwt = (token: string) : DecodedUser => {
-        try {
-            return parseJwt(token);
-        } catch (e) {
-            return {} as DecodedUser;
-        }
-    }
 
     const handleSuccess = async (credentialResponse: any) => {
         try {
@@ -50,9 +42,9 @@ export default function LoginPage() {
                     id: jsonRes.aud,
                     name: jsonRes.name,
                     email: jsonRes.email,
-                    picture: jsonRes.picture,
-                    // Add other fields as necessary
-                };
+                    profile_picture: jsonRes.picture
+                }
+
                 // Dispatch the action to update the Redux state with the user info
                 console.log(user);
                 dispatch(setUser(user));  // Assuming you have a setUser action
