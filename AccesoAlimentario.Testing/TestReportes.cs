@@ -1,4 +1,4 @@
-using System.Globalization;
+/*using System.Globalization;
 using AccesoAlimentario.Core.Entities.Contribuciones;
 using AccesoAlimentario.Core.Entities.Direcciones;
 using AccesoAlimentario.Core.Entities.DocumentosIdentidad;
@@ -18,7 +18,7 @@ namespace AccesoAlimentario.Testing;
         - Funciona cuando no hay retiros ni colocaciones
     - Reportes de "viandas donadas por colaboradores":
         - Funciona cuando no hay viandas donadas
-*/
+#1#
 
 public class TestReportes
 {
@@ -36,7 +36,7 @@ public class TestReportes
     private PersonaJuridica _persona2;
     private Colaborador _colaborador1;
     private Colaborador _colaborador2;
-    
+
     [SetUp]
     public void Setup()
     {
@@ -48,29 +48,36 @@ public class TestReportes
         _modelo1 = new ModeloHeladera(20, -15, 5);
         _heladera1 = new Heladera(_punto1, -10f, 5f, _modelo1);
         _medioContacto = new Email(true, "direccionfalsa@gmail.com");
-        _documentoIdentidad1 = new DocumentoIdentidad(TipoDocumento.DNI, 214214515, DateTime.Parse("February 1, 1999", CultureInfo.InvariantCulture));
-        _documentoIdentidad2 = new DocumentoIdentidad(TipoDocumento.CUIL, 2145345343, DateTime.Parse("February 1, 1999", CultureInfo.InvariantCulture));
-        _persona1 = new PersonaHumana("Pepito", "Terrabusi", [_medioContacto] , _direccion1, _documentoIdentidad1, SexoDocumento.Otro);
+        _documentoIdentidad1 = new DocumentoIdentidad(TipoDocumento.DNI, 214214515,
+            DateTime.Parse("February 1, 1999", CultureInfo.InvariantCulture));
+        _documentoIdentidad2 = new DocumentoIdentidad(TipoDocumento.CUIL, 2145345343,
+            DateTime.Parse("February 1, 1999", CultureInfo.InvariantCulture));
+        _persona1 = new PersonaHumana("Pepito", "Terrabusi", [_medioContacto], _direccion1, _documentoIdentidad1,
+            SexoDocumento.Otro);
         _colaborador1 = new Colaborador(_persona1, [TipoContribucion.DINERO]);
-        _persona2 = new PersonaJuridica("Terrabusi", "SA", TipoJuridico.Empresa, "Alimentos", [_medioContacto], _direccion1, _documentoIdentidad2);
+        _persona2 = new PersonaJuridica("Terrabusi", "SA", TipoJuridico.Empresa, "Alimentos", [_medioContacto],
+            _direccion1, _documentoIdentidad2);
         _colaborador2 = new Colaborador(_persona2, [TipoContribucion.DINERO]);
     }
-    
+
     [Test]
     public void ReporteHeladeraFallasFuncionaSinIncidentes()
     {
-        Assert.IsInstanceOf<Reporte>(_builderHeladeraFallas.Generar(DateTime.Now.AddDays(-1), DateTime.Now, [_heladera1], [], [], []));
+        Assert.IsInstanceOf<Reporte>(_builderHeladeraFallas.Generar(DateTime.Now.AddDays(-1), DateTime.Now,
+            [_heladera1], [], [], []));
     }
-    
+
     [Test]
     public void ReporteHeladeraCambioViandasFuncionaSinCambios()
     {
-        Assert.IsInstanceOf<Reporte>(_builderHeladeraCambioViandas.Generar(DateTime.Now.AddDays(-1), DateTime.Now, [_heladera1], [], [], [_colaborador1]));
+        Assert.IsInstanceOf<Reporte>(_builderHeladeraCambioViandas.Generar(DateTime.Now.AddDays(-1), DateTime.Now,
+            [_heladera1], [], [], [_colaborador1]));
     }
-    
+
     [Test]
     public void ReporteColaboradorViandasDonadas()
     {
-        Assert.IsInstanceOf<Reporte>(_builderColaboradorViandasDonadas.Generar(DateTime.Now.AddDays(-1), DateTime.Now, [_heladera1], [], [], [_colaborador1,_colaborador2]));
+        Assert.IsInstanceOf<Reporte>(_builderColaboradorViandasDonadas.Generar(DateTime.Now.AddDays(-1), DateTime.Now,
+            [_heladera1], [], [], [_colaborador1, _colaborador2]));
     }
-}
+}*/

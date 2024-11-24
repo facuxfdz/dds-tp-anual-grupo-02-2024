@@ -12,4 +12,11 @@ public static class ServiceExtensions
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddHostedService<CrearReportesService>();
     }
+    
+    public static IServiceCollection AddOperationsLayerMock(this IServiceCollection services)
+    {
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+        services.AddAutoMapper(Assembly.GetExecutingAssembly());
+        return services;
+    }
 }

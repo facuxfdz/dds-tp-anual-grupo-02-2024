@@ -29,56 +29,14 @@
   &lt;Assembly Path="C:\Users\facuxfdz\.nuget\packages\csvhelper\32.0.3\lib\net8.0\CsvHelper.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Users\Facu\.nuget\packages\swashbuckle.aspnetcore.swaggergen\6.9.0\lib\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
-    <s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=a4c590bf_002Dd6cd_002D4e55_002Dae38_002D22d3f80d392f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from &amp;lt;AccesoAlimentario.Testing&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e5c7046a_002Deed8_002D4686_002Da3e5_002D52e9f3892d9b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Test1" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestPuntosColaboracion.canjearPremio_PuntosInSuficientes_NoPuedeCanjear&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestPuntosColaboracion.canjearPremio_PuntosSuficientes_RestaPuntosPremio&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestPuntosColaboracion.canjearPremio_PuntosInSuficientes_NoSumaPuntos&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestPuntosColaboracion.canjearPremio_PuntosSuficientes_DescuentaPuntosPremio&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestPuntosColaboracion.canjearPremio_PuntosSuficientes_GeneraRelacionPremioColaborador&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestPuntosColaboracion.canjearPremio_PuntosInsuficientes_NoGeneraRelacionPremioColaborador&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestPuntosColaboracion.canjearPremio_PuntosInsuficientes_NoDescuentaPuntosPremio&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestCanjePremios.canjearPremio_PuntosInSuficientes_NoPuedeCanjear&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestCanjePremios.canjearPremio_PuntosInsuficientes_NoGeneraRelacionPremioColaborador&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestCanjePremios.canjearPremio_PuntosInsuficientes_NoDescuentaPuntosPremio&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestCanjePremios.canjearPremio_PuntosSuficientes_PuedeCanjear&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestCanjePremios.canjearPremio_PuntosSuficientes_GeneraRelacionPremioColaborador&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestCanjePremios.canjearPremio_PuntosSuficientes_DescuentaPuntosPremio&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestPuntosColaboracion.CrearAdministracionHeladera_PuntosGenerados_CeroPuntos&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestPuntosColaboracion.CrearRegistroPersonaVulnerable_PuntosGenerados_DosPorTarjetaRepartida&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestPuntosColaboracion.CrearDistribucionViandas_PuntosGenerados_UnoPorVianda&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestPuntosColaboracion.CrearDonacionMonetaria_PuntosGenerados_LaMitadDeLoDonado&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestPuntosColaboracion.CrearDonacionVianda_PuntosGenerados_UnoYMedioPorVianda&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestPuntosColaboracion.CrearOfertaPremio_PuntosGenerados_CeroPuntos&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.Contribuciones.TestContribuciones&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-    <s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=be949081_002D1ef4_002D48f3_002D8846_002D4e9021676769/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CrearAdministracionHeladera_PuntosGenerados_CeroPuntos" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestPuntosColaboracion.CrearAdministracionHeladera_PuntosGenerados_CeroPuntos&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestCanjePremios.canjearPremio_PuntosInsuficientes_NoGeneraRelacionPremioColaborador&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestPuntosColaboracion.CrearOfertaPremio_PuntosGenerados_CeroPuntos&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestCanjePremios.canjearPremio_PuntosInSuficientes_NoPuedeCanjear&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestPuntosColaboracion.CrearDistribucionViandas_PuntosGenerados_UnoPorVianda&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestPuntosColaboracion.CrearRegistroPersonaVulnerable_PuntosGenerados_DosPorTarjetaRepartida&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestColaboracionColaborador.CrearOfertaPremio_ColaboradorHumano_NoPuedeColaborar&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestColaboracionColaborador.CrearOfertaPremio_ColaboradorJuridico_PuedeColaborar&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestColaboracionColaborador.CrearDonacionVianda_ColaboradorJuridico_NoPuedeColaborar&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestColaboracionColaborador.CrearDonacionVianda_ColaboradorHumano_PuedeColaborar&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestColaboracionColaborador.CrearDonacionMonetaria_ColaboradorJuridico_PuedeColaborar&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestColaboracionColaborador.CrearDonacionMonetaria_ColaboradorHumano_PuedeColaborar&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestColaboracionColaborador.CrearRegistroPersonaVulnerable_ColaboradorHumano_PuedeColaborar&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestColaboracionColaborador.CrearRegistroPersonaVulnerable_ColaboradorJuridico_NoPuedeColaborar&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestColaboracionColaborador.CrearDistribucionViandas_ColaboradorJuridico_NoPuedeColaborar&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestColaboracionColaborador.CrearDistribucionViandas_ColaboradorHumano_PuedeColaborar&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
-&lt;/SessionState&gt;</s:String>
-    <s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=dee2f641_002D2c01_002D4bc6_002D8967_002Da7a5e619b8c6/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CrearRegistroPersonaVulnerable_ColaboradorHumano_PuedeColaborar" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestColaboracionColaborador.CrearRegistroPersonaVulnerable_ColaboradorHumano_PuedeColaborar&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestColaboracionColaborador.CrearAdministracionHeladera_ColaboradorHumano_NoPuedeColaborar&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestColaboracionColaborador.CrearAdministracionHeladera_ColaboradorJuridico_PuedeColaborar&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
-&lt;/SessionState&gt;</s:String>
-	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=e68a0629_002Ddffc_002D44d1_002Da0a5_002Deefe2704f3a7_0023AccesoAlimentario_002ETesting/@EntryIndexedValue">True</s:Boolean>
+    
+    
+    
+	
 	
 	</wpf:ResourceDictionary>
