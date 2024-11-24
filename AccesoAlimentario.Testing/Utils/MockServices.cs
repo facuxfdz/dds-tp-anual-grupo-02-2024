@@ -1,5 +1,10 @@
 ﻿using AccesoAlimentario.Core.DAL;
+using AccesoAlimentario.Core.Entities.Contribuciones;
+using AccesoAlimentario.Core.Entities.DocumentosIdentidad;
+using AccesoAlimentario.Core.Entities.Personas;
+using AccesoAlimentario.Core.Entities.Roles;
 using AccesoAlimentario.Operations;
+using AccesoAlimentario.Operations.Dto.Responses.Externos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +26,12 @@ public class MockServices
     {
         return _serviceProvider.GetRequiredService<IMediator>();
     }
+    
+    public IServiceScope GetScope()
+    {
+        // Este método crea un alcance (scope) dentro de los servicios registrados
+        return _serviceProvider.CreateScope();
+    }
     public static ServiceProvider Get()
     {
         var services = new ServiceCollection();
@@ -38,6 +49,44 @@ public class MockServices
             .AddTransient<IUnitOfWork, UnitOfWork>()
             .AddOperationsLayerMock()
             .BuildServiceProvider();
+        
+        using (var scope = serviceProvider.CreateScope())
+        {
+            var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    
+            // Crear y agregar una contribucion de prueba
+            var donacionMonetaria = new DonacionMonetaria();
+            context.FormasContribucion.Add(donacionMonetaria);
+            context.SaveChanges();
+    
+            // Crear y agregar una persona de prueba
+            var persona = new PersonaHumana
+            {
+                Nombre = "Juan Pérez",
+                DocumentoIdentidad = new DocumentoIdentidad(TipoDocumento.DNI, 12345678, new DateTime(2020, 1, 1)),
+            };
+    
+            context.Personas.Add(persona);
+            context.SaveChanges();
+    
+            // Crear y agregar un colaborador de prueba
+            var colaborador = new Colaborador
+            {
+                Persona = persona, 
+                Puntos = 100, 
+            };
+            colaborador.AgregarContribucion(donacionMonetaria);
+
+            context.Colaboradores.Add(colaborador);
+            context.SaveChanges();
+
+           /* TODO: PARA REVISAR EL TEMA DE LOS COLABORADORES RESPONSE
+            var colaboradorResponse = new ColaboradorResponse();
+            
+            context.ColaboradoresResponse.Add(colaborador);
+            context.SaveChanges();
+            */
+        }
 
         return serviceProvider;
     }

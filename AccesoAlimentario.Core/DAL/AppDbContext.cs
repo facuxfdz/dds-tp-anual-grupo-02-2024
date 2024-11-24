@@ -25,6 +25,7 @@ public class AppDbContext : DbContext
 
     // Personas
     public DbSet<Persona> Personas { get; set; } = null!;
+    public DbSet<Colaborador> Colaboradores { get; set; } = null!;
 
     // Medios de Comunicacion
     public DbSet<MedioContacto> MediosContacto { get; set; } = null!;
