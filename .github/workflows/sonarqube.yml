@@ -1,10 +1,9 @@
 ﻿name: SonarQube analysis
+
 on:
-  push:
-    branches:
-      - main # the name of your main branch
-  pull_request:
-    types: [opened, synchronize, reopened]
+    push:
+        branches:
+        - master
 jobs:
   build:
     name: Build
