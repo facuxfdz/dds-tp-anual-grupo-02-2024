@@ -14,7 +14,7 @@ const headerSX = {
     '& .MuiCardHeader-action': {m: '0px auto', alignSelf: 'center'}
 };
 
-const MainCard =forwardRef( ({
+const MainCard = forwardRef(({
                                  border = true,
                                  boxShadow,
                                  children,
@@ -62,8 +62,8 @@ const MainCard =forwardRef( ({
                 boxShadow: boxShadow && (!border || theme.palette.mode === 'dark') ? shadow ||
                     (
                         theme.palette.mode === 'dark'
-                        ? `0px 1px 1px rgb(0 0 0 / 14%), 0px 2px 1px rgb(0 0 0 / 12%), 0px 1px 3px rgb(0 0 0 / 20%)`
-                        : `0px 1px 4px ${alpha(theme.palette.grey[900], 0.08)}`
+                            ? `0px 1px 1px rgb(0 0 0 / 14%), 0px 2px 1px rgb(0 0 0 / 12%), 0px 1px 3px rgb(0 0 0 / 20%)`
+                            : `0px 1px 4px ${alpha(theme.palette.grey[900], 0.08)}`
                     )
                     : 'inherit',
                 ':hover': {

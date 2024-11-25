@@ -79,7 +79,6 @@ public static class ObtenerColaboraderesParaReconocimiento
                 .ToList();
 
             return Results.Ok(response);
-
         }
     }
 }
