@@ -55,8 +55,8 @@ public class MockServices
             var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     
             // Crear y agregar una contribucion de prueba
-            var donacionMonetaria = new DonacionMonetaria();
-            context.FormasContribucion.Add(donacionMonetaria);
+            var donacionVianda = new DonacionVianda();
+            context.FormasContribucion.Add(donacionVianda);
             context.SaveChanges();
     
             // Crear y agregar una persona de prueba
@@ -75,17 +75,11 @@ public class MockServices
                 Persona = persona, 
                 Puntos = 100, 
             };
-            colaborador.AgregarContribucion(donacionMonetaria);
+            colaborador.AgregarContribucion(donacionVianda);
 
             context.Colaboradores.Add(colaborador);
             context.SaveChanges();
 
-           /* TODO: PARA REVISAR EL TEMA DE LOS COLABORADORES RESPONSE
-            var colaboradorResponse = new ColaboradorResponse();
-            
-            context.ColaboradoresResponse.Add(colaborador);
-            context.SaveChanges();
-            */
         }
 
         return serviceProvider;
