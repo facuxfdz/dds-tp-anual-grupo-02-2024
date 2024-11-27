@@ -25,6 +25,7 @@
     <s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AMvcServiceCollectionExtensions_002Ecs_002Fl_003AC_0021_003FUsers_003Fmarco_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E3_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003F4b3f640348b54f3b86f7a7f6bd0af023a8b0_003Fc2_003F6459d2c9_003FMvcServiceCollectionExtensions_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AMySQLDatabaseCreator_002Ecs_002Fl_003AC_0021_003FUsers_003Fmarco_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E3_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003F4b4a6d21f0994a88bff7904846a055cd3c600_003Fef_003F5f53884a_003FMySQLDatabaseCreator_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003APhysicalFileProvider_002Ecs_002Fl_003AC_0021_003FUsers_003Fmarco_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E3_003Fresharper_002Dhost_003FSourcesCache_003F661861d2f496c2dbfec4ea5554546fc42e67528c7f93c28d0c05b814a7991_003FPhysicalFileProvider_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003APhysicalFileProvider_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E3_003Fresharper_002Dhost_003FSourcesCache_003F661861d2f496c2dbfec4ea5554546fc42e67528c7f93c28d0c05b814a7991_003FPhysicalFileProvider_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
     <s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AProducesResponseTypeAttribute_002Ecs_002Fl_003AC_0021_003FUsers_003Fmarco_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E2_003Fresharper_002Dhost_003FSourcesCache_003Fbd87fdcf179a12a446df5bbda89d9a3ebb113f3234816db2d611c6dbdc59729_003FProducesResponseTypeAttribute_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AServiceProviderServiceExtensions_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E3_003Fresharper_002Dhost_003FSourcesCache_003F621526284d3e4868b98948aff942206525763e57e194a27623b66c384466_003FServiceProviderServiceExtensions_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
     <s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AServiceProvider_002Ecs_002Fl_003AC_0021_003FUsers_003Fmarco_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E2_003Fresharper_002Dhost_003FSourcesCache_003F7d81b2d4f22bee75e5438c707251ae43cb0974c207db91ffc159118c84b4eb9_003FServiceProvider_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
@@ -34,38 +35,22 @@
 &lt;/AssemblyExplorer&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=a4c590bf_002Dd6cd_002D4e55_002Dae38_002D22d3f80d392f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from &amp;lt;AccesoAlimentario.Testing&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestPuntosColaboracion.canjearPremio_PuntosInSuficientes_NoPuedeCanjear&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestPuntosColaboracion.canjearPremio_PuntosSuficientes_RestaPuntosPremio&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestPuntosColaboracion.canjearPremio_PuntosInSuficientes_NoSumaPuntos&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestPuntosColaboracion.canjearPremio_PuntosSuficientes_DescuentaPuntosPremio&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestPuntosColaboracion.canjearPremio_PuntosSuficientes_GeneraRelacionPremioColaborador&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestPuntosColaboracion.canjearPremio_PuntosInsuficientes_NoGeneraRelacionPremioColaborador&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestPuntosColaboracion.canjearPremio_PuntosInsuficientes_NoDescuentaPuntosPremio&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestCanjePremios.canjearPremio_PuntosInSuficientes_NoPuedeCanjear&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestCanjePremios.canjearPremio_PuntosInsuficientes_NoGeneraRelacionPremioColaborador&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestCanjePremios.canjearPremio_PuntosInsuficientes_NoDescuentaPuntosPremio&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestCanjePremios.canjearPremio_PuntosSuficientes_PuedeCanjear&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestCanjePremios.canjearPremio_PuntosSuficientes_GeneraRelacionPremioColaborador&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestCanjePremios.canjearPremio_PuntosSuficientes_DescuentaPuntosPremio&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestPuntosColaboracion.CrearAdministracionHeladera_PuntosGenerados_CeroPuntos&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestPuntosColaboracion.CrearRegistroPersonaVulnerable_PuntosGenerados_DosPorTarjetaRepartida&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestPuntosColaboracion.CrearDistribucionViandas_PuntosGenerados_UnoPorVianda&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestPuntosColaboracion.CrearDonacionMonetaria_PuntosGenerados_LaMitadDeLoDonado&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestPuntosColaboracion.CrearDonacionVianda_PuntosGenerados_UnoYMedioPorVianda&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.TestPuntosColaboracion.CrearOfertaPremio_PuntosGenerados_CeroPuntos&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
-&lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=be949081_002D1ef4_002D48f3_002D8846_002D4e9021676769/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CrearAdministracionHeladera_PuntosGenerados_CeroPuntos" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.Externos.TestObtenerRecomendacionUbicacionHeladera&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.Externos.TestObtenerColaboraderesParaReconocimiento&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.Externos.TestObtenerColaboradoresParaReconocimiento.ObtenerColaboradoresParaReconocimiento&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.Externos.TestObtenerColaboradoresParaReconocimiento&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.Contribuciones.TestColaborarConDistribucionDeVianda&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=dee2f641_002D2c01_002D4bc6_002D8967_002Da7a5e619b8c6/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CrearRegistroPersonaVulnerable_ColaboradorHumano_PuedeColaborar" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=d65a517e_002Dcdab_002D40a5_002Da635_002D7fb9d33f1dc2/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="TestRegistrarConDistribucionDeVianda" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.Contribuciones.TestColaborarConDistribucionDeVianda.TestRegistrarConDistribucionDeVianda&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	
+	
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=dee2f641_002D2c01_002D4bc6_002D8967_002Da7a5e619b8c6/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CrearRegistroPersonaVulnerable_ColaboradorHumano_PuedeColaborar" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.Externos.TestObtenerRecomendacionUbicacionHeladera&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.Contribuciones.TestColaborarConDistribucionDeVianda.TestRegistrarConDistribucionDeVianda&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.Externos.TestObtenerColaboradoresParaReconocimiento.ObtenerColaboradoresParaReconocimiento&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e5c7046a_002Deed8_002D4686_002Da3e5_002D52e9f3892d9b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Test1" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;

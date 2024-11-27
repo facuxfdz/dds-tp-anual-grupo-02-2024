@@ -38,12 +38,7 @@ public class TestObtenerColaboradoresParaReconocimiento
         }
         
         var okResult = result as Microsoft.AspNetCore.Http.HttpResults.Ok<List<ColaboradorResponse>>;
-
-        using var scope = mockServices.GetScope();
-
-// Obtén el contexto desde el scope
-        var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
+        
         okResult!.Value!.ForEach(colaborador =>
         {
             Console.WriteLine(colaborador.Id);

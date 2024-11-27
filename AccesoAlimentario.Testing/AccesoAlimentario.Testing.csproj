@@ -43,8 +43,4 @@
       <EmbeddedResource Include="Resources\csvE2.csv" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Contribuciones\" />
-    </ItemGroup>
-
 </Project>
