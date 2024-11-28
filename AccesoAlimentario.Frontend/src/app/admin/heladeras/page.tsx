@@ -1,5 +1,16 @@
 "use client";
-import {Box, Button, CardActions, Stack, Table, TableBody, TableContainer, TableHead, TableRow} from "@mui/material";
+import {
+    Box,
+    Button,
+    CardActions,
+    CircularProgress,
+    Stack,
+    Table,
+    TableBody,
+    TableContainer,
+    TableHead,
+    TableRow
+} from "@mui/material";
 import {StyledTableCell} from "@components/Tables/StyledTableCell";
 import {StyledTableRow} from "@components/Tables/StyledTableRow";
 import React from "react";
@@ -7,21 +18,20 @@ import Typography from "@mui/material/Typography";
 import CardContent from "@mui/material/CardContent";
 import MainCard from "@components/Cards/MainCard";
 import {useTheme} from "@mui/material/styles";
-
-function createData(nombre: string, estado: string) {
-    return {nombre, estado};
-}
-
-const rows = [
-    createData('Heladera 1', 'Activa'),
-    createData('Heladera 2', 'Desperfecto'),
-    createData('Heladera 3', 'Fuera de Servicio'),
-    createData('Heladera 4', 'Activa'),
-    createData('Heladera 5', 'Activa'),
-];
+import {useGetHeladerasQuery} from "@redux/services/heladerasApi";
 
 export default function HeladerasPage() {
     const theme = useTheme();
+    const {data, isError, isLoading} = useGetHeladerasQuery();
+
+    if (isLoading){
+        return <CircularProgress />
+    }
+
+    if (isError || !data){
+        return <Box>Error: Ha ocurrido un error al cargar los datos</Box>
+    }
+
     return (
         <MainCard content={false} sx={{overflow: 'visible'}}>
             <CardActions
@@ -57,12 +67,12 @@ export default function HeladerasPage() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rows.map((row, index) => (
-                                <StyledTableRow hover key={`${row.nombre}-${index}`}>
+                            {data.map((row, index) => (
+                                <StyledTableRow hover key={`${row.id}-${index}`}>
                                     <StyledTableCell sx={{pl: 3}} component="th" scope="row">
                                         {index + 1}
                                     </StyledTableCell>
-                                    <StyledTableCell align="center">{row.nombre}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.puntoEstrategico.nombre}</StyledTableCell>
                                     <StyledTableCell align="center">{row.estado}</StyledTableCell>
                                     <StyledTableCell align="center" sx={{pr: 3}}>
                                         <Stack direction="row" spacing={1} justifyContent="center">
