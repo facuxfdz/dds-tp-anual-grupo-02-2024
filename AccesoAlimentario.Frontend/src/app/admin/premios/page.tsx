@@ -1,10 +1,13 @@
 "use client";
 import {PremioCard} from "@/app/admin/premios/PremioCard";
-import {FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
+import {Box, CircularProgress, FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import React, {useState} from "react";
+import {useGetPremiosQuery} from "@redux/services/premiosApi";
+import {useTheme} from "@mui/material/styles";
+import {IObtenerPremioResponse} from "@models/responses/premios/iObtenerPremioResponse";
 
-interface premioItem {
+/*interface premioItem {
     id: number;
     nombre: string;
     descripcion: string;
@@ -94,14 +97,29 @@ const premios: premioItem[] = [
         imagen: "https://enriquetomas.com/cdn/shop/articles/donde-comprar-jamon-iberico-de-bellota.jpg",
         categoria: 'Electronica'
     }
-];
+];*/
 
 export default function PremiosPage() {
+    // Es necesario o dentro de lo que debería tomar del response de la API?
     const [categoria, setCategoria] = useState('Todos');
     const [puntosMaximos, setPuntosMaximos] = useState(0);
     const [nombre, setNombre] = useState('');
-
-
+    
+    const theme = useTheme();
+    const {data, isError, isLoading} = useGetPremiosQuery({
+        categoria : undefined,
+        puntosNecesarios: puntosMaximos > 0 ? puntosMaximos : undefined,
+        nombre: nombre.length > 0 ? nombre : undefined,
+    });
+    
+    if (isLoading){
+        return <CircularProgress />
+    }
+    
+    if (isError || !data){
+        return <Box>Error: Ha ocurrido un error al cargar los datos</Box>
+    }
+    
     return (
         <>
             <Grid container spacing={3} mb={3}>
@@ -148,16 +166,16 @@ export default function PremiosPage() {
             </Grid>
             <Grid container spacing={3}>
                 {
-                    premios
-                        .filter((premio: premioItem) => categoria === 'Todos' ? true : premio.categoria === categoria)
-                        .filter((premio: premioItem) => puntosMaximos > 0 ? premio.puntos <= puntosMaximos : true)
-                        .filter((premio: premioItem) => nombre.length > 0 ? premio.nombre.includes(nombre) : true)
-                        .map((premio: premioItem) => (
+                    data
+                        .filter((premio: IObtenerPremioResponse) => categoria === 'Todos' ? true : premio.categoria === categoria)
+                        .filter((premio: IObtenerPremioResponse) => puntosMaximos > 0 ? premio.puntosNecesarios <= puntosMaximos : true)
+                        .filter((premio: IObtenerPremioResponse) => nombre.length > 0 ? premio.nombre.includes(nombre) : true)
+                        .map((premio: IObtenerPremioResponse) => (
                             <PremioCard
                                 id={premio.id}
                                 nombre={premio.nombre}
                                 descripcion={premio.descripcion}
-                                puntos={premio.puntos}
+                                puntos={premio.puntosNecesarios}
                                 imagen={premio.imagen}
                                 categoria={premio.categoria}
                                 key={premio.id}
