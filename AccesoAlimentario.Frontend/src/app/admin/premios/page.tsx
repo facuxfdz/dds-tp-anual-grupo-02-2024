@@ -1,105 +1,41 @@
 "use client";
+import {Box,CircularProgress} from "@mui/material";
 import {PremioCard} from "@/app/admin/premios/PremioCard";
+import {useGetPremiosQuery} from "@/redux/services/premiosApi";
 import {FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import React, {useState} from "react";
 
 interface premioItem {
-    id: number;
-    nombre: string;
-    descripcion: string;
-    puntos: number;
-    imagen: string;
-    categoria: string;
+    id: string,
+    nombre: string,
+    puntos: number
+    imagen: string,
+    reclamadoPor: string,
+    fechaReclamo: string,
+    categoria: CategoriaPremio
 }
 
-const premios: premioItem[] = [
-    {
-        id: 1,
-        nombre: 'Premio 1',
-        descripcion: 'Descripción del premio 1',
-        puntos: 100,
-        imagen: "https://enriquetomas.com/cdn/shop/articles/donde-comprar-jamon-iberico-de-bellota.jpg",
-        categoria: 'Gastronomia'
-    },
-    {
-        id: 2,
-        nombre: 'Premio 2',
-        descripcion: 'Descripción del premio 2',
-        puntos: 200,
-        imagen: "https://enriquetomas.com/cdn/shop/articles/donde-comprar-jamon-iberico-de-bellota.jpg",
-        categoria: 'Electronica'
-    },
-    {
-        id: 3,
-        nombre: 'Premio 3',
-        descripcion: 'Descripción del premio 3',
-        puntos: 300,
-        imagen: "https://enriquetomas.com/cdn/shop/articles/donde-comprar-jamon-iberico-de-bellota.jpg",
-        categoria: 'ArticulosHogar'
-    },
-    {
-        id: 4,
-        nombre: 'Premio 4',
-        descripcion: 'Descripción del premio 3',
-        puntos: 300,
-        imagen: "https://enriquetomas.com/cdn/shop/articles/donde-comprar-jamon-iberico-de-bellota.jpg",
-        categoria: 'Otros'
-    },
-    {
-        id: 5,
-        nombre: 'Premio 5',
-        descripcion: 'Descripción del premio 3',
-        puntos: 300,
-        imagen: "https://enriquetomas.com/cdn/shop/articles/donde-comprar-jamon-iberico-de-bellota.jpg",
-        categoria: 'Electronica'
-    },
-    {
-        id: 6,
-        nombre: 'Premio 6',
-        descripcion: 'Descripción del premio 3',
-        puntos: 300,
-        imagen: "https://enriquetomas.com/cdn/shop/articles/donde-comprar-jamon-iberico-de-bellota.jpg",
-        categoria: 'Gastronomia'
-    },
-    {
-        id: 7,
-        nombre: 'Premio 7',
-        descripcion: 'Descripción del premio 3',
-        puntos: 300,
-        imagen: "https://enriquetomas.com/cdn/shop/articles/donde-comprar-jamon-iberico-de-bellota.jpg",
-        categoria: 'Otros'
-    },
-    {
-        id: 8,
-        nombre: 'Premio 8',
-        descripcion: 'Descripción del premio 3',
-        puntos: 300,
-        imagen: "https://enriquetomas.com/cdn/shop/articles/donde-comprar-jamon-iberico-de-bellota.jpg",
-        categoria: 'Otros'
-    },
-    {
-        id: 9,
-        nombre: 'Premio 9',
-        descripcion: 'Descripción del premio 3',
-        puntos: 300,
-        imagen: "https://enriquetomas.com/cdn/shop/articles/donde-comprar-jamon-iberico-de-bellota.jpg",
-        categoria: 'Gastronomia'
-    },
-    {
-        id: 10,
-        nombre: 'Premio 10',
-        descripcion: 'Descripción del premio 3',
-        puntos: 300,
-        imagen: "https://enriquetomas.com/cdn/shop/articles/donde-comprar-jamon-iberico-de-bellota.jpg",
-        categoria: 'Electronica'
-    }
-];
+enum CategoriaPremio{
+    Gastronomia,
+    Electronica,
+    ArticulosHogar,
+    Otros
+}
 
 export default function PremiosPage() {
     const [categoria, setCategoria] = useState('Todos');
     const [puntosMaximos, setPuntosMaximos] = useState(0);
     const [nombre, setNombre] = useState('');
+    const {data, isError, isLoading} = useGetPremiosQuery();
+    
+    if(isLoading){
+        return <CircularProgress />;
+    }
+    
+    if(isError || !data){
+        return <Box>Error: Ha ocurrido un error al cargar los datos</Box>;
+    }
 
 
     return (
@@ -148,18 +84,18 @@ export default function PremiosPage() {
             </Grid>
             <Grid container spacing={3}>
                 {
-                    premios
-                        .filter((premio: premioItem) => categoria === 'Todos' ? true : premio.categoria === categoria)
+                    data
+                        .filter((premio: premioItem) => categoria === 'Todos' ? true : premio.categoria.toString() === categoria)
                         .filter((premio: premioItem) => puntosMaximos > 0 ? premio.puntos <= puntosMaximos : true)
                         .filter((premio: premioItem) => nombre.length > 0 ? premio.nombre.includes(nombre) : true)
                         .map((premio: premioItem) => (
                             <PremioCard
-                                id={premio.id}
+                                id= {parseInt(premio.id)}
                                 nombre={premio.nombre}
-                                descripcion={premio.descripcion}
+                                descripcion="Prueba Descripcion"
                                 puntos={premio.puntos}
                                 imagen={premio.imagen}
-                                categoria={premio.categoria}
+                                categoria={premio.categoria.toString()}
                                 key={premio.id}
                             />
                         ))
