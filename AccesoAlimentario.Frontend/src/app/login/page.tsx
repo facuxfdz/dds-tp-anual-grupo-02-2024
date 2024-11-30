@@ -14,7 +14,6 @@ import {parseJwt} from "@utils/decode_jwt";
 import {CredentialResponse, GoogleLogin} from '@react-oauth/google';
 import {useNotification} from "@components/Notifications/NotificationContext";
 
-
 export default function LoginPage() {
 
     const dispatch = useDispatch();
@@ -46,6 +45,8 @@ export default function LoginPage() {
                 const user = {
                     name: jsonRes.name ?? '',
                     email: jsonRes.email ?? '',
+                    profile_picture: jsonRes.picture ?? '',
+                    register_type: 'sso' as const,
                 }
                 // Dispatch the action to update the Redux state with the user info
                 dispatch(setSignedUser(user));  // Assuming you have a setUser action

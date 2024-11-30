@@ -6,20 +6,24 @@ import Grid from "@mui/material/Grid2";
 import Typography from "@mui/material/Typography";
 import { TextField, Button } from "@mui/material";
 import MainCard from "@/components/Cards/MainCard";
-import { GoogleUserData } from "./page";
+import { UserData } from "./page";
+import { useRegisterQuery } from "@/redux/services/authApi";
 
 interface RegisterPageProps {
-    googleUserData: GoogleUserData;
+    userData: UserData
+
 }
 
-export default function RegisterPage({googleUserData} : RegisterPageProps) {
+export default function RegisterPage({userData} : RegisterPageProps) {
   // Data from Google is in the session jwt token
-  const { name, email, address } = googleUserData;
+  const { name, email, user_type, profile_picture, register_type } = userData;
   // State for the form fields
   const [formData, setFormData] = useState({
     name: name,
     email: email,
-    address: address,
+    password: '',
+    user_type: user_type,
+    profile_picture: profile_picture
   });
 
   // Handle input changes
@@ -31,8 +35,11 @@ export default function RegisterPage({googleUserData} : RegisterPageProps) {
   // Handle form submission
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Submitted data:", formData);
+    
     // Add API call logic here
+    // useLazyLoginQuery
+    useRegisterQuery({email: formData.email, password: formData.password, profile_picture: formData.profile_picture, register_type: register_type});
+    
   };
 
   if(!name || !email) {
@@ -48,18 +55,21 @@ export default function RegisterPage({googleUserData} : RegisterPageProps) {
               Registrarse
           </Typography>
           <Typography variant="body1" component="p" mb={4}>
-              No se han podido obtener los datos de Google. Por favor, intenta registrarte de nuevo.
+              No se han podido obtener los datos de Registro. Regresa a la página de inicio e intenta de nuevo.
           </Typography>
+          <Button href="/login" variant="contained">
+              Regresar
+          </Button>
       </Box>
       </MainCard>
     );
   }
 
   return (
-    <MainCard sx={{ maxWidth: { xs: 600, lg: 675 }, margin: { xs: 2.5, md: 3 }, '& > *': { flexGrow: 1, flexBasis: '50%' } }} content={false} border={true} boxShadow>
+    <MainCard sx={{ maxWidth: { xs: 900, lg: 1275 }, margin: { xs: 2.5, md: 3 }, '& > *': { flexGrow: 1, flexBasis: '50%' } }} content={true} border={true} boxShadow>
       <Box
       sx={{        
-        px: 5,
+        px: 10,
         py: 5
       }}
     >
@@ -84,10 +94,25 @@ export default function RegisterPage({googleUserData} : RegisterPageProps) {
                 />
                 <TextField
                     fullWidth
-                    label="Dirección"
-                    name="address"
-                    value={formData.address}
+                    label="Contraseña"
+                    name="password"
+                    type="password"
+                    value={formData.password}
                     onChange={handleChange}
+                />
+                <TextField
+                    fullWidth
+                    label="Tipo de usuario"
+                    name="user_type"
+                    value={formData.user_type}
+                    disabled
+                />
+                <TextField
+                    fullWidth
+                    label="Foto de perfil"
+                    name="profile_picture"
+                    value={formData.profile_picture}
+                    disabled
                 />
                 <Button type="submit" variant="contained">
                     Registrarse

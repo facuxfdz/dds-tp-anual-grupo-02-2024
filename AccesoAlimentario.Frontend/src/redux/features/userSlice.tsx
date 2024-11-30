@@ -10,6 +10,8 @@ export interface User {
 interface UserTemp {
     name: string;
     email: string;
+    register_type: "sso" | "standard";
+    profile_picture?: string;
 }
 
 interface UserSlice {
@@ -27,6 +29,8 @@ const initialState: UserSlice = {
     userTemp: {
         name: '',
         email: '',
+        register_type: 'sso' as const,
+        profile_picture: '',
     },
 };
 
