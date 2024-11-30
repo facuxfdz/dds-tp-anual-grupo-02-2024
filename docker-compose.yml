@@ -36,9 +36,11 @@ services:
       build:
         context: ./AccesoAlimentario.Frontend
         dockerfile: Dockerfile
+        args:
+          - NEXT_PUBLIC_API_URL=http://localhost:5000/api
       image: accesoalimentario-frontend:latest
       ports:
-        - "3000:3000"
+        - "3000:3000"      
       networks:
         - default
 

@@ -30,6 +30,7 @@ export default function LoginPage() {
             const jwtToken = credentialResponse.credential;
 
             // Call the backend to authenticate the user and get the user information
+            console.log(`Api url: ${config.apiUrl}`)
             const response = await fetch(`${config.apiUrl}/auth/login`, {
                 method: 'POST',
                 headers: {
