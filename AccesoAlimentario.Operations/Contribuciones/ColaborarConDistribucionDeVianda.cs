@@ -49,7 +49,20 @@ public static class ColaborarConDistribucionDeVianda
             {
                 return Results.NotFound();
             }
-
+            if (heladeraOrigen.Id == heladeraDestino.Id)
+            {
+                return Results.BadRequest("La heladera de origen y destino no pueden ser la misma.");
+            }
+            
+            if (request.CantidadDeViandas <= 0)
+            {
+                return Results.BadRequest("La cantidad de viandas debe ser mayor a 0.");
+            }
+            
+            if (heladeraOrigen.Viandas.Count < request.CantidadDeViandas)
+            {
+                return Results.BadRequest("No hay suficientes viandas en la heladera de origen.");
+            }
             var viandas = heladeraOrigen.RetirarViandas(request.CantidadDeViandas);
             viandas.ForEach(vianda => heladeraDestino.IngresarVianda(vianda));
             var appSettings = AppSettings.Instance;

@@ -47,7 +47,7 @@ public class MockServices
             loggingBuilder.AddSerilog();    // Agrega Serilog como proveedor
         });
         var serviceProvider = services
-            .AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("Test"))
+            .AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("Test"), ServiceLifetime.Singleton)
             .AddTransient<IUnitOfWork, UnitOfWork>()
             .AddOperationsLayerMock()
             .BuildServiceProvider();
@@ -75,10 +75,9 @@ public class MockServices
                 Estado = EstadoVianda.Disponible
             };
             
-            context.Viandas.Add(vianda1);
+            /*context.Viandas.Add(vianda1);
             context.Viandas.Add(vianda2);
-            context.Viandas.Add(vianda3);
-            context.SaveChanges();
+            context.Viandas.Add(vianda3);*/
 
             
             var heladeraOrigen = new Heladera
@@ -87,11 +86,13 @@ public class MockServices
                 {
                     Capacidad = 10
                 },
-                Viandas = [vianda1, vianda2, vianda3],
                 Estado = EstadoHeladera.Activa
             };
+            heladeraOrigen.IngresarVianda(vianda1);
+            heladeraOrigen.IngresarVianda(vianda2);
+            vianda1.Heladera = heladeraOrigen;
+            vianda2.Heladera = heladeraOrigen;
             context.Heladeras.Add(heladeraOrigen);
-            context.SaveChanges();
 
             var heladeraDestino = new Heladera
             { 
@@ -99,27 +100,25 @@ public class MockServices
                 {
                     Capacidad = 10
                 },
-                Viandas = [vianda1, vianda2, vianda3],
                 Estado = EstadoHeladera.Activa
             };
+            heladeraDestino.IngresarVianda(vianda3);
+            vianda3.Heladera = heladeraDestino;
             context.Heladeras.Add(heladeraDestino);
-            context.SaveChanges();
             
             // Crear y agregar una contribucion de prueba
             var donacionVianda = new DonacionVianda();
             context.FormasContribucion.Add(donacionVianda);
-            context.SaveChanges();
             
             var donacionDistribucionVianda = new DistribucionViandas
             {
                 CantViandas = 1,
-                FechaContribucion = Convert.ToDateTime("20/10/2020"),
+                FechaContribucion = DateTime.Now,
                 HeladeraOrigen = heladeraOrigen,
                 HeladeraDestino = heladeraDestino
                 
             };
             context.FormasContribucion.Add(donacionDistribucionVianda);
-            context.SaveChanges();
     
             // Crear y agregar una persona de prueba
             var persona = new PersonaHumana
@@ -129,7 +128,6 @@ public class MockServices
             };
     
             context.Personas.Add(persona);
-            context.SaveChanges();
     
             // Crear y agregar un colaborador de prueba
             var colaborador = new Colaborador
@@ -141,18 +139,8 @@ public class MockServices
             colaborador.AgregarContribucion(donacionDistribucionVianda);
 
             context.Colaboradores.Add(colaborador);
-            context.SaveChanges();
-           
             
-            heladeraOrigen.IngresarVianda(vianda1);
-            heladeraOrigen.IngresarVianda(vianda2);
-            heladeraOrigen.IngresarVianda(vianda3);
-            context.SaveChanges(); // Asegura que los cambios se persistan
-
-            heladeraDestino.IngresarVianda(vianda1);
-            heladeraDestino.IngresarVianda(vianda2);
-            heladeraOrigen.IngresarVianda(vianda3);
-            context.SaveChanges(); // Asegura que los cambios se persistan
+            context.SaveChanges();
             
         }
 

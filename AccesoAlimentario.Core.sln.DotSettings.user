@@ -55,7 +55,7 @@
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e5c7046a_002Deed8_002D4686_002Da3e5_002D52e9f3892d9b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Test1" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.Contribuciones.TestContribuciones&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.Contribuciones.TestColaborarConDistribucionDeVianda.TestRegistrarConDistribucionDeVianda&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
     
