@@ -22,9 +22,10 @@ export const premiosApi = createApi({
             query: ({categoria, nombre, puntosNecesarios} = {}) => ({
                 url: `premios`,
                 params: { 
-                    ...(categoria && {categoria}), 
-                    ...(nombre && {nombre}), 
-                    ...(puntosNecesarios && {puntosNecesarios}) }
+                    categoria, 
+                    nombre,
+                    puntosNecesarios
+                }
             }),
             providesTags: ["Premio"]
         }),

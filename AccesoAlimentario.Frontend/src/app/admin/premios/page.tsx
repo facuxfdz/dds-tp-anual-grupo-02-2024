@@ -4,7 +4,7 @@ import {Box, CircularProgress, FormControl, InputLabel, MenuItem, Select, TextFi
 import Grid from "@mui/material/Grid2";
 import React, {useState} from "react";
 import {useGetPremiosQuery} from "@redux/services/premiosApi";
-import {IObtenerPremioResponse} from "@models/responses/premios/iObtenerPremioResponse";
+import {Categoria, IObtenerPremioResponse} from "@models/responses/premios/iObtenerPremioResponse";
 
 /*interface premioItem {
     id: number;
@@ -105,16 +105,16 @@ export default function PremiosPage() {
     const [nombre, setNombre] = useState('');
     
     const {data, isError, isLoading} = useGetPremiosQuery({
-        categoria : undefined,
-        puntosNecesarios: puntosMaximos > 0 ? puntosMaximos : undefined,
-        nombre: nombre.length > 0 ? nombre : undefined,
+        categoria : Categoria.Null,
+        puntosNecesarios: puntosMaximos > 0 ? puntosMaximos : 0,
+        nombre: nombre.length > 0 ? nombre : "",
     });
     
     if (isLoading){
         return <CircularProgress />
     }
     
-    if (isError || !data){
+    if (isError){
         return <Box>Error: Ha ocurrido un error al cargar los datos</Box>
     }
     
@@ -164,6 +164,7 @@ export default function PremiosPage() {
             </Grid>
             <Grid container spacing={3}>
                 {
+                    data ? (
                     data
                         .filter((premio: IObtenerPremioResponse) => categoria === 'Todos' ? true : premio.categoria === categoria)
                         .filter((premio: IObtenerPremioResponse) => puntosMaximos > 0 ? premio.puntosNecesarios <= puntosMaximos : true)
@@ -179,6 +180,9 @@ export default function PremiosPage() {
                                 key={premio.id}
                             />
                         ))
+                    ) : (
+                        <Box>No hay premios disponibles</Box>
+                    )
                 }
             </Grid>
         </>

@@ -11,5 +11,6 @@ export enum Categoria{
     Gastronomia,
     Electronica,
     ArticulosHogar,
-    Otros
+    Otros,
+    Null
 }
