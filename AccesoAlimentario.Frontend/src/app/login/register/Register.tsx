@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Stack, Typography, TextField, Button, MenuItem, Select, InputLabel, FormControl, Grid } from "@mui/material";
 import MainCard from "@/components/Cards/MainCard";
 import { UserData } from "./page";
 import { useRegisterQuery } from "@/redux/services/authApi";
+import PreviewButton from "../PreviewButton";
 
 interface RegisterPageProps {
   userData: UserData;
@@ -34,6 +35,7 @@ export default function RegisterPage({ userData }: RegisterPageProps) {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
     setFormData((prev) => ({ ...prev, file: file }));
+    setFormData((prev) => ({ ...prev, profile_picture: file ? URL.createObjectURL(file) : '' }));
   };
 
   // Handle form submission
@@ -55,6 +57,8 @@ export default function RegisterPage({ userData }: RegisterPageProps) {
       // Example: uploadToS3(formData.file);
     }
   };
+
+
 
   if (!name || !email) {
     return (
@@ -123,19 +127,23 @@ export default function RegisterPage({ userData }: RegisterPageProps) {
                 <MenuItem value="tecnico">Técnico</MenuItem>
               </Select>
             </FormControl>
-            <Button
-              fullWidth
-              variant="outlined"
-              component="label"
-              color="primary"
-            >
-              Subir Foto de Perfil
-              <input
-                type="file"
-                hidden
-                onChange={handleFileChange}
-              />
-            </Button>
+            {/* Display button first  */}
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+              <PreviewButton profile_picture={formData.profile_picture} file_name= {formData.file ? formData.file.name : 'sso_profile_picture'} />
+              <Button
+                fullWidth
+                variant="outlined"
+                component="label"
+                color="primary"
+              >
+                Subir Foto de Perfil
+                <input
+                  type="file"
+                  hidden
+                  onChange={handleFileChange}
+                />
+              </Button>
+            </Box>
             {formData.file && (
               <Typography variant="body2" color="textSecondary" sx={{ mt: 2 }}>
                 {formData.file.name}
