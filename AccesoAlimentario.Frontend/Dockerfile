@@ -28,6 +28,9 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED 1
 
 # RUN yarn build
+ARG NEXT_PUBLIC_API_URL
+
+ENV NEXT_PUBLIC_API_URL $NEXT_PUBLIC_API_URL
 
 # If using npm comment out above and use below instead
 RUN npm run build
@@ -61,6 +64,7 @@ EXPOSE 3000
 ENV PORT 3000
 # set hostname to localhost
 ENV HOSTNAME "0.0.0.0"
+
 
 # server.js is created by next build from the standalone output
 # https://nextjs.org/docs/pages/api-reference/next-config-js/output

@@ -1,4 +1,3 @@
 export const config = {
-    // apiUrl: 'https://acceso-alimentario.opsconsultingservices.com/api',
-    apiUrl: 'http://localhost:5000/api',
+    apiUrl: process.env.NEXT_PUBLIC_API_URL
 }

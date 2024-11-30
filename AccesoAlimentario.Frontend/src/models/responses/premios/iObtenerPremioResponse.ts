@@ -1,4 +1,4 @@
-﻿export interface IObtenerPremioResponse{
+export interface IObtenerPremioResponse{
     id: number, // ex String
     nombre: string,
     descripcion: string,
