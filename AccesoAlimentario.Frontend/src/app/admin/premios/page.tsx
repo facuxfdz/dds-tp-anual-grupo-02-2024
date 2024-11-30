@@ -4,7 +4,6 @@ import {Box, CircularProgress, FormControl, InputLabel, MenuItem, Select, TextFi
 import Grid from "@mui/material/Grid2";
 import React, {useState} from "react";
 import {useGetPremiosQuery} from "@redux/services/premiosApi";
-import {useTheme} from "@mui/material/styles";
 import {IObtenerPremioResponse} from "@models/responses/premios/iObtenerPremioResponse";
 
 /*interface premioItem {
@@ -105,7 +104,6 @@ export default function PremiosPage() {
     const [puntosMaximos, setPuntosMaximos] = useState(0);
     const [nombre, setNombre] = useState('');
     
-    const theme = useTheme();
     const {data, isError, isLoading} = useGetPremiosQuery({
         categoria : undefined,
         puntosNecesarios: puntosMaximos > 0 ? puntosMaximos : undefined,

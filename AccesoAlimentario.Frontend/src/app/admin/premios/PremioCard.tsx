@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid2";
 import Chip from "@mui/material/Chip";
 import {Button, Divider} from "@mui/material";
+import Image from 'next/image';
 
 export const PremioCard = ({
                                id,
@@ -24,7 +25,7 @@ export const PremioCard = ({
     return (
         <Grid size={3} key={id}>
             <MainCard border={false} boxShadow sx={{height: '100%'}}>
-                <img src={imagen} alt={nombre} style={{width: '100%', height: '200px', objectFit: 'cover'}}/>
+                <Image src={imagen} alt={nombre} width={300} height={200} objectFit="cover"/>
 
                 <Typography variant="h5" component="h2" sx={{padding: '10px 0'}}>
                     {nombre}

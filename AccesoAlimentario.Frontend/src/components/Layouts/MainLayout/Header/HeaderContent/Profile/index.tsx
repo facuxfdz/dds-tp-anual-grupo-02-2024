@@ -83,8 +83,8 @@ const Profile = () => {
                 onClick={handleToggle}
             >
                 <Stack direction="row" spacing={2} alignItems="center" sx={{p: 0.5}}>
-                    <Avatar src={user.profile_picture}/>
-                    <Typography variant="subtitle1">{user.name}</Typography>
+                    <Avatar src={user.user.profile_picture}/>
+                    <Typography variant="subtitle1">{user.user.name}</Typography>
                 </Stack>
             </ButtonBase>
             <Popper
@@ -122,9 +122,9 @@ const Profile = () => {
                                 <MainCard elevation={0} border={false} content={false}>
                                     <CardContent sx={{px: 2.5, pt: 3}}>
                                         <Stack direction="row" spacing={1.25} alignItems="center">
-                                            <Avatar sx={{width: 32, height: 32}} src={user.profile_picture}/>
+                                            <Avatar sx={{width: 32, height: 32}} src={user.user.profile_picture}/>
                                             <Stack>
-                                                <Typography variant="h6">{user.name}</Typography>
+                                                <Typography variant="h6">{user.user.name}</Typography>
                                             </Stack>
                                         </Stack>
                                     </CardContent>

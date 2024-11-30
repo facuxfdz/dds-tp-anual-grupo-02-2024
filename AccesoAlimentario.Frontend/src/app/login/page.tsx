@@ -5,7 +5,7 @@ import AuthWrapper from "@components/Auth/AuthWrapper";
 import Typography from "@mui/material/Typography";
 import React from "react";
 import AuthLogin from "@components/Auth/AuthLogin";
-import {setUser} from '@redux/features/userSlice';
+import {setSignedUser} from '@redux/features/userSlice';
 import {setSession} from '@redux/features/sessionSlice';
 import {useDispatch} from 'react-redux';
 import {config} from '@config/config';
@@ -29,8 +29,7 @@ export default function LoginPage() {
             }
             const jwtToken = credentialResponse.credential;
 
-            // Call the backend to authenticate the user and get the user information
-            console.log(`Api url: ${config.apiUrl}`)
+            // Call the backend to authenticate the user and get the user information            
             const response = await fetch(`${config.apiUrl}/auth/login`, {
                 method: 'POST',
                 headers: {
@@ -42,25 +41,26 @@ export default function LoginPage() {
 
             if (response.ok) {
                 const data = await response.json();  // Destructure the data from the backend
+                const userExists : boolean = data.userExists;  // Check if the user exists in the database
                 const jsonRes = parseJwt(data.token);
                 const user = {
-                    id: jsonRes.aud ?? '',
                     name: jsonRes.name ?? '',
                     email: jsonRes.email ?? '',
-                    profile_picture: jsonRes.picture ?? ''
                 }
-
                 // Dispatch the action to update the Redux state with the user info
-                dispatch(setUser(user));  // Assuming you have a setUser action
-                dispatch(setSession(data.token));  // Assuming you have a setSession action
-                // Optionally, handle any other necessary state changes here
-                if (user.id !== '') {
-                    addNotification("Inicio de sesión exitoso", "success");
-                    router.push("/admin/inicio");
-                } else {
+                dispatch(setSignedUser(user));  // Assuming you have a setUser action
+                if (user.name === '') {
                     addNotification("Error en la autenticación. Fallo al obtener las credenciales.", "error");
+                    return;
                 }
-
+                if (userExists) {
+                    console.log("User exists");
+                    dispatch(setSession(jwtToken));  // Assuming you have a setSession action
+                    router.push("/admin/inicio");
+                }
+                if (!userExists) {
+                    router.push("/login/register");
+                }             
             } else {
                 addNotification("Error en la autenticación. Por favor, verifica tus credenciales.", "error");
             }
