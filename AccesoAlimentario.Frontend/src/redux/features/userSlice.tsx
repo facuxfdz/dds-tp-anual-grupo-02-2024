@@ -47,6 +47,8 @@ const userSlice = createSlice({
         setSignedUser: (state, action: PayloadAction<UserTemp>) => {
             state.userTemp.name = action.payload.name;
             state.userTemp.email = action.payload.email;
+            state.userTemp.register_type = action.payload.register_type;
+            state.userTemp.profile_picture = action.payload.profile_picture;
         },
         clearUser: (state) => {
             state.user.id = '';
