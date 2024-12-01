@@ -7,11 +7,12 @@ import {IDonacionMonetariaRequest} from "@models/requests/contribuciones/iDonaci
 import {IRegistroPersonaVulnerableRequest} from "@models/requests/contribuciones/iRegistroPersonaVulnerableRequest";
 import {ICanjeDePremioRequest} from "@models/requests/contribuciones/iCanjeDePremioRequest";
 import {IOfertaPremioRequest} from "@models/requests/contribuciones/iOfertaPremioRequest";
+import {IFormaContribucionResponse} from "@models/responses/contribuciones/iFormaContribucionResponse";
 
 export const contribucionesApi = createApi({
     reducerPath: "ContribucionesApi",
     baseQuery: fetchBaseQuery({baseUrl: config.apiUrl}),
-    tagTypes: ["PuntosContribuidor"],
+    tagTypes: ["PuntosContribuidor", "Contribuciones"],
     endpoints: (builder) => ({
         postDistribucionViandas: builder.mutation<
             void,
@@ -22,7 +23,7 @@ export const contribucionesApi = createApi({
                 method: "POST",
                 body: data
             }),
-            invalidatesTags: ["PuntosContribuidor"]
+            invalidatesTags: ["PuntosContribuidor", "Contribuciones"]
         }),
         postDonacionHeladera: builder.mutation<
             void,
@@ -33,7 +34,7 @@ export const contribucionesApi = createApi({
                 method: "POST",
                 body: data
             }),
-            invalidatesTags: ["PuntosContribuidor"]
+            invalidatesTags: ["PuntosContribuidor", "Contribuciones"]
         }),
         postDonacionVianda: builder.mutation<
             void,
@@ -44,7 +45,7 @@ export const contribucionesApi = createApi({
                 method: "POST",
                 body: data
             }),
-            invalidatesTags: ["PuntosContribuidor"]
+            invalidatesTags: ["PuntosContribuidor", "Contribuciones"]
         }),
         postDonacionMonetaria: builder.mutation<
             void,
@@ -55,7 +56,7 @@ export const contribucionesApi = createApi({
                 method: "POST",
                 body: data
             }),
-            invalidatesTags: ["PuntosContribuidor"]
+            invalidatesTags: ["PuntosContribuidor", "Contribuciones"]
         }),
         postOfertaPremio: builder.mutation<
             void,
@@ -66,7 +67,7 @@ export const contribucionesApi = createApi({
                 method: "POST",
                 body: data
             }),
-            invalidatesTags: ["PuntosContribuidor"]
+            invalidatesTags: ["PuntosContribuidor", "Contribuciones"]
         }),
         postRegistroPersonaVulnerable: builder.mutation<
             void,
@@ -77,7 +78,7 @@ export const contribucionesApi = createApi({
                 method: "POST",
                 body: data
             }),
-            invalidatesTags: ["PuntosContribuidor"]
+            invalidatesTags: ["PuntosContribuidor", "Contribuciones"]
         }),
         postCanjeDePremio: builder.mutation<
             void,
@@ -88,7 +89,7 @@ export const contribucionesApi = createApi({
                 method: "POST",
                 body: data
             }),
-            invalidatesTags: ["PuntosContribuidor"]
+            invalidatesTags: ["PuntosContribuidor", "Contribuciones"]
         }),
         getPuntosContribuidor: builder.query<
             number,
@@ -99,7 +100,20 @@ export const contribucionesApi = createApi({
                 method: "GET"
             }),
             providesTags: ["PuntosContribuidor"]
-        })
+        }),
+        getContribuciones: builder.query<
+            IFormaContribucionResponse[],
+            string
+        >({
+            query: (colaboradorId) => ({
+                url: "contribuciones/contribucionesColaborador",
+                method: "GET",
+                params: {
+                    colaboradorId
+                }
+            }),
+            providesTags: ["Contribuciones"]
+        }),
     }),
 });
 
@@ -112,5 +126,7 @@ export const {
     usePostOfertaPremioMutation,
     usePostRegistroPersonaVulnerableMutation,
     useGetPuntosContribuidorQuery,
-    useLazyGetPuntosContribuidorQuery
+    useLazyGetPuntosContribuidorQuery,
+    useGetContribucionesQuery,
+    useLazyGetContribucionesQuery
 } = contribucionesApi;

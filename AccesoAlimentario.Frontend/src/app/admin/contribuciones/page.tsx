@@ -3,7 +3,7 @@ import {
     Backdrop,
     Box,
     Button,
-    CardActions, Divider, Fade, MenuItem, Modal, Select,
+    CardActions, CircularProgress, Divider, Fade, MenuItem, Modal, Select,
     Stack,
     Table,
     TableBody,
@@ -26,6 +26,7 @@ import {OfertaPremioForm} from "@/app/admin/contribuciones/OfertaPremioForm";
 import {AdministracionHeladeraForm} from "@/app/admin/contribuciones/AdministracionHeladeraForm";
 import {DistribucionViandasForm} from "@/app/admin/contribuciones/DistribucionViandasForm";
 import {
+    useGetContribucionesQuery,
     usePostDistribucionViandasMutation, usePostDonacionHeladeraMutation,
     usePostDonacionMonetariaMutation, usePostDonacionViandaMutation,
     usePostOfertaPremioMutation
@@ -37,19 +38,24 @@ import {IOfertaPremioRequest} from "@models/requests/contribuciones/iOfertaPremi
 import {IDonacionHeladeraRequest} from "@models/requests/contribuciones/iDonacionHeladeraRequest";
 import {IDistribucionViandaRequest} from "@models/requests/contribuciones/iDistribucionViandaRequest";
 import {useAppSelector} from "@redux/hook";
+import {formatDate} from "@utils/formatDate";
 
-function createData(tipo: string, fechaContribucion: string) {
-    return {tipo, fechaContribucion};
+function getTipoContribucion (tipo: string) {
+    switch (tipo) {
+        case "DonacionMonetaria":
+            return "Donación Monetaria";
+        case "DonacionVianda":
+            return "Donación de Viandas";
+        case "OfertaPremio":
+            return "Oferta de Premio";
+        case "AdministracionHeladera":
+            return "Administración de Heladera";
+        case "DistribucionViandas":
+            return "Distribución de Viandas";
+        default:
+            return "";
+    }
 }
-
-const rows = [
-    createData('DonacionMonetaria', '2021-10-10'),
-    createData('DonacionVianda', '2021-10-10'),
-    createData('OfertaPremio', '2021-10-10'),
-    createData('AdministracionHeladera', '2021-10-10'),
-    createData('DistribucionViandas', '2021-10-10'),
-    createData('DonacionMonetaria', '2021-10-10'),
-];
 
 export default function ContribucionesPage() {
     const theme = useTheme();
@@ -78,7 +84,7 @@ export default function ContribucionesPage() {
         postDonacionHeladera,
         {isLoading: isLoadingDonacionHeladera}
     ] = usePostDonacionHeladeraMutation();
-
+    const {data: colaboracionesData, isLoading: isLoadingColaboraciones} = useGetContribucionesQuery(user.id);
 
     const handleSave = async (data: FormFieldValue) => {
         switch (tipoContribucion) {
@@ -240,20 +246,29 @@ export default function ContribucionesPage() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rows.map((row, index) => (
-                                <StyledTableRow hover key={`${row.tipo}-${index}`}>
-                                    <StyledTableCell sx={{pl: 3}} component="th" scope="row">
-                                        {index + 1}
-                                    </StyledTableCell>
-                                    <StyledTableCell align="center">{row.tipo}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.fechaContribucion}</StyledTableCell>
-                                    <StyledTableCell sx={{pr: 3}} align="center">
-                                        <Button color="primary" size="small" variant="contained">
-                                            Ver
-                                        </Button>
-                                    </StyledTableCell>
-                                </StyledTableRow>
-                            ))}
+                            {
+                                isLoadingColaboraciones ? (
+                                    <CircularProgress/>
+                                ) : (
+                                    (colaboracionesData || [])
+                                        .map((row, index) => (
+                                            <StyledTableRow hover key={`${row.tipo}-${index}`}>
+                                                <StyledTableCell sx={{pl: 3}} component="th" scope="row">
+                                                    {index + 1}
+                                                </StyledTableCell>
+                                                <StyledTableCell align="center">{getTipoContribucion(row.tipo)}</StyledTableCell>
+                                                <StyledTableCell
+                                                    align="center">{formatDate(row.fechaContribucion)}</StyledTableCell>
+                                                <StyledTableCell sx={{pr: 3}} align="center">
+                                                    <Button color="primary" size="small" variant="contained">
+                                                        Ver
+                                                    </Button>
+                                                </StyledTableCell>
+                                            </StyledTableRow>
+                                        ))
+                                )
+                            }
+
                         </TableBody>
                     </Table>
                 </TableContainer>
