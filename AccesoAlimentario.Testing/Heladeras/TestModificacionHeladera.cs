@@ -1,40 +1,43 @@
 ﻿using AccesoAlimentario.Core.DAL;
-using AccesoAlimentario.Operations.Contribuciones;
+using AccesoAlimentario.Core.Entities.Heladeras;
+using AccesoAlimentario.Operations.Heladeras;
 using AccesoAlimentario.Testing.Utils;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AccesoAlimentario.Testing.Contribuciones;
+namespace AccesoAlimentario.Testing.Heladeras;
 
-public class TestColaborarConDistribucionDeVianda
+public class TestModificacionHeladera
 {
     [Test]
-    public async Task TestRegistrarConDistribucionDeVianda()
+    
+    // TODO: NO FUNCIONA
+
+    public async Task ModificacionHeladeraTest()
     {
         var mockServices = new MockServices();
         var mediator = mockServices.GetMediator();
 
         using var scope = mockServices.GetScope();
         var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-        // Usa los datos precargados
-        var colaborador = context.Colaboradores.First(); // Recupera el primer colaborador
-        var heladeraOrigen = context.Heladeras.First(); // Recupera la primera heladera
-        var heladeraDestino = context.Heladeras.Skip(1).First(); // Recupera la segunda heladera
         
+        var heladera = context.Heladeras.First();
+        var puntoEstrategicoRequest = MockRequest.GetPuntoEstrategicoRequest();
+        var sensorRequest = MockRequest.GetSensorTemperaturaRequest();
 
-        var command = new ColaborarConDistribucionDeVianda.ColaborarConDistribucionDeViandaCommand
+        var command = new ModificacionHeladera.ModificacionHeladeraCommand()
         {
-            ColaboradorId = colaborador.Id,
-            FechaContribucion = DateTime.Now,
-            HeladeraOrigenId = heladeraOrigen.Id,
-            HeladeraDestinoId = heladeraDestino.Id,
-            CantidadDeViandas = 1
+            Id = heladera.Id,
+            Estado = EstadoHeladera.Activa,
+            PuntoEstrategico = puntoEstrategicoRequest ,
+            TemperaturaMinimaConfig = 14,
+            TemperaturaMaximaConfig = 22,
+            Sensores = [sensorRequest]
+
         };
-
+        
         var result = await mediator.Send(command);
-
-        switch (result)
+        
+         switch (result)
         {
             case Microsoft.AspNetCore.Http.HttpResults.BadRequest<string> badRequest:
                 Assert.Fail($"El comando devolvió BadRequest: {badRequest.Value}");
@@ -43,7 +46,7 @@ public class TestColaborarConDistribucionDeVianda
                 Assert.Fail($"El comando devolvió NotFound: {notFound.Value}");
                 break;
             case Microsoft.AspNetCore.Http.HttpResults.Ok:
-                Assert.Pass("El comando devolvió Ok. Se distribuyó la vianda. ");
+                Assert.Pass($"El comando devolvió Ok. Se pudo modificar la heladera de Id: {heladera.Id}" );
                 break;
             default:
                 Assert.Fail($"El comando no devolvió ok - {result.GetType()}"); 

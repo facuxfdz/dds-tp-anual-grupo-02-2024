@@ -47,19 +47,7 @@
 	
 	
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=dee2f641_002D2c01_002D4bc6_002D8967_002Da7a5e619b8c6/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CrearRegistroPersonaVulnerable_ColaboradorHumano_PuedeColaborar" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.Externos.TestObtenerRecomendacionUbicacionHeladera&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.Contribuciones.TestColaborarConDistribucionDeVianda.TestRegistrarConDistribucionDeVianda&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.Externos.TestObtenerColaboradoresParaReconocimiento.ObtenerColaboradoresParaReconocimiento&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.Contribuciones.TestColaborarConDistribucionDeVianda&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.Contribuciones.TestColaborarConDonacionDeVianda.TestDonacionDeVianda&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.Contribuciones.TestColaborarConOfertaDePremio.TestOfertaDePremio&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.Contribuciones.TestColaborarConDonacionMonetaria.TestDonacionMonetaria&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.Contribuciones.TestColaborarConRegistroPersonaVulnerable.TestRegistrarPersonaVulnerable&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.Contribuciones.TestColaborarConRegistroPersonaVulnerable&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.Contribuciones.TestColaborarConDonacionDeHeladera.TestDonacionDeHeladera&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::E68A0629-DFFC-44D1-A0A5-EEFE2704F3A7::net8.0::AccesoAlimentario.Testing.Contribuciones.TestRegistrarCanjeDePremio.TestRegistraCanjeDePremio&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
+  &lt;Project Location="C:\Users\larip\Desktop\dds_tp_anual_2024\AccesoAlimentario.Testing" Presentation="&amp;lt;AccesoAlimentario.Testing&amp;gt;" /&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e5c7046a_002Deed8_002D4686_002Da3e5_002D52e9f3892d9b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Test1" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;

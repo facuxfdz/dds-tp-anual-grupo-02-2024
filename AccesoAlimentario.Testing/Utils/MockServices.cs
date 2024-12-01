@@ -6,6 +6,7 @@ using AccesoAlimentario.Core.Entities.Heladeras;
 using AccesoAlimentario.Core.Entities.Personas;
 using AccesoAlimentario.Core.Entities.Premios;
 using AccesoAlimentario.Core.Entities.Roles;
+using AccesoAlimentario.Core.Entities.Tarjetas;
 using AccesoAlimentario.Operations;
 using AccesoAlimentario.Operations.Dto.Requests.Direcciones;
 using AccesoAlimentario.Operations.Dto.Responses.Externos;
@@ -100,7 +101,9 @@ public class MockServices
                 TemperaturaMinimaConfig = 18,
                 Modelo = new ModeloHeladera
                 {
-                    Capacidad = 10
+                    Capacidad = 10,
+                    TemperaturaMinima = 14,
+                    TemperaturaMaxima = 28
                 },
                 Estado = EstadoHeladera.Activa
             };
@@ -116,7 +119,9 @@ public class MockServices
                 TemperaturaMinimaConfig = 18,
                 Modelo = new ModeloHeladera
                 {
-                    Capacidad = 10
+                    Capacidad = 10,
+                    TemperaturaMinima = 14,
+                    TemperaturaMaxima = 28
                 },
                 Estado = EstadoHeladera.Activa
             };
@@ -139,24 +144,47 @@ public class MockServices
             context.FormasContribucion.Add(donacionDistribucionVianda);
     
             // Crear y agregar una persona de prueba
-            var persona = new PersonaHumana
+            var personaHumana = new PersonaHumana
             {
                 Nombre = "Juan Pérez",
                 DocumentoIdentidad = new DocumentoIdentidad(TipoDocumento.DNI, 12345678, new DateTime(2020, 1, 1)),
             };
     
-            context.Personas.Add(persona);
+            context.Personas.Add(personaHumana);
     
             // Crear y agregar un colaborador de prueba
             var colaborador = new Colaborador
             {
-                Persona = persona, 
+                Persona = personaHumana, 
                 Puntos = 5000, 
             };
             colaborador.AgregarContribucion(donacionVianda);
             colaborador.AgregarContribucion(donacionDistribucionVianda);
 
             context.Colaboradores.Add(colaborador);
+            
+
+            var direccion = new Direccion
+            {
+                Calle = "Avellaneda",
+                Numero = "213",
+                CodigoPostal = "234",
+                Departamento = "D 14",
+                Localidad = "Avellaneda",
+                Piso = "6"
+            };
+            
+            context.Direcciones.Add(direccion);
+
+            var puntoEstrategico = new PuntoEstrategico
+            {
+                Direccion = direccion,
+                Nombre = "Avellaneda",
+                Latitud = 1243,
+                Longitud = 1245,
+            };
+            
+            context.PuntosEstrategicos.Add(puntoEstrategico);
             
             context.SaveChanges();
             
