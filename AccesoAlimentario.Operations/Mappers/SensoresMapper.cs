@@ -18,10 +18,10 @@ public class SensoresMapper : Profile
             .Include<SensorTemperaturaRequest, SensorTemperatura>()
             .Include<SensorMovimientoRequest, SensorMovimiento>();
         
-        CreateMap<SensorTemperatura, SensorTemperaturaRequest>()
+        CreateMap<SensorTemperatura, SensorTemperaturaResponse>()
             .ForMember(x => x.Tipo, opt => opt.MapFrom(x => "Temperatura"));
         
-        CreateMap<SensorMovimiento, SensorMovimientoRequest>()
+        CreateMap<SensorMovimiento, SensorMovimientoResponse>()
             .ForMember(x => x.Tipo, opt => opt.MapFrom(x => "Movimiento"));
 
         CreateMap<Sensor, SensorResponse>()

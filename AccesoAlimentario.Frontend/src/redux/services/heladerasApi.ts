@@ -1,6 +1,6 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {config} from "@config/config";
-import {IObtenerHeladeraResponse} from "@models/responses/heladeras/iObtenerHeladeraResponse";
+import {IHeladeraResponse} from "@models/responses/heladeras/iHeladeraResponse";
 
 export const heladerasApi = createApi({
     reducerPath: "HeladerasApi",
@@ -17,7 +17,7 @@ export const heladerasApi = createApi({
             providesTags: ["Heladera"]
         }),
         getHeladeras: builder.query<
-            IObtenerHeladeraResponse[],
+            IHeladeraResponse[],
             void
         >({
             query: () => ({

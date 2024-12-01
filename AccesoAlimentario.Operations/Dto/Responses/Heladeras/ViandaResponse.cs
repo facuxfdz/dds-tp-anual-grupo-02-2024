@@ -1,4 +1,6 @@
-﻿namespace AccesoAlimentario.Operations.Dto.Responses.Heladeras;
+﻿using AccesoAlimentario.Core.Entities.Heladeras;
+
+namespace AccesoAlimentario.Operations.Dto.Responses.Heladeras;
 
 public class ViandaResponse
 {
@@ -8,5 +10,5 @@ public class ViandaResponse
     public DateTime FechaCaducidad { get; set; } = DateTime.Now;
     public float Calorias { get; set; } = 0;
     public float Peso { get; set; } = 0;
-    public string Estado { get; set; } = string.Empty;
+    public EstadoVianda Estado { get; set; } = EstadoVianda.Disponible;
 }

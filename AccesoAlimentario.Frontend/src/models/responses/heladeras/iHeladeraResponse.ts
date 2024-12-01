@@ -1,4 +1,4 @@
-export interface IObtenerHeladeraResponse {
+export interface IHeladeraResponse {
     id: string,
     puntoEstrategico: {
         id: string,
