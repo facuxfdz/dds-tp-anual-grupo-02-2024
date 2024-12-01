@@ -1,42 +1,39 @@
 ﻿using AccesoAlimentario.Core.DAL;
+using AccesoAlimentario.Core.Entities.Heladeras;
 using AccesoAlimentario.Operations.Contribuciones;
 using AccesoAlimentario.Testing.Utils;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AccesoAlimentario.Testing.Contribuciones;
 
-public class TestColaborarConDistribucionDeVianda
+public class TestColaborarConDonacionDeVianda
 {
     [Test]
-    public async Task TestRegistrarConDistribucionDeVianda()
+
+    public async Task TestDonacionDeVianda()
     {
         var mockServices = new MockServices();
         var mediator = mockServices.GetMediator();
 
         using var scope = mockServices.GetScope();
         var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-        // Usa los datos precargados
+        
         var colaborador = context.Colaboradores.First(); // Recupera el primer colaborador
-        var heladeraOrigen = context.Heladeras.First(); // Recupera la primera heladera
-        var heladeraDestino = context.Heladeras.Skip(1).First(); // Recupera la segunda heladera
-        
-        
-        // Asegúrate de que haya viandas en la heladera de origen
-        var viandasEnHeladeraOrigen = heladeraOrigen.Viandas.Count();
-        Console.WriteLine(viandasEnHeladeraOrigen);
-        //Assert.That(viandasEnHeladeraOrigen, Is.GreaterThanOrEqualTo(1), "La heladera de origen no tiene suficientes viandas.");
+        var heladera = context.Heladeras.First(); // Recupera la primera heladera
 
-        var command = new ColaborarConDistribucionDeVianda.ColaborarConDistribucionDeViandaCommand
+        var command = new ColaborarConDonacionDeVianda.ColaborarConDonacionDeViandaCommand
         {
             ColaboradorId = colaborador.Id,
-            FechaContribucion = DateTime.Now,
-            HeladeraOrigenId = heladeraOrigen.Id,
-            HeladeraDestinoId = heladeraDestino.Id,
-            CantidadDeViandas = 1
-        };
+            FechaContribucion = DateTime.Now, 
+            HeladeraId = heladera.Id,
+            Comida = "Milanesa",
+            FechaCaducidad = DateTime.Now,
+            Calorias = 100,
+            Peso = 200,
+            EstadoVianda = EstadoVianda.Disponible
 
+        };
+        
         var result = await mediator.Send(command);
 
         switch (result)

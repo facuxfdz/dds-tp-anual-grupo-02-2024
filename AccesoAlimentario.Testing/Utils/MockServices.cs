@@ -1,10 +1,13 @@
 ﻿using AccesoAlimentario.Core.DAL;
 using AccesoAlimentario.Core.Entities.Contribuciones;
+using AccesoAlimentario.Core.Entities.Direcciones;
 using AccesoAlimentario.Core.Entities.DocumentosIdentidad;
 using AccesoAlimentario.Core.Entities.Heladeras;
 using AccesoAlimentario.Core.Entities.Personas;
+using AccesoAlimentario.Core.Entities.Premios;
 using AccesoAlimentario.Core.Entities.Roles;
 using AccesoAlimentario.Operations;
+using AccesoAlimentario.Operations.Dto.Requests.Direcciones;
 using AccesoAlimentario.Operations.Dto.Responses.Externos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -57,6 +60,17 @@ public class MockServices
         
         using (scope)
         {
+            
+            var premio = new Premio
+            {
+                Nombre = "Premio 123",
+                PuntosNecesarios = 220,
+                Rubro = TipoRubro.Electronica,
+                Imagen = "Imagen 123",
+
+            };
+            context.Premios.Add(premio);
+            
             var vianda1 = new Vianda
             {
                 Comida = "comida",
@@ -82,6 +96,8 @@ public class MockServices
             
             var heladeraOrigen = new Heladera
             { 
+                TemperaturaMaximaConfig = 24,
+                TemperaturaMinimaConfig = 18,
                 Modelo = new ModeloHeladera
                 {
                     Capacidad = 10
@@ -96,6 +112,8 @@ public class MockServices
 
             var heladeraDestino = new Heladera
             { 
+                TemperaturaMaximaConfig = 24,
+                TemperaturaMinimaConfig = 18,
                 Modelo = new ModeloHeladera
                 {
                     Capacidad = 10
@@ -148,12 +166,5 @@ public class MockServices
         
         
     }
-    
-    public static List<Heladera> ObtenerHeladeras(IServiceScope scope)
-    {
-        var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-        return context.Heladeras.ToList(); // Retorna todas las heladeras en la base de datos
-    }
-    
     
 }
