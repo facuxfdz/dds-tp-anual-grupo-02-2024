@@ -1,6 +1,7 @@
 ﻿using AccesoAlimentario.Core.DAL;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace AccesoAlimentario.Operations.Roles.Colaboradores;
 
@@ -11,18 +12,21 @@ public static class ObtenerPuntajeColaborador
         public Guid ColaboradorId { get; set; } = Guid.Empty;
     }
     
-    public class Handler : IRequestHandler<ObtenerPuntajeColaboradorCommand, IResult>
+    public class ObtenerPuntajeColaboradorHandler : IRequestHandler<ObtenerPuntajeColaboradorCommand, IResult>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ILogger _logger;
 
-        public Handler(IUnitOfWork unitOfWork)
+        public ObtenerPuntajeColaboradorHandler(IUnitOfWork unitOfWork, ILogger<ObtenerPuntajeColaboradorHandler> logger)
         {
             _unitOfWork = unitOfWork;
+            _logger = logger;
         }
 
         public async Task<IResult> Handle(ObtenerPuntajeColaboradorCommand request,
             CancellationToken cancellationToken)
         {
+            _logger.LogInformation("Obtener Puntaje Colaborador");
             var colaborador = await _unitOfWork.ColaboradorRepository.GetByIdAsync(request.ColaboradorId);
             if (colaborador == null)
             {

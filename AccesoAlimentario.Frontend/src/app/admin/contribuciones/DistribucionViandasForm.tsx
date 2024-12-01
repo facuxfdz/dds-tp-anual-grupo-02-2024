@@ -39,15 +39,31 @@ export const DistribucionViandasForm = () => {
                 </LocalizationProvider>
             </Grid>
             <Grid size={6} key={"motivo"}>
-                <TextFieldElement
+                <SelectElement
                     name={"motivo"}
                     label={"Motivo"}
-                    placeholder={"Ingrese un motivo"}
+                    options={
+                        ([
+                            {
+                                id: 1,
+                                nombre: "Desperfecto"
+                            },
+                            {
+                                id: 2,
+                                nombre: "FaltaDeViandas"
+                            }
+                        ]).map(motivo => {
+                            return {
+                                label: motivo.nombre,
+                                id: motivo.id
+                            }
+                        })
+                    }
                     required={true}
                     fullWidth
                     rules={
                         {
-                            required: "Por favor ingrese un motivo"
+                            required: "Por favor seleccione una opción"
                         }
                     }
                 />

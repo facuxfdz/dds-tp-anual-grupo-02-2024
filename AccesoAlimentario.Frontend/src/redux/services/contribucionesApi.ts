@@ -11,6 +11,7 @@ import {IOfertaPremioRequest} from "@models/requests/contribuciones/iOfertaPremi
 export const contribucionesApi = createApi({
     reducerPath: "ContribucionesApi",
     baseQuery: fetchBaseQuery({baseUrl: config.apiUrl}),
+    tagTypes: ["PuntosContribuidor"],
     endpoints: (builder) => ({
         postDistribucionViandas: builder.mutation<
             void,
@@ -21,6 +22,7 @@ export const contribucionesApi = createApi({
                 method: "POST",
                 body: data
             }),
+            invalidatesTags: ["PuntosContribuidor"]
         }),
         postDonacionHeladera: builder.mutation<
             void,
@@ -31,6 +33,7 @@ export const contribucionesApi = createApi({
                 method: "POST",
                 body: data
             }),
+            invalidatesTags: ["PuntosContribuidor"]
         }),
         postDonacionVianda: builder.mutation<
             void,
@@ -41,6 +44,7 @@ export const contribucionesApi = createApi({
                 method: "POST",
                 body: data
             }),
+            invalidatesTags: ["PuntosContribuidor"]
         }),
         postDonacionMonetaria: builder.mutation<
             void,
@@ -51,6 +55,7 @@ export const contribucionesApi = createApi({
                 method: "POST",
                 body: data
             }),
+            invalidatesTags: ["PuntosContribuidor"]
         }),
         postOfertaPremio: builder.mutation<
             void,
@@ -61,6 +66,7 @@ export const contribucionesApi = createApi({
                 method: "POST",
                 body: data
             }),
+            invalidatesTags: ["PuntosContribuidor"]
         }),
         postRegistroPersonaVulnerable: builder.mutation<
             void,
@@ -71,6 +77,7 @@ export const contribucionesApi = createApi({
                 method: "POST",
                 body: data
             }),
+            invalidatesTags: ["PuntosContribuidor"]
         }),
         postCanjeDePremio: builder.mutation<
             void,
@@ -81,6 +88,17 @@ export const contribucionesApi = createApi({
                 method: "POST",
                 body: data
             }),
+            invalidatesTags: ["PuntosContribuidor"]
+        }),
+        getPuntosContribuidor: builder.query<
+            number,
+            string
+        >({
+            query: (colaboradorId) => ({
+                url: `colaboradores/${colaboradorId}/puntaje`,
+                method: "GET"
+            }),
+            providesTags: ["PuntosContribuidor"]
         })
     }),
 });
@@ -92,5 +110,7 @@ export const {
     usePostDonacionMonetariaMutation,
     usePostDonacionViandaMutation,
     usePostOfertaPremioMutation,
-    usePostRegistroPersonaVulnerableMutation
+    usePostRegistroPersonaVulnerableMutation,
+    useGetPuntosContribuidorQuery,
+    useLazyGetPuntosContribuidorQuery
 } = contribucionesApi;

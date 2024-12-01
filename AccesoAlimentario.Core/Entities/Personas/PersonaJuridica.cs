@@ -6,7 +6,7 @@ namespace AccesoAlimentario.Core.Entities.Personas;
 
 public class PersonaJuridica : Persona
 {
-    public string RazonSocial { get; set;}
+    public string RazonSocial { get; set;} = string.Empty;
     public TipoJuridico Tipo { get; set; } = TipoJuridico.Gubernamental;
     public string Rubro { get; set; } = string.Empty;
     

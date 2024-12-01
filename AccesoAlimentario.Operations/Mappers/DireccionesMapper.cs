@@ -1,13 +1,15 @@
 ﻿using AccesoAlimentario.Core.Entities.Direcciones;
 using AccesoAlimentario.Operations.Dto.Requests.Direcciones;
+using AccesoAlimentario.Operations.Dto.Responses.Direcciones;
 using AutoMapper;
 
 namespace AccesoAlimentario.Operations.Mappers;
 
-public class DireccionMapper : Profile
+public class DireccionesMapper : Profile
 {
-    public DireccionMapper()
+    public DireccionesMapper()
     {
         CreateMap<DireccionRequest, Direccion>();
+        CreateMap<Direccion, DireccionResponse>();
     }
 }

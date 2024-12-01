@@ -6,7 +6,7 @@ namespace AccesoAlimentario.Operations.Dto.Requests.Personas;
 
 [JsonConverter(typeof(JsonSubtypes), "Tipo")]
 [JsonSubtypes.KnownSubType(typeof(PersonaHumanaRequest), "Humana")]
-[JsonSubtypes.KnownSubType(typeof(PersonaJuridicaRequest), "Humana")]
+[JsonSubtypes.KnownSubType(typeof(PersonaJuridicaRequest), "Juridica")]
 public abstract class PersonaRequest : IDtoRequest
 {
     public string Nombre { get; set; } = string.Empty;

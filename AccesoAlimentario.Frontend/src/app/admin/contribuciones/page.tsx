@@ -36,6 +36,7 @@ import {IDonacionViandaRequest} from "@models/requests/contribuciones/iDonacionV
 import {IOfertaPremioRequest} from "@models/requests/contribuciones/iOfertaPremioRequest";
 import {IDonacionHeladeraRequest} from "@models/requests/contribuciones/iDonacionHeladeraRequest";
 import {IDistribucionViandaRequest} from "@models/requests/contribuciones/iDistribucionViandaRequest";
+import {useAppSelector} from "@redux/hook";
 
 function createData(tipo: string, fechaContribucion: string) {
     return {tipo, fechaContribucion};
@@ -50,9 +51,9 @@ const rows = [
     createData('DonacionMonetaria', '2021-10-10'),
 ];
 
-const colaboradorId = "28a57265-a0c4-4813-86a2-38a15d6ebc8a";
 export default function ContribucionesPage() {
     const theme = useTheme();
+    const user = useAppSelector(state => state.user);
     const [showModal, setShowModal] = React.useState(false);
     const [tipoContribucion, setTipoContribucion] = React.useState<"DonacionMonetaria" | "DonacionVianda" | "OfertaPremio" | "AdministracionHeladera" | "DistribucionViandas">("DonacionMonetaria");
     const formContext = useForm();
@@ -83,7 +84,7 @@ export default function ContribucionesPage() {
         switch (tipoContribucion) {
             case "DonacionMonetaria":
                 const donacionMonetariaData: IDonacionMonetariaRequest = {
-                    colaboradorId: colaboradorId,
+                    colaboradorId: user.id,
                     fechaContribucion: data.fechaContribucion,
                     monto: Number(data.monto),
                     frecuenciaDias: Number(data.frecuenciaDias)
@@ -99,7 +100,7 @@ export default function ContribucionesPage() {
                 break;
             case "DonacionVianda":
                 const donacionViandaData: IDonacionViandaRequest = {
-                    colaboradorId: colaboradorId,
+                    colaboradorId: user.id,
                     fechaContribucion: data.fechaContribucion,
                     heladeraId: data.heladera,
                     comida: data.comida,
@@ -119,7 +120,7 @@ export default function ContribucionesPage() {
                 break;
             case "OfertaPremio":
                 const ofertaPremioData: IOfertaPremioRequest = {
-                    colaboradorId: colaboradorId,
+                    colaboradorId: user.id,
                     fechaContribucion: data.fechaContribucion,
                     nombre: data.nombre,
                     puntosNecesarios: Number(data.puntos),
@@ -138,7 +139,7 @@ export default function ContribucionesPage() {
             case "AdministracionHeladera":
                 const sensores = formContext.watch("sensores") as FormFieldValue[];
                 const donacionHeladeraData: IDonacionHeladeraRequest = {
-                    colaboradorId: colaboradorId,
+                    colaboradorId: user.id,
                     fechaContribucion: data.fechaContribucion,
                     puntoEstrategico: {
                         nombre: data.puntoEstrategicoNombre,
@@ -178,7 +179,7 @@ export default function ContribucionesPage() {
                 break;
             case "DistribucionViandas":
                 const distribucionViandasData: IDistribucionViandaRequest = {
-                    colaboradorId: colaboradorId,
+                    colaboradorId: user.id,
                     fechaContribucion: data.fechaContribucion,
                     heladeraOrigenId: data.heladeraOrigenId,
                     heladeraDestinoId: data.heladeraDestinoId,
