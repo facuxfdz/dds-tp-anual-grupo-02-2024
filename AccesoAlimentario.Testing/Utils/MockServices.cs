@@ -151,7 +151,7 @@ public class MockServices
             var colaborador = new Colaborador
             {
                 Persona = persona, 
-                Puntos = 100, 
+                Puntos = 5000, 
             };
             colaborador.AgregarContribucion(donacionVianda);
             colaborador.AgregarContribucion(donacionDistribucionVianda);
