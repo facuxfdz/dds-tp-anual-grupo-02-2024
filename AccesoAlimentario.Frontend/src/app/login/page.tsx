@@ -5,7 +5,7 @@ import AuthWrapper from "@components/Auth/AuthWrapper";
 import Typography from "@mui/material/Typography";
 import React from "react";
 import AuthLogin from "@components/Auth/AuthLogin";
-import {setUser} from '@redux/features/userSlice';
+import {setSignedUser, setUser} from '@redux/features/userSlice';
 import {setSession} from '@redux/features/sessionSlice';
 import {useDispatch} from 'react-redux';
 import {config} from '@config/config';
@@ -13,7 +13,6 @@ import {useRouter} from 'next/navigation'
 import {parseJwt} from "@utils/decode_jwt";
 import {CredentialResponse, GoogleLogin} from '@react-oauth/google';
 import {useNotification} from "@components/Notifications/NotificationContext";
-
 
 export default function LoginPage() {
 
@@ -29,8 +28,8 @@ export default function LoginPage() {
             }
             const jwtToken = credentialResponse.credential;
 
-            // Call the backend to authenticate the user and get the user information
-            const response = await fetch(`${config.apiUrl}/auth/login`, {
+            // Call the backend to authenticate the user and get the user information            
+            const response = await fetch(`${config.apiUrl}/auth/validate`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -41,25 +40,25 @@ export default function LoginPage() {
 
             if (response.ok) {
                 const data = await response.json();  // Destructure the data from the backend
-                const jsonRes = parseJwt(data.token);
+                const userExists : boolean = data.userExists;  // Check if the user exists in the database
+                const jsonRes = parseJwt(jwtToken);
                 const user = {
-                    id: jsonRes.aud ?? '',
                     name: jsonRes.name ?? '',
                     email: jsonRes.email ?? '',
-                    profile_picture: jsonRes.picture ?? ''
+                    profile_picture: jsonRes.picture ?? '',
+                    register_type: 'sso' as const,
                 }
-
                 // Dispatch the action to update the Redux state with the user info
-                dispatch(setUser(user));  // Assuming you have a setUser action
-                dispatch(setSession(data.token));  // Assuming you have a setSession action
-                // Optionally, handle any other necessary state changes here
-                if (user.id !== '') {
-                    addNotification("Inicio de sesión exitoso", "success");
-                    router.push("/admin/inicio");
-                } else {
-                    addNotification("Error en la autenticación. Fallo al obtener las credenciales.", "error");
+                dispatch(setSignedUser(user));  // Assuming you have a setUser action
+                if (userExists) {
+                    console.log("User exists");
+                    dispatch(setSession(jwtToken));  // Assuming you have a setSession action
+                    dispatch(setUser(user));  // Assuming you have a setUser action
+                    router.replace("/admin/inicio");
                 }
-
+                if (!userExists) {
+                    router.replace("/login/register");
+                }             
             } else {
                 addNotification("Error en la autenticación. Por favor, verifica tus credenciales.", "error");
             }

@@ -87,7 +87,7 @@ namespace AccesoAlimentario.Core.Infraestructura.ImportacionColaboradores
             new Email(true, datos.Mail)
         }, null, documento, SexoDocumento.Otro);
         var colaborador = new Colaborador(personaHumana, []);
-        var usuario = new UsuarioSistema(personaHumana, datos.Mail, CrearPassword());
+        var usuario = new UsuarioSistema(personaHumana, datos.Mail, CrearPassword(), "", RegisterType.BulkImport);
         personaHumana.AgregarRol(usuario);
         personaHumana.AgregarRol(colaborador);
 
