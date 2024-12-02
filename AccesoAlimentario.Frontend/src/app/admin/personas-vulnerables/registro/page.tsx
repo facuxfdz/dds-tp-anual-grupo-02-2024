@@ -38,7 +38,7 @@ export default function PersonasVulnerablesRegistroPage() {
             },
             persona: {
                 nombre: data.nombre,
-                tipo: "Humana",
+                tipoPersona: "Humana",
                 apellido: data.apellido,
                 sexo: data.sexo as unknown as SexoDocumento,
             },

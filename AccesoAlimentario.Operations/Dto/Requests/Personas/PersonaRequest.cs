@@ -4,13 +4,13 @@ using Newtonsoft.Json;
 
 namespace AccesoAlimentario.Operations.Dto.Requests.Personas;
 
-[JsonConverter(typeof(JsonSubtypes), "Tipo")]
+[JsonConverter(typeof(JsonSubtypes), "TipoPersona")]
 [JsonSubtypes.KnownSubType(typeof(PersonaHumanaRequest), "Humana")]
 [JsonSubtypes.KnownSubType(typeof(PersonaJuridicaRequest), "Juridica")]
 public abstract class PersonaRequest : IDtoRequest
 {
     public string Nombre { get; set; } = string.Empty;
-    public string Tipo = string.Empty;
+    public string TipoPersona = string.Empty;
 
     public abstract bool Validar();
 }
@@ -28,7 +28,8 @@ public class PersonaHumanaRequest : PersonaRequest
 
 public class PersonaJuridicaRequest : PersonaRequest
 {
-    public TipoJuridico TipoJuridico = TipoJuridico.Gubernamental;
+    public string RazonSocial { get; set;} = string.Empty;
+    public TipoJuridico Tipo = TipoJuridico.Gubernamental;
     public string Rubro = string.Empty;
     
     public override bool Validar()

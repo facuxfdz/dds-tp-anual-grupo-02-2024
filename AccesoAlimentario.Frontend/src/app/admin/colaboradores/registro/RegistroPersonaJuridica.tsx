@@ -55,6 +55,20 @@ export const RegistroPersonaJuridica = () => {
                     }
                 />
             </Grid>
+            <Grid size={12} key={"razonSocial"}>
+                <TextFieldElement
+                    name={"razonSocial"}
+                    label={"Razón Social"}
+                    placeholder={"Ingrese su razón social"}
+                    required={true}
+                    fullWidth
+                    rules={
+                        {
+                            required: "Por favor ingrese su razón social"
+                        }
+                    }
+                />
+            </Grid>
             <Grid size={6} key={"tipoDocumento"}>
                 <SelectElement
                     name={"tipoDocumento"}

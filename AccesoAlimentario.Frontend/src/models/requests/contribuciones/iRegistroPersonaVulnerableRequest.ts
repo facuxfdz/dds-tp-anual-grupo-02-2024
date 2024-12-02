@@ -10,7 +10,7 @@ export interface IRegistroPersonaVulnerableRequest {
     }
     persona: {
         nombre: string;
-        tipo: "Humana",
+        tipoPersona: "Humana",
         apellido: string;
         sexo: SexoDocumento;
     }

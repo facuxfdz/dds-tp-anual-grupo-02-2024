@@ -111,7 +111,7 @@ public static class AltaColaborador
             await _unitOfWork.ColaboradorRepository.AddAsync(colaborador);
             await _unitOfWork.SaveChangesAsync();
             
-            return Results.Ok(colaborador);
+            return Results.Ok();
         }
     }
 }

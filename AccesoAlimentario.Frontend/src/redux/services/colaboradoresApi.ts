@@ -3,6 +3,7 @@ import {config} from "@config/config";
 import {IImportarColaboradoresCsvRequest} from "@models/requests/colaboradores/iImportarColaboradoresCsvRequest";
 import {IReportarFallaTecnicaRequest} from "@models/requests/colaboradores/iReportarFallaTecnicaRequest";
 import {ISuscribirseHeladeraRequest} from "@models/requests/colaboradores/iSuscribirseHeladeraRequest";
+import {IAltaColaboradorRequest} from "@models/requests/colaboradores/iAltaColaboradorRequest";
 
 export const colaboradoresApi = createApi({
     reducerPath: "ColaboradoresApi",
@@ -39,10 +40,24 @@ export const colaboradoresApi = createApi({
                 method: "POST",
                 body,
             }),
+        }),
+        postAltaColaborador: builder.mutation<
+            void,
+            IAltaColaboradorRequest
+        >({
+            query: (body) => ({
+                url: `colaboradores`,
+                method: "POST",
+                body,
+            }),
         })
     }),
 });
 
 export const {
-    usePostImportarColaboradoresCsvMutation
+    usePostImportarColaboradoresCsvMutation,
+    usePostReportarFallaTecnicaMutation,
+    usePostSuscribirseHeladeraMutation,
+    usePostAltaColaboradorMutation
+
 } = colaboradoresApi;
