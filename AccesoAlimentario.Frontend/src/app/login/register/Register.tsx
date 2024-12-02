@@ -4,8 +4,11 @@ import React, { useEffect, useState } from "react";
 import { Box, Stack, Typography, TextField, Button, MenuItem, Select, InputLabel, FormControl, Grid } from "@mui/material";
 import MainCard from "@/components/Cards/MainCard";
 import { UserData } from "./page";
-import { useRegisterQuery } from "@/redux/services/authApi";
+import { useLazyRegisterQuery, useRegisterQuery } from "@/redux/services/authApi";
 import PreviewButton from "../PreviewButton";
+import { useRouter } from "next/navigation";
+import { setUser } from "@/redux/features/userSlice";
+import { useDispatch } from "react-redux";
 
 interface RegisterPageProps {
   userData: UserData;
@@ -13,7 +16,20 @@ interface RegisterPageProps {
 
 export default function RegisterPage({ userData }: RegisterPageProps) {
   // Data from Google is in the session jwt token
-  const { name, email, user_type, profile_picture, register_type } = userData;
+  const { 
+    name, 
+    email, 
+    user_type, 
+    profile_picture, 
+    register_type,
+    sexo,
+    rubro,
+    tipoJuridico
+   } = userData;
+  const router = useRouter();
+  const dispatch = useDispatch();
+  // use lazy query
+  const [register, { data, error }] = useLazyRegisterQuery();
 
   // State for the form fields
   const [formData, setFormData] = useState({
@@ -23,6 +39,10 @@ export default function RegisterPage({ userData }: RegisterPageProps) {
     user_type: user_type,
     profile_picture: profile_picture,
     file: null as File | null,
+    sexo: sexo,
+    rubro: rubro,
+    tipoJuridico: tipoJuridico,
+
   });
 
   // Handle input changes
@@ -38,26 +58,58 @@ export default function RegisterPage({ userData }: RegisterPageProps) {
     setFormData((prev) => ({ ...prev, profile_picture: file ? URL.createObjectURL(file) : '' }));
   };
 
+
+
   // Handle form submission
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
     // Handle file upload logic to S3 with presigned URL and form submission logic here
     console.log(formData);
-    // useRegisterQuery({
-    //   email: formData.email,
-    //   password: formData.password,
-    //   profile_picture: formData.profile_picture,
-    //   register_type: register_type,
-    // });
-
+    register({
+      email: formData.email,
+      password: formData.password,
+      profile_picture: formData.profile_picture,
+      register_type: register_type,
+      user_type: formData.user_type,
+      direccion: {
+        calle: "calle",
+        numero: "numero",
+        localidad: "localidad",
+        codigoPostal: "codigoPostal",
+      },
+      documento: {
+        tipoDocumento: "DNI",
+        nroDocumento: 12345678,
+        fechaNacimiento: "2000-01-01",
+      },
+      persona: {
+        nombre: `${formData.name.split(' ')[0]}`,
+        apellido: `${formData.name.split(' ')[1]} ${formData.name.split(' ').length > 2 ? formData.name.split(' ')[2] : ''}`,
+        tipo: formData.user_type,
+        sexo: formData.sexo,
+        rubro: formData.rubro,
+        tipoJuridico: formData.tipoJuridico,
+      }
+    });    
     // Example for handling file upload logic (not implemented here):
     if (formData.file) {
       // Use the backend to get presigned URL and upload the file to S3
       // Example: uploadToS3(formData.file);
-    }
+    }    
   };
 
+  useEffect(() => {
+    if (data) {
+      dispatch(setUser({
+        name: formData.name,
+        email: formData.email,
+        profile_picture: formData.profile_picture
+      }));
+      router.replace('/admin/inicio');
+      
+    }
+  }, [data]);
 
 
   if (!name || !email) {
@@ -119,12 +171,11 @@ export default function RegisterPage({ userData }: RegisterPageProps) {
               <Select
                 name="user_type"
                 value={formData.user_type}
-                onChange={(e) => setFormData((prev) => ({ ...prev, user_type: e.target.value as "persona_fisica" | "persona_juridica" | "tecnico" }))}
+                onChange={(e) => setFormData((prev) => ({ ...prev, user_type: e.target.value as "Humana" | "Juridica" }))}
                 label="Tipo de usuario"
               >
-                <MenuItem value="persona_fisica">Persona Física</MenuItem>
-                <MenuItem value="persona_juridica">Persona Jurídica</MenuItem>
-                <MenuItem value="tecnico">Técnico</MenuItem>
+                <MenuItem value="Humana">Persona Física</MenuItem>
+                <MenuItem value="Juridica">Persona Jurídica</MenuItem>
               </Select>
             </FormControl>
             {/* Display button first  */}

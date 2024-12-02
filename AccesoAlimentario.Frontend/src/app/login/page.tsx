@@ -5,7 +5,7 @@ import AuthWrapper from "@components/Auth/AuthWrapper";
 import Typography from "@mui/material/Typography";
 import React from "react";
 import AuthLogin from "@components/Auth/AuthLogin";
-import {setSignedUser} from '@redux/features/userSlice';
+import {setSignedUser, setUser} from '@redux/features/userSlice';
 import {setSession} from '@redux/features/sessionSlice';
 import {useDispatch} from 'react-redux';
 import {config} from '@config/config';
@@ -29,7 +29,7 @@ export default function LoginPage() {
             const jwtToken = credentialResponse.credential;
 
             // Call the backend to authenticate the user and get the user information            
-            const response = await fetch(`${config.apiUrl}/auth/login`, {
+            const response = await fetch(`${config.apiUrl}/auth/validate`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ export default function LoginPage() {
             if (response.ok) {
                 const data = await response.json();  // Destructure the data from the backend
                 const userExists : boolean = data.userExists;  // Check if the user exists in the database
-                const jsonRes = parseJwt(data.token);
+                const jsonRes = parseJwt(jwtToken);
                 const user = {
                     name: jsonRes.name ?? '',
                     email: jsonRes.email ?? '',
@@ -50,17 +50,14 @@ export default function LoginPage() {
                 }
                 // Dispatch the action to update the Redux state with the user info
                 dispatch(setSignedUser(user));  // Assuming you have a setUser action
-                if (user.name === '') {
-                    addNotification("Error en la autenticación. Fallo al obtener las credenciales.", "error");
-                    return;
-                }
                 if (userExists) {
                     console.log("User exists");
                     dispatch(setSession(jwtToken));  // Assuming you have a setSession action
-                    router.push("/admin/inicio");
+                    dispatch(setUser(user));  // Assuming you have a setUser action
+                    router.replace("/admin/inicio");
                 }
                 if (!userExists) {
-                    router.push("/login/register");
+                    router.replace("/login/register");
                 }             
             } else {
                 addNotification("Error en la autenticación. Por favor, verifica tus credenciales.", "error");

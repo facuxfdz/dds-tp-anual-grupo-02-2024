@@ -4,6 +4,7 @@ using AccesoAlimentario.Operations;
 using AccesoAlimentario.Web.Swagger;
 using Microsoft.EntityFrameworkCore;
 using AccesoAlimentario.Web.SecretRetrieve;
+
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -71,6 +72,7 @@ builder.Services.AddDbContext<AppDbContext>((sp, options) =>
         .UseLazyLoadingProxies()
 );
 
+    
 // Allow CORS
 var corsDevelop = "_CORSDevelop";
 builder.Services.AddCors(options =>

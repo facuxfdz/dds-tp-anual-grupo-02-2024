@@ -15,6 +15,8 @@ public static class CrearUsuario
         public Guid PersonaId { get; set; } = Guid.Empty;
         public string Username { get; set; } = null!;
         public string Password { get; set; } = null!;
+        public string ProfilePicture { get; set; } = null!;
+        public string RegisterType { get; set; } = null!;
     }
 
     public class CrearUsuarioHandler : IRequestHandler<CrearUsuarioCommand, IResult>

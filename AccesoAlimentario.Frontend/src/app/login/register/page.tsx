@@ -10,9 +10,13 @@ import { parseJwt } from "@/utils/decode_jwt";
 export interface UserData {
   name: string;
   email: string;
-  user_type: "persona_fisica" | "persona_juridica" | "tecnico";
+  user_type: "Humana" | "Juridica";
   profile_picture?: string;
   register_type: "sso" | "standard";
+  sexo?: string;
+  rubro?: string;
+  tipoJuridico?: string;
+  direccion?: any;
 };
 
 
@@ -24,7 +28,7 @@ export default function Page() {
   const userData: UserData = {
     name: user.name,
     email: user.email,
-    user_type: "persona_fisica",
+    user_type: "Humana",
     profile_picture: user.profile_picture,
     register_type: user.register_type
   };

@@ -107,6 +107,7 @@ public static class AltaColaborador
             }
             
             // Guardo en los repositorios
+            
             await _unitOfWork.PersonaRepository.AddAsync(persona);
             await _unitOfWork.ColaboradorRepository.AddAsync(colaborador);
             await _unitOfWork.SaveChangesAsync();

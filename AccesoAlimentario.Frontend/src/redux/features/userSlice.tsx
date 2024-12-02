@@ -1,10 +1,9 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 export interface User {
-    id: string;
     name: string;
     email: string;
-    profile_picture: string;
+    profile_picture?: string;
 }
 
 interface UserTemp {
@@ -21,7 +20,6 @@ interface UserSlice {
 
 const initialState: UserSlice = {
     user: {
-        id: '',
         name: '',
         email: '',
         profile_picture: '',
@@ -39,7 +37,6 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         setUser: (state, action: PayloadAction<User>) => {
-            state.user.id = action.payload.id;
             state.user.name = action.payload.name;
             state.user.email = action.payload.email;
             state.user.profile_picture = action.payload.profile_picture
@@ -51,7 +48,6 @@ const userSlice = createSlice({
             state.userTemp.profile_picture = action.payload.profile_picture;
         },
         clearUser: (state) => {
-            state.user.id = '';
             state.user.name = '';
             state.user.email = '';
             state.user.profile_picture = '';
