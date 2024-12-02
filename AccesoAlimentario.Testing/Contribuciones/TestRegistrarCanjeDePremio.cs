@@ -1,4 +1,5 @@
 ﻿using AccesoAlimentario.Core.DAL;
+using AccesoAlimentario.Core.Entities.Roles;
 using AccesoAlimentario.Operations.Contribuciones;
 using AccesoAlimentario.Testing.Utils;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,7 +18,7 @@ public class TestRegistrarCanjeDePremio
         using var scope = mockServices.GetScope();
         var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         
-        var colaborador = context.Colaboradores.First();
+        var colaborador = context.Roles.OfType<Colaborador>().First();
         var premio = context.Premios.First();
 
         var command = new RegistrarCanjeDePremio.RegistrarCanjeDePremioCommand

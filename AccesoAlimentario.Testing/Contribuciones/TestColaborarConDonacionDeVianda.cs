@@ -1,5 +1,6 @@
 ﻿using AccesoAlimentario.Core.DAL;
 using AccesoAlimentario.Core.Entities.Heladeras;
+using AccesoAlimentario.Core.Entities.Roles;
 using AccesoAlimentario.Operations.Contribuciones;
 using AccesoAlimentario.Testing.Utils;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,7 +19,7 @@ public class TestColaborarConDonacionDeVianda
         using var scope = mockServices.GetScope();
         var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         
-        var colaborador = context.Colaboradores.First(); // Recupera el primer colaborador
+        var colaborador = context.Roles.OfType<Colaborador>().First();
         var heladera = context.Heladeras.First(); // Recupera la primera heladera
 
         var command = new ColaborarConDonacionDeVianda.ColaborarConDonacionDeViandaCommand

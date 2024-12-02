@@ -8,8 +8,6 @@ using AccesoAlimentario.Core.Entities.Premios;
 using AccesoAlimentario.Core.Entities.Roles;
 using AccesoAlimentario.Core.Entities.Tarjetas;
 using AccesoAlimentario.Operations;
-using AccesoAlimentario.Operations.Dto.Requests.Direcciones;
-using AccesoAlimentario.Operations.Dto.Responses.Externos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -161,8 +159,7 @@ public class MockServices
             colaborador.AgregarContribucion(donacionVianda);
             colaborador.AgregarContribucion(donacionDistribucionVianda);
 
-            context.Colaboradores.Add(colaborador);
-            
+            context.Roles.Add(colaborador);
 
             var direccion = new Direccion
             {
@@ -185,6 +182,37 @@ public class MockServices
             };
             
             context.PuntosEstrategicos.Add(puntoEstrategico);
+
+            var personaVulnerable = new PersonaVulnerable
+            {
+                Persona = personaHumana,
+                CantidadDeMenores = 0,
+                FechaRegistroSistema = DateTime.Now,
+
+            };
+            
+            context.Roles.Add(personaVulnerable);
+            
+            var tarjetaConsumo = new TarjetaConsumo
+            {
+                Responsable = colaborador,
+                Codigo = "248urqe8393"
+
+            };
+            
+            tarjetaConsumo.Propietario = personaVulnerable;
+            personaVulnerable.Tarjeta = tarjetaConsumo;
+            context.Tarjetas.Add(tarjetaConsumo);
+
+            var tarjetaColaboracion = new TarjetaColaboracion
+            {
+                Accesos = [],
+                Autorizaciones = [],
+                Codigo = "fehui897532dsg",
+                Propietario = colaborador
+            };
+            
+            context.Tarjetas.Add(tarjetaColaboracion);
             
             context.SaveChanges();
             

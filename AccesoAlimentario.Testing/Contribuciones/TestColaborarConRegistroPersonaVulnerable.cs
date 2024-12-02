@@ -1,5 +1,6 @@
 ﻿using AccesoAlimentario.Core.DAL;
 using AccesoAlimentario.Core.Entities.Contribuciones;
+using AccesoAlimentario.Core.Entities.Roles;
 using AccesoAlimentario.Operations.Contribuciones;
 using AccesoAlimentario.Operations.Dto.Requests.Direcciones;
 using AccesoAlimentario.Testing.Utils;
@@ -19,7 +20,7 @@ public class TestColaborarConRegistroPersonaVulnerable
         using var scope = mockServices.GetScope();
         var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         
-        var colaborador = context.Colaboradores.First();
+        var colaborador = context.Roles.OfType<Colaborador>().First();
         var direccionRequest = MockRequest.GetDireccionRequest();
         var tarjetaConsumoRequest = MockRequest.GetTarjetaConsumoRequest();
         var personaRequest = MockRequest.GetPersonaRequest();

@@ -1,5 +1,6 @@
 ﻿using AccesoAlimentario.Core.DAL;
 using AccesoAlimentario.Core.Entities.Contribuciones;
+using AccesoAlimentario.Core.Entities.Roles;
 using AccesoAlimentario.Operations.Contribuciones;
 using AccesoAlimentario.Testing.Utils;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,7 +19,7 @@ public class TestColaborarConDonacionDeHeladera
         using var scope = mockServices.GetScope();
         var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         
-        var colaborador = context.Colaboradores.First();
+        var colaborador = context.Roles.OfType<Colaborador>().First();
         var heladera = context.Heladeras.First();
         var puntoEstrategicoRequest = MockRequest.GetPuntoEstrategicoRequest();
         var sensorTemperaturaRequest = MockRequest.GetSensorTemperaturaRequest();

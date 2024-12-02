@@ -1,4 +1,5 @@
 ﻿using AccesoAlimentario.Core.DAL;
+using AccesoAlimentario.Core.Entities.Roles;
 using AccesoAlimentario.Operations.Contribuciones;
 using AccesoAlimentario.Testing.Utils;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -18,7 +19,7 @@ public class TestColaborarConDistribucionDeVianda
         var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
         // Usa los datos precargados
-        var colaborador = context.Colaboradores.First(); // Recupera el primer colaborador
+        var colaborador = context.Roles.OfType<Colaborador>().First(); // Recupera el primer colaborador
         var heladeraOrigen = context.Heladeras.First(); // Recupera la primera heladera
         var heladeraDestino = context.Heladeras.Skip(1).First(); // Recupera la segunda heladera
         
