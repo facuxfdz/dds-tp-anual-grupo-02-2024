@@ -9,11 +9,12 @@ public class ValidadorImportacionMasiva
 
     private static List<string> _tiposDocumento = ["DNI", "LE", "LC"]; // por qué no "CUIL", "CUIT" ?
 
-    public bool Validar(string tipoDoc, int documento, string nombre, string apellido, string mail,
+    public bool Validar(string tipoDoc, string documento, string nombre, string apellido, string mail,
         string fechaColaboracion, string formaColaboracion, int cantidad)
     {
         return _tiposDocumento.Contains(tipoDoc)
-               && SeEncuentraEntre(0, 9999999999, documento)
+               && !string.IsNullOrEmpty(documento) && (documento.Length == 8 && tipoDoc.Equals("DNI")
+                   || documento.Length == 7 && (tipoDoc.Equals("LE") || tipoDoc.Equals("LC"))) || (documento.Length == 11 && tipoDoc.Equals("CUIL") || tipoDoc.Equals("CUIT"))
                && SeEncuentraEntre(0, 50, nombre.Length)
                && SeEncuentraEntre(0, 50, apellido.Length)
                && SeEncuentraEntre(0, 50, mail.Length) && mail.Contains("@") && !mail.Last().ToString().Equals("@")

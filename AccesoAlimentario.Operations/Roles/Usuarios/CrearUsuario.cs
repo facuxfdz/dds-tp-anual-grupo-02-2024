@@ -46,7 +46,9 @@ public static class CrearUsuario
             {
                 PersonaId = persona.Id,
                 UserName = request.Username,
-                Password = request.Password
+                Password = request.Password,
+                ProfilePicture = request.ProfilePicture,
+                RegisterType = Enum.Parse<RegisterType>(request.RegisterType)
             };
 
             await _unitOfWork.UsuarioSistemaRepository.AddAsync(usuario);

@@ -5,12 +5,12 @@ namespace AccesoAlimentario.Operations.Dto.Requests.DocumentosDeIdentidad;
 public class DocumentoIdentidadRequest : IDtoRequest
 {
     public TipoDocumento TipoDocumento { get; set; } = TipoDocumento.DNI;
-    public int NroDocumento { get; set; } = 0;
+    public string NroDocumento { get; set; } = string.Empty;
     public DateTime FechaNacimiento { get; set; } = new DateTime();
 
     public bool Validar()
     {
-        return NroDocumento > 0
+        return !string.IsNullOrEmpty(NroDocumento)
                && FechaNacimiento.Year > 1900;
     }
 }

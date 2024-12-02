@@ -1,70 +1,153 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Box, Stack, Typography, TextField, Button, MenuItem, Select, InputLabel, FormControl, Grid } from "@mui/material";
+import {
+  Box,
+  Stack,
+  Typography,
+  TextField,
+  Button,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+  SelectChangeEvent,
+} from "@mui/material";
 import MainCard from "@/components/Cards/MainCard";
 import { UserData } from "./page";
-import { useLazyRegisterQuery, useRegisterQuery } from "@/redux/services/authApi";
+import { useLazyRegisterQuery } from "@/redux/services/authApi";
 import PreviewButton from "../PreviewButton";
 import { useRouter } from "next/navigation";
 import { setUser } from "@/redux/features/userSlice";
 import { useDispatch } from "react-redux";
+import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
 interface RegisterPageProps {
   userData: UserData;
 }
 
 export default function RegisterPage({ userData }: RegisterPageProps) {
-  // Data from Google is in the session jwt token
-  const { 
-    name, 
-    email, 
-    user_type, 
-    profile_picture, 
+  const {
+    name,
+    email,
+    user_type,
+    profile_picture,
     register_type,
     sexo,
     rubro,
-    tipoJuridico
-   } = userData;
+    tipoJuridico,
+  } = userData;
+
   const router = useRouter();
   const dispatch = useDispatch();
-  // use lazy query
-  const [register, { data, error }] = useLazyRegisterQuery();
+  const [register, { data }] = useLazyRegisterQuery();
 
-  // State for the form fields
   const [formData, setFormData] = useState({
-    name: name,
-    email: email,
-    password: '',
-    user_type: user_type,
-    profile_picture: profile_picture,
+    name,
+    email,
+    password: "",
+    user_type,
+    profile_picture,
     file: null as File | null,
-    sexo: sexo,
-    rubro: rubro,
-    tipoJuridico: tipoJuridico,
-
+    sexo,
+    rubro: "",
+    tipoJuridico: "" as "Gubernamental" | "Ong" | "Empresa" | "Institucion",
+    direccion: {
+      calle: "",
+      numero: "",
+      localidad: "",
+      codigoPostal: "",
+    },
+    documento: {
+      tipoDocumento: "" as "DNI" | "LE" | "LC" | "CUIT" | "CUIL",
+      nroDocumento: "",
+      fechaNacimiento: new Date().toISOString(),
+    },
   });
 
-  // Handle input changes
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Handle file input change
+  const handleUserTypeChange = (e: SelectChangeEvent<"Humana" | "Juridica">) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  }
+
+  const handleTipoDocumentoChange = (e: SelectChangeEvent<"DNI" | "LE" | "LC" | "CUIT" | "CUIL">) => {
+    const value = e.target.value as "DNI" | "LE" | "LC" | "CUIT" | "CUIL";    
+    setFormData((prev) => ({ ...prev, documento: { ...prev.documento, tipoDocumento: value } }));
+  }
+
+  const handleTipoJuridicoChange = (e: SelectChangeEvent<"Gubernamental" | "Ong" | "Empresa" | "Institucion">) => {
+    const value = e.target.value as "Gubernamental" | "Ong" | "Empresa" | "Institucion";
+    setFormData((prev) => ({ ...prev, tipoJuridico: value }));
+  }
+
+  const handleNumeroDocumentoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setFormData((prev) => ({ ...prev, documento: { ...prev.documento, nroDocumento: value } }));
+  }
+
+  const handleDirectionCalleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setFormData((prev) => ({ ...prev, direccion: { ...prev.direccion, calle: value } }));
+  }
+
+  const handleDireccionNumeroChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setFormData((prev) => ({ ...prev, direccion: { ...prev.direccion, numero: value } }));
+  }
+
+  const handleDireccionLocalidadChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setFormData((prev) => ({ ...prev, direccion: { ...prev.direccion, localidad: value } }));
+  }
+
+  const handleDireccionCodigoPostalChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setFormData((prev) => ({ ...prev, direccion: { ...prev.direccion, codigoPostal: value } }));
+  }
+
+  const handleDocumentoFechaNacimientoChange = (val: string | null) => {
+    console.log(val)
+    const date = Date.parse(val || "") || Date.now();
+    const dateStr = new Date(date).toISOString();
+    setFormData((prev) => ({ ...prev, documento: { ...prev.documento, fechaNacimiento: dateStr } }));
+  }
+
+  const handleSexoChange = (e: SelectChangeEvent<"Masculino" | "Femenino" | "Otro">) => {
+    const value = e.target.value as "Masculino" | "Femenino" | "Otro";
+    setFormData((prev) => ({ ...prev, sexo: value }));
+  }
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
-    setFormData((prev) => ({ ...prev, file: file }));
-    setFormData((prev) => ({ ...prev, profile_picture: file ? URL.createObjectURL(file) : '' }));
+    setFormData((prev) => ({
+      ...prev,
+      file,
+      profile_picture: file ? URL.createObjectURL(file) : "",
+    }));
   };
 
-
-
-  // Handle form submission
+  const validSubmit = (data: typeof formData) => {
+    const { name, email, password, user_type, documento, direccion } = data;
+    // Check that nroDocumento can be parsed as a number
+    if (documento.nroDocumento && isNaN(Number(documento.nroDocumento))) {
+      return false;
+    }
+    return name && email && user_type && direccion.calle && direccion.numero && direccion.localidad && direccion.codigoPostal;
+  }
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Handle file upload logic to S3 with presigned URL and form submission logic here
+    if (!validSubmit(formData)) {
+      alert("Por favor complete todos los campos");
+      return;
+    }
     console.log(formData);
     register({
       email: formData.email,
@@ -73,15 +156,15 @@ export default function RegisterPage({ userData }: RegisterPageProps) {
       register_type: register_type,
       user_type: formData.user_type,
       direccion: {
-        calle: "calle",
-        numero: "numero",
-        localidad: "localidad",
-        codigoPostal: "codigoPostal",
+        calle: formData.direccion.calle,
+        numero: formData.direccion.numero,
+        localidad: formData.direccion.localidad,
+        codigoPostal: formData.direccion.codigoPostal,
       },
       documento: {
-        tipoDocumento: "DNI",
-        nroDocumento: 12345678,
-        fechaNacimiento: "2000-01-01",
+        tipoDocumento: formData.user_type === "Juridica" ? "CUIT" : formData.documento.tipoDocumento, // Explicitly handle type
+        nroDocumento: parseInt(formData.documento.nroDocumento),
+        fechaNacimiento: formData.documento.fechaNacimiento,
       },
       persona: {
         nombre: `${formData.name.split(' ')[0]}`,
@@ -90,48 +173,37 @@ export default function RegisterPage({ userData }: RegisterPageProps) {
         sexo: formData.sexo,
         rubro: formData.rubro,
         tipoJuridico: formData.tipoJuridico,
-      }
-    });    
-    // Example for handling file upload logic (not implemented here):
-    if (formData.file) {
-      // Use the backend to get presigned URL and upload the file to S3
-      // Example: uploadToS3(formData.file);
-    }    
+      },
+    });
+    
   };
 
   useEffect(() => {
     if (data) {
-      dispatch(setUser({
-        name: formData.name,
-        email: formData.email,
-        profile_picture: formData.profile_picture
-      }));
-      router.replace('/admin/inicio');
-      
+      dispatch(
+        setUser({
+          name: formData.name,
+          email: formData.email,
+          profile_picture: formData.profile_picture,
+        })
+      );
+      router.replace("/admin/inicio");
     }
   }, [data]);
 
-
-  if (!name || !email) {
-    return (
-      <MainCard sx={{ maxWidth: { xs: 600, lg: 675 }, margin: { xs: 2.5, md: 3 }, '& > *': { flexGrow: 1, flexBasis: '50%' } }} content={false} border={true} boxShadow>
-        <Box sx={{ px: 5, py: 5 }}>
-          <Typography variant="h2" component="h1" mb={4}>
-            Registrarse
-          </Typography>
-          <Typography variant="body1" component="p" mb={4}>
-            No se han podido obtener los datos de Registro. Regresa a la página de inicio e intenta de nuevo.
-          </Typography>
-          <Button href="/login" variant="contained">
-            Regresar
-          </Button>
-        </Box>
-      </MainCard>
-    );
-  }
+  const isJuridica = formData.user_type === "Juridica";
 
   return (
-    <MainCard sx={{ maxWidth: { xs: 900, lg: 1275 }, margin: { xs: 2.5, md: 3 }, '& > *': { flexGrow: 1, flexBasis: '50%' } }} content={true} border={true} boxShadow>
+    <MainCard
+      sx={{
+        maxWidth: { xs: 900, lg: 1275 },
+        margin: { xs: 2.5, md: 3 },
+        "& > *": { flexGrow: 1, flexBasis: "50%" },
+      }}
+      content={true}
+      border={true}
+      boxShadow
+    >
       <Box sx={{ px: 10, py: 5 }}>
         <Typography variant="h2" component="h1" mb={4}>
           Registrarse
@@ -156,50 +228,147 @@ export default function RegisterPage({ userData }: RegisterPageProps) {
               type="email"
             />
             {register_type === "standard" && (
-            <TextField
-              fullWidth
-              label="Contraseña"
-              name="password"
-              type="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
+              <TextField
+                fullWidth
+                label="Contraseña"
+                name="password"
+                type="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
             )}
             <FormControl fullWidth required>
               <InputLabel>Tipo de usuario</InputLabel>
               <Select
                 name="user_type"
                 value={formData.user_type}
-                onChange={(e) => setFormData((prev) => ({ ...prev, user_type: e.target.value as "Humana" | "Juridica" }))}
+                onChange={handleUserTypeChange}
                 label="Tipo de usuario"
               >
                 <MenuItem value="Humana">Persona Física</MenuItem>
                 <MenuItem value="Juridica">Persona Jurídica</MenuItem>
               </Select>
             </FormControl>
-            {/* Display button first  */}
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-              <PreviewButton profile_picture={formData.profile_picture} file_name= {formData.file ? formData.file.name : 'sso_profile_picture'} />
-              <Button
-                fullWidth
-                variant="outlined"
-                component="label"
-                color="primary"
+            <FormControl fullWidth required>
+              <InputLabel>Tipo de documento</InputLabel>
+              <Select
+                name="documento.tipoDocumento"
+                value={formData.documento.tipoDocumento}
+                onChange={handleTipoDocumentoChange}
+                label="Tipo de documento"
               >
-                Subir Foto de Perfil
-                <input
-                  type="file"
-                  hidden
-                  onChange={handleFileChange}
+                {isJuridica ? (
+                  <MenuItem value="CUIT">CUIT</MenuItem>
+                ) : (
+                    ["DNI", "LE", "LC", "CUIL"].map((tipo) => (
+                      <MenuItem key={tipo} value={tipo}>
+                        {tipo}
+                      </MenuItem>
+                    ))
+                )}
+              </Select>
+            </FormControl>
+            <TextField
+              fullWidth
+              label="Número de documento"
+              name="documento.nroDocumento"
+              value={formData.documento.nroDocumento}
+              onChange={handleNumeroDocumentoChange}
+              required
+            />
+            {!isJuridica && (
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DatePicker
+                label="Fecha de nacimiento"
+                name="documento.fechaNacimiento"
+                value={formData.documento.fechaNacimiento.toString()}
+                onChange={handleDocumentoFechaNacimientoChange}
+              />
+              <FormControl fullWidth>
+                <InputLabel>Sexo</InputLabel>
+                <Select
+                  name="sexo"
+                  value={formData.sexo as "Masculino" | "Femenino" | "Otro"}
+                  onChange={handleSexoChange}
+                  label="Sexo"
+                >
+                  <MenuItem value="Masculino">Masculino</MenuItem>
+                  <MenuItem value="Femenino">Femenino</MenuItem>
+                  <MenuItem value="Otro">Xd</MenuItem>
+                </Select>
+              </FormControl>
+              </LocalizationProvider>
+            )}
+            {isJuridica && (
+              <>
+                <TextField
+                  fullWidth
+                  label="Rubro"
+                  name="rubro"
+                  value={formData.rubro}
+                  onChange={handleChange}
                 />
+                <FormControl fullWidth>
+                  <InputLabel>Tipo Jurídico</InputLabel>
+                  <Select
+                    name="tipoJuridico"
+                    value={formData.tipoJuridico}
+                    onChange={handleTipoJuridicoChange}
+                    label="Tipo Jurídico"
+                  >
+                    <MenuItem value="Gubernamental">Gubernamental</MenuItem>
+                    <MenuItem value="Ong">Ong</MenuItem>
+                    <MenuItem value="Empresa">Empresa</MenuItem>
+                    <MenuItem value="Institucion">Institución</MenuItem>
+                  </Select>
+                </FormControl>
+              </>
+            )}
+            <TextField
+              fullWidth
+              label="Calle"
+              name="direccion.calle"
+              value={formData.direccion.calle}
+              onChange={handleDirectionCalleChange}
+              required
+            />
+            <TextField
+              fullWidth
+              label="Número"
+              name="direccion.numero"
+              value={formData.direccion.numero}
+              onChange={handleDireccionNumeroChange}
+              required
+            />
+            <TextField
+              fullWidth
+              label="Localidad"
+              name="direccion.localidad"
+              value={formData.direccion.localidad}
+              onChange={handleDireccionLocalidadChange}
+              required
+            />
+            <TextField
+              fullWidth
+              label="Código Postal"
+              name="direccion.codigoPostal"
+              value={formData.direccion.codigoPostal}
+              onChange={handleDireccionCodigoPostalChange}
+              required
+            />
+            <Box>
+              <PreviewButton
+                profile_picture={formData.profile_picture}
+                file_name={
+                  formData.file ? formData.file.name : "sso_profile_picture"
+                }
+              />
+              <Button variant="outlined" component="label" color="primary">
+                Subir Foto de Perfil
+                <input type="file" hidden onChange={handleFileChange} />
               </Button>
             </Box>
-            {formData.file && (
-              <Typography variant="body2" color="textSecondary" sx={{ mt: 2 }}>
-                {formData.file.name}
-              </Typography>
-            )}
             <Button type="submit" variant="contained" fullWidth>
               Registrarse
             </Button>
