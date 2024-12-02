@@ -1,36 +1,14 @@
+import {IPuntoEstrategicoResponse} from "@models/responses/heladeras/iPuntoEstrategicoResponse";
+import {IModeloHeladeraResponse} from "@models/responses/heladeras/iModeloHeladeraResponse";
+import {EstadoHeladera} from "@models/enums/estadoHeladera";
+
 export interface IHeladeraResponse {
     id: string,
-    puntoEstrategico: {
-        id: string,
-        nombre: string,
-        longitud: number,
-        latitud: number,
-        direccion: {
-            id: string,
-            calle: string,
-            numero: string,
-            localidad: string,
-            piso: string,
-            departamento: string,
-            codigoPostal: string
-        }
-    },
+    puntoEstrategico: IPuntoEstrategicoResponse,
     estado: EstadoHeladera,
     fechaInstalacion: string,
     temperaturaActual: number,
     temperaturaMinimaConfig: number,
     temperaturaMaximaConfig: number,
-    modelo: {
-        id: string,
-        capacidad: number,
-        temperaturaMinima: number,
-        temperaturaMaxima: number
-    }
-}
-
-export enum EstadoHeladera
-{
-    Activa,
-    Desperfecto,
-    FueraServicio,
+    modelo: IModeloHeladeraResponse
 }

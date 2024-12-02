@@ -52,6 +52,8 @@ function getTipoContribucion (tipo: string) {
             return "Administración de Heladera";
         case "DistribucionViandas":
             return "Distribución de Viandas";
+        case "RegistroPersonaVulnerable":
+            return "Registro de Persona Vulnerable";
         default:
             return "";
     }

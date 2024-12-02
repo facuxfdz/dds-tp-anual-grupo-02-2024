@@ -130,4 +130,19 @@ public class ContribucionesController(ISender sender, ILogger<ContribucionesCont
             return Results.StatusCode(500);
         }
     }
+    
+    [HttpGet("Premios")]
+    public async Task<IResult> ObtenerPremios(
+        [FromQuery] ObtenerPremios.ObtenerPremiosQuery query)
+    {
+        try
+        {
+            return await sender.Send(query);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Error al obtener los premios");
+            return Results.StatusCode(500);
+        }
+    }
 }

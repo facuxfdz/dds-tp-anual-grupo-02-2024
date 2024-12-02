@@ -8,11 +8,13 @@ import {IRegistroPersonaVulnerableRequest} from "@models/requests/contribuciones
 import {ICanjeDePremioRequest} from "@models/requests/contribuciones/iCanjeDePremioRequest";
 import {IOfertaPremioRequest} from "@models/requests/contribuciones/iOfertaPremioRequest";
 import {IFormaContribucionResponse} from "@models/responses/contribuciones/iFormaContribucionResponse";
+import {TipoRubro} from "@models/enums/tipoRubro";
+import {IPremioResponse} from "@models/responses/premios/iPremioResponse";
 
 export const contribucionesApi = createApi({
     reducerPath: "ContribucionesApi",
     baseQuery: fetchBaseQuery({baseUrl: config.apiUrl}),
-    tagTypes: ["PuntosContribuidor", "Contribuciones"],
+    tagTypes: ["PuntosContribuidor", "Contribuciones", "Premios"],
     endpoints: (builder) => ({
         postDistribucionViandas: builder.mutation<
             void,
@@ -67,14 +69,14 @@ export const contribucionesApi = createApi({
                 method: "POST",
                 body: data
             }),
-            invalidatesTags: ["PuntosContribuidor", "Contribuciones"]
+            invalidatesTags: ["PuntosContribuidor", "Contribuciones", "Premios"]
         }),
         postRegistroPersonaVulnerable: builder.mutation<
             void,
             IRegistroPersonaVulnerableRequest
         >({
             query: (data) => ({
-                url: "contribuciones/registrovulnerable",
+                url: "contribuciones/registroPersonaVulnerable",
                 method: "POST",
                 body: data
             }),
@@ -89,7 +91,7 @@ export const contribucionesApi = createApi({
                 method: "POST",
                 body: data
             }),
-            invalidatesTags: ["PuntosContribuidor", "Contribuciones"]
+            invalidatesTags: ["PuntosContribuidor", "Contribuciones", "Premios"]
         }),
         getPuntosContribuidor: builder.query<
             number,
@@ -114,6 +116,17 @@ export const contribucionesApi = createApi({
             }),
             providesTags: ["Contribuciones"]
         }),
+        getPremios: builder.query<
+            IPremioResponse[],
+            {nombre?: string, puntosNecesarios?: number, rubro?: TipoRubro}
+        >({
+            query: (params) => ({
+                url: "contribuciones/premios",
+                method: "GET",
+                params
+            }),
+            providesTags: ["Premios"]
+        })
     }),
 });
 
@@ -128,5 +141,7 @@ export const {
     useGetPuntosContribuidorQuery,
     useLazyGetPuntosContribuidorQuery,
     useGetContribucionesQuery,
-    useLazyGetContribucionesQuery
+    useLazyGetContribucionesQuery,
+    useGetPremiosQuery,
+    useLazyGetPremiosQuery
 } = contribucionesApi;

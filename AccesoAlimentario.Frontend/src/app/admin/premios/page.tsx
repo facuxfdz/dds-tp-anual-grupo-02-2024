@@ -1,106 +1,27 @@
 "use client";
 import {PremioCard} from "@/app/admin/premios/PremioCard";
-import {FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
+import {CircularProgress, FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import React, {useState} from "react";
-
-interface premioItem {
-    id: number;
-    nombre: string;
-    descripcion: string;
-    puntos: number;
-    imagen: string;
-    categoria: string;
-}
-
-const premios: premioItem[] = [
-    {
-        id: 1,
-        nombre: 'Premio 1',
-        descripcion: 'Descripción del premio 1',
-        puntos: 100,
-        imagen: "https://enriquetomas.com/cdn/shop/articles/donde-comprar-jamon-iberico-de-bellota.jpg",
-        categoria: 'Gastronomia'
-    },
-    {
-        id: 2,
-        nombre: 'Premio 2',
-        descripcion: 'Descripción del premio 2',
-        puntos: 200,
-        imagen: "https://enriquetomas.com/cdn/shop/articles/donde-comprar-jamon-iberico-de-bellota.jpg",
-        categoria: 'Electronica'
-    },
-    {
-        id: 3,
-        nombre: 'Premio 3',
-        descripcion: 'Descripción del premio 3',
-        puntos: 300,
-        imagen: "https://enriquetomas.com/cdn/shop/articles/donde-comprar-jamon-iberico-de-bellota.jpg",
-        categoria: 'ArticulosHogar'
-    },
-    {
-        id: 4,
-        nombre: 'Premio 4',
-        descripcion: 'Descripción del premio 3',
-        puntos: 300,
-        imagen: "https://enriquetomas.com/cdn/shop/articles/donde-comprar-jamon-iberico-de-bellota.jpg",
-        categoria: 'Otros'
-    },
-    {
-        id: 5,
-        nombre: 'Premio 5',
-        descripcion: 'Descripción del premio 3',
-        puntos: 300,
-        imagen: "https://enriquetomas.com/cdn/shop/articles/donde-comprar-jamon-iberico-de-bellota.jpg",
-        categoria: 'Electronica'
-    },
-    {
-        id: 6,
-        nombre: 'Premio 6',
-        descripcion: 'Descripción del premio 3',
-        puntos: 300,
-        imagen: "https://enriquetomas.com/cdn/shop/articles/donde-comprar-jamon-iberico-de-bellota.jpg",
-        categoria: 'Gastronomia'
-    },
-    {
-        id: 7,
-        nombre: 'Premio 7',
-        descripcion: 'Descripción del premio 3',
-        puntos: 300,
-        imagen: "https://enriquetomas.com/cdn/shop/articles/donde-comprar-jamon-iberico-de-bellota.jpg",
-        categoria: 'Otros'
-    },
-    {
-        id: 8,
-        nombre: 'Premio 8',
-        descripcion: 'Descripción del premio 3',
-        puntos: 300,
-        imagen: "https://enriquetomas.com/cdn/shop/articles/donde-comprar-jamon-iberico-de-bellota.jpg",
-        categoria: 'Otros'
-    },
-    {
-        id: 9,
-        nombre: 'Premio 9',
-        descripcion: 'Descripción del premio 3',
-        puntos: 300,
-        imagen: "https://enriquetomas.com/cdn/shop/articles/donde-comprar-jamon-iberico-de-bellota.jpg",
-        categoria: 'Gastronomia'
-    },
-    {
-        id: 10,
-        nombre: 'Premio 10',
-        descripcion: 'Descripción del premio 3',
-        puntos: 300,
-        imagen: "https://enriquetomas.com/cdn/shop/articles/donde-comprar-jamon-iberico-de-bellota.jpg",
-        categoria: 'Electronica'
-    }
-];
+import React, {useEffect, useState} from "react";
+import {useLazyGetPremiosQuery} from "@redux/services/contribucionesApi";
+import {TipoRubro} from "@models/enums/tipoRubro";
 
 export default function PremiosPage() {
-    const [categoria, setCategoria] = useState('Todos');
-    const [puntosMaximos, setPuntosMaximos] = useState(0);
+    const [rubro, setRubro] = useState<TipoRubro | string>("");
+    const [puntosNecesarios, setPuntosNecesarios] = useState<number | null>(null);
     const [nombre, setNombre] = useState('');
+    const [
+        getPremios,
+        {data: premiosData, isLoading: premiosIsLoading}
+    ] = useLazyGetPremiosQuery();
 
+    useEffect(() => {
+        getPremios({
+            nombre,
+            puntosNecesarios: puntosNecesarios === null ? undefined : puntosNecesarios,
+            rubro: rubro === "" ? undefined : rubro
+        });
+    }, [getPremios, nombre, puntosNecesarios, rubro]);
 
     return (
         <>
@@ -110,15 +31,15 @@ export default function PremiosPage() {
                         <InputLabel id="categoria-label">Categoria</InputLabel>
                         <Select
                             labelId="categoria-label"
-                            value={categoria}
-                            onChange={(e) => setCategoria(e.target.value)}
+                            value={rubro}
+                            onChange={(e) => setRubro(e.target.value)}
                             label="Categoria"
                         >
-                            <MenuItem value="Todos">Todos</MenuItem>
-                            <MenuItem value="Gastronomia">Gastronomia</MenuItem>
-                            <MenuItem value="Electronica">Electronica</MenuItem>
-                            <MenuItem value="ArticulosHogar">Articulos Hogar</MenuItem>
-                            <MenuItem value="Otros">Otros</MenuItem>
+                            <MenuItem value="">Todos</MenuItem>
+                            <MenuItem value={TipoRubro.Gastronomia}>Gastronomia</MenuItem>
+                            <MenuItem value={TipoRubro.Electronica}>Electronica</MenuItem>
+                            <MenuItem value={TipoRubro.ArticulosHogar}>Articulos Hogar</MenuItem>
+                            <MenuItem value={TipoRubro.Otros}>Otros</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>
@@ -126,9 +47,9 @@ export default function PremiosPage() {
                     <FormControl fullWidth>
                         <TextField
                             fullWidth
-                            label={"Puntos máximos"}
-                            value={puntosMaximos}
-                            onChange={(e) => setPuntosMaximos(Number(e.target.value))}
+                            label={"Puntos maximos necesarios"}
+                            value={puntosNecesarios}
+                            onChange={(e) => setPuntosNecesarios(e.target.value)}
                             variant="outlined"
                             type={"number"}
                         />
@@ -148,21 +69,23 @@ export default function PremiosPage() {
             </Grid>
             <Grid container spacing={3}>
                 {
-                    premios
-                        .filter((premio: premioItem) => categoria === 'Todos' ? true : premio.categoria === categoria)
-                        .filter((premio: premioItem) => puntosMaximos > 0 ? premio.puntos <= puntosMaximos : true)
-                        .filter((premio: premioItem) => nombre.length > 0 ? premio.nombre.includes(nombre) : true)
-                        .map((premio: premioItem) => (
-                            <PremioCard
-                                id={premio.id}
-                                nombre={premio.nombre}
-                                descripcion={premio.descripcion}
-                                puntos={premio.puntos}
-                                imagen={premio.imagen}
-                                categoria={premio.categoria}
-                                key={premio.id}
-                            />
-                        ))
+                    premiosIsLoading ?
+                        (
+                            <CircularProgress/>
+                        ) : (
+                            (premiosData || [])
+                                .map((premio) => (
+                                    <PremioCard
+                                        id={premio.id}
+                                        nombre={premio.nombre}
+                                        descripcion={""}
+                                        puntos={premio.puntosNecesarios}
+                                        imagen={premio.imagen}
+                                        rubro={premio.rubro}
+                                        key={premio.id}
+                                    />
+                                ))
+                        )
                 }
             </Grid>
         </>
