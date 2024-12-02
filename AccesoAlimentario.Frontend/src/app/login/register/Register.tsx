@@ -149,7 +149,8 @@ export default function RegisterPage({ userData }: RegisterPageProps) {
       return;
     }
     console.log(formData);
-    register({
+    // the payload will differ depending on the user_type
+    const payload = formData.user_type === "Humana" ? {
       email: formData.email,
       password: formData.password,
       profile_picture: formData.profile_picture,
@@ -162,7 +163,7 @@ export default function RegisterPage({ userData }: RegisterPageProps) {
         codigoPostal: formData.direccion.codigoPostal,
       },
       documento: {
-        tipoDocumento: formData.user_type === "Juridica" ? "CUIT" : formData.documento.tipoDocumento, // Explicitly handle type
+        tipoDocumento: formData.documento.tipoDocumento,
         nroDocumento: parseInt(formData.documento.nroDocumento),
         fechaNacimiento: formData.documento.fechaNacimiento,
       },
@@ -170,11 +171,34 @@ export default function RegisterPage({ userData }: RegisterPageProps) {
         nombre: `${formData.name.split(' ')[0]}`,
         apellido: `${formData.name.split(' ')[1]} ${formData.name.split(' ').length > 2 ? formData.name.split(' ')[2] : ''}`,
         tipo: formData.user_type,
-        sexo: formData.sexo,
-        rubro: formData.rubro,
-        tipoJuridico: formData.tipoJuridico,
+        sexo: formData.sexo
       },
-    });
+    } : {
+      email: formData.email,
+      password: formData.password,
+      profile_picture: formData.profile_picture,
+      register_type: register_type,
+      user_type: formData.user_type,
+      direccion: {
+        calle: formData.direccion.calle,
+        numero: formData.direccion.numero,
+        localidad: formData.direccion.localidad,
+        codigoPostal: formData.direccion.codigoPostal,
+      },
+      documento: {
+        tipoDocumento: formData.documento.tipoDocumento,
+        nroDocumento: parseInt(formData.documento.nroDocumento),
+        fechaNacimiento: formData.documento.fechaNacimiento,
+      },
+      persona: {
+        nombre: formData.rubro,
+        tipo: formData.user_type,
+        rubro: formData.rubro,
+        tipoJuridico: formData.tipoJuridico
+      },
+    };
+
+    register(payload);
     
   };
 
@@ -295,7 +319,7 @@ export default function RegisterPage({ userData }: RegisterPageProps) {
                 >
                   <MenuItem value="Masculino">Masculino</MenuItem>
                   <MenuItem value="Femenino">Femenino</MenuItem>
-                  <MenuItem value="Otro">Xd</MenuItem>
+                  <MenuItem value="Otro">X</MenuItem>
                 </Select>
               </FormControl>
               </LocalizationProvider>

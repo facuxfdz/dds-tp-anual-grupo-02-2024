@@ -83,6 +83,7 @@ public static class AltaColaborador
             }
             
             // Conforma la persona
+            Console.WriteLine(request.Persona.Tipo);
             var persona = _mapper.Map<Persona>(request.Persona);
             if (request.Direccion != null)
             {
