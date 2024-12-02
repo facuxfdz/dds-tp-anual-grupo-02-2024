@@ -5,6 +5,7 @@ using AccesoAlimentario.Core.Entities.DocumentosIdentidad;
 using AccesoAlimentario.Core.Entities.Heladeras;
 using AccesoAlimentario.Core.Entities.Personas;
 using AccesoAlimentario.Core.Entities.Premios;
+using AccesoAlimentario.Core.Entities.Reportes;
 using AccesoAlimentario.Core.Entities.Roles;
 using AccesoAlimentario.Core.Entities.Tarjetas;
 using AccesoAlimentario.Operations;
@@ -214,10 +215,19 @@ public class MockServices
             
             context.Tarjetas.Add(tarjetaColaboracion);
             
-            context.SaveChanges();
+            var reporteCantidadFallasPorHeladera = new Reporte
+            {
+                Tipo = TipoReporte.CANTIDAD_FALLAS_POR_HELADERA,
+                FechaExpiracion = DateTime.Parse("20/11/2024"), // Vigente
+                Cuerpo = "Reporte de prueba"
+            };
+        
+            context.Reportes.Add(reporteCantidadFallasPorHeladera);
             
+            context.SaveChanges();
         }
 
+        
         return serviceProvider;
         
         
