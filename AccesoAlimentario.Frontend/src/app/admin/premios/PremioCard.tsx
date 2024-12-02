@@ -13,14 +13,12 @@ import {ICanjeDePremioRequest} from "@models/requests/contribuciones/iCanjeDePre
 export const PremioCard = ({
                                id,
                                nombre,
-                               descripcion,
                                puntos,
                                imagen,
                                rubro
                            }: {
     id: string,
     nombre: string,
-    descripcion: string,
     puntos: number,
     imagen: string,
     rubro: TipoRubro
@@ -71,10 +69,6 @@ export const PremioCard = ({
 
                 <Typography variant="h5" component="h2" sx={{padding: '10px 0'}}>
                     {nombre}
-                </Typography>
-
-                <Typography variant="body2" color="text.secondary">
-                    {descripcion}
                 </Typography>
 
                 <Grid container spacing={1} textAlign={"center"} sx={{padding: '10px 0'}}>

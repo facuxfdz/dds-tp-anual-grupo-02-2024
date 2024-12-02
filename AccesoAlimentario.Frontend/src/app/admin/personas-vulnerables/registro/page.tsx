@@ -40,7 +40,7 @@ export default function PersonasVulnerablesRegistroPage() {
                 nombre: data.nombre,
                 tipo: "Humana",
                 apellido: data.apellido,
-                sexo: data.sexo,
+                sexo: data.sexo as unknown as SexoDocumento,
             },
             direccion: {
                 calle: data.calle,
@@ -51,11 +51,11 @@ export default function PersonasVulnerablesRegistroPage() {
                 codigoPostal: data.codigoPostal,
             },
             documento: {
-                tipoDocumento: data.tipoDocumento,
-                nroDocumento: data.numeroDocumento,
+                tipoDocumento: data.tipoDocumento as unknown as TipoDocumento,
+                nroDocumento: Number(data.numeroDocumento),
                 fechaNacimiento: data.fechaNacimiento,
             },
-            cantidadMenores: data.cantidadHijos,
+            cantidadMenores: Number(data.cantidadHijos),
         };
         try {
             await postRegistroPersonaVulnerable(request).unwrap();
