@@ -50,7 +50,7 @@ services:
         dockerfile: Dockerfile
     image: recomendacionesapi:latest
     environment:
-      - COLABORADORES_API_URL=http://localhost:5000/api
+      - COLABORADORES_API_URL=http://accesoalimentario:8085/api/colaboradores
     ports:
         - "8080:8080"
     networks:
