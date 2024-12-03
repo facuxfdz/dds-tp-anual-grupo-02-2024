@@ -2,7 +2,7 @@
 
 public enum RegisterType
 {
-    sso,
-    standard,
+    Sso,
+    Standard,
     BulkImport
 }

@@ -1,24 +1,69 @@
 "use client";
-import {Stack} from "@mui/material";
+import {Button, Stack} from "@mui/material";
 import Grid from "@mui/material/Grid2"
 import AuthWrapper from "@components/Auth/AuthWrapper";
 import Typography from "@mui/material/Typography";
 import React from "react";
 import AuthLogin from "@components/Auth/AuthLogin";
-import {setSignedUser, setUser} from '@redux/features/userSlice';
-import {setSession} from '@redux/features/sessionSlice';
+import {setUser, User} from '@redux/features/userSlice';
 import {useDispatch} from 'react-redux';
-import {config} from '@config/config';
-import {useRouter} from 'next/navigation'
-import {parseJwt} from "@utils/decode_jwt";
+import {useRouter} from 'next/navigation';
+import {parseJwt, parseJwtGoogle} from "@utils/decode_jwt";
 import {CredentialResponse, GoogleLogin} from '@react-oauth/google';
 import {useNotification} from "@components/Notifications/NotificationContext";
+import {usePostLoginValidateMutation} from "@redux/services/authApi";
+import {inicioRoute} from "@routes/router";
+import {ContribucionesTipo} from "@models/enums/contribucionesTipo";
 
 export default function LoginPage() {
-
     const dispatch = useDispatch();
     const router = useRouter();
     const {addNotification} = useNotification();
+    const [
+        postLoginValidate,
+        {isLoading: loginValidationIsLoading}
+    ] = usePostLoginValidateMutation();
+
+    const parseToEnumArray = (input: string[]): ContribucionesTipo[] => {
+        return input
+            .map(item => {
+                if (Object.values(ContribucionesTipo).includes(item as unknown as ContribucionesTipo)) {
+                    return item as unknown as ContribucionesTipo;
+                }
+                return [];
+            })
+            .filter((item): item is ContribucionesTipo => item !== null);
+    };
+
+    const handleLogin = async (response: {
+                                   userExists: boolean;
+                                   token: string;
+                               },
+                               jwtToken?: string
+    ) => {
+        const userExists: boolean = response.userExists;
+        if (userExists) {
+            const tokenCookie = response.token;
+            const jsonRes = parseJwt(tokenCookie);
+            const user: User = {
+                colaboradorId: jsonRes.colaboradorId ?? '',
+                tecnicoId: jsonRes.tecnicoId ?? '',
+
+                name: jsonRes.name ?? '',
+                profile_picture: jsonRes.profile_picture ?? '',
+
+                contribucionesPreferidas: parseToEnumArray(jsonRes.contribucionesPreferidas?.split(",") ?? []),
+                personaTipo: jsonRes.personaTipo ? jsonRes.personaTipo as 'Humana' | 'Juridica' : 'Humana',
+            };
+            dispatch(setUser(user));
+            router.push(inicioRoute());
+        } else {
+            if (jwtToken) {
+                const jsonRes = parseJwtGoogle(jwtToken);
+                router.replace("/login/register?nombre=" + jsonRes.name + "&email=" + jsonRes.email + "&profilePicture=" + jsonRes.picture + "&register=sso");
+            }
+        }
+    }
 
     const handleSuccess = async (credentialResponse: CredentialResponse) => {
         try {
@@ -27,39 +72,10 @@ export default function LoginPage() {
                 return;
             }
             const jwtToken = credentialResponse.credential;
-
-            // Call the backend to authenticate the user and get the user information            
-            const response = await fetch(`${config.apiUrl}/auth/validate`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({token: jwtToken}),
-                credentials: 'include',  // To ensure cookies are included in the request
-            });
-
-            if (response.ok) {
-                const data = await response.json();  // Destructure the data from the backend
-                const userExists : boolean = data.userExists;  // Check if the user exists in the database
-                const jsonRes = parseJwt(jwtToken);
-                const user = {
-                    name: jsonRes.name ?? '',
-                    email: jsonRes.email ?? '',
-                    profile_picture: jsonRes.picture ?? '',
-                    register_type: 'sso' as const,
-                }
-                // Dispatch the action to update the Redux state with the user info
-                dispatch(setSignedUser(user));  // Assuming you have a setUser action
-                if (userExists) {
-                    console.log("User exists");
-                    dispatch(setSession(jwtToken));  // Assuming you have a setSession action
-                    dispatch(setUser(user));  // Assuming you have a setUser action
-                    router.replace("/admin/inicio");
-                }
-                if (!userExists) {
-                    router.replace("/login/register");
-                }             
-            } else {
+            try {
+                const response = await postLoginValidate(jwtToken).unwrap();
+                await handleLogin(response, jwtToken);
+            } catch {
                 addNotification("Error en la autenticación. Por favor, verifica tus credenciales.", "error");
             }
         } catch {
@@ -69,7 +85,7 @@ export default function LoginPage() {
 
     return (
         <AuthWrapper>
-            <Grid container spacing={3}>
+            <Grid container spacing={3} direction={"column"}>
                 <Grid size={12}>
                     <Stack direction="row" justifyContent="space-between" alignItems="baseline"
                            sx={{mb: {xs: -0.5, sm: 0.5}}}>
@@ -77,7 +93,21 @@ export default function LoginPage() {
                     </Stack>
                 </Grid>
                 <Grid size={12}>
-                    <AuthLogin/>
+                    <AuthLogin isLoading={loginValidationIsLoading} handleLogin={handleLogin}/>
+                </Grid>
+                <Grid size={12} sx={{display: "flex", justifyContent: "center"}}>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={() => {
+                            router.push("/login/register");
+                        }}
+                        fullWidth
+                    >
+                        Registrarse
+                    </Button>
+                </Grid>
+                <Grid size={12} sx={{display: "flex", justifyContent: "center"}}>
                     <GoogleLogin
                         onSuccess={credentialResponse => {
                             handleSuccess(credentialResponse);

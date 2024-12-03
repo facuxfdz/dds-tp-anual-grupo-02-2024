@@ -1,29 +1,30 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {config} from "@config/config";
-import {IObtenerHeladeraResponse} from "@models/responses/heladeras/iObtenerHeladeraResponse";
+import {IHeladeraResponse} from "@models/responses/heladeras/iHeladeraResponse";
 
 export const heladerasApi = createApi({
     reducerPath: "HeladerasApi",
     baseQuery: fetchBaseQuery({baseUrl: config.apiUrl}),
-    tagTypes: ["Heladera"],
+    tagTypes: ["Heladera", "Heladeras"],
     endpoints: (builder) => ({
         getHeladera: builder.query<
-            void,
+            IHeladeraResponse,
             { heladeraId: string }
         >({
             query: ({heladeraId}) => ({
-                url: `heladeras/${heladeraId}`,
+                url: `heladeras/consultar`,
+                params: {id: heladeraId}
             }),
             providesTags: ["Heladera"]
         }),
         getHeladeras: builder.query<
-            IObtenerHeladeraResponse[],
+            IHeladeraResponse[],
             void
         >({
             query: () => ({
                 url: `heladeras`,
             }),
-            providesTags: ["Heladera"]
+            providesTags: ["Heladeras"]
         }),
     }),
 });

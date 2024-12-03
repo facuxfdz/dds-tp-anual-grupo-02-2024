@@ -7,15 +7,76 @@ import CardContent from "@mui/material/CardContent";
 import {FormFieldValue} from "@components/Forms/Form";
 import MainCard from "@components/Cards/MainCard";
 import {useTheme} from "@mui/material/styles";
-import {RegistroPersonaFisica} from "@/app/admin/colaboradores/registro/RegistroPersonaFisica";
-import {RegistroPersonaJuridica} from "@/app/admin/colaboradores/registro/RegistroPersonaJuridica";
+import {
+    IAltaColaboradorRequest,
+    IPersonaHumanaRequest, IPersonaJuridicaRequest,
+    IPersonaRequest
+} from "@models/requests/colaboradores/iAltaColaboradorRequest";
+import {SexoDocumento} from "@models/enums/sexoDocumento";
+import {TipoJuridica} from "@models/enums/tipoJuridica";
+import {TipoDocumento} from "@models/enums/tipoDocumento";
+import {ContribucionesTipo} from "@models/enums/contribucionesTipo";
+import {usePostAltaColaboradorMutation} from "@redux/services/colaboradoresApi";
+import {useNotification} from "@components/Notifications/NotificationContext";
+import {RegistroPersonaFisica} from "@components/RegistroColaboradores/RegistroPersonaFisica";
+import {RegistroPersonaJuridica} from "@components/RegistroColaboradores/RegistroPersonaJuridica";
 
 export default function ColaboradoresRegistroPage() {
     const theme = useTheme();
     const [tipoColaborador, setTipoColaborador] = React.useState<"fisica" | "juridico">("fisica");
     const formContext = useForm();
+    const [
+        postAltaColaborador,
+        {isLoading: altaColaboradorIsLoading}
+    ] = usePostAltaColaboradorMutation();
+    const {addNotification} = useNotification();
+
     const handleSave = async (data: FormFieldValue) => {
-        console.log(data);
+        let personaRequest: IPersonaRequest;
+        if (tipoColaborador === "fisica") {
+            personaRequest = {
+                nombre: data.nombre,
+                apellido: data.apellido,
+                sexo: data.sexo as unknown as SexoDocumento,
+                tipoPersona: "Humana"
+            } as IPersonaHumanaRequest;
+        } else {
+            personaRequest = {
+                nombre: data.nombre,
+                tipoJuridico: data.tipoJuridico as unknown as TipoJuridica,
+                razonSocial: data.razonSocial,
+                rubro: data.rubro,
+                tipoPersona: "Juridica"
+            } as IPersonaJuridicaRequest;
+        }
+        const request: IAltaColaboradorRequest = {
+            persona: personaRequest,
+            direccion: {
+                calle: data.calle,
+                numero: data.numero,
+                localidad: data.localidad,
+                piso: data.piso,
+                departamento: data.departamento,
+                codigoPostal: data.codigoPostal
+            },
+            documento: {
+                tipoDocumento: data.tipoDocumento as unknown as TipoDocumento,
+                nroDocumento: Number(data.numeroDocumento),
+                fechaNacimiento: data.fechaNacimiento
+            },
+            contribucionesPreferidas: data.contribucionesPreferidas as unknown as ContribucionesTipo[],
+            tarjeta: tipoColaborador === "fisica" ? {
+                codigo: data.codigo,
+                tipo: 'Colaboracion'
+            } : undefined
+        }
+        try {
+            await postAltaColaborador(request).unwrap();
+            addNotification("Colaborador registrado correctamente", "success");
+            formContext.reset();
+        } catch {
+            addNotification("Ocurrió un error al registrar el colaborador", "error");
+        }
     };
 
     return (
@@ -70,7 +131,7 @@ export default function ColaboradoresRegistroPage() {
                 }}>
                     <Stack direction="row" spacing={1} justifyContent="center"
                            sx={{width: 1, px: 1.5, py: 0.75}}>
-                        <Button color="primary" variant="contained" type={"submit"} disabled={false}>
+                        <Button color="primary" variant="contained" type={"submit"} disabled={altaColaboradorIsLoading}>
                             Registrar
                         </Button>
                     </Stack>

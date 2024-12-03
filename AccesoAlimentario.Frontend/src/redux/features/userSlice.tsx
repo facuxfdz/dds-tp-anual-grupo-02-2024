@@ -1,35 +1,28 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {ContribucionesTipo} from "@models/enums/contribucionesTipo";
 
 export interface User {
+    // Si es colaborador, el id es el del colaborador
+    // Si es tecnico, el id es el del tecnico
+    colaboradorId: string;
+    tecnicoId: string;
+
     name: string;
-    email: string;
-    profile_picture?: string;
+    profile_picture: string;
+
+    contribucionesPreferidas: ContribucionesTipo[];
+    personaTipo: 'Humana' | 'Juridica';
 }
 
-interface UserTemp {
-    name: string;
-    email: string;
-    register_type: "sso" | "standard";
-    profile_picture?: string;
-}
+const initialState: User = {
+    colaboradorId: '',
+    tecnicoId: '',
 
-interface UserSlice {
-    user: User;
-    userTemp: UserTemp;
-}
+    name: '',
+    profile_picture: '',
 
-const initialState: UserSlice = {
-    user: {
-        name: '',
-        email: '',
-        profile_picture: '',
-    },
-    userTemp: {
-        name: '',
-        email: '',
-        register_type: 'sso' as const,
-        profile_picture: '',
-    },
+    contribucionesPreferidas: [],
+    personaTipo: 'Humana',
 };
 
 const userSlice = createSlice({
@@ -37,23 +30,27 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         setUser: (state, action: PayloadAction<User>) => {
-            state.user.name = action.payload.name;
-            state.user.email = action.payload.email;
-            state.user.profile_picture = action.payload.profile_picture
-        },
-        setSignedUser: (state, action: PayloadAction<UserTemp>) => {
-            state.userTemp.name = action.payload.name;
-            state.userTemp.email = action.payload.email;
-            state.userTemp.register_type = action.payload.register_type;
-            state.userTemp.profile_picture = action.payload.profile_picture;
+            state.colaboradorId = action.payload.colaboradorId;
+            state.tecnicoId = action.payload.tecnicoId;
+
+            state.name = action.payload.name;
+            state.profile_picture = action.payload.profile_picture;
+
+            state.contribucionesPreferidas = action.payload.contribucionesPreferidas;
+            state.personaTipo = action.payload.personaTipo;
         },
         clearUser: (state) => {
-            state.user.name = '';
-            state.user.email = '';
-            state.user.profile_picture = '';
+            state.colaboradorId = '';
+            state.tecnicoId = '';
+
+            state.name = '';
+            state.profile_picture = '';
+
+            state.contribucionesPreferidas = [];
+            state.personaTipo = 'Humana';
         },
     },
 });
 
-export const {setUser, clearUser, setSignedUser} = userSlice.actions;
+export const {setUser, clearUser} = userSlice.actions;
 export default userSlice.reducer;

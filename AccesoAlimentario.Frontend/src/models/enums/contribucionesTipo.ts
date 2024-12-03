@@ -1,0 +1,6 @@
+export enum ContribucionesTipo {
+    DINERO,
+    DONACION_VIANDAS,
+    REDISTRIBUCION_VIANDAS,
+    ENTREGA_TARJETAS
+}

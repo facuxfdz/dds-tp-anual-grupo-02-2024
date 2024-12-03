@@ -1,3 +1,6 @@
+import {TipoDocumento} from "@models/enums/tipoDocumento";
+import {SexoDocumento} from "@models/enums/sexoDocumento";
+
 export interface IRegistroPersonaVulnerableRequest {
     colaboradorId: string;
     tarjeta: {
@@ -7,9 +10,9 @@ export interface IRegistroPersonaVulnerableRequest {
     }
     persona: {
         nombre: string;
-        tipo: "Humana",
+        tipoPersona: "Humana",
         apellido: string;
-        sexo: "Masculino" | "Femenino" | "Otro";
+        sexo: SexoDocumento;
     }
     direccion: {
         calle: string;
@@ -20,7 +23,7 @@ export interface IRegistroPersonaVulnerableRequest {
         codigoPostal: string;
     }
     documento: {
-        tipoDocumento: "DNI" | "LE" | "LC" | "CUIT" | "CUIL";
+        tipoDocumento: TipoDocumento;
         nroDocumento: number;
         fechaNacimiento: string;
     }

@@ -47,9 +47,6 @@ importers:
       leaflet:
         specifier: ^1.9.4
         version: 1.9.4
-      luxon:
-        specifier: ^3.5.0
-        version: 3.5.0
       mui-file-input:
         specifier: ^6.0.0
         version: 6.0.0(@emotion/react@11.13.3(@types/react@18.3.12)(react@18.3.1))(@emotion/styled@11.13.0(@emotion/react@11.13.3(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react@18.3.1))(@mui/material@6.1.7(@emotion/react@11.13.3(@types/react@18.3.12)(react@18.3.1))(@emotion/styled@11.13.0(@emotion/react@11.13.3(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -3615,7 +3612,8 @@ snapshots:
 
   lru-cache@10.4.3: {}
 
-  luxon@3.5.0: {}
+  luxon@3.5.0:
+    optional: true
 
   merge2@1.4.1: {}
 

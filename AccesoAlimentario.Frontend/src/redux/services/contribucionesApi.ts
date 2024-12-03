@@ -7,10 +7,14 @@ import {IDonacionMonetariaRequest} from "@models/requests/contribuciones/iDonaci
 import {IRegistroPersonaVulnerableRequest} from "@models/requests/contribuciones/iRegistroPersonaVulnerableRequest";
 import {ICanjeDePremioRequest} from "@models/requests/contribuciones/iCanjeDePremioRequest";
 import {IOfertaPremioRequest} from "@models/requests/contribuciones/iOfertaPremioRequest";
+import {IFormaContribucionResponse} from "@models/responses/contribuciones/iFormaContribucionResponse";
+import {TipoRubro} from "@models/enums/tipoRubro";
+import {IPremioResponse} from "@models/responses/premios/iPremioResponse";
 
 export const contribucionesApi = createApi({
     reducerPath: "ContribucionesApi",
     baseQuery: fetchBaseQuery({baseUrl: config.apiUrl}),
+    tagTypes: ["PuntosContribuidor", "Contribuciones", "Premios"],
     endpoints: (builder) => ({
         postDistribucionViandas: builder.mutation<
             void,
@@ -21,6 +25,7 @@ export const contribucionesApi = createApi({
                 method: "POST",
                 body: data
             }),
+            invalidatesTags: ["PuntosContribuidor", "Contribuciones"]
         }),
         postDonacionHeladera: builder.mutation<
             void,
@@ -31,6 +36,7 @@ export const contribucionesApi = createApi({
                 method: "POST",
                 body: data
             }),
+            invalidatesTags: ["PuntosContribuidor", "Contribuciones"]
         }),
         postDonacionVianda: builder.mutation<
             void,
@@ -41,6 +47,7 @@ export const contribucionesApi = createApi({
                 method: "POST",
                 body: data
             }),
+            invalidatesTags: ["PuntosContribuidor", "Contribuciones"]
         }),
         postDonacionMonetaria: builder.mutation<
             void,
@@ -51,6 +58,7 @@ export const contribucionesApi = createApi({
                 method: "POST",
                 body: data
             }),
+            invalidatesTags: ["PuntosContribuidor", "Contribuciones"]
         }),
         postOfertaPremio: builder.mutation<
             void,
@@ -61,16 +69,18 @@ export const contribucionesApi = createApi({
                 method: "POST",
                 body: data
             }),
+            invalidatesTags: ["PuntosContribuidor", "Contribuciones", "Premios"]
         }),
         postRegistroPersonaVulnerable: builder.mutation<
             void,
             IRegistroPersonaVulnerableRequest
         >({
             query: (data) => ({
-                url: "contribuciones/registrovulnerable",
+                url: "contribuciones/registroPersonaVulnerable",
                 method: "POST",
                 body: data
             }),
+            invalidatesTags: ["PuntosContribuidor", "Contribuciones"]
         }),
         postCanjeDePremio: builder.mutation<
             void,
@@ -81,6 +91,41 @@ export const contribucionesApi = createApi({
                 method: "POST",
                 body: data
             }),
+            invalidatesTags: ["PuntosContribuidor", "Contribuciones", "Premios"]
+        }),
+        getPuntosContribuidor: builder.query<
+            number,
+            string
+        >({
+            query: (colaboradorId) => ({
+                url: `colaboradores/${colaboradorId}/puntaje`,
+                method: "GET"
+            }),
+            providesTags: ["PuntosContribuidor"]
+        }),
+        getContribuciones: builder.query<
+            IFormaContribucionResponse[],
+            string
+        >({
+            query: (colaboradorId) => ({
+                url: "contribuciones/contribucionesColaborador",
+                method: "GET",
+                params: {
+                    colaboradorId
+                }
+            }),
+            providesTags: ["Contribuciones"]
+        }),
+        getPremios: builder.query<
+            IPremioResponse[],
+            {nombre?: string, puntosNecesarios?: number, rubro?: TipoRubro}
+        >({
+            query: (params) => ({
+                url: "contribuciones/premios",
+                method: "GET",
+                params
+            }),
+            providesTags: ["Premios"]
         })
     }),
 });
@@ -92,5 +137,11 @@ export const {
     usePostDonacionMonetariaMutation,
     usePostDonacionViandaMutation,
     usePostOfertaPremioMutation,
-    usePostRegistroPersonaVulnerableMutation
+    usePostRegistroPersonaVulnerableMutation,
+    useGetPuntosContribuidorQuery,
+    useLazyGetPuntosContribuidorQuery,
+    useGetContribucionesQuery,
+    useLazyGetContribucionesQuery,
+    useGetPremiosQuery,
+    useLazyGetPremiosQuery
 } = contribucionesApi;

@@ -1,82 +1,62 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {config} from "@config/config";
-
-export interface Direccion {
-    calle: string;
-    numero: string;
-    localidad: string;
-    codigoPostal: string;
-    piso?: string;
-    departamento?: string;
-}
-
-export interface Documento {
-    tipoDocumento: "DNI" | "LE" | "LC" | "CUIT" | "CUIL";
-    nroDocumento: number;    
-    fechaNacimiento?: string;
-}
+import {IPostRegisterRequest} from "@models/requests/auth/iPostRegisterRequest";
 
 export const authApi = createApi({
     reducerPath: "AuthApi",
     baseQuery: fetchBaseQuery({baseUrl: config.apiUrl, credentials: "include"}),
-    tagTypes: ["Auth"],
     endpoints: (builder) => ({
-        login: builder.query<
-            void,
-            { email: string, password: string }
+        postLoginValidate: builder.mutation<
+            { userExists: boolean, token: string },
+            string
         >({
-            query: ({email, password}) => ({
-                url: `auth/login`,
+            query: (token) => ({
+                url: `auth/validate`,
                 method: "POST",
-                body: { email, password }
+                body: {token}
             }),
-            providesTags: ["Auth"]
         }),
 
-        register: builder.query<
+        postRegister: builder.mutation<
             void,
-            { 
-                email: string, 
-                password?: string, 
-                profile_picture?: string, 
-                register_type: "sso" | "standard", 
-                user_type?: "Humana" | "Juridica",
-                direccion?: Direccion,
-                documento?: Documento,
-                persona?: any
-            }
+            IPostRegisterRequest
         >({
-            query: ({
-                email, 
-                password, 
-                profile_picture, 
-                register_type,
-                user_type,
-                direccion,
-                documento,
-                persona
-            }) => ({
+            query: (body) => ({
                 url: `auth/register`,
                 method: "POST",
-                body: { 
-                    email, 
-                    password, 
-                    profile_picture, 
-                    register_type, 
-                    user_type, 
-                    direccion, 
-                    documento,
-                    persona
-                 }
+                body
             }),
-            providesTags: ["Auth"]
+        }),
+
+        postLogin: builder.mutation<
+            { userExists: boolean, token: string },
+            { username: string, password: string }
+        >({
+            query: ({
+                        username,
+                        password
+                    }) => ({
+                url: `auth/login`,
+                method: "POST",
+                body: {
+                    username,
+                    password
+                }
+            }),
+        }),
+
+        postLogout: builder.mutation<void, void>({
+            query: () => ({
+                url: `auth/logout`,
+                method: "POST",
+            }),
         }),
     }),
 });
 
 export const {
-    useLoginQuery,
-    useRegisterQuery,
-    useLazyLoginQuery,
-    useLazyRegisterQuery
+    usePostLoginValidateMutation,
+    usePostRegisterMutation,
+    usePostLoginMutation,
+    usePostLogoutMutation
 } = authApi;

@@ -3,7 +3,7 @@ import {
     Backdrop,
     Box,
     Button,
-    CardActions, Divider, Fade, MenuItem, Modal, Select,
+    CardActions, CircularProgress, Divider, Fade, MenuItem, Modal, Select,
     Stack,
     Table,
     TableBody,
@@ -26,6 +26,7 @@ import {OfertaPremioForm} from "@/app/admin/contribuciones/OfertaPremioForm";
 import {AdministracionHeladeraForm} from "@/app/admin/contribuciones/AdministracionHeladeraForm";
 import {DistribucionViandasForm} from "@/app/admin/contribuciones/DistribucionViandasForm";
 import {
+    useGetContribucionesQuery,
     usePostDistribucionViandasMutation, usePostDonacionHeladeraMutation,
     usePostDonacionMonetariaMutation, usePostDonacionViandaMutation,
     usePostOfertaPremioMutation
@@ -36,23 +37,31 @@ import {IDonacionViandaRequest} from "@models/requests/contribuciones/iDonacionV
 import {IOfertaPremioRequest} from "@models/requests/contribuciones/iOfertaPremioRequest";
 import {IDonacionHeladeraRequest} from "@models/requests/contribuciones/iDonacionHeladeraRequest";
 import {IDistribucionViandaRequest} from "@models/requests/contribuciones/iDistribucionViandaRequest";
+import {useAppSelector} from "@redux/hook";
+import {formatDate} from "@utils/formatDate";
 
-function createData(tipo: string, fechaContribucion: string) {
-    return {tipo, fechaContribucion};
+function getTipoContribucion(tipo: string) {
+    switch (tipo) {
+        case "DonacionMonetaria":
+            return "Donación Monetaria";
+        case "DonacionVianda":
+            return "Donación de Viandas";
+        case "OfertaPremio":
+            return "Oferta de Premio";
+        case "AdministracionHeladera":
+            return "Administración de Heladera";
+        case "DistribucionViandas":
+            return "Distribución de Viandas";
+        case "RegistroPersonaVulnerable":
+            return "Registro de Persona Vulnerable";
+        default:
+            return "";
+    }
 }
 
-const rows = [
-    createData('DonacionMonetaria', '2021-10-10'),
-    createData('DonacionVianda', '2021-10-10'),
-    createData('OfertaPremio', '2021-10-10'),
-    createData('AdministracionHeladera', '2021-10-10'),
-    createData('DistribucionViandas', '2021-10-10'),
-    createData('DonacionMonetaria', '2021-10-10'),
-];
-
-const colaboradorId = "28a57265-a0c4-4813-86a2-38a15d6ebc8a";
 export default function ContribucionesPage() {
     const theme = useTheme();
+    const user = useAppSelector(state => state.user);
     const [showModal, setShowModal] = React.useState(false);
     const [tipoContribucion, setTipoContribucion] = React.useState<"DonacionMonetaria" | "DonacionVianda" | "OfertaPremio" | "AdministracionHeladera" | "DistribucionViandas">("DonacionMonetaria");
     const formContext = useForm();
@@ -77,13 +86,16 @@ export default function ContribucionesPage() {
         postDonacionHeladera,
         {isLoading: isLoadingDonacionHeladera}
     ] = usePostDonacionHeladeraMutation();
-
+    const {
+        data: colaboracionesData,
+        isLoading: isLoadingColaboraciones
+    } = useGetContribucionesQuery(user.colaboradorId);
 
     const handleSave = async (data: FormFieldValue) => {
         switch (tipoContribucion) {
             case "DonacionMonetaria":
                 const donacionMonetariaData: IDonacionMonetariaRequest = {
-                    colaboradorId: colaboradorId,
+                    colaboradorId: user.colaboradorId,
                     fechaContribucion: data.fechaContribucion,
                     monto: Number(data.monto),
                     frecuenciaDias: Number(data.frecuenciaDias)
@@ -99,7 +111,7 @@ export default function ContribucionesPage() {
                 break;
             case "DonacionVianda":
                 const donacionViandaData: IDonacionViandaRequest = {
-                    colaboradorId: colaboradorId,
+                    colaboradorId: user.colaboradorId,
                     fechaContribucion: data.fechaContribucion,
                     heladeraId: data.heladera,
                     comida: data.comida,
@@ -119,7 +131,7 @@ export default function ContribucionesPage() {
                 break;
             case "OfertaPremio":
                 const ofertaPremioData: IOfertaPremioRequest = {
-                    colaboradorId: colaboradorId,
+                    colaboradorId: user.colaboradorId,
                     fechaContribucion: data.fechaContribucion,
                     nombre: data.nombre,
                     puntosNecesarios: Number(data.puntos),
@@ -138,7 +150,7 @@ export default function ContribucionesPage() {
             case "AdministracionHeladera":
                 const sensores = formContext.watch("sensores") as FormFieldValue[];
                 const donacionHeladeraData: IDonacionHeladeraRequest = {
-                    colaboradorId: colaboradorId,
+                    colaboradorId: user.colaboradorId,
                     fechaContribucion: data.fechaContribucion,
                     puntoEstrategico: {
                         nombre: data.puntoEstrategicoNombre,
@@ -178,7 +190,7 @@ export default function ContribucionesPage() {
                 break;
             case "DistribucionViandas":
                 const distribucionViandasData: IDistribucionViandaRequest = {
-                    colaboradorId: colaboradorId,
+                    colaboradorId: user.colaboradorId,
                     fechaContribucion: data.fechaContribucion,
                     heladeraOrigenId: data.heladeraOrigenId,
                     heladeraDestinoId: data.heladeraDestinoId,
@@ -228,34 +240,49 @@ export default function ContribucionesPage() {
                 </Stack>
             </CardActions>
             <CardContent>
-                <TableContainer>
-                    <Table sx={{minWidth: 350}} aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
-                                <StyledTableCell sx={{pl: 3}}>#</StyledTableCell>
-                                <StyledTableCell align="center">Tipo</StyledTableCell>
-                                <StyledTableCell align="center">Fecha de contribución</StyledTableCell>
-                                <StyledTableCell sx={{pr: 3}} align="center">Acciones</StyledTableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {rows.map((row, index) => (
-                                <StyledTableRow hover key={`${row.tipo}-${index}`}>
-                                    <StyledTableCell sx={{pl: 3}} component="th" scope="row">
-                                        {index + 1}
-                                    </StyledTableCell>
-                                    <StyledTableCell align="center">{row.tipo}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.fechaContribucion}</StyledTableCell>
-                                    <StyledTableCell sx={{pr: 3}} align="center">
-                                        <Button color="primary" size="small" variant="contained">
-                                            Ver
-                                        </Button>
-                                    </StyledTableCell>
-                                </StyledTableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                {
+                    isLoadingColaboraciones ? (
+                        <Stack direction="row" spacing={1} justifyContent="center" sx={{py: 2}}>
+                            <CircularProgress/>
+                        </Stack>
+                    ) : (
+                        <TableContainer>
+                            <Table sx={{minWidth: 350}} aria-label="simple table">
+                                <TableHead>
+                                    <TableRow>
+                                        <StyledTableCell sx={{pl: 3}}>#</StyledTableCell>
+                                        <StyledTableCell align="center">Tipo</StyledTableCell>
+                                        <StyledTableCell align="center">Fecha de contribución</StyledTableCell>
+                                        <StyledTableCell sx={{pr: 3}} align="center">Acciones</StyledTableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {
+                                        (colaboracionesData || [])
+                                            .map((row, index) => (
+                                                <StyledTableRow hover key={`${row.tipo}-${index}`}>
+                                                    <StyledTableCell sx={{pl: 3}} component="th" scope="row">
+                                                        {index + 1}
+                                                    </StyledTableCell>
+                                                    <StyledTableCell
+                                                        align="center">{getTipoContribucion(row.tipo)}</StyledTableCell>
+                                                    <StyledTableCell
+                                                        align="center">{formatDate(row.fechaContribucion)}</StyledTableCell>
+                                                    <StyledTableCell sx={{pr: 3}} align="center">
+                                                        <Button color="primary" size="small" variant="contained">
+                                                            Ver
+                                                        </Button>
+                                                    </StyledTableCell>
+                                                </StyledTableRow>
+                                            ))
+                                    }
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    )
+                }
+
+
                 <Modal
                     open={showModal}
                     onClose={() => setShowModal(false)}
