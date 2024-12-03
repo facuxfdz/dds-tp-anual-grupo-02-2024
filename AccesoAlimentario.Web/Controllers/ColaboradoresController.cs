@@ -12,6 +12,21 @@ namespace AccesoAlimentario.Web.Controllers;
 [ApiController]
 public class ColaboradoresController(ISender sender, ILogger<ColaboradoresController> logger) : ControllerBase
 {
+    
+    [HttpGet]
+    public async Task<IResult> Get()
+    {
+        try
+        {
+            return await sender.Send(new ObtenerColaboradores.ObtenerAllCommand());
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Error al obtener los colaboradores");
+            return Results.StatusCode(500);
+        }
+    }
+    
     [HttpPost]
     public async Task<IResult> Post([FromBody] AltaColaborador.AltaColaboradorCommand command)
     {
