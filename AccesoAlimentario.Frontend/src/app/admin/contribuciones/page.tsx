@@ -40,7 +40,7 @@ import {IDistribucionViandaRequest} from "@models/requests/contribuciones/iDistr
 import {useAppSelector} from "@redux/hook";
 import {formatDate} from "@utils/formatDate";
 
-function getTipoContribucion (tipo: string) {
+function getTipoContribucion(tipo: string) {
     switch (tipo) {
         case "DonacionMonetaria":
             return "Donación Monetaria";
@@ -86,13 +86,13 @@ export default function ContribucionesPage() {
         postDonacionHeladera,
         {isLoading: isLoadingDonacionHeladera}
     ] = usePostDonacionHeladeraMutation();
-    const {data: colaboracionesData, isLoading: isLoadingColaboraciones} = useGetContribucionesQuery(user.id);
+    const {data: colaboracionesData, isLoading: isLoadingColaboraciones} = useGetContribucionesQuery(user.colaboradorId);
 
     const handleSave = async (data: FormFieldValue) => {
         switch (tipoContribucion) {
             case "DonacionMonetaria":
                 const donacionMonetariaData: IDonacionMonetariaRequest = {
-                    colaboradorId: user.id,
+                    colaboradorId: user.colaboradorId,
                     fechaContribucion: data.fechaContribucion,
                     monto: Number(data.monto),
                     frecuenciaDias: Number(data.frecuenciaDias)
@@ -108,7 +108,7 @@ export default function ContribucionesPage() {
                 break;
             case "DonacionVianda":
                 const donacionViandaData: IDonacionViandaRequest = {
-                    colaboradorId: user.id,
+                    colaboradorId: user.colaboradorId,
                     fechaContribucion: data.fechaContribucion,
                     heladeraId: data.heladera,
                     comida: data.comida,
@@ -128,7 +128,7 @@ export default function ContribucionesPage() {
                 break;
             case "OfertaPremio":
                 const ofertaPremioData: IOfertaPremioRequest = {
-                    colaboradorId: user.id,
+                    colaboradorId: user.colaboradorId,
                     fechaContribucion: data.fechaContribucion,
                     nombre: data.nombre,
                     puntosNecesarios: Number(data.puntos),
@@ -147,7 +147,7 @@ export default function ContribucionesPage() {
             case "AdministracionHeladera":
                 const sensores = formContext.watch("sensores") as FormFieldValue[];
                 const donacionHeladeraData: IDonacionHeladeraRequest = {
-                    colaboradorId: user.id,
+                    colaboradorId: user.colaboradorId,
                     fechaContribucion: data.fechaContribucion,
                     puntoEstrategico: {
                         nombre: data.puntoEstrategicoNombre,
@@ -187,7 +187,7 @@ export default function ContribucionesPage() {
                 break;
             case "DistribucionViandas":
                 const distribucionViandasData: IDistribucionViandaRequest = {
-                    colaboradorId: user.id,
+                    colaboradorId: user.colaboradorId,
                     fechaContribucion: data.fechaContribucion,
                     heladeraOrigenId: data.heladeraOrigenId,
                     heladeraDestinoId: data.heladeraDestinoId,
@@ -258,7 +258,8 @@ export default function ContribucionesPage() {
                                                 <StyledTableCell sx={{pl: 3}} component="th" scope="row">
                                                     {index + 1}
                                                 </StyledTableCell>
-                                                <StyledTableCell align="center">{getTipoContribucion(row.tipo)}</StyledTableCell>
+                                                <StyledTableCell
+                                                    align="center">{getTipoContribucion(row.tipo)}</StyledTableCell>
                                                 <StyledTableCell
                                                     align="center">{formatDate(row.fechaContribucion)}</StyledTableCell>
                                                 <StyledTableCell sx={{pr: 3}} align="center">

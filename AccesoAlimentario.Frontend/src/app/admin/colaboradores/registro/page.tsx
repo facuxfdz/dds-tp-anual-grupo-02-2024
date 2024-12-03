@@ -7,8 +7,6 @@ import CardContent from "@mui/material/CardContent";
 import {FormFieldValue} from "@components/Forms/Form";
 import MainCard from "@components/Cards/MainCard";
 import {useTheme} from "@mui/material/styles";
-import {RegistroPersonaFisica} from "@/app/admin/colaboradores/registro/RegistroPersonaFisica";
-import {RegistroPersonaJuridica} from "@/app/admin/colaboradores/registro/RegistroPersonaJuridica";
 import {
     IAltaColaboradorRequest,
     IPersonaHumanaRequest, IPersonaJuridicaRequest,
@@ -20,6 +18,8 @@ import {TipoDocumento} from "@models/enums/tipoDocumento";
 import {ContribucionesTipo} from "@models/enums/contribucionesTipo";
 import {usePostAltaColaboradorMutation} from "@redux/services/colaboradoresApi";
 import {useNotification} from "@components/Notifications/NotificationContext";
+import {RegistroPersonaFisica} from "@components/RegistroColaboradores/RegistroPersonaFisica";
+import {RegistroPersonaJuridica} from "@components/RegistroColaboradores/RegistroPersonaJuridica";
 
 export default function ColaboradoresRegistroPage() {
     const theme = useTheme();
@@ -32,7 +32,7 @@ export default function ColaboradoresRegistroPage() {
     const {addNotification} = useNotification();
 
     const handleSave = async (data: FormFieldValue) => {
-        let personaRequest : IPersonaRequest;
+        let personaRequest: IPersonaRequest;
         if (tipoColaborador === "fisica") {
             personaRequest = {
                 nombre: data.nombre,
@@ -49,7 +49,7 @@ export default function ColaboradoresRegistroPage() {
                 tipoPersona: "Juridica"
             } as IPersonaJuridicaRequest;
         }
-        const request:IAltaColaboradorRequest = {
+        const request: IAltaColaboradorRequest = {
             persona: personaRequest,
             direccion: {
                 calle: data.calle,

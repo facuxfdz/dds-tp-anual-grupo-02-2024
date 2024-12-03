@@ -71,16 +71,16 @@ const Profile = () => {
     const iconBackColorOpen = theme.palette.mode === "dark" ? 'grey.200' : 'grey.300';
 
     useEffect(() => {
-        if (user.role === 'colaborador') {
-            getPuntosContribuidor(user.id);
+        if (user.colaboradorId != "") {
+            getPuntosContribuidor(user.colaboradorId);
         }
-    }, [user.role, user.id, getPuntosContribuidor]);
+    }, [user.colaboradorId, getPuntosContribuidor]);
 
     return (
         <Box sx={{flexShrink: 0, ml: 0.75}}>
             <Stack direction={"row"} gap={2}>
                 {
-                    user.role === 'colaborador' &&
+                    user.colaboradorId != '' &&
                     <ButtonBase
                         sx={{
                             p: 0.25,
@@ -128,9 +128,15 @@ const Profile = () => {
                         <Stack>
                             <Typography variant="h6">{user.name}</Typography>
                             {
-                                user.role === 'colaborador' &&
+                                user.colaboradorId != '' &&
                                 <Typography variant="subtitle2" sx={{color: 'text.secondary'}}>
                                     Colaborador
+                                </Typography>
+                            }
+                            {
+                                user.tecnicoId != '' &&
+                                <Typography variant="subtitle2" sx={{color: 'text.secondary'}}>
+                                    Tecnico
                                 </Typography>
                             }
                         </Stack>
@@ -176,7 +182,7 @@ const Profile = () => {
                                                 <Stack>
                                                     <Typography variant="h6">{user.name}</Typography>
                                                     {
-                                                        user.role === 'colaborador' &&
+                                                        user.colaboradorId !== '' &&
                                                         <Typography variant="subtitle2" sx={{color: 'text.secondary'}}>
                                                             Colaborador
                                                         </Typography>

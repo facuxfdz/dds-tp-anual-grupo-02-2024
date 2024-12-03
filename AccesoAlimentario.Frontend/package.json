@@ -19,8 +19,8 @@
     "@mui/x-date-pickers": "^7.22.2",
     "@react-oauth/google": "^0.12.1",
     "@reduxjs/toolkit": "^2.3.0",
-    "cookies-next": "^5.0.2",
     "date-fns": "2.29.3",
+    "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
     "leaflet": "^1.9.4",
     "luxon": "^3.5.0",
@@ -39,6 +39,7 @@
     "uuid": "^11.0.3"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.6",
     "@types/leaflet": "^1.9.14",
     "@types/node": "^20",
     "@types/react": "^18",

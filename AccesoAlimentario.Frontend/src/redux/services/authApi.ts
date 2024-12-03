@@ -7,7 +7,7 @@ export const authApi = createApi({
     baseQuery: fetchBaseQuery({baseUrl: config.apiUrl, credentials: "include"}),
     endpoints: (builder) => ({
         postLoginValidate: builder.mutation<
-            {userExists: boolean},
+            { userExists: boolean, token: string },
             string
         >({
             query: (token) => ({
@@ -27,10 +27,28 @@ export const authApi = createApi({
                 body
             }),
         }),
+
+        postLogin: builder.mutation<
+            { userExists: boolean, token: string },
+            { username: string, password: string }
+        >({
+            query: ({
+                        username,
+                        password
+                    }) => ({
+                url: `auth/login`,
+                method: "POST",
+                body: {
+                    username,
+                    password
+                }
+            }),
+        })
     }),
 });
 
 export const {
     usePostLoginValidateMutation,
-    usePostRegisterMutation
+    usePostRegisterMutation,
+    usePostLoginMutation
 } = authApi;

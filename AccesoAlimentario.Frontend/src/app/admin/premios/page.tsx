@@ -19,7 +19,7 @@ export default function PremiosPage() {
         getPremios({
             nombre,
             puntosNecesarios: puntosNecesarios === null ? undefined : puntosNecesarios,
-            rubro: rubro === "" ? undefined : rubro
+            rubro: typeof rubro === 'string' ? undefined : rubro
         });
     }, [getPremios, nombre, puntosNecesarios, rubro]);
 
@@ -49,7 +49,7 @@ export default function PremiosPage() {
                             fullWidth
                             label={"Puntos maximos necesarios"}
                             value={puntosNecesarios}
-                            onChange={(e) => setPuntosNecesarios(e.target.value)}
+                            onChange={(e) => setPuntosNecesarios(e.target.value === "" ? null : parseInt(e.target.value))}
                             variant="outlined"
                             type={"number"}
                         />
@@ -78,7 +78,6 @@ export default function PremiosPage() {
                                     <PremioCard
                                         id={premio.id}
                                         nombre={premio.nombre}
-                                        descripcion={""}
                                         puntos={premio.puntosNecesarios}
                                         imagen={premio.imagen}
                                         rubro={premio.rubro}

@@ -30,11 +30,11 @@ export default function PersonasVulnerablesRegistroPage() {
 
     const handleSave = async (data: FormFieldValue) => {
         const request: IRegistroPersonaVulnerableRequest = {
-            colaboradorId: user.id,
+            colaboradorId: user.colaboradorId,
             tarjeta: {
                 codigo: data.codigoTarjeta,
                 tipo: 'Consumo',
-                responsableId: user.id,
+                responsableId: user.colaboradorId,
             },
             persona: {
                 nombre: data.nombre,

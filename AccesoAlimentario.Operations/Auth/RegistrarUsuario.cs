@@ -94,7 +94,7 @@ public static class RegistrarUsuario
             };
 
             var result = await _sender.Send(createUserCommand, cancellationToken);
-            if (result is Microsoft.AspNetCore.Http.HttpResults.Ok<Guid> usuarioId)
+            if (result is Microsoft.AspNetCore.Http.HttpResults.Ok<Guid>)
             {
                 _logger.LogInformation("User created successfully.");
             }
@@ -104,38 +104,7 @@ public static class RegistrarUsuario
                 return Results.BadRequest("User creation failed.");
             }
 
-            var persona = colaborador.Persona;
-            // Generate jwt token
-            var jwtGenerator = new JwtGenerator(60);
-            var token = jwtGenerator.GenerateToken(usuarioId.Value.ToString(), 
-            [
-                new KeyValuePair<string, string>("colaboradorId", colaborador.Id.ToString()),
-                new KeyValuePair<string, string>("tecnicoId", ""),
-                new KeyValuePair<string, string>("name", persona.Nombre),
-                new KeyValuePair<string, string>("profile_picture", request.ProfilePicture),
-                new KeyValuePair<string, string>("contribucionesPreferidas",
-                    colaborador.ContribucionesPreferidas.ToString() ?? ""),
-                new KeyValuePair<string, string>("personaTipo",
-                    persona switch
-                    {
-                        PersonaHumana => "colaborador",
-                        PersonaJuridica => "tecnico",
-                        _ => ""
-                    }),
-            ]);
-            // Set cookie
-
-            _httpContext.HttpContext!.Response.Cookies.Append("session", token, new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.Strict
-            });
-
-            return Results.Ok(new
-            {
-                userCreated = true
-            });
+            return Results.Ok();
         }
     }
 }

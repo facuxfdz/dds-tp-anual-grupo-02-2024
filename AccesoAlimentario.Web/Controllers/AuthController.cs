@@ -14,6 +14,12 @@ namespace AccesoAlimentario.Api.Controllers
         public string Token { get; set; } = string.Empty;
     }
 
+    public class AuthLoginBody
+    {
+        public string Username { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+    }
+
     [ApiController]
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
@@ -92,16 +98,19 @@ namespace AccesoAlimentario.Api.Controllers
                 var rolColaborador = persona.Roles.OfType<Colaborador>().FirstOrDefault();
                 if (rolColaborador == null)
                 {
-                    _logger.LogWarning("User does not have a role.");
+                    _logger.LogWarning("User does not have Colaborador role.");
                 }
+
                 var rolTecnico = persona.Roles.OfType<Tecnico>().FirstOrDefault();
                 if (rolTecnico == null)
                 {
-                    _logger.LogWarning("User does not have a role.");
+                    _logger.LogWarning("User does not have Tecnico role.");
                 }
 
                 // Generate jwt token
                 var jwtGenerator = new JwtGenerator(60);
+                var contribucionesPreferidasInt =
+                    rolColaborador?.ContribucionesPreferidas.Select(c => (int)c).ToArray() ?? [];
                 var newToken = jwtGenerator.GenerateToken(existingUser.Id.ToString(),
                 [
                     new KeyValuePair<string, string>("colaboradorId", rolColaborador?.Id.ToString() ?? ""),
@@ -109,12 +118,12 @@ namespace AccesoAlimentario.Api.Controllers
                     new KeyValuePair<string, string>("name", persona.Nombre),
                     new KeyValuePair<string, string>("profile_picture", existingUser.ProfilePicture),
                     new KeyValuePair<string, string>("contribucionesPreferidas",
-                        rolColaborador?.ContribucionesPreferidas.ToString() ?? ""),
+                        string.Join(",", contribucionesPreferidasInt)),
                     new KeyValuePair<string, string>("personaTipo",
                         persona switch
                         {
-                            PersonaHumana => "colaborador",
-                            PersonaJuridica => "tecnico",
+                            PersonaHumana => "humana",
+                            PersonaJuridica => "juridica",
                             _ => ""
                         })
                 ]);
@@ -128,7 +137,75 @@ namespace AccesoAlimentario.Api.Controllers
 
                 return Ok(new
                 {
-                    userExists = true
+                    userExists = true,
+                    token = newToken
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error during login");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] AuthLoginBody body)
+        {
+            try
+            {
+                var query = _unitOfWork.UsuarioSistemaRepository.GetQueryable()
+                    .Where(u => u.UserName == body.Username && u.Password == body.Password);
+                var existingUser = await _unitOfWork.UsuarioSistemaRepository.GetAsync(query, false);
+                if (existingUser == null)
+                {
+                    return Unauthorized();
+                }
+
+                var persona = existingUser.Persona;
+                var rolColaborador = persona.Roles.OfType<Colaborador>().FirstOrDefault();
+                if (rolColaborador == null)
+                {
+                    _logger.LogWarning("User does not have Colaborador role.");
+                }
+
+                var rolTecnico = persona.Roles.OfType<Tecnico>().FirstOrDefault();
+                if (rolTecnico == null)
+                {
+                    _logger.LogWarning("User does not have Tecnico role.");
+                }
+
+                // Generate jwt token
+                var jwtGenerator = new JwtGenerator(60);
+                var contribucionesPreferidasInt =
+                    rolColaborador?.ContribucionesPreferidas.Select(c => (int)c).ToArray() ?? [];
+                var newToken = jwtGenerator.GenerateToken(existingUser.Id.ToString(),
+                [
+                    new KeyValuePair<string, string>("colaboradorId", rolColaborador?.Id.ToString() ?? ""),
+                    new KeyValuePair<string, string>("tecnicoId", rolTecnico?.Id.ToString() ?? ""),
+                    new KeyValuePair<string, string>("name", persona.Nombre),
+                    new KeyValuePair<string, string>("profile_picture", existingUser.ProfilePicture),
+                    new KeyValuePair<string, string>("contribucionesPreferidas",
+                        string.Join(",", contribucionesPreferidasInt)),
+                    new KeyValuePair<string, string>("personaTipo",
+                        persona switch
+                        {
+                            PersonaHumana => "humana",
+                            PersonaJuridica => "juridica",
+                            _ => ""
+                        })
+                ]);
+                // Set cookie
+                HttpContext.Response.Cookies.Append("session", newToken, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.Strict
+                });
+
+                return Ok(new
+                {
+                    userExists = true,
+                    token = newToken
                 });
             }
             catch (Exception ex)

@@ -15,10 +15,10 @@ export interface User {
 }
 
 const initialState: User = {
-    colaboradorId: '1a5f2333-f5e4-4b77-a727-ebf880de41de',
-    tecnicoId: '1a5f2333-f5e4-4b77-a727-ebf880de41de',
+    colaboradorId: '',
+    tecnicoId: '',
 
-    name: 'Marcos Pedaci',
+    name: '',
     profile_picture: '',
 
     contribucionesPreferidas: [],

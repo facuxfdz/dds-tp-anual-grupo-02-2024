@@ -38,12 +38,12 @@ importers:
       '@reduxjs/toolkit':
         specifier: ^2.3.0
         version: 2.3.0(react-redux@9.1.2(@types/react@18.3.12)(react@18.3.1)(redux@5.0.1))(react@18.3.1)
-      cookies-next:
-        specifier: ^5.0.2
-        version: 5.0.2(next@14.2.18(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
       date-fns:
         specifier: 2.29.3
         version: 2.29.3
+      js-cookie:
+        specifier: ^3.0.5
+        version: 3.0.5
       jwt-decode:
         specifier: ^4.0.0
         version: 4.0.0
@@ -93,6 +93,9 @@ importers:
         specifier: ^11.0.3
         version: 11.0.3
     devDependencies:
+      '@types/js-cookie':
+        specifier: ^3.0.6
+        version: 3.0.6
       '@types/leaflet':
         specifier: ^1.9.14
         version: 1.9.14
@@ -560,6 +563,9 @@ packages:
   '@types/geojson@7946.0.14':
     resolution: {integrity: sha512-WCfD5Ht3ZesJUsONdhvm84dmzWOiOzOAqOncN0++w0lBw1o8OuDNJF2McvvCef/yBqb/HYRahp1BYtODFQ8bRg==}
 
+  '@types/js-cookie@3.0.6':
+    resolution: {integrity: sha512-wkw9yd1kEXOPnvEeEV1Go1MmxtBJL0RR79aOTAApecWFVu7w0NNXNqhcWgvw2YgZDYadliXkl14pa3WXw5jlCQ==}
+
   '@types/json5@0.0.29':
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
 
@@ -821,15 +827,6 @@ packages:
 
   convert-source-map@1.9.0:
     resolution: {integrity: sha512-ASFBup0Mz1uyiIjANan1jzLQami9z1PoYSZCiiYW2FczPbenXc45FZdBZLzOT+r6+iciuEModtmCti+hjaAk0A==}
-
-  cookie@1.0.2:
-    resolution: {integrity: sha512-9Kr/j4O16ISv8zBBhJoi4bXOYNTkFLOqSL3UDB0njXxCXNezjeyVrJyGOWtgfs/q2km1gwBcfH8q1yEGoMYunA==}
-    engines: {node: '>=18'}
-
-  cookies-next@5.0.2:
-    resolution: {integrity: sha512-Ft5yXMbN6wMfgLiL5TMyPnxsjkW6UEjZw0YMoDMiF3F6iYdFPjiJEMugx/sivUr8G+0xPG80lBYqI2b+VquSuw==}
-    peerDependencies:
-      next: '>=15.0.0'
 
   cosmiconfig@7.1.0:
     resolution: {integrity: sha512-AdmX6xUzdNASswsFtmwSt7Vj8po9IuqXm0UXz7QKPuEUmPB4XyjGfaAr2PSuELMwkRMVH1EpIkX5bTZGRB3eCA==}
@@ -1380,6 +1377,10 @@ packages:
   jiti@1.21.6:
     resolution: {integrity: sha512-2yTgeWTWzMWkHu6Jp9NKgePDaYHbntiwvYuuJLbbN9vl7DC9DvXKOB2BC3ZZ92D3cvV/aflH0osDfwpHepQ53w==}
     hasBin: true
+
+  js-cookie@3.0.5:
+    resolution: {integrity: sha512-cEiJEAEoIbWfCZYKWhVwFuvPX1gETRYPw6LlaTKoxD3s2AkXzkCjnp6h0V77ozyqj0jakteJ4YqDJT830+lVGw==}
+    engines: {node: '>=14'}
 
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
@@ -2546,6 +2547,8 @@ snapshots:
 
   '@types/geojson@7946.0.14': {}
 
+  '@types/js-cookie@3.0.6': {}
+
   '@types/json5@0.0.29': {}
 
   '@types/leaflet@1.9.14':
@@ -2850,13 +2853,6 @@ snapshots:
   concat-map@0.0.1: {}
 
   convert-source-map@1.9.0: {}
-
-  cookie@1.0.2: {}
-
-  cookies-next@5.0.2(next@14.2.18(react-dom@18.3.1(react@18.3.1))(react@18.3.1)):
-    dependencies:
-      cookie: 1.0.2
-      next: 14.2.18(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
 
   cosmiconfig@7.1.0:
     dependencies:
@@ -3565,6 +3561,8 @@ snapshots:
       '@pkgjs/parseargs': 0.11.0
 
   jiti@1.21.6: {}
+
+  js-cookie@3.0.5: {}
 
   js-tokens@4.0.0: {}
 

@@ -1,16 +1,22 @@
 "use client";
 import React from "react";
-import {SelectElement, TextFieldElement} from "react-hook-form-mui";
 import Grid from "@mui/material/Grid2";
+import {MultiSelectElement, SelectElement, TextFieldElement} from "react-hook-form-mui";
 import {TipoDocumento} from "@models/enums/tipoDocumento";
-import {TipoJuridica} from "@models/enums/tipoJuridica";
+import {SexoDocumento} from "@models/enums/sexoDocumento";
+import {LocalizationProvider} from "@mui/x-date-pickers";
+import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
+import {DatePickerElement} from "react-hook-form-mui/date-pickers";
+import {useFormContext} from "react-hook-form";
 
-export const RegistroPersonaJuridica = () => {
+export const RegistroPersonaFisica = () => {
+    const formContext = useFormContext();
+    const contribucionesPreferidas : number[] = formContext.watch("contribucionesPreferidas");
     return (
         <Grid container spacing={3} alignItems="center">
-            <Grid size={12} key={"nombre"}>
+            <Grid size={6} key={"nombre"}>
                 <TextFieldElement
-                    name={"Nombre"}
+                    name={"nombre"}
                     label={"Nombre"}
                     placeholder={"Ingrese su nombre"}
                     required={true}
@@ -22,49 +28,16 @@ export const RegistroPersonaJuridica = () => {
                     }
                 />
             </Grid>
-            <Grid size={6} key={"tipoJuridico"}>
-                <SelectElement
-                    name={"tipoJuridico"}
-                    label={"Tipo Jurídico"}
-                    options={[
-                        {label: "Gubernamental", id: TipoJuridica.Gubernamental},
-                        {label: "ONG", id: TipoJuridica.Ong},
-                        {label: "Empresa", id: TipoJuridica.Empresa},
-                        {label: "Institucion", id: TipoJuridica.Institucion},
-                    ]}
-                    required={true}
-                    fullWidth
-                    rules={
-                        {
-                            required: "Por favor seleccione una opción"
-                        }
-                    }
-                />
-            </Grid>
-            <Grid size={6} key={"rubro"}>
+            <Grid size={6} key={"apellido"}>
                 <TextFieldElement
-                    name={"rubro"}
-                    label={"Rubro"}
-                    placeholder={"Ingrese su rubro"}
+                    name={"apellido"}
+                    label={"Apellido"}
+                    placeholder={"Ingrese la apellido"}
                     required={true}
                     fullWidth
                     rules={
                         {
-                            required: "Por favor ingrese su rubro"
-                        }
-                    }
-                />
-            </Grid>
-            <Grid size={12} key={"razonSocial"}>
-                <TextFieldElement
-                    name={"razonSocial"}
-                    label={"Razón Social"}
-                    placeholder={"Ingrese su razón social"}
-                    required={true}
-                    fullWidth
-                    rules={
-                        {
-                            required: "Por favor ingrese su razón social"
+                            required: "Por favor ingrese su apellido",
                         }
                     }
                 />
@@ -107,6 +80,39 @@ export const RegistroPersonaJuridica = () => {
                         }
                     }
                 />
+            </Grid>
+            <Grid size={6} key={"sexo"}>
+                <SelectElement
+                    name={"sexo"}
+                    label={"Sexo"}
+                    options={[
+                        {label: "Masculino", id: SexoDocumento.Masculino},
+                        {label: "Femenino", id: SexoDocumento.Femenino},
+                        {label: "Otro", id: SexoDocumento.Otro}
+                    ]}
+                    required={true}
+                    fullWidth
+                    rules={
+                        {
+                            required: "Por favor seleccione una opción",
+                        }
+                    }
+                />
+            </Grid>
+            <Grid size={6} key={"fechaNacimiento"}>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DatePickerElement
+                        label={"Fecha de Nacimiento"}
+                        name={"fechaNacimiento"}
+                        required={true}
+                        rules={
+                            {
+                                required: "Por favor ingrese su fecha de nacimiento"
+                            }
+                        }
+                        sx={{width: '100%'}}
+                    />
+                </LocalizationProvider>
             </Grid>
             <Grid size={6} key={"calle"}>
                 <TextFieldElement
@@ -179,6 +185,49 @@ export const RegistroPersonaJuridica = () => {
                             required: "Por favor ingrese su código postal"
                         }
                     }
+                />
+            </Grid>
+            <Grid size={12} key={"contribucionesPreferidas"}>
+                <MultiSelectElement
+                    name={"contribucionesPreferidas"}
+                    label={"Contribuciones Preferidas"}
+                    itemKey="id"
+                    itemLabel="name"
+                    options={[
+                        {
+                            id: 1,
+                            name: 'Donacion Monetaria'
+                        },
+                        {
+                            id: 2,
+                            name: 'Donacion de Viandas'
+                        },
+                        {
+                            id: 3,
+                            name: 'Redistribucion de Viandas'
+                        },
+                        {
+                            id: 4,
+                            name: 'Entrega de Tarjetas de Consumo'
+                        }
+                    ]}
+                    required={true}
+                    fullWidth
+                    showChips
+                    rules={
+                        {
+                            required: "Por favor seleccione una opción",
+                        }
+                    }
+                />
+            </Grid>
+            <Grid size={12} key={"codigoTarjeta"}>
+                <TextFieldElement
+                    name={"codigoTarjeta"}
+                    label={"Código Tarjeta"}
+                    placeholder={"Ingrese el código de la tarjeta de contribución"}
+                    required={contribucionesPreferidas?.some((contribucion) => contribucion === 3)}
+                    fullWidth
                 />
             </Grid>
         </Grid>

@@ -33,7 +33,7 @@ export const PremioCard = ({
     const handleCanje = async () => {
         const request : ICanjeDePremioRequest = {
             premioId: id,
-            colaboradorId: user.id
+            colaboradorId: user.colaboradorId
         };
 
         try {

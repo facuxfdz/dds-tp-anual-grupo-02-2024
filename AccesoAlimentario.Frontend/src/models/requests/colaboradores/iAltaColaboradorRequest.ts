@@ -27,16 +27,18 @@ export interface IAltaColaboradorRequest {
 
 export interface IPersonaRequest {
     nombre: string;
-    TipoPersona: 'Humana' | 'Juridica';
+    tipoPersona: 'Humana' | 'Juridica';
 }
 
 export interface IPersonaHumanaRequest extends IPersonaRequest {
     apellido: string;
     sexo: SexoDocumento;
+    tipoPersona: 'Humana';
 }
 
 export interface IPersonaJuridicaRequest extends IPersonaRequest {
     razonSocial: string;
     tipoJuridico: TipoJuridica;
     rubro: string;
+    tipoPersona: 'Juridica';
 }

@@ -9,9 +9,16 @@ export interface DecodedUser {
     name?: string;
     profile_picture?: string;
 
-    contribucionesPreferidas?: string[];
+    contribucionesPreferidas?: string;
     personaTipo?: string;
     // Add other fields as necessary
+}
+
+export interface DecodedUserGoogle {
+    aud?: string;
+    email?: string;
+    name?: string;
+    picture?: string;
 }
 
 export const parseJwt = (token: string): DecodedUser => {
@@ -19,5 +26,13 @@ export const parseJwt = (token: string): DecodedUser => {
         return jwtDecode(token);
     } catch {
         return {} as DecodedUser;
+    }
+}
+
+export const parseJwtGoogle = (token: string): DecodedUserGoogle => {
+    try {
+        return jwtDecode(token);
+    } catch {
+        return {} as DecodedUserGoogle;
     }
 }

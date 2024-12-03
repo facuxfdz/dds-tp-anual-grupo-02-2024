@@ -2,10 +2,13 @@
 import { List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import NextLink from "next/link";
 import {loginRoute, perfilRoute} from "@routes/router";
+import {useRouter} from "next/navigation";
+import Cookies from "js-cookie";
 
 // ==============================|| HEADER PROFILE - PROFILE TAB ||============================== //
 
 const ProfileTab = () => {
+    const router = useRouter();
     return (
         <List component="nav" sx={{p: 0, '& .MuiListItemIcon-root': {minWidth: 32}}}>
             <ListItemButton component={NextLink} href={perfilRoute()}>
@@ -14,7 +17,12 @@ const ProfileTab = () => {
                 </ListItemIcon>
                 <ListItemText primary="Ver Perfil"/>
             </ListItemButton>
-            <ListItemButton component={NextLink} href={loginRoute()}>
+            <ListItemButton onClick={
+                () => {
+                    Cookies.remove("session");
+                    router.push(loginRoute());
+                }
+            }>
                 <ListItemIcon>
                     <i className="fa-duotone fa-solid fa-right-from-bracket"></i>
                 </ListItemIcon>
