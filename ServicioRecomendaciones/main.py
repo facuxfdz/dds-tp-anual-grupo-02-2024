@@ -9,7 +9,7 @@ app = Flask(__name__)
 api = Api(app, title="Recomendaciones de Colaboradores", version="1.0", description="API para filtrar colaboradores")
 
 # URL de la API de colaboradores
-COLABORADORES_API_URL = os.getenv("COLABORADORES_API_URL", "http://localhost:5001/api")
+COLABORADORES_API_URL = os.getenv("COLABORADORES_API_URL", "http://localhost:5000/api")
 
 # Esquemas para Swagger
 colaborador_response_model = api.model("ColaboradorResponse", {
@@ -74,4 +74,5 @@ class RecomendacionesResource(Resource):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    # run in port 5001
+    app.run(port=5001,debug=True)
