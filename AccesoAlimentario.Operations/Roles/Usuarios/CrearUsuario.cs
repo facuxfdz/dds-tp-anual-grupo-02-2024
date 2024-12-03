@@ -16,7 +16,7 @@ public static class CrearUsuario
         public string Username { get; set; } = null!;
         public string Password { get; set; } = null!;
         public string ProfilePicture { get; set; } = null!;
-        public string RegisterType { get; set; } = null!;
+        public RegisterType RegisterType { get; set; } = RegisterType.Standard;
     }
 
     public class CrearUsuarioHandler : IRequestHandler<CrearUsuarioCommand, IResult>
@@ -48,7 +48,7 @@ public static class CrearUsuario
                 UserName = request.Username,
                 Password = request.Password,
                 ProfilePicture = request.ProfilePicture,
-                RegisterType = Enum.Parse<RegisterType>(request.RegisterType)
+                RegisterType = request.RegisterType
             };
 
             await _unitOfWork.UsuarioSistemaRepository.AddAsync(usuario);
@@ -59,7 +59,7 @@ public static class CrearUsuario
             persona.EnviarNotificacion(builder.CrearNotificacion());
             _logger.LogInformation("Notificacion enviada");
 
-            return Results.Ok();
+            return Results.Ok(usuario.Id);
         }
     }
 }

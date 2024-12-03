@@ -7,7 +7,7 @@ public class UsuarioSistema : Rol
     public string UserName { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
     public string ProfilePicture { get; set; } = string.Empty;
-    public RegisterType RegisterType { get; set; } = RegisterType.standard;
+    public RegisterType RegisterType { get; set; } = RegisterType.Standard;
     
     public UsuarioSistema()
     {

@@ -3,24 +3,26 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-namespace AccesoAlimentario.Web.Utils;
+namespace AccesoAlimentario.Operations.JwtToken;
 
-public class JWTGenerator
+public class JwtGenerator
 {
     private readonly string _secretKey;
     private readonly string _issuer;
     private readonly string _audience;
     private readonly int _expirationMinutes;
 
-    public JWTGenerator(int expirationMinutes)
+    public JwtGenerator(int expirationMinutes)
     {
         _secretKey = "my_secret_key_super_secure_3123123!!!!FF";
         _issuer = "acceso_alimentario";
         _audience = "acceso_alimentario_front";
-        _expirationMinutes = expirationMinutes > 0 ? expirationMinutes : throw new ArgumentOutOfRangeException(nameof(expirationMinutes));
+        _expirationMinutes = expirationMinutes > 0
+            ? expirationMinutes
+            : throw new ArgumentOutOfRangeException(nameof(expirationMinutes));
     }
 
-    public string GenerateToken(string userId, string email, IDictionary<string, string>? additionalClaims = null)
+    public string GenerateToken(string userId, List<KeyValuePair<string, string>> additionalClaims = null)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.UTF8.GetBytes(_secretKey);
@@ -29,9 +31,9 @@ public class JWTGenerator
         var claims = new List<Claim>
         {
             new Claim(JwtRegisteredClaimNames.Sub, userId),
-            new Claim(JwtRegisteredClaimNames.Email, email),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), // Identificador único del token.
-            new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64) // Fecha de emisión.
+            new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(),
+                ClaimValueTypes.Integer64), // Fecha de emisión.
         };
 
         // Agrega cualquier claim adicional.

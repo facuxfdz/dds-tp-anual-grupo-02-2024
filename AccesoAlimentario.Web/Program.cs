@@ -90,6 +90,7 @@ builder.Services.AddCors(options =>
 });
 builder.Services.AddCoreLayer();
 builder.Services.AddOperationsLayer();
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 

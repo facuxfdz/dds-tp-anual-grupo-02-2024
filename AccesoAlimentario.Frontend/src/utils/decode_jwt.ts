@@ -2,9 +2,15 @@ import {jwtDecode} from 'jwt-decode'
 
 export interface DecodedUser {
     aud?: string;
+
+    colaboradorId?: string;
+    tecnicoId?: string;
+
     name?: string;
-    email?: string;
-    picture?: string;
+    profile_picture?: string;
+
+    contribucionesPreferidas?: string[];
+    personaTipo?: string;
     // Add other fields as necessary
 }
 
