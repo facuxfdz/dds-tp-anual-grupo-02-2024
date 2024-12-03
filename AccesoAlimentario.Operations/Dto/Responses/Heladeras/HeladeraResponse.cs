@@ -1,4 +1,5 @@
 ﻿using AccesoAlimentario.Core.Entities.Heladeras;
+using AccesoAlimentario.Operations.Dto.Requests.Heladeras;
 using AccesoAlimentario.Operations.Dto.Responses.Incidentes;
 using AccesoAlimentario.Operations.Dto.Responses.Sensores;
 
@@ -16,4 +17,5 @@ public class HeladeraResponse
     public float TemperaturaMaximaConfig { get; set; } = 0;
     public List<SensorResponse> Sensores { get; set; } = [];
     public List<IncidenteResponse> Incidentes { get; set; } = [];
+    public ModeloHeladeraResponse Modelo { get; set; } = null!;
 }

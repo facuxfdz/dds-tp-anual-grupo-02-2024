@@ -4,11 +4,12 @@ import {IImportarColaboradoresCsvRequest} from "@models/requests/colaboradores/i
 import {IReportarFallaTecnicaRequest} from "@models/requests/colaboradores/iReportarFallaTecnicaRequest";
 import {ISuscribirseHeladeraRequest} from "@models/requests/colaboradores/iSuscribirseHeladeraRequest";
 import {IAltaColaboradorRequest} from "@models/requests/colaboradores/iAltaColaboradorRequest";
+import {ISuscripcionResponse} from "@models/responses/suscripcionesColaboradores/iSuscripcionResponse";
 
 export const colaboradoresApi = createApi({
     reducerPath: "ColaboradoresApi",
     baseQuery: fetchBaseQuery({baseUrl: config.apiUrl}),
-    tagTypes: ["Colaborador"],
+    tagTypes: ["Colaborador", "Suscripciones"],
     endpoints: (builder) => ({
         postImportarColaboradoresCsv: builder.mutation<
             void,
@@ -21,6 +22,18 @@ export const colaboradoresApi = createApi({
                 timeout: 60000
             }),
         }),
+
+        postAltaColaborador: builder.mutation<
+            void,
+            IAltaColaboradorRequest
+        >({
+            query: (body) => ({
+                url: `colaboradores`,
+                method: "POST",
+                body,
+            }),
+        }),
+
         postReportarFallaTecnica: builder.mutation<
             void,
             IReportarFallaTecnicaRequest
@@ -31,6 +44,7 @@ export const colaboradoresApi = createApi({
                 body
             }),
         }),
+
         postSuscribirseHeladera: builder.mutation<
             void,
             ISuscribirseHeladeraRequest
@@ -40,16 +54,32 @@ export const colaboradoresApi = createApi({
                 method: "POST",
                 body,
             }),
+            invalidatesTags: ["Suscripciones"]
         }),
-        postAltaColaborador: builder.mutation<
+
+        postDesuscribirseHeladera: builder.mutation<
             void,
-            IAltaColaboradorRequest
+            string
         >({
-            query: (body) => ({
-                url: `colaboradores`,
+            query: (id) => ({
+                url: `colaboradores/desuscribirseheladera`,
                 method: "POST",
-                body,
+                body: {
+                    suscripcionId: id
+                },
             }),
+            invalidatesTags: ["Suscripciones"]
+        }),
+
+        getSuscripciones: builder.query<
+            ISuscripcionResponse[],
+            string
+        >({
+            query: (id) => ({
+                url: `colaboradores/${id}/suscripciones`,
+                method: "GET",
+            }),
+            providesTags: ["Suscripciones"]
         })
     }),
 });
@@ -58,6 +88,7 @@ export const {
     usePostImportarColaboradoresCsvMutation,
     usePostReportarFallaTecnicaMutation,
     usePostSuscribirseHeladeraMutation,
-    usePostAltaColaboradorMutation
-
+    usePostAltaColaboradorMutation,
+    usePostDesuscribirseHeladeraMutation,
+    useGetSuscripcionesQuery,
 } = colaboradoresApi;

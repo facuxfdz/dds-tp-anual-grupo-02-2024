@@ -1,7 +1,7 @@
 import {
     colaboradoresImportarRoute,
     colaboradoresRegistroRoute,
-    contribucionesRoute, heladeraIncidentesRoute, heladerasRoute, heladeraViandasRoute, inicioRoute,
+    contribucionesRoute, heladerasRoute, heladeraRoute, inicioRoute,
     perfilRoute, personaVulnerableRegistroRoute, premiosRoute,
     reportarIncidenciaRoute,
     reportesRoute,
@@ -53,15 +53,9 @@ const items : IBreadcrumbItem[] = [
         father: "inicio"
     },
     {
-        id: "heladera-viandas",
-        title: "Viandas",
-        url: heladeraViandasRoute("#"),
-        father: "heladeras"
-    },
-    {
-        id: "heladera-incidentes",
-        title: "Incidentes",
-        url: heladeraIncidentesRoute("#"),
+        id: "heladera-detalle",
+        title: "Detalle",
+        url: heladeraRoute("#"),
         father: "heladeras"
     },
     {

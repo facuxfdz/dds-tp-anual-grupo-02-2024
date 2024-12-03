@@ -59,7 +59,8 @@ public class ColaboradoresController(ISender sender, ILogger<ColaboradoresContro
     {
         try
         {
-            return await sender.Send(new ObtenerPuntajeColaborador.ObtenerPuntajeColaboradorCommand { ColaboradorId = id });
+            return await sender.Send(new ObtenerPuntajeColaborador.ObtenerPuntajeColaboradorCommand
+                { ColaboradorId = id });
         }
         catch (Exception e)
         {
@@ -82,7 +83,7 @@ public class ColaboradoresController(ISender sender, ILogger<ColaboradoresContro
         }
     }
 
-    [HttpPost("SuscibirseHeladera")]
+    [HttpPost("SuscribirseHeladera")]
     public async Task<IResult> SuscribirseHeladera([FromBody] SuscribirseHeladera.SuscribirseHeladeraCommand command)
     {
         try
@@ -92,6 +93,35 @@ public class ColaboradoresController(ISender sender, ILogger<ColaboradoresContro
         catch (Exception e)
         {
             logger.LogError(e, "Error al suscribirse a una heladera");
+            return Results.StatusCode(500);
+        }
+    }
+
+    [HttpPost("DesuscribirseHeladera")]
+    public async Task<IResult> DesuscribirseHeladera(
+        [FromBody] DesuscribirseHeladera.DesuscribirseHeladeraCommand command)
+    {
+        try
+        {
+            return await sender.Send(command);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Error al desuscribirse de una heladera");
+            return Results.StatusCode(500);
+        }
+    }
+
+    [HttpGet("{id}/suscripciones")]
+    public async Task<IResult> GetSuscripciones(Guid id)
+    {
+        try
+        {
+            return await sender.Send(new ObtenerSuscripciones.ObtenerSuscripcionesQuery { ColaboradorId = id });
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Error al obtener las suscripciones de un colaborador");
             return Results.StatusCode(500);
         }
     }

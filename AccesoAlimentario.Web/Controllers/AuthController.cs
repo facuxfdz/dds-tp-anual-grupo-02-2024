@@ -9,11 +9,6 @@ using MediatR;
 
 namespace AccesoAlimentario.Api.Controllers
 {
-    public class AuthValidateBody
-    {
-        public string Token { get; set; } = string.Empty;
-    }
-
     public class AuthLoginBody
     {
         public string Username { get; set; } = string.Empty;
@@ -44,174 +39,50 @@ namespace AccesoAlimentario.Api.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error during registration");
+                _logger.LogError(ex, "Error durante el registro");
                 return Results.StatusCode(500);
             }
         }
 
         [HttpPost("validate")]
-        public async Task<IActionResult> Login([FromBody] AuthValidateBody body)
+        public async Task<IResult> Validate([FromBody] ValidarUsuario.ValidarUsuarioCommand command)
         {
-            var token = body.Token;
-            if (string.IsNullOrEmpty(token))
-            {
-                return BadRequest("Token is required");
-            }
-
             try
             {
-                // Step 1: Parse the JWT Token
-                var handler = new JwtSecurityTokenHandler();
-                var jsonToken = handler.ReadToken(token) as JwtSecurityToken;
-
-                var userId = jsonToken?.Claims.FirstOrDefault(c => c.Type == "aud")?.Value;
-                var userEmail = jsonToken?.Claims.FirstOrDefault(c => c.Type == "email")?.Value;
-                var userName = jsonToken?.Claims.FirstOrDefault(c => c.Type == "email")?.Value;
-                _logger.LogInformation($"UserId: {userId}, UserEmail: {userEmail}, UserName: {userName}");
-
-                if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(userEmail))
-                {
-                    _logger.LogWarning("Invalid JWT token, missing user details.");
-                    return Unauthorized();
-                }
-
-                // Step 2: Check if User Exists using GetAsync with IQueryable
-                var query = _unitOfWork.UsuarioSistemaRepository.GetQueryable()
-                    .Where(u => u.UserName == userName || u.UserName == userEmail);
-
-                var existingUser =
-                    await _unitOfWork.UsuarioSistemaRepository
-                        .GetAsync(query, false); // No tracking, since we're only checking if it exists
-
-                if (existingUser == null)
-                {
-                    _logger.LogInformation("User does not exist.");
-                    return Ok(new
-                    {
-                        userExists = false
-                    });
-                }
-
-                _logger.LogInformation($"User {existingUser.UserName} login.");
-
-                var persona = existingUser.Persona;
-                var rolColaborador = persona.Roles.OfType<Colaborador>().FirstOrDefault();
-                if (rolColaborador == null)
-                {
-                    _logger.LogWarning("User does not have Colaborador role.");
-                }
-
-                var rolTecnico = persona.Roles.OfType<Tecnico>().FirstOrDefault();
-                if (rolTecnico == null)
-                {
-                    _logger.LogWarning("User does not have Tecnico role.");
-                }
-
-                // Generate jwt token
-                var jwtGenerator = new JwtGenerator(60);
-                var contribucionesPreferidasInt =
-                    rolColaborador?.ContribucionesPreferidas.Select(c => (int)c).ToArray() ?? [];
-                var newToken = jwtGenerator.GenerateToken(existingUser.Id.ToString(),
-                [
-                    new KeyValuePair<string, string>("colaboradorId", rolColaborador?.Id.ToString() ?? ""),
-                    new KeyValuePair<string, string>("tecnicoId", rolTecnico?.Id.ToString() ?? ""),
-                    new KeyValuePair<string, string>("name", persona.Nombre),
-                    new KeyValuePair<string, string>("profile_picture", existingUser.ProfilePicture),
-                    new KeyValuePair<string, string>("contribucionesPreferidas",
-                        string.Join(",", contribucionesPreferidasInt)),
-                    new KeyValuePair<string, string>("personaTipo",
-                        persona switch
-                        {
-                            PersonaHumana => "humana",
-                            PersonaJuridica => "juridica",
-                            _ => ""
-                        })
-                ]);
-                // Set cookie
-                HttpContext.Response.Cookies.Append("session", newToken, new CookieOptions
-                {
-                    HttpOnly = true,
-                    Secure = true,
-                    SameSite = SameSiteMode.Strict
-                });
-
-                return Ok(new
-                {
-                    userExists = true,
-                    token = newToken
-                });
+                return await _sender.Send(command);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error during login");
-                return StatusCode(500, "Internal server error");
+                _logger.LogError(ex, "Error durante la validación");
+                return Results.StatusCode(500);
             }
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] AuthLoginBody body)
+        public async Task<IResult> Login([FromBody] LogInUsuario.LogInUsuarioCommand command)
         {
             try
             {
-                var query = _unitOfWork.UsuarioSistemaRepository.GetQueryable()
-                    .Where(u => u.UserName == body.Username && u.Password == body.Password);
-                var existingUser = await _unitOfWork.UsuarioSistemaRepository.GetAsync(query, false);
-                if (existingUser == null)
-                {
-                    return Unauthorized();
-                }
-
-                var persona = existingUser.Persona;
-                var rolColaborador = persona.Roles.OfType<Colaborador>().FirstOrDefault();
-                if (rolColaborador == null)
-                {
-                    _logger.LogWarning("User does not have Colaborador role.");
-                }
-
-                var rolTecnico = persona.Roles.OfType<Tecnico>().FirstOrDefault();
-                if (rolTecnico == null)
-                {
-                    _logger.LogWarning("User does not have Tecnico role.");
-                }
-
-                // Generate jwt token
-                var jwtGenerator = new JwtGenerator(60);
-                var contribucionesPreferidasInt =
-                    rolColaborador?.ContribucionesPreferidas.Select(c => (int)c).ToArray() ?? [];
-                var newToken = jwtGenerator.GenerateToken(existingUser.Id.ToString(),
-                [
-                    new KeyValuePair<string, string>("colaboradorId", rolColaborador?.Id.ToString() ?? ""),
-                    new KeyValuePair<string, string>("tecnicoId", rolTecnico?.Id.ToString() ?? ""),
-                    new KeyValuePair<string, string>("name", persona.Nombre),
-                    new KeyValuePair<string, string>("profile_picture", existingUser.ProfilePicture),
-                    new KeyValuePair<string, string>("contribucionesPreferidas",
-                        string.Join(",", contribucionesPreferidasInt)),
-                    new KeyValuePair<string, string>("personaTipo",
-                        persona switch
-                        {
-                            PersonaHumana => "humana",
-                            PersonaJuridica => "juridica",
-                            _ => ""
-                        })
-                ]);
-                // Set cookie
-                HttpContext.Response.Cookies.Append("session", newToken, new CookieOptions
-                {
-                    HttpOnly = true,
-                    Secure = true,
-                    SameSite = SameSiteMode.Strict
-                });
-
-                return Ok(new
-                {
-                    userExists = true,
-                    token = newToken
-                });
+                return await _sender.Send(command);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error during login");
-                return StatusCode(500, "Internal server error");
+                _logger.LogError(ex, "Error durante el login");
+                return Results.StatusCode(500);
+            }
+        }
+        
+        [HttpPost("logout")]
+        public async Task<IResult> Logout()
+        {
+            try
+            {
+                return await _sender.Send(new LogOutUsuario.LogOutUsuarioCommand());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error durante el logout");
+                return Results.StatusCode(500);
             }
         }
     }

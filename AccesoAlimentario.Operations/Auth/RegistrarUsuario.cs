@@ -44,21 +44,19 @@ public static class RegistrarUsuario
     {
         private readonly ILogger _logger;
         private readonly ISender _sender;
-        private readonly IHttpContextAccessor _httpContext;
         private readonly IUnitOfWork _unitOfWork;
 
         public RegistrarUsuarioHandle(ILogger<RegistrarUsuarioHandle> logger,
-            ISender sender, IHttpContextAccessor httpContext, IUnitOfWork unitOfWork)
+            ISender sender, IUnitOfWork unitOfWork)
         {
             _logger = logger;
             _sender = sender;
-            _httpContext = httpContext;
             _unitOfWork = unitOfWork;
         }
 
         public async Task<IResult> Handle(RegistrarUsuarioCommand request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Registrando usuario");
+            _logger.LogInformation("Registrar usuario");
 
             var altaColaboradorCommand = new AltaColaborador.AltaColaboradorCommand
             {
@@ -73,15 +71,15 @@ public static class RegistrarUsuario
 
             if (resultAltaColaborador is not Microsoft.AspNetCore.Http.HttpResults.Ok<Guid> colaboradorId)
             {
-                _logger.LogWarning("Colaborador creation failed.");
-                return Results.BadRequest("Colaborador creation failed.");
+                _logger.LogWarning("Error al crear el colaborador.");
+                return Results.BadRequest("Error al crear el colaborador.");
             }
 
             var colaborador = await _unitOfWork.ColaboradorRepository.GetByIdAsync(colaboradorId.Value);
             if (colaborador == null)
             {
-                _logger.LogWarning("Colaborador not found.");
-                return Results.BadRequest("Colaborador not found.");
+                _logger.LogWarning("Colaborador no encontrado.");
+                return Results.BadRequest("Colaborador no encontrado.");
             }
 
             var createUserCommand = new CrearUsuario.CrearUsuarioCommand
@@ -96,12 +94,12 @@ public static class RegistrarUsuario
             var result = await _sender.Send(createUserCommand, cancellationToken);
             if (result is Microsoft.AspNetCore.Http.HttpResults.Ok<Guid>)
             {
-                _logger.LogInformation("User created successfully.");
+                _logger.LogInformation("Usuario creado con éxito.");
             }
             else
             {
-                _logger.LogWarning("User creation failed.");
-                return Results.BadRequest("User creation failed.");
+                _logger.LogWarning(" Error al crear el usuario.");
+                return Results.BadRequest("Error al crear el usuario.");
             }
 
             return Results.Ok();

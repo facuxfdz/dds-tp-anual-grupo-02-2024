@@ -22,12 +22,8 @@ export const heladerasRoute = () => {
     return '/admin/heladeras';
 }
 
-export const heladeraViandasRoute = (heladeraId: string) => {
-    return `/admin/heladeras/${heladeraId}/viandas`;
-}
-
-export const heladeraIncidentesRoute = (heladeraId: string) => {
-    return `/admin/heladeras/${heladeraId}/incidentes`;
+export const heladeraRoute = (heladeraId: string) => {
+    return `/admin/heladeras/${heladeraId}`;
 }
 
 export const suscripcionesRoute = () => {

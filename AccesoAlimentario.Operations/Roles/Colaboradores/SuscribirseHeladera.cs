@@ -2,6 +2,7 @@
 using AccesoAlimentario.Core.Entities.SuscripcionesColaboradores;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace AccesoAlimentario.Operations.Roles.Colaboradores;
 
@@ -24,18 +25,21 @@ public static class SuscribirseHeladera
         }
     }
     
-    public class Handler : IRequestHandler<SuscribirseHeladeraCommand, IResult>
+    public class SuscribirseHeladeraHandler : IRequestHandler<SuscribirseHeladeraCommand, IResult>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ILogger _logger;
 
-        public Handler(IUnitOfWork unitOfWork)
+        public SuscribirseHeladeraHandler(IUnitOfWork unitOfWork, ILogger<SuscribirseHeladeraHandler> logger)
         {
             _unitOfWork = unitOfWork;
+            _logger = logger;
         }
 
         public async Task<IResult> Handle(SuscribirseHeladeraCommand request,
             CancellationToken cancellationToken)
         {
+            _logger.LogInformation("Suscribirse a heladera"); 
             var colaborador = await _unitOfWork.ColaboradorRepository.GetByIdAsync(request.ColaboradorId);
             if (colaborador == null)
             {

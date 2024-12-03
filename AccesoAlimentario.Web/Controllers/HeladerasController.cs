@@ -27,7 +27,7 @@ public class HeladerasController(ISender sender, ILogger<HeladerasController> lo
     }
     
     [HttpGet]
-    public async Task<IResult> Get()
+    public async Task<IResult> GetHeladeras()
     {
         try
         {
@@ -39,8 +39,22 @@ public class HeladerasController(ISender sender, ILogger<HeladerasController> lo
             return Results.StatusCode(500);
         }
     }
+    
+    [HttpGet("Consultar")]
+    public async Task<IResult> GetHeladera([FromQuery] ConsultarHeladera.ConsultarHeladeraQuery query)
+    {
+        try
+        {
+            return await sender.Send(query);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Error al consultar una heladera");
+            return Results.StatusCode(500);
+        }
+    }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id}/estado")]
     public async Task<IResult> Get(Guid id)
     {
         try

@@ -20,6 +20,8 @@ import MainCard from "@components/Cards/MainCard";
 import {useTheme} from "@mui/material/styles";
 import {useGetHeladerasQuery} from "@redux/services/heladerasApi";
 import {EstadoHeladera} from "@models/enums/estadoHeladera";
+import {heladeraRoute} from "@routes/router";
+import NextLink from "next/link";
 
 function getHeladeraEstado(estado: EstadoHeladera){
     switch (estado){
@@ -95,6 +97,8 @@ export default function HeladerasPage() {
                                                 color="primary"
                                                 size="small"
                                                 sx={{minWidth: '30px'}}
+                                                component={NextLink}
+                                                href={heladeraRoute(row.id)}
                                             >
                                                 Ver Detalles
                                             </Button>

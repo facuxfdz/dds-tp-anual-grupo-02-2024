@@ -5,14 +5,15 @@ import {IHeladeraResponse} from "@models/responses/heladeras/iHeladeraResponse";
 export const heladerasApi = createApi({
     reducerPath: "HeladerasApi",
     baseQuery: fetchBaseQuery({baseUrl: config.apiUrl}),
-    tagTypes: ["Heladera"],
+    tagTypes: ["Heladera", "Heladeras"],
     endpoints: (builder) => ({
         getHeladera: builder.query<
-            void,
+            IHeladeraResponse,
             { heladeraId: string }
         >({
             query: ({heladeraId}) => ({
-                url: `heladeras/${heladeraId}`,
+                url: `heladeras/consultar`,
+                params: {id: heladeraId}
             }),
             providesTags: ["Heladera"]
         }),
@@ -23,7 +24,7 @@ export const heladerasApi = createApi({
             query: () => ({
                 url: `heladeras`,
             }),
-            providesTags: ["Heladera"]
+            providesTags: ["Heladeras"]
         }),
     }),
 });

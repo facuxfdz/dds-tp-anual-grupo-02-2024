@@ -4,7 +4,7 @@ export interface IViandaResponse {
     id: string;
     comida: string;
     fechaDonacion: string;
-    fechaVencimiento: string;
+    fechaCaducidad: string;
     calorias: number;
     peso: number;
     estado: EstadoVianda;

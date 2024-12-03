@@ -86,7 +86,10 @@ export default function ContribucionesPage() {
         postDonacionHeladera,
         {isLoading: isLoadingDonacionHeladera}
     ] = usePostDonacionHeladeraMutation();
-    const {data: colaboracionesData, isLoading: isLoadingColaboraciones} = useGetContribucionesQuery(user.colaboradorId);
+    const {
+        data: colaboracionesData,
+        isLoading: isLoadingColaboraciones
+    } = useGetContribucionesQuery(user.colaboradorId);
 
     const handleSave = async (data: FormFieldValue) => {
         switch (tipoContribucion) {
@@ -237,44 +240,49 @@ export default function ContribucionesPage() {
                 </Stack>
             </CardActions>
             <CardContent>
-                <TableContainer>
-                    <Table sx={{minWidth: 350}} aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
-                                <StyledTableCell sx={{pl: 3}}>#</StyledTableCell>
-                                <StyledTableCell align="center">Tipo</StyledTableCell>
-                                <StyledTableCell align="center">Fecha de contribución</StyledTableCell>
-                                <StyledTableCell sx={{pr: 3}} align="center">Acciones</StyledTableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {
-                                isLoadingColaboraciones ? (
-                                    <CircularProgress/>
-                                ) : (
-                                    (colaboracionesData || [])
-                                        .map((row, index) => (
-                                            <StyledTableRow hover key={`${row.tipo}-${index}`}>
-                                                <StyledTableCell sx={{pl: 3}} component="th" scope="row">
-                                                    {index + 1}
-                                                </StyledTableCell>
-                                                <StyledTableCell
-                                                    align="center">{getTipoContribucion(row.tipo)}</StyledTableCell>
-                                                <StyledTableCell
-                                                    align="center">{formatDate(row.fechaContribucion)}</StyledTableCell>
-                                                <StyledTableCell sx={{pr: 3}} align="center">
-                                                    <Button color="primary" size="small" variant="contained">
-                                                        Ver
-                                                    </Button>
-                                                </StyledTableCell>
-                                            </StyledTableRow>
-                                        ))
-                                )
-                            }
+                {
+                    isLoadingColaboraciones ? (
+                        <Stack direction="row" spacing={1} justifyContent="center" sx={{py: 2}}>
+                            <CircularProgress/>
+                        </Stack>
+                    ) : (
+                        <TableContainer>
+                            <Table sx={{minWidth: 350}} aria-label="simple table">
+                                <TableHead>
+                                    <TableRow>
+                                        <StyledTableCell sx={{pl: 3}}>#</StyledTableCell>
+                                        <StyledTableCell align="center">Tipo</StyledTableCell>
+                                        <StyledTableCell align="center">Fecha de contribución</StyledTableCell>
+                                        <StyledTableCell sx={{pr: 3}} align="center">Acciones</StyledTableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {
+                                        (colaboracionesData || [])
+                                            .map((row, index) => (
+                                                <StyledTableRow hover key={`${row.tipo}-${index}`}>
+                                                    <StyledTableCell sx={{pl: 3}} component="th" scope="row">
+                                                        {index + 1}
+                                                    </StyledTableCell>
+                                                    <StyledTableCell
+                                                        align="center">{getTipoContribucion(row.tipo)}</StyledTableCell>
+                                                    <StyledTableCell
+                                                        align="center">{formatDate(row.fechaContribucion)}</StyledTableCell>
+                                                    <StyledTableCell sx={{pr: 3}} align="center">
+                                                        <Button color="primary" size="small" variant="contained">
+                                                            Ver
+                                                        </Button>
+                                                    </StyledTableCell>
+                                                </StyledTableRow>
+                                            ))
+                                    }
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    )
+                }
 
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+
                 <Modal
                     open={showModal}
                     onClose={() => setShowModal(false)}

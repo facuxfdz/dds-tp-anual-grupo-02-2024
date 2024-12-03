@@ -50,6 +50,18 @@ public static class ColaborarConDonacionDeVianda
             var unidadEstandar = await _unitOfWork.ViandaEstandarRepository.GetAsync(
                 _unitOfWork.ViandaEstandarRepository.GetQueryable()
                 );
+            
+            if (unidadEstandar == null)
+            {
+                unidadEstandar = new ViandaEstandar
+                {
+                    Largo = 10,
+                    Ancho = 10,
+                    Profundidad = 10
+                };
+                await _unitOfWork.ViandaEstandarRepository.AddAsync(unidadEstandar);
+                await _unitOfWork.SaveChangesAsync();
+            }
 
             var vianda = new Vianda
             {

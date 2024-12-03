@@ -43,12 +43,20 @@ export const authApi = createApi({
                     password
                 }
             }),
-        })
+        }),
+
+        postLogout: builder.mutation<void, void>({
+            query: () => ({
+                url: `auth/logout`,
+                method: "POST",
+            }),
+        }),
     }),
 });
 
 export const {
     usePostLoginValidateMutation,
     usePostRegisterMutation,
-    usePostLoginMutation
+    usePostLoginMutation,
+    usePostLogoutMutation
 } = authApi;
