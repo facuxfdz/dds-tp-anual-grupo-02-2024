@@ -220,7 +220,7 @@ export default function RegisterPage() {
                                                     name={"password"}
                                                     label={"Contraseña"}
                                                     placeholder={"Ingrese su contraseña"}
-                                                    required={true}
+                                                    required={query.get("register") !== "sso"}
                                                     fullWidth
                                                     type="password"
                                                     rules={
