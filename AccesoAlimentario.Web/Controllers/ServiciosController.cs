@@ -27,7 +27,7 @@ public class ServiciosController(ISender sender, ILogger<ServiciosController> lo
         Description =
             "Este endpoint obtiene una lista de colaboradores que cumplen con los requisitos de puntos mínimos y donaciones de viandas en el último mes."
     )]
-    [ProducesResponseType(typeof(List<ColaboradorResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<ColaboradorResponseExterno>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
     public async Task<IResult> Get(
         [FromQuery] ObtenerColaboraderesParaReconocimiento.ObtenerColaboraderesParaReconocimientoCommand command)

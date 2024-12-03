@@ -4,7 +4,7 @@ using AccesoAlimentario.Operations;
 using AccesoAlimentario.Web.Swagger;
 using Microsoft.EntityFrameworkCore;
 using AccesoAlimentario.Web.SecretRetrieve;
-
+using Newtonsoft.Json;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,7 +22,7 @@ builder.Services.AddSwaggerService();
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
 {
     options.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
-    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 });
 
 string connectionString;

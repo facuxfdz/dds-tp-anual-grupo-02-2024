@@ -68,9 +68,9 @@ public static class ObtenerColaboraderesParaReconocimiento
             var response = colaboradoresValidos
                 .OrderBy(c => c.Puntos)
                 .Take(request.CantidadDeColaboradores)
-                .Select(c => new ColaboradorResponse
+                .Select(c => new ColaboradorResponseExterno
                 {
-                    Id = c.Id.ToString(),
+                    Id = Guid.Empty,
                     Nombre = c.Persona.Nombre,
                     Puntos = c.Puntos,
                     DonacionesUltimoMes = c.ContribucionesRealizadas.OfType<DonacionVianda>()

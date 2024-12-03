@@ -1,4 +1,5 @@
 ﻿using AccesoAlimentario.Core.Entities.Roles;
+using AccesoAlimentario.Operations.Dto.Responses.Externos;
 using AccesoAlimentario.Operations.Dto.Responses.Roles;
 using AutoMapper;
 
@@ -11,7 +12,9 @@ public class RolesMapper : Profile
         CreateMap<AreaCobertura, AreaCoberturaResponse>();
         CreateMap<Colaborador, ColaboradorResponse>()
             .ForMember(x => x.Tipo, opt => opt.MapFrom(x => "Colaborador"));
-        
+        CreateMap<Colaborador, ColaboradorResponseExterno>()
+            .ForMember(x => x.Nombre, opt => opt.MapFrom(x => x.Persona.Nombre));
+            
         CreateMap<PersonaVulnerable, PersonaVulnerableResponse>()
             .ForMember(x => x.Tipo, opt => opt.MapFrom(x => "PersonaVulnerable"));
         
