@@ -49,9 +49,9 @@ else
     connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "";
     if (string.IsNullOrEmpty(connectionString))
     {
-        var dbServer = Environment.GetEnvironmentVariable("DB_SERVER") ?? "mysql";
+        var dbServer = Environment.GetEnvironmentVariable("DB_SERVER") ?? "localhost";
         var dbName = Environment.GetEnvironmentVariable("DB_NAME") ?? "AccesoAlimentario";
-        var dbUser = Environment.GetEnvironmentVariable("DB_USER") ?? "root";
+        var dbUser = Environment.GetEnvironmentVariable("DB_USER") ?? "dev";
         var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "YourStrongPassword!123";
         connectionString = $"server={dbServer};" +
                            $"database={dbName};" +
@@ -90,6 +90,7 @@ builder.Services.AddCors(options =>
 });
 builder.Services.AddCoreLayer();
 builder.Services.AddOperationsLayer();
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 

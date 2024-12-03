@@ -19,6 +19,20 @@ import CardContent from "@mui/material/CardContent";
 import MainCard from "@components/Cards/MainCard";
 import {useTheme} from "@mui/material/styles";
 import {useGetHeladerasQuery} from "@redux/services/heladerasApi";
+import {EstadoHeladera} from "@models/enums/estadoHeladera";
+
+function getHeladeraEstado(estado: EstadoHeladera){
+    switch (estado){
+        case EstadoHeladera.Activa:
+            return 'Activa';
+        case EstadoHeladera.Desperfecto:
+            return 'Desperfecto';
+        case EstadoHeladera.FueraServicio:
+            return 'Fuera de Servicio';
+        default:
+            return 'Desconocido';
+    }
+}
 
 export default function HeladerasPage() {
     const theme = useTheme();
@@ -73,7 +87,7 @@ export default function HeladerasPage() {
                                         {index + 1}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">{row.puntoEstrategico.nombre}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.estado}</StyledTableCell>
+                                    <StyledTableCell align="center">{getHeladeraEstado(row.estado)}</StyledTableCell>
                                     <StyledTableCell align="center" sx={{pr: 3}}>
                                         <Stack direction="row" spacing={1} justifyContent="center">
                                             <Button

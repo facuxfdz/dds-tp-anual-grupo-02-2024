@@ -102,7 +102,7 @@ public static class ColaborarConRegistroPersonaVulnerable
             await _unitOfWork.RegistroPersonaVulnerableRepository.AddAsync(colaboracion);
             await _unitOfWork.SaveChangesAsync();
 
-            return Results.Ok(colaboracion);
+            return Results.Ok();
         }
     }
 }
