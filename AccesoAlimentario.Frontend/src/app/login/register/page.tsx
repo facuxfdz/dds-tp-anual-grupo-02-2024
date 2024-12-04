@@ -224,6 +224,9 @@ export default function RegisterPage() {
                                                     rules={{
                                                         required: query.get("register") !== "sso" ? 'La contraseña es obligatoria' : undefined,
                                                         validate: async (value) => {
+                                                            if (query.get("register") === "sso" && (!value || value === "")) {
+                                                                return true;
+                                                            }
                                                             const resp = await postValidarPassword(value).unwrap();
                                                             if (!resp) {
                                                                 return "La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una minúscula, un número y un caracter especial";
@@ -243,21 +246,7 @@ export default function RegisterPage() {
                                                         />
                                                     )}
                                                 />
-                                                {/*<TextFieldElement
-                                                    name={"password"}
-                                                    label={"Contraseña"}
-                                                    placeholder={"Ingrese su contraseña"}
-                                                    required={query.get("register") !== "sso"}
-                                                    fullWidth
-                                                    type="password"
-                                                    rules={
-                                                        {
-                                                            required: "Por favor ingrese su contraseña"
-                                                        }
-                                                    }
-                                                />*/}
                                             </Grid>
-
                                             {
                                                 !query.get("profilePicture") && (
                                                     <Grid size={12} key={"profilePicture"}>
@@ -267,6 +256,7 @@ export default function RegisterPage() {
                                                             render={({field, fieldState}) => (
                                                                 <MuiFileInput
                                                                     {...field}
+                                                                    label="Imagen de perfil"
                                                                     onChange={(newFile) => {
                                                                         handleFileChange(newFile);
                                                                     }}
@@ -282,7 +272,6 @@ export default function RegisterPage() {
                                                     </Grid>
                                                 )
                                             }
-
                                         </Grid>
                                     </CardContent>
                                     <Divider/>
