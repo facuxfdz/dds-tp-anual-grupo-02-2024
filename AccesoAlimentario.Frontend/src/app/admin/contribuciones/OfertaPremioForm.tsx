@@ -95,6 +95,7 @@ export const OfertaPremioForm = () => {
                             onChange={(newFile) => {
                                 handleFileChange(newFile);
                             }}
+                            label="Imagen"
                             placeholder="Seleccione una imagen"
                             inputProps={{accept: "image/*"}}
                             error={!!fieldState.error}

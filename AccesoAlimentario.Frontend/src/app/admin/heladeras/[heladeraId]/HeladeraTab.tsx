@@ -4,13 +4,14 @@ import Grid from "@mui/material/Grid2";
 import {LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
 import {DatePickerElement} from "react-hook-form-mui/date-pickers";
-import {Button} from "@mui/material";
+import {Backdrop, Button, Fade, Modal} from "@mui/material";
 import {FormContainer, SelectElement, TextFieldElement, useForm} from "react-hook-form-mui";
-import {v4 as uuidv4} from "uuid";
 import IconButton from "@mui/material/IconButton";
 import React from "react";
 import {useFieldArray} from "react-hook-form";
 import {useTheme} from "@mui/material/styles";
+import {EstadoHeladera} from "@models/enums/estadoHeladera";
+import SensorModal from "@/app/admin/heladeras/[heladeraId]/SensorModal";
 
 export default function HeladeraTab({
                                         heladera
@@ -36,7 +37,7 @@ export default function HeladeraTab({
             temperaturaMaximaConfig: heladera.temperaturaMaximaConfig,
             sensores: heladera.sensores.map(sensor => {
                 return {
-                    id: sensor.id,
+                    sensorId: sensor.id,
                     tipo: sensor.tipo
                 }
             }),
@@ -45,10 +46,12 @@ export default function HeladeraTab({
             modeloTemperaturaMaxima: heladera.modelo.temperaturaMaxima
         }
     });
+    const [selectedSensorId, setSelectedSensorId] = React.useState<string | null>(null);
+    const [openModal, setOpenModal] = React.useState<boolean>(false);
 
     const {fields: sensores} = useFieldArray({
         name: "sensores",
-        control: formContext.control
+        control: formContext.control,
     });
 
     if (!heladera) {
@@ -247,9 +250,9 @@ export default function HeladeraTab({
                         name={"estado"}
                         label={"Estado"}
                         options={[
-                            {label: "Activa", id: "Activa"},
-                            {label: "Desperfecto", id: "Desperfecto"},
-                            {label: "Fuera de servicio", id: "FueraServicio"}
+                            {label: "Activa", id: EstadoHeladera.Activa},
+                            {label: "Desperfecto", id: EstadoHeladera.Desperfecto},
+                            {label: "Fuera de servicio", id: EstadoHeladera.FueraServicio}
                         ]}
                         required={true}
                         disabled={true}
@@ -348,9 +351,9 @@ export default function HeladeraTab({
                         sensores.map((sensor, index) => {
                             return (
                                 <Grid container spacing={1} alignItems={"center"} mb={2} key={`sensor.${index}`}>
-                                    <Grid size={6} key={`sensoresId${index}`}>
+                                    <Grid size={5} key={`sensoresId`}>
                                         <TextFieldElement
-                                            name={`sensores[${index}].id`}
+                                            name={`sensores.${index}.sensorId`}
                                             label={"ID del sensor"}
                                             placeholder={"Ingrese el ID del sensor (GUID)"}
                                             required={true}
@@ -368,9 +371,9 @@ export default function HeladeraTab({
                                             }}
                                         />
                                     </Grid>
-                                    <Grid size={6} key={"sensoresTipo"}>
+                                    <Grid size={5} key={"sensoresTipo"}>
                                         <SelectElement
-                                            name={`sensores[${index}].tipo`}
+                                            name={`sensores.${index}.tipo`}
                                             label={"Tipo de sensor"}
                                             options={[
                                                 {label: "Temperatura", id: "Temperatura"},
@@ -390,6 +393,18 @@ export default function HeladeraTab({
                                                 },
                                             }}
                                         />
+                                    </Grid>
+                                    <Grid size={2} key={"sensoresVer"}>
+                                        <Button variant="contained" color="primary" fullWidth size={"large"}
+                                                onClick={
+                                                    () => {
+                                                        setSelectedSensorId(sensor.sensorId);
+                                                        setOpenModal(true);
+                                                    }
+                                                }
+                                        >
+                                            Ver
+                                        </Button>
                                     </Grid>
                                 </Grid>
                             )
@@ -465,6 +480,11 @@ export default function HeladeraTab({
                     />
                 </Grid>
             </Grid>
+            <SensorModal
+                sensorId={selectedSensorId}
+                close={() => setOpenModal(false)}
+                open={openModal}
+            />
         </FormContainer>
     );
 }

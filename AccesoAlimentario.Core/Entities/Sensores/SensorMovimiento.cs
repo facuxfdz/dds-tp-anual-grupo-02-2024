@@ -10,7 +10,6 @@ public class SensorMovimiento : Sensor, ISubjectHeladeraMovimiento
     public SensorMovimiento()
     {
     }
-    
     public override void Registrar(DateTime fecha, string movimiento)
     {
         try
@@ -36,6 +35,10 @@ public class SensorMovimiento : Sensor, ISubjectHeladeraMovimiento
     }
     public void Notificar(bool dato, bool error)
     {
+        if (Observadores.Count == 0)
+        {
+            Observadores.Add(Heladera);
+        }
         foreach (var observador in Observadores)
         {
             observador.CambioSensorMovimiento(RegistrosMovimiento.Last().Movimiento, false);

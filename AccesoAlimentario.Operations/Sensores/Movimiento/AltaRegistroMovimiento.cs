@@ -1,4 +1,5 @@
 ﻿using AccesoAlimentario.Core.DAL;
+using AccesoAlimentario.Core.Entities.Sensores;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
@@ -42,13 +43,16 @@ public static class AltaRegistroMovimiento
         public async Task<IResult> Handle(AltaRegistroMovimientoCommand request, CancellationToken cancellationToken)
         {
             var sensor = await _unitOfWork.SensorRepository.GetByIdAsync(request.SensorId);
-            if (sensor == null)
+            if (sensor == null || sensor is not SensorMovimiento sensorMovimiento)
             {
                 return Results.NotFound("Sensor no encontrado");
             }
             
-            sensor.Registrar(request.Fecha, request.Movimiento);
-
+            sensorMovimiento.Registrar(request.Fecha, request.Movimiento);
+            var registro = sensorMovimiento.RegistrosMovimiento.Last();
+            
+            await _unitOfWork.RegistroMovimientoRepository.AddAsync(registro);
+            await _unitOfWork.SensorRepository.UpdateAsync(sensorMovimiento);
             await _unitOfWork.SaveChangesAsync();
             
             return Results.Ok();

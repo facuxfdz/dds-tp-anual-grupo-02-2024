@@ -19,6 +19,8 @@ public class Heladera : IObserverSensorMovimiento, IObserverSensorTemperatura, I
     public virtual List<Incidente> Incidentes { get; set; } = [];
     public virtual ModeloHeladera Modelo { get; set; } = null!;
     
+    public virtual List<Suscripcion> Suscripciones { get; set; } = [];
+    
     private List<IObserverHeladera> Observers { get; set; } = [];
 
     public Heladera()
@@ -91,6 +93,10 @@ public class Heladera : IObserverSensorMovimiento, IObserverSensorTemperatura, I
     
     public void Notificar(CambioHeladeraTipo cambio)
     {
+        if (Observers.Count == 0)
+        {
+            Observers.AddRange(Suscripciones);
+        }
         foreach (var observer in Observers)
         {
             observer.CambioHeladera(this, cambio);

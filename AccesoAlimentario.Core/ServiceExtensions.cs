@@ -21,6 +21,6 @@ public static class ServiceExtensions
 {
     public static void AddCoreLayer(this IServiceCollection services)
     {
-        services.AddTransient<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 }

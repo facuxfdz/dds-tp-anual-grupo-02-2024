@@ -58,12 +58,16 @@ public static class RegistrarUsuario
         {
             _logger.LogInformation("Registrar usuario");
 
+            var medioContacto = request.MediosDeContacto.Count > 0
+                ? request.MediosDeContacto
+                : [new EmailRequest { Direccion = request.Email, Preferida = true }];
+            
             var altaColaboradorCommand = new AltaColaborador.AltaColaboradorCommand
             {
                 Persona = request.Persona,
                 Direccion = request.Direccion,
                 Documento = request.Documento,
-                MediosDeContacto = request.MediosDeContacto,
+                MediosDeContacto = medioContacto,
                 ContribucionesPreferidas = request.ContribucionesPreferidas,
                 Tarjeta = request.Tarjeta
             };

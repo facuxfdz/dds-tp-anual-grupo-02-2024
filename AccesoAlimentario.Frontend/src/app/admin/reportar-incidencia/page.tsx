@@ -5,55 +5,55 @@ import {useTheme} from "@mui/material/styles";
 import {Box, Button, CardActions, Divider, Stack} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import CardContent from "@mui/material/CardContent";
-import {Form, FormFieldType, FormFieldValue, IFormField} from "@components/Forms/Form";
-import {FormContainer, useForm} from "react-hook-form-mui";
-
-const fields: IFormField[] = [
-    {
-        id: "heladera",
-        label: "Heladera",
-        type: FormFieldType.SELECT,
-        width: 12,
-        value: "",
-        placeholder: "Seleccione una opción",
-        isRequired: true,
-        regex: "",
-        errorMessage: "Por favor seleccione una opción",
-        options: ["Heladera 1", "Heladera 2", "Heladera 3"]
-    },
-    {
-        id: "descripcion",
-        label: "Descripción",
-        type: FormFieldType.TEXT,
-        width: 12,
-        value: "",
-        placeholder: "Ingrese una descripción",
-        isRequired: false,
-        regex: "",
-        errorMessage: "Por favor ingrese una descripción",
-        options: [],
-        icon: "fa-duotone fa-solid fa-subtitles"
-    },
-    {
-        id: "imagen",
-        label: "Imagen",
-        type: FormFieldType.IMAGE,
-        width: 12,
-        value: "",
-        placeholder: "Seleccione una imagen",
-        isRequired: false,
-        regex: "",
-        errorMessage: "Por favor seleccione una imagen",
-        options: [],
-        icon: "fa-duotone fa-solid fa-image"
-    }
-]
+import {FormFieldValue} from "@components/Forms/Form";
+import {Controller, FormContainer, SelectElement, TextFieldElement, useForm} from "react-hook-form-mui";
+import {useGetHeladerasQuery} from "@redux/services/heladerasApi";
+import Grid from "@mui/material/Grid2";
+import {MuiFileInput} from "mui-file-input";
+import {usePostReportarFallaTecnicaMutation} from "@redux/services/colaboradoresApi";
+import {IReportarFallaTecnicaRequest} from "@models/requests/colaboradores/iReportarFallaTecnicaRequest";
+import {useAppSelector} from "@redux/hook";
+import {useNotification} from "@components/Notifications/NotificationContext";
 
 export default function ReportarIncidenciaPage() {
     const theme = useTheme();
+    const user = useAppSelector(state => state.user);
     const formContext = useForm();
+    const {data: heladeras} = useGetHeladerasQuery();
+    const [
+        postReportarFallaTecnica,
+        {isLoading: isSaving}
+    ] = usePostReportarFallaTecnicaMutation();
+    const {addNotification} = useNotification();
+
+    const handleFileChange = (newFile: File | null) => {
+        if (!newFile) {
+            formContext.setValue("imagen", null);
+            return;
+        }
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            formContext.setValue("imagen", reader.result);
+        };
+        reader.readAsDataURL(newFile as Blob);
+    };
+
     const handleSave = async (data: FormFieldValue) => {
-        console.log(data);
+        const request: IReportarFallaTecnicaRequest = {
+            fecha: new Date().toISOString(),
+            reporteroId: user.colaboradorId,
+            heladeraId: data.heladera,
+            descripcion: data.descripcion,
+            foto: data.imagen
+        };
+
+        try {
+            await postReportarFallaTecnica(request).unwrap();
+            addNotification("Incidencia reportada correctamente", "success");
+            formContext.reset();
+        } catch {
+            addNotification("Error al reportar la incidencia", "error");
+        }
     };
 
     return (
@@ -81,10 +81,76 @@ export default function ReportarIncidenciaPage() {
                                 Reporta una incidencia en el sistema, completando el formulario
                             </Typography>
                         </Box>
+                        <Stack direction="row" spacing={1} justifyContent="center">
+                            <Button color="error" variant="contained" onClick={() => {
+                                formContext.reset();
+                            }}>
+                                Reiniciar
+                            </Button>
+                        </Stack>
                     </Stack>
                 </CardActions>
                 <CardContent>
-                    <Form fields={fields}/>
+                    <Grid container spacing={3} alignItems="center">
+                        <Grid size={12} key={"heladera"}>
+                            <SelectElement
+                                name={"heladera"}
+                                label={"Heladera"}
+                                options={
+                                    (heladeras ?? []).map(heladera => {
+                                        return {
+                                            label: heladera.puntoEstrategico.nombre,
+                                            id: heladera.id
+                                        }
+                                    })
+                                }
+                                required={true}
+                                fullWidth
+                                rules={
+                                    {
+                                        required: "Por favor seleccione una opción"
+                                    }
+                                }
+                            />
+                        </Grid>
+                        <Grid size={12} key={"descripcion"}>
+                            <TextFieldElement
+                                name={"descripcion"}
+                                label={"Descripción"}
+                                placeholder={"Descripción"}
+                                fullWidth
+                                rules={
+                                    {
+                                        required: "Por favor ingrese una descripción"
+                                    }
+                                }
+                            />
+                        </Grid>
+                        <Grid size={12} key={"imagen"}>
+                            <Controller
+                                name="imagen"
+                                render={({field, fieldState}) => (
+                                    <MuiFileInput
+                                        {...field}
+                                        onChange={(newFile) => {
+                                            handleFileChange(newFile);
+                                        }}
+                                        label="Imagen"
+                                        placeholder="Seleccione una imagen"
+                                        inputProps={{accept: "image/*"}}
+                                        error={!!fieldState.error}
+                                        helperText={fieldState.error?.message}
+                                        getInputText={(value) => value ? 'Imagen seleccionada' : 'Seleccione una imagen'}
+                                        fullWidth
+                                        clearIconButtonProps={{
+                                            title: "Remove",
+                                            children: <i className="fa-sharp fa-solid fa-xmark"/>
+                                        }}
+                                    />
+                                )}
+                            />
+                        </Grid>
+                    </Grid>
                 </CardContent>
                 <Divider/>
                 <CardActions sx={{
@@ -92,7 +158,7 @@ export default function ReportarIncidenciaPage() {
                 }}>
                     <Stack direction="row" spacing={1} justifyContent="center"
                            sx={{width: 1, px: 1.5, py: 0.75}}>
-                        <Button color="primary" variant="contained" type={"submit"} disabled={false}>
+                        <Button color="primary" variant="contained" type={"submit"} disabled={isSaving}>
                             Reportar
                         </Button>
                     </Stack>
