@@ -1,5 +1,9 @@
-﻿namespace AccesoAlimentario.Operations.Dto.Responses.Incidentes;
+﻿using System.Text.Json.Serialization;
 
+namespace AccesoAlimentario.Operations.Dto.Responses.Incidentes;
+
+[JsonDerivedType(typeof(FallaTecnicaResponse))]
+[JsonDerivedType(typeof(AlertaResponse))]
 public abstract class IncidenteResponse
 {
     public Guid Id { get; set; } = Guid.Empty;

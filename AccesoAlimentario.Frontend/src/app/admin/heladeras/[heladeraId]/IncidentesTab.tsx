@@ -19,7 +19,7 @@ export default function IncidentesTab({
                         <StyledTableCell align="center">Fecha</StyledTableCell>
                         <StyledTableCell align="center">Tipo</StyledTableCell>
                         <StyledTableCell align="center">Visitas Tecnicas</StyledTableCell>
-                        <StyledTableCell align="center">Resulto</StyledTableCell>
+                        <StyledTableCell align="center">Resuelto</StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>

@@ -61,6 +61,7 @@ export const AdministracionHeladeraForm = () => {
                             label={"Fecha de la donación"}
                             name={"fechaContribucion"}
                             required={true}
+                            defaultValue={new Date()}
                             rules={
                                 {
                                     required: "Por favor ingrese una fecha"

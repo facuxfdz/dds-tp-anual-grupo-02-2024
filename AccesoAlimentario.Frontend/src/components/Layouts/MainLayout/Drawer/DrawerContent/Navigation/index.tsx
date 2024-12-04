@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 import NavGroup from './NavGroup';
 import {useAppSelector} from "@redux/hook";
 import {ThemeChanger} from "@components/themes/themeButton/themeButton";
-import {GetMenuItems} from "@utils/getMenuItems";
+import {GetMenuItems, IMenuItem} from "@utils/getMenuItems";
 
 // ==============================|| DRAWER CONTENT - NAVIGATION ||============================== //
 

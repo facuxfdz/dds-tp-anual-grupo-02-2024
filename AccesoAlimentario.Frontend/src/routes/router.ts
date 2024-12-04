@@ -50,6 +50,10 @@ export const reportesRoute = () => {
     return '/admin/reportes';
 }
 
+export const incidentesRoute = () => {
+    return '/admin/incidentes';
+}
+
 export const tecnicoRegistroRoute = () => {
     return '/admin/tecnicos/registro';
 }

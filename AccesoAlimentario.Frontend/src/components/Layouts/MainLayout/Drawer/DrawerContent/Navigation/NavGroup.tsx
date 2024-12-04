@@ -13,8 +13,22 @@ import {IMenuItem} from "@utils/getMenuItems";
 export default function NavGroup({item}: { item: IMenuItem }) {
     const theme = useTheme();
     const drawerOpen = useAppSelector((state) => state.theme.drawerOpen);
+    const user = useAppSelector((state) => state.user);
+
+    const filterMenuItem = (item : IMenuItem) => {
+        if (item.tecnicos && user.tecnicoId != "") {
+            return true;
+        }
+        if (item.colaboradores && user.colaboradorId != "") {
+            return true;
+        }
+        return false;
+    }
 
     const navCollapse = item.children?.map((menuItem: IMenuItem) => {
+        if (!filterMenuItem(menuItem)) {
+            return null;
+        }
         switch (menuItem.type) {
             case 'collapse':
                 return (
@@ -27,6 +41,7 @@ export default function NavGroup({item}: { item: IMenuItem }) {
             case 'item':
                 return <NavItem key={menuItem.id} item={menuItem} level={1} />;
             default:
+                return null;
         }
     });
 

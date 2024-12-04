@@ -3,7 +3,7 @@ import {
     colaboradoresImportarRoute,
     colaboradoresRegistroRoute,
     contribucionesRoute,
-    heladerasRoute,
+    heladerasRoute, incidentesRoute,
     inicioRoute, perfilRoute,
     personaVulnerableRegistroRoute,
     premiosRoute, reportarIncidenciaRoute, reportesRoute, suscripcionesRoute, tecnicoRegistroRoute
@@ -16,6 +16,8 @@ const items : IMenuItem[] = [
         type: "item",
         url: inicioRoute(),
         icon: "fa-duotone fa-solid fa-house",
+        tecnicos: true,
+        colaboradores: true,
         disabled: false
     },
     {
@@ -24,6 +26,8 @@ const items : IMenuItem[] = [
         type: "item",
         url: premiosRoute(),
         icon: "fa-duotone fa-solid fa-gift",
+        tecnicos: false,
+        colaboradores: true,
         disabled: false
     },
     {
@@ -32,6 +36,8 @@ const items : IMenuItem[] = [
         type: "item",
         url: contribucionesRoute(),
         icon: "fa-duotone fa-solid fa-hand-holding-usd",
+        tecnicos: false,
+        colaboradores: true,
         disabled: false
     },
     {
@@ -39,6 +45,8 @@ const items : IMenuItem[] = [
         title: "Personas vulnerables",
         type: "collapse",
         icon: "fa-duotone fa-solid fa-user-injured",
+        tecnicos: false,
+        colaboradores: true,
         children: [
             {
                 id: "personas-vulnerables-registro",
@@ -46,6 +54,8 @@ const items : IMenuItem[] = [
                 type: "item",
                 url: personaVulnerableRegistroRoute(),
                 icon: "fa-duotone fa-solid fa-user-plus",
+                tecnicos: false,
+                colaboradores: true,
                 disabled: false
             }
         ]
@@ -56,6 +66,8 @@ const items : IMenuItem[] = [
         type: "item",
         url: heladerasRoute(),
         icon: "fa-duotone fa-solid fa-ice-cream",
+        tecnicos: true,
+        colaboradores: true,
         disabled: false
     },
     {
@@ -64,6 +76,8 @@ const items : IMenuItem[] = [
         type: "item",
         url: suscripcionesRoute(),
         icon: "fa-duotone fa-solid fa-envelope",
+        tecnicos: true,
+        colaboradores: true,
         disabled: false
     },
     {
@@ -72,6 +86,8 @@ const items : IMenuItem[] = [
         type: "item",
         url: accesosRoute(),
         icon: "fa-sharp-duotone fa-light fa-key",
+        tecnicos: false,
+        colaboradores: true,
         disabled: false
     },
     {
@@ -79,6 +95,8 @@ const items : IMenuItem[] = [
         title: "Colaboradores",
         type: "collapse",
         icon: "fa-duotone fa-solid fa-users",
+        tecnicos: false,
+        colaboradores: true,
         children: [
             {
                 id: "colaboradores-registro",
@@ -86,6 +104,8 @@ const items : IMenuItem[] = [
                 type: "item",
                 url: colaboradoresRegistroRoute(),
                 icon: "fa-duotone fa-solid fa-user-plus",
+                tecnicos: false,
+                colaboradores: true,
                 disabled: false
             },
             {
@@ -94,6 +114,8 @@ const items : IMenuItem[] = [
                 type: "item",
                 url: colaboradoresImportarRoute(),
                 icon: "fa-duotone fa-solid fa-file-import",
+                tecnicos: false,
+                colaboradores: true,
                 disabled: false
             }
         ]
@@ -104,6 +126,8 @@ const items : IMenuItem[] = [
         type: "item",
         url: reportarIncidenciaRoute(),
         icon: "fa-duotone fa-solid fa-exclamation-triangle",
+        tecnicos: true,
+        colaboradores: true,
         disabled: false
     },
     {
@@ -112,6 +136,18 @@ const items : IMenuItem[] = [
         type: "item",
         url: reportesRoute(),
         icon: "fa-duotone fa-solid fa-chart-bar",
+        tecnicos: true,
+        colaboradores: true,
+        disabled: false
+    },
+    {
+        id: "incidentes",
+        title: "Incidentes",
+        type: "item",
+        url: incidentesRoute(),
+        icon: "fa-duotone fa-solid fa-exclamation-circle",
+        tecnicos: true,
+        colaboradores: false,
         disabled: false
     },
     {
@@ -119,6 +155,8 @@ const items : IMenuItem[] = [
         title: "Tecnicos",
         type: "collapse",
         icon: "fa-duotone fa-solid fa-user-cog",
+        tecnicos: true,
+        colaboradores: false,
         children: [
             {
                 id: "tecnicos-registro",
@@ -126,6 +164,8 @@ const items : IMenuItem[] = [
                 type: "item",
                 url: tecnicoRegistroRoute(),
                 icon: "fa-duotone fa-solid fa-user-plus",
+                tecnicos: true,
+                colaboradores: false,
                 disabled: false
             }
         ]
@@ -136,6 +176,8 @@ const items : IMenuItem[] = [
         type: "item",
         url: perfilRoute(),
         icon: "fa-duotone fa-solid fa-user",
+        tecnicos: true,
+        colaboradores: true,
         disabled: false
     }
 ]
@@ -155,6 +197,8 @@ export interface IMenuItem {
         size?: 'small' | 'medium',
         label?: string,
     },
+    tecnicos: boolean,
+    colaboradores: boolean,
 }
 
 export function GetMenuItems() {
@@ -162,7 +206,9 @@ export function GetMenuItems() {
         id: "menu-id",
         title: "Menu",
         type: "group",
-        children: items
+        children: items,
+        tecnicos: true,
+        colaboradores: true
     }
 
     return [menuItem];

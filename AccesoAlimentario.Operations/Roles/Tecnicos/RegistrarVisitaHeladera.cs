@@ -12,6 +12,7 @@ public static class RegistrarVisitaHeladera
     public class RegistrarVisitaHeladeraCommand : IRequest<IResult>
     {
         public Guid IncidenteId { get; set; } = Guid.Empty;
+        public Guid TecnicoId { get; set; } = Guid.Empty;
         public string Foto { get; set; } = string.Empty;
         public DateTime Fecha { get; set; } = DateTime.UtcNow;
         public string Comentario { get; set; } = string.Empty;
@@ -59,11 +60,18 @@ public static class RegistrarVisitaHeladera
                 return Results.NotFound();
             }
             
+            var tecnico = await _unitOfWork.TecnicoRepository.GetByIdAsync(request.TecnicoId);
+            if (tecnico == null)
+            {
+                return Results.NotFound();
+            }
+            
             var visita = new VisitaTecnica
             {
                 Foto = request.Foto,
                 Fecha = request.Fecha,
-                Comentario = request.Comentario
+                Comentario = request.Comentario,
+                Tecnico = tecnico
             };
             
             incidente.VisitasTecnicas.Add(visita);

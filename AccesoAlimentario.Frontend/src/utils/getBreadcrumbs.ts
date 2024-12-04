@@ -5,7 +5,7 @@ import {
     perfilRoute, personaVulnerableRegistroRoute, premiosRoute,
     reportarIncidenciaRoute,
     reportesRoute,
-    suscripcionesRoute, accesosRoute, tecnicoRegistroRoute
+    suscripcionesRoute, accesosRoute, tecnicoRegistroRoute, incidentesRoute
 } from "@routes/router";
 
 export interface IBreadcrumbItem {
@@ -98,6 +98,12 @@ const items : IBreadcrumbItem[] = [
         id: "reportes",
         title: "Reportes",
         url: reportesRoute(),
+        father: "inicio"
+    },
+    {
+        id: "incidentes",
+        title: "Incidentes",
+        url: incidentesRoute(),
         father: "inicio"
     },
     {

@@ -2,6 +2,7 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {config} from "@config/config";
 import {IHeladeraResponse} from "@models/responses/heladeras/iHeladeraResponse";
 import {ISensorResponse} from "@models/responses/sensores/iSensorResponse";
+import {IRegistroVisitaHeladeraRequest} from "@models/requests/tecnicos/iRegistroVisitaHeladeraRequest";
 
 export const heladerasApi = createApi({
     reducerPath: "HeladerasApi",
@@ -36,6 +37,17 @@ export const heladerasApi = createApi({
             }),
             providesTags: ["Sensor"]
         }),
+        postVisitaHeladera: builder.mutation<
+            void,
+            IRegistroVisitaHeladeraRequest
+        >({
+            query: (body) => ({
+                url: `tecnicos/registrar/visita`,
+                method: "POST",
+                body
+            }),
+            invalidatesTags: ["Heladeras"]
+        })
     }),
 });
 
@@ -45,5 +57,6 @@ export const {
     useLazyGetHeladeraQuery,
     useLazyGetHeladerasQuery,
     useGetSensorQuery,
-    useLazyGetSensorQuery
+    useLazyGetSensorQuery,
+    usePostVisitaHeladeraMutation
 } = heladerasApi;

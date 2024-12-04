@@ -1,5 +1,9 @@
-﻿using AccesoAlimentario.Core.DAL;
+﻿using System.Text.Json;
+using AccesoAlimentario.Core.DAL;
+using AccesoAlimentario.Core.Entities.Heladeras;
+using AccesoAlimentario.Core.Entities.Incidentes;
 using AccesoAlimentario.Operations.Dto.Responses.Heladeras;
+using AccesoAlimentario.Operations.Dto.Responses.Incidentes;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -30,8 +34,9 @@ public static class ObtenerHeladeras
         {
             _logger.LogInformation("Obtener Heladeras");
             var query = _unitOfWork.HeladeraRepository.GetQueryable();
-            var heladeras = await _unitOfWork.HeladeraRepository.GetCollectionAsync(query);
-            var response = heladeras.Select(h => _mapper.Map(h, h.GetType(), typeof(HeladeraResponse)));
+            var heladeras = (await _unitOfWork.HeladeraRepository.GetCollectionAsync(query)).ToList();
+            var response = heladeras.Select<Heladera, HeladeraResponse>(h => (HeladeraResponse)_mapper.Map(h, h.GetType(), typeof(HeladeraResponse)));
+            
             return Results.Ok(response);
         }
     }

@@ -28,6 +28,7 @@ export const DonacionViandasForm = () => {
                     <DatePickerElement
                         label={"Fecha de la donación"}
                         name={"fechaContribucion"}
+                        defaultValue={new Date()}
                         required={true}
                         rules={
                             {
