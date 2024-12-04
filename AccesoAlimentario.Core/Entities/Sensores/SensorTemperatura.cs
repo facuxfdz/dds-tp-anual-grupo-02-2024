@@ -36,6 +36,10 @@ public class SensorTemperatura : Sensor, ISubjectHeladeraTemperatura
 
     public void Notificar(float dato, bool error)
     {
+        if (Observadores.Count == 0)
+        {
+            Observadores.Add(Heladera);
+        }
         foreach (var observador in Observadores)
         {
             observador.CambioSensorTemperatura(dato, error);

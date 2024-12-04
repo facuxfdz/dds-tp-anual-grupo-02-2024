@@ -27,5 +27,8 @@ public class SensoresMapper : Profile
         CreateMap<Sensor, SensorResponse>()
             .Include<SensorTemperatura, SensorTemperaturaResponse>()
             .Include<SensorMovimiento, SensorMovimientoResponse>();
+
+        CreateMap<RegistroMovimiento, RegistroTemperaturaResponse>();
+        CreateMap<RegistroTemperatura, RegistroTemperaturaResponse>();
     }
 }

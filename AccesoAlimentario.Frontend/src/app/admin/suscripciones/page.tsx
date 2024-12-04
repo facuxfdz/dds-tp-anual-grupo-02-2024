@@ -119,15 +119,6 @@ export default function SuscripcionesPage() {
                                                 <Stack direction="row" spacing={1} justifyContent="center">
                                                     <Button
                                                         variant="contained"
-                                                        color="primary"
-                                                        sx={{minWidth: '60px'}}
-                                                        size="small"
-                                                        disabled={true}
-                                                    >
-                                                        Ver Detalles
-                                                    </Button>
-                                                    <Button
-                                                        variant="contained"
                                                         color="error"
                                                         size="small"
                                                         sx={{minWidth: '60px'}}

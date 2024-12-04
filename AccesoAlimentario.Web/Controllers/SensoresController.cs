@@ -1,4 +1,5 @@
-﻿using AccesoAlimentario.Operations.Sensores.Movimiento;
+﻿using AccesoAlimentario.Operations.Sensores;
+using AccesoAlimentario.Operations.Sensores.Movimiento;
 using AccesoAlimentario.Operations.Sensores.Temperatura;
 using AccesoAlimentario.Web.Constants;
 using MediatR;
@@ -37,6 +38,20 @@ public class SensoresController(ISender sender, ILogger<SensoresController> logg
         catch (Exception e)
         {
             logger.LogError(e, "Error al dar de alta un registro de temperatura");
+            return Results.StatusCode(500);
+        }
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IResult> Get(Guid id)
+    {
+        try
+        {
+            return await sender.Send(new ObtenerSensor.ObtenerSensorCommand { SensorId = id });
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Error al obtener un sensor");
             return Results.StatusCode(500);
         }
     }

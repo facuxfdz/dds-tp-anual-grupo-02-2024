@@ -16,7 +16,7 @@ import {premiosApi} from "@redux/services/premiosApi";
 import {authApi} from "@redux/services/authApi";
 
 const persistConfig = {
-    key: 'root',
+    key: 'accesoAlimentario',
     storage: storageEngine,
     whitelist: ['customization', 'theme', 'user'],
     timeout: 1000,
