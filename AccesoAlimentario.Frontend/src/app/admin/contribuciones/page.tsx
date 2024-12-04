@@ -311,23 +311,23 @@ export default function ContribucionesPage() {
                                     >
                                         {
                                             user.personaTipo === "Juridica" &&
-                                                [
-                                                    {value: "DonacionMonetaria", label: "Donación Monetaria"},
-                                                    {value: "AdministracionHeladera", label: "Administración de Heladera"},
-                                                    {value: "OfertaPremio", label: "Oferta de Premio"}
-                                                ].map((item) =>
-                                                    <MenuItem value={item.value} key={item.value}>{item.label}</MenuItem>
-                                                )
+                                            [
+                                                {value: "DonacionMonetaria", label: "Donación Monetaria"},
+                                                {value: "AdministracionHeladera", label: "Administración de Heladera"},
+                                                {value: "OfertaPremio", label: "Oferta de Premio"}
+                                            ].map((item) =>
+                                                <MenuItem value={item.value} key={item.value}>{item.label}</MenuItem>
+                                            )
                                         }
                                         {
                                             user.personaTipo === "Humana" &&
-                                                [
-                                                    {value: "DonacionMonetaria", label: "Donación Monetaria"},
-                                                    {value: "DonacionVianda", label: "Donación de Viandas"},
-                                                    {value: "DistribucionViandas", label: "Distribución de Viandas"}
-                                                ].map((item) =>
-                                                    <MenuItem value={item.value} key={item.value}>{item.label}</MenuItem>
-                                                )
+                                            [
+                                                {value: "DonacionMonetaria", label: "Donación Monetaria"},
+                                                {value: "DonacionVianda", label: "Donación de Viandas"},
+                                                {value: "DistribucionViandas", label: "Distribución de Viandas"}
+                                            ].map((item) =>
+                                                <MenuItem value={item.value} key={item.value}>{item.label}</MenuItem>
+                                            )
                                         }
                                     </Select>
                                     {
