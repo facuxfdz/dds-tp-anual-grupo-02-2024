@@ -1,33 +1,73 @@
 ﻿import os
 import pika
 import numpy as np
+import argparse
+import time
+from datetime import datetime
 
-# RabbitMQ connection
-connection = pika.BlockingConnection(pika.ConnectionParameters(host="localhost"))
-channel = connection.channel()
-channel.queue_declare(queue="temperatura", durable=False)
+# Parse command-line arguments
+def parse_args():
+    parser = argparse.ArgumentParser(description="RabbitMQ Producer for Sensor Data")
+    parser.add_argument('--host', type=str, default='localhost', help="RabbitMQ server host")
+    parser.add_argument('--duration', type=int, required=True, help="Duration to send messages (in seconds)")
+    parser.add_argument('--sensor', action='append', required=True, help="Sensor id and queue name, in the format <id>:<queue_name>")
+    parser.add_argument('--mean', type=float, default=25.0, help="Mean temperature value (default is 25)")
+    return parser.parse_args()
 
-# Environment variables
-mean_temperature = float(os.getenv("MEAN_TEMPERATURE", "25.0"))  # Default mean
-sample_size = int(os.getenv("SAMPLE_SIZE", "100"))
-
-# Generate right-skewed Gaussian data
+# Function to generate right-skewed log-normal data
 def generate_temperatures(mean, size):
-    normal_data = np.random.normal(loc=mean, scale=5, size=size)
-    right_skewed_data = np.exp(normal_data / 10)  # Add right-skew
-    return right_skewed_data
+    # Log-normal distribution parameters (mean and sigma)
+    # We will approximate the mean of a log-normal distribution by the formula:
+    # mean = exp(mu + sigma^2 / 2), so we solve for mu and sigma.
+    sigma = 0.02  # Set a reasonable standard deviation to get skewed values
+    mu = np.log(mean) - (sigma ** 2) / 2
+    
+    # Generate log-normal data
+    log_normal_data = np.random.lognormal(mu, sigma, size)
+    
+    return log_normal_data
 
-# Send messages
-temperatures = generate_temperatures(mean_temperature, sample_size)
-messages = [{"SensorId": "f1f60edf-b97b-4190-a11a-e330dcbfc449", "Fecha": "2024-12-03T12:00:00Z", "Temperatura": f"{temp:.2f}"} for temp in temperatures]
+# Main function to send messages
+def main():
+    # Parse arguments
+    args = parse_args()
+    
+    # Environment variables
+    sample_size = int(os.getenv("SAMPLE_SIZE", "100"))  # Default sample size
 
-for message in messages:
-    channel.basic_publish(
-        exchange="",
-        routing_key="temperatura",
-        body=str(message),
-        properties=pika.BasicProperties(delivery_mode=2)  # Persistent message
-    )
-    print(f"Sent: {message}")
+    # Establish RabbitMQ connection
+    connection = pika.BlockingConnection(pika.ConnectionParameters(host=args.host))
+    channel = connection.channel()
 
-connection.close()
+    # Create a dictionary for sensor-queue mappings
+    sensor_queues = {}
+    for sensor in args.sensor:
+        sensor_id, queue_name = sensor.split(":")
+        sensor_queues[sensor_id] = queue_name
+        # Declare the queue for each sensor
+        channel.queue_declare(queue=queue_name, durable=False)
+
+    # Generate temperatures and send them for the given duration
+    end_time = time.time() + args.duration
+    while time.time() < end_time:
+        for sensor_id, queue_name in sensor_queues.items():
+            temperatures = generate_temperatures(args.mean, sample_size)
+            messages = [{"SensorId": sensor_id, "Fecha": datetime.utcnow().isoformat(), "Temperatura": f"{temp:.2f}"} for temp in temperatures]
+            
+            for message in messages:
+                channel.basic_publish(
+                    exchange="",
+                    routing_key=queue_name,
+                    body=str(message),
+                    properties=pika.BasicProperties(delivery_mode=2)  # Persistent message
+                )
+                print(f"Sent: {message}")
+        
+        # Sleep for a short period to avoid too rapid message sending
+        time.sleep(1)
+
+    # Close connection after the duration ends
+    connection.close()
+
+if __name__ == "__main__":
+    main()
