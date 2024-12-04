@@ -15,36 +15,55 @@ namespace AccesoAlimentario.Operations.Reportes
             _scopeFactory = scopeFactory;
         }
 
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             // Get current time
             var now = DateTime.Now;
 
             // Calculate next Monday
-            var daysUntilNextMonday = (7 - (int)now.DayOfWeek) + 1;
-            Console.WriteLine($"Days until next Monday: {daysUntilNextMonday}");
-            var nextMonday = now.Date.AddDays(daysUntilNextMonday).AddHours(0); // Midnight on Monday
+            var daysUntilNextSunday = (7 - (int)now.DayOfWeek) % 7;
+            Console.WriteLine($"Days until next Sunday: {daysUntilNextSunday}");
+            var nextSunday = now.Date.AddDays(daysUntilNextSunday).AddHours(0); // Midnight on Sunday
 
             // Calculate delay
-            var timeUntilNextRun = nextMonday - now;
+            var timeUntilNextRun = nextSunday - now;
 
             // Validate the delay
             if (timeUntilNextRun < TimeSpan.Zero)
             {
                 // Log additional details for debugging
                 Console.WriteLine($"Now: {now}");
-                Console.WriteLine($"Next Monday: {nextMonday}");
+                Console.WriteLine($"Next Monday: {nextSunday}");
                 throw new InvalidOperationException("Calculated delay is negative. Check the logic.");
             }
+            
+            var firstRun = true;
+            
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                try
+                {
+                    await RunTask();
+                    if (firstRun)
+                    {
+                        firstRun = false;
+                        await Task.Delay(timeUntilNextRun, stoppingToken);
+                        continue;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"An error occurred while running the task: {ex.Message}");
+                }
 
-            // Set up the timer to execute weekly
-            _timer = new Timer(RunTask, null, timeUntilNextRun, TimeSpan.FromDays(7));
-            return Task.CompletedTask;
+                // Wait for the next run
+                await Task.Delay(TimeSpan.FromDays(7), stoppingToken);
+            }
         }
 
 
 
-        private async void RunTask(object state)
+        private async Task RunTask()
         {
             using var scope = _scopeFactory.CreateScope();
             var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
@@ -55,6 +74,16 @@ namespace AccesoAlimentario.Operations.Reportes
             var endOfLastWeek = today.AddDays(-daysSinceLastSunday);
             var startOfLastWeek = endOfLastWeek.AddDays(-6);
 
+            var reporteQuery = unitOfWork.ReporteRepository.GetQueryable();
+            reporteQuery = reporteQuery.Where(r => r.FechaExpiracion < today);
+            var reportes = await unitOfWork.ReporteRepository.GetCollectionAsync(reporteQuery);
+            
+            if (reportes.Any())
+            {
+                Console.WriteLine("Reportes ya generados para la semana pasada");
+                return;
+            }
+            
             List<IReporteBuilder> conceptos =
             [
                 new ReporteBuilderHeladeraFallas(unitOfWork),
@@ -69,6 +98,7 @@ namespace AccesoAlimentario.Operations.Reportes
             }
             
             await unitOfWork.SaveChangesAsync();
+            Console.WriteLine("Reportes generados para la semana pasada");
         }
 
         public override Task StopAsync(CancellationToken stoppingToken)

@@ -1,5 +1,7 @@
 import {config} from "@config/config";
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
+import {IReporteResponse} from "@models/responses/reportes/iReporteResponse";
+import {TipoReporte} from "@models/enums/tipoReporte";
 
 export const reportesApi = createApi({
     reducerPath: "ReportesApi",
@@ -7,11 +9,11 @@ export const reportesApi = createApi({
     tagTypes: ["Reporte"],
     endpoints: (builder) => ({
         getReporte: builder.query<
-            void,
-            { reporteId: string }
+            IReporteResponse,
+            { tipoReporte: TipoReporte }
         >({
-            query: ({reporteId}) => ({
-                url: `reportes/${reporteId}`,
+            query: ({tipoReporte}) => ({
+                url: `reportes/${tipoReporte}`,
             }),
             providesTags: ["Reporte"]
         })

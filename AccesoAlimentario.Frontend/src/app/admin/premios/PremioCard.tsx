@@ -57,6 +57,7 @@ export const PremioCard = ({
                 return "Otros";
         }
     }
+
     return (
         <Grid size={{
             xs: 12,

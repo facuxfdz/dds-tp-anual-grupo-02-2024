@@ -7,8 +7,8 @@ import {useLazyGetPremiosQuery} from "@redux/services/contribucionesApi";
 import {TipoRubro} from "@models/enums/tipoRubro";
 
 export default function PremiosPage() {
-    const [rubro, setRubro] = useState<TipoRubro | string>("");
-    const [puntosNecesarios, setPuntosNecesarios] = useState<number | null>(null);
+    const [rubro, setRubro] = useState<TipoRubro | "todos">("todos");
+    const [puntosNecesarios, setPuntosNecesarios] = useState<number | "">("");
     const [nombre, setNombre] = useState('');
     const [
         getPremios,
@@ -18,7 +18,7 @@ export default function PremiosPage() {
     useEffect(() => {
         getPremios({
             nombre,
-            puntosNecesarios: puntosNecesarios === null ? undefined : puntosNecesarios,
+            puntosNecesarios: puntosNecesarios === "" ? undefined : puntosNecesarios,
             rubro: typeof rubro === 'string' ? undefined : rubro
         });
     }, [getPremios, nombre, puntosNecesarios, rubro]);
@@ -32,10 +32,10 @@ export default function PremiosPage() {
                         <Select
                             labelId="categoria-label"
                             value={rubro}
-                            onChange={(e) => setRubro(e.target.value)}
+                            onChange={(e) => setRubro(e.target.value as TipoRubro)}
                             label="Categoria"
                         >
-                            <MenuItem value="">Todos</MenuItem>
+                            <MenuItem value={"todos"}>Todos</MenuItem>
                             <MenuItem value={TipoRubro.Gastronomia}>Gastronomia</MenuItem>
                             <MenuItem value={TipoRubro.Electronica}>Electronica</MenuItem>
                             <MenuItem value={TipoRubro.ArticulosHogar}>Articulos Hogar</MenuItem>
@@ -49,7 +49,7 @@ export default function PremiosPage() {
                             fullWidth
                             label={"Puntos maximos necesarios"}
                             value={puntosNecesarios}
-                            onChange={(e) => setPuntosNecesarios(e.target.value === "" ? null : parseInt(e.target.value))}
+                            onChange={(e) => setPuntosNecesarios(e.target.value === "" ? "" : parseInt(e.target.value))}
                             variant="outlined"
                             type={"number"}
                         />

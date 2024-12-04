@@ -26,6 +26,11 @@ public class ReporteBuilderColaboradorViandasDonadas : IReporteBuilder
             var viandasDonadas = colaborador.ContribucionesRealizadas.OfType<DonacionVianda>()
                 .Where(v => v.FechaContribucion >= fechaInicio && v.FechaContribucion <= fechaFin);
             var cantidadViandas = viandasDonadas.Count();
+            if (cantidadViandas == 0)
+            {
+                continue;
+            }
+
             var reporteColaborador = new
             {
                 Colaborador = colaborador.Persona.Nombre,

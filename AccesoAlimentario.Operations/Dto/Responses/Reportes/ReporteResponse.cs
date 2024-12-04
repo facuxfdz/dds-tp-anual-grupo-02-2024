@@ -8,5 +8,5 @@ public class ReporteResponse
     public TipoReporte Tipo { get; set; } = TipoReporte.CANTIDAD_FALLAS_POR_HELADERA;
     public DateTime FechaCreacion { get; set; } = DateTime.Now;
     public DateTime FechaExpiracion { get; set; } = DateTime.Now.AddDays(7);
-    public string Cuerpo { get; set; } = string.Empty;
+    public object Cuerpo { get; set; } = new { };
 }
