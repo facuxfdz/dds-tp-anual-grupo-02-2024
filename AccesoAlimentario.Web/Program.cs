@@ -4,6 +4,7 @@ using AccesoAlimentario.Operations;
 using AccesoAlimentario.Web.Swagger;
 using Microsoft.EntityFrameworkCore;
 using AccesoAlimentario.Web.SecretRetrieve;
+using AccesoAlimentario.Web.SensoresReader;
 using Newtonsoft.Json;
 using Serilog;
 
@@ -72,7 +73,6 @@ builder.Services.AddDbContext<AppDbContext>((sp, options) =>
         .UseLazyLoadingProxies()
 );
 
-    
 // Allow CORS
 var corsDevelop = "_CORSDevelop";
 builder.Services.AddCors(options =>
@@ -91,6 +91,8 @@ builder.Services.AddCors(options =>
 builder.Services.AddCoreLayer();
 builder.Services.AddOperationsLayer();
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddHostedService<RabbitMqBackgroundService>();
 
 var app = builder.Build();
 

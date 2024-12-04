@@ -56,6 +56,17 @@ services:
     networks:
         - default
 
+  rabbitmq:
+    image: rabbitmq:4.0-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"   # RabbitMQ server port
+      - "15672:15672" # Management console
+    networks:
+      - default
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
 
 networks:
   accesodb:
