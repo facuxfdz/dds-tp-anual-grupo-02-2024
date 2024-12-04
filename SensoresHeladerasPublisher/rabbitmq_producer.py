@@ -19,7 +19,7 @@ def generate_temperatures(mean, size):
 
 # Send messages
 temperatures = generate_temperatures(mean_temperature, sample_size)
-messages = [{"SensorId": "123e4567-e89b-12d3-a456-426614174000", "Fecha": "2024-12-03T12:00:00Z", "Temperatura": f"{temp:.2f}"} for temp in temperatures]
+messages = [{"SensorId": "f1f60edf-b97b-4190-a11a-e330dcbfc449", "Fecha": "2024-12-03T12:00:00Z", "Temperatura": f"{temp:.2f}"} for temp in temperatures]
 
 for message in messages:
     channel.basic_publish(

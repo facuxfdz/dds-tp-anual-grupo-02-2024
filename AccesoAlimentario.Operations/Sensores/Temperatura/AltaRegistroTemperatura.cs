@@ -1,4 +1,5 @@
 ﻿using AccesoAlimentario.Core.DAL;
+using AccesoAlimentario.Core.Entities.Sensores;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
@@ -42,13 +43,16 @@ public static class AltaRegistroTemperatura
         public async Task<IResult> Handle(AltaRegistroTemperaturaCommand request, CancellationToken cancellationToken)
         {
             var sensor = await _unitOfWork.SensorRepository.GetByIdAsync(request.SensorId);
-            if (sensor == null)
+            if (sensor == null || sensor is not SensorTemperatura sensorTemperatura)
             {
                 return Results.NotFound("Sensor no encontrado");
             }
             
-            sensor.Registrar(request.Fecha, request.Temperatura);
-
+            sensorTemperatura.Registrar(request.Fecha, request.Temperatura);
+            var registro = sensorTemperatura.RegistrosTemperatura.Last();
+            
+            await _unitOfWork.RegistroTemperaturaRepository.AddAsync(registro);
+            await _unitOfWork.SensorRepository.UpdateAsync(sensorTemperatura);
             await _unitOfWork.SaveChangesAsync();
             
             return Results.Ok();
