@@ -1,4 +1,6 @@
 ﻿using AccesoAlimentario.Core.DAL;
+using AccesoAlimentario.Core.Entities.Roles;
+using AccesoAlimentario.Operations.Dto.Responses.Externos;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -29,7 +31,9 @@ public class ObtenerColaboradores
             _logger.LogInformation("Obteniendo colaboradores");
             var query = _unitOfWork.ColaboradorRepository.GetQueryable();
             var colaboradores = await _unitOfWork.ColaboradorRepository.GetCollectionAsync(query);
-            return Results.Ok(colaboradores);
+            var resColaboradores = colaboradores.Select(
+                c => _mapper.Map(c, typeof(Colaborador), typeof(ColaboradorResponseExterno)));
+            return Results.Ok(resColaboradores);
         }
     }
 }

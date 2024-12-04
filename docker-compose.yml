@@ -43,6 +43,18 @@ services:
         - "3000:3000"      
       networks:
         - default
+  
+  recomendacionesApi:
+    build:
+        context: ./ServicioRecomendaciones
+        dockerfile: Dockerfile
+    image: recomendacionesapi:latest
+    environment:
+      - COLABORADORES_API_URL=http://accesoalimentario:8085/api/colaboradores
+    ports:
+        - "8080:8080"
+    networks:
+        - default
 
 
 networks:

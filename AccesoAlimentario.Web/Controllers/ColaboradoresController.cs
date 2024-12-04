@@ -1,4 +1,6 @@
-﻿using AccesoAlimentario.Operations.Roles.Colaboradores;
+﻿using AccesoAlimentario.Core.Entities.Roles;
+using AccesoAlimentario.Operations.Dto.Responses.Externos;
+using AccesoAlimentario.Operations.Roles.Colaboradores;
 using AccesoAlimentario.Web.Constants;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
