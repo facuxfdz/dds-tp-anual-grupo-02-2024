@@ -44,14 +44,12 @@ public static class RegistrarUsuario
     {
         private readonly ILogger _logger;
         private readonly ISender _sender;
-        private readonly IUnitOfWork _unitOfWork;
 
         public RegistrarUsuarioHandle(ILogger<RegistrarUsuarioHandle> logger,
-            ISender sender, IUnitOfWork unitOfWork)
+            ISender sender)
         {
             _logger = logger;
             _sender = sender;
-            _unitOfWork = unitOfWork;
         }
 
         public async Task<IResult> Handle(RegistrarUsuarioCommand request, CancellationToken cancellationToken)
@@ -61,7 +59,7 @@ public static class RegistrarUsuario
             var medioContacto = request.MediosDeContacto.Count > 0
                 ? request.MediosDeContacto
                 : [new EmailRequest { Direccion = request.Email, Preferida = true }];
-            
+
             var altaColaboradorCommand = new AltaColaborador.AltaColaboradorCommand
             {
                 Persona = request.Persona,
@@ -69,44 +67,17 @@ public static class RegistrarUsuario
                 Documento = request.Documento,
                 MediosDeContacto = medioContacto,
                 ContribucionesPreferidas = request.ContribucionesPreferidas,
-                Tarjeta = request.Tarjeta
+                Tarjeta = request.Tarjeta,
+                Password = request.Password,
+                ProfilePicture = request.Password,
+                RegisterType = request.RegisterType,
             };
             var resultAltaColaborador = await _sender.Send(altaColaboradorCommand, cancellationToken);
 
-            if (resultAltaColaborador is not Microsoft.AspNetCore.Http.HttpResults.Ok<Guid> colaboradorId)
-            {
-                _logger.LogWarning("Error al crear el colaborador.");
-                return Results.BadRequest("Error al crear el colaborador.");
-            }
-
-            var colaborador = await _unitOfWork.ColaboradorRepository.GetByIdAsync(colaboradorId.Value);
-            if (colaborador == null)
-            {
-                _logger.LogWarning("Colaborador no encontrado.");
-                return Results.BadRequest("Colaborador no encontrado.");
-            }
-
-            var createUserCommand = new CrearUsuario.CrearUsuarioCommand
-            {
-                PersonaId = colaborador.PersonaId,
-                Username = request.Email,
-                Password = request.Password,
-                ProfilePicture = request.ProfilePicture,
-                RegisterType = request.RegisterType
-            };
-
-            var result = await _sender.Send(createUserCommand, cancellationToken);
-            if (result is Microsoft.AspNetCore.Http.HttpResults.Ok<Guid>)
-            {
-                _logger.LogInformation("Usuario creado con éxito.");
-            }
-            else
-            {
-                _logger.LogWarning("Error al crear el usuario.");
-                return Results.BadRequest("Error al crear el usuario.");
-            }
-
-            return Results.Ok();
+            return
+                resultAltaColaborador is not Microsoft.AspNetCore.Http.HttpResults.Ok<Guid>
+                    ? resultAltaColaborador
+                    : Results.Ok();
         }
     }
 }

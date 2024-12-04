@@ -24,7 +24,7 @@ import {
 } from "@models/requests/colaboradores/iAltaColaboradorRequest";
 import {SexoDocumento} from "@models/enums/sexoDocumento";
 import {TipoJuridica} from "@models/enums/tipoJuridica";
-import {usePostRegisterMutation} from "@redux/services/authApi";
+import {usePostRegisterMutation, usePostValidarPasswordMutation} from "@redux/services/authApi";
 import {IPostRegisterRequest, RegisterType} from "@models/requests/auth/iPostRegisterRequest";
 import {TipoDocumento} from "@models/enums/tipoDocumento";
 import {ContribucionesTipo} from "@models/enums/contribucionesTipo";
@@ -40,6 +40,9 @@ export default function RegisterPage() {
         postRegister,
         {isLoading: registerIsLoading}
     ] = usePostRegisterMutation();
+    const [
+        postValidarPassword,
+    ] = usePostValidarPasswordMutation();
 
     const handleSave = async (data: FormFieldValue) => {
         let personaRequest: IPersonaRequest;
@@ -152,9 +155,9 @@ export default function RegisterPage() {
                                     <CardActions
                                         sx={{
                                             position: 'sticky',
-                                            top: '60px',
+                                            top: 0,
                                             bgcolor: theme.palette.background.default,
-                                            zIndex: 1,
+                                            zIndex: 2,
                                             borderBottom: `1px solid ${theme.palette.divider}`
                                         }}
                                     >
@@ -216,7 +219,31 @@ export default function RegisterPage() {
                                                 />
                                             </Grid>
                                             <Grid size={6} key={"password"}>
-                                                <TextFieldElement
+                                                <Controller
+                                                    name="password"
+                                                    rules={{
+                                                        required: query.get("register") !== "sso" ? 'La contraseña es obligatoria' : undefined,
+                                                        validate: async (value) => {
+                                                            const resp = await postValidarPassword(value).unwrap();
+                                                            if (!resp) {
+                                                                return "La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una minúscula, un número y un caracter especial";
+                                                            } else {
+                                                                return true;
+                                                            }
+                                                        },
+                                                    }}
+                                                    render={({ field, fieldState }) => (
+                                                        <TextFieldElement
+                                                            {...field}
+                                                            label="Contraseña"
+                                                            type="password"
+                                                            error={!!fieldState.error}
+                                                            helperText={fieldState.error?.message}
+                                                            fullWidth
+                                                        />
+                                                    )}
+                                                />
+                                                {/*<TextFieldElement
                                                     name={"password"}
                                                     label={"Contraseña"}
                                                     placeholder={"Ingrese su contraseña"}
@@ -228,7 +255,7 @@ export default function RegisterPage() {
                                                             required: "Por favor ingrese su contraseña"
                                                         }
                                                     }
-                                                />
+                                                />*/}
                                             </Grid>
 
                                             {

@@ -12,6 +12,7 @@ import {useFormContext} from "react-hook-form";
 export const RegistroPersonaFisica = () => {
     const formContext = useFormContext();
     const contribucionesPreferidas : number[] = formContext.watch("contribucionesPreferidas");
+
     return (
         <Grid container spacing={3} alignItems="center">
             <Grid size={6} key={"nombre"}>
@@ -38,6 +39,21 @@ export const RegistroPersonaFisica = () => {
                     rules={
                         {
                             required: "Por favor ingrese su apellido",
+                        }
+                    }
+                />
+            </Grid>
+            <Grid size={12} key={"email"}>
+                <TextFieldElement
+                    name={"email"}
+                    label={"Email"}
+                    placeholder={"Ingrese la dirección de correo electrónico"}
+                    required={true}
+                    fullWidth
+                    type={"email"}
+                    rules={
+                        {
+                            required: "Por favor ingrese la dirección de correo electrónico",
                         }
                     }
                 />

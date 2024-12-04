@@ -13,6 +13,11 @@ export interface IAltaColaboradorRequest {
         departamento: string;
         codigoPostal: string;
     };
+    mediosDeContacto: {
+        preferida: boolean,
+        tipo: "Email",
+        direccion: string
+    }[];
     documento: {
         tipoDocumento: TipoDocumento;
         nroDocumento: number;

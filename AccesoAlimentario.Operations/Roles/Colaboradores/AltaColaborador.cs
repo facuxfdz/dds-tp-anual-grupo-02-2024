@@ -11,6 +11,7 @@ using AccesoAlimentario.Operations.Dto.Requests.DocumentosDeIdentidad;
 using AccesoAlimentario.Operations.Dto.Requests.MediosDeComunicacion;
 using AccesoAlimentario.Operations.Dto.Requests.Personas;
 using AccesoAlimentario.Operations.Dto.Requests.Tarjetas;
+using AccesoAlimentario.Operations.Roles.Usuarios;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
@@ -31,6 +32,9 @@ public static class AltaColaborador
         // Para conformar el colaborador
         public List<TipoContribucion> ContribucionesPreferidas { get; set; } = [];
         public TarjetaColaboracionRequest? Tarjeta { get; set; } = null!;
+        public string? Password { get; set; }
+        public string? ProfilePicture { get; set; }
+        public RegisterType? RegisterType { get; set; }
     }
     
     // Validaciones
@@ -64,12 +68,14 @@ public static class AltaColaborador
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
+        private readonly ISender _sender;
         
-        public AltaColaboradorHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<AltaColaboradorHandler> logger)
+        public AltaColaboradorHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<AltaColaboradorHandler> logger, ISender sender)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _logger = logger;
+            _sender = sender;
         }
         
         public async Task<IResult> Handle(AltaColaboradorCommand request, CancellationToken cancellationToken)
@@ -112,8 +118,39 @@ public static class AltaColaborador
             await _unitOfWork.PersonaRepository.AddAsync(persona);
             await _unitOfWork.ColaboradorRepository.AddAsync(colaborador);
             await _unitOfWork.SaveChangesAsync();
+
+            var email = persona.MediosDeContacto.OfType<Email>().First().Direccion;
+            
+            var createUserCommand = new CrearUsuario.CrearUsuarioCommand
+            {
+                PersonaId = colaborador.PersonaId,
+                Username = email,
+                Password = request.Password ?? CrearPassword(),
+                ProfilePicture = request.ProfilePicture ?? "",
+                RegisterType = request.RegisterType ?? RegisterType.Standard,
+            };
+
+            var result = await _sender.Send(createUserCommand, cancellationToken);
+            if (result is Microsoft.AspNetCore.Http.HttpResults.Ok<Guid>)
+            {
+                _logger.LogInformation("Usuario creado con éxito.");
+            }
+            else
+            {
+                _logger.LogWarning("Error al crear el usuario.");
+                return Results.BadRequest("Error al crear el usuario.");
+            }
             
             return Results.Ok(colaborador.Id);
+        }
+
+        private static string CrearPassword()
+        {
+            const int length = 16;
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+";
+            var random = new Random();
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }

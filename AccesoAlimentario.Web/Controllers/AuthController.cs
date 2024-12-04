@@ -1,19 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.IdentityModel.Tokens.Jwt;
 using AccesoAlimentario.Core.DAL;
-using AccesoAlimentario.Core.Entities.Personas;
-using AccesoAlimentario.Core.Entities.Roles;
 using AccesoAlimentario.Operations.Auth;
-using AccesoAlimentario.Operations.JwtToken;
 using MediatR;
 
 namespace AccesoAlimentario.Api.Controllers
 {
-    public class AuthLoginBody
-    {
-        public string Username { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
-    }
 
     [ApiController]
     [Route("api/[controller]")]
@@ -82,6 +73,20 @@ namespace AccesoAlimentario.Api.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error durante el logout");
+                return Results.StatusCode(500);
+            }
+        }
+        
+        [HttpPost("password/validate")]
+        public async Task<IResult> Password([FromBody] ValidarPassword.ValidarPasswordCommand command)
+        {
+            try
+            {
+                return await _sender.Send(command);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error durante la validación de la contraseña");
                 return Results.StatusCode(500);
             }
         }

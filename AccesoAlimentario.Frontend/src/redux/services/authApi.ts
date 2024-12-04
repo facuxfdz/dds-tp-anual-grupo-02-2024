@@ -51,6 +51,17 @@ export const authApi = createApi({
                 method: "POST",
             }),
         }),
+
+        postValidarPassword: builder.mutation<
+            boolean,
+            string
+        >({
+            query: (password) => ({
+                url: `auth/password/validate`,
+                method: "POST",
+                body: {password}
+            }),
+        })
     }),
 });
 
@@ -58,5 +69,6 @@ export const {
     usePostLoginValidateMutation,
     usePostRegisterMutation,
     usePostLoginMutation,
-    usePostLogoutMutation
+    usePostLogoutMutation,
+    usePostValidarPasswordMutation
 } = authApi;

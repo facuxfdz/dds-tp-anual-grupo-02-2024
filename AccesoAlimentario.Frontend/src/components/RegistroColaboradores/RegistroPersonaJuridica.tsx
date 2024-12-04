@@ -22,6 +22,21 @@ export const RegistroPersonaJuridica = () => {
                     }
                 />
             </Grid>
+            <Grid size={12} key={"email"}>
+                <TextFieldElement
+                    name={"email"}
+                    label={"Email"}
+                    placeholder={"Ingrese la dirección de correo electrónico"}
+                    required={true}
+                    fullWidth
+                    type={"email"}
+                    rules={
+                        {
+                            required: "Por favor ingrese la dirección de correo electrónico",
+                        }
+                    }
+                />
+            </Grid>
             <Grid size={6} key={"tipoJuridico"}>
                 <SelectElement
                     name={"tipoJuridico"}

@@ -59,6 +59,13 @@ export default function ColaboradoresRegistroPage() {
                 departamento: data.departamento,
                 codigoPostal: data.codigoPostal
             },
+            mediosDeContacto: [
+                {
+                    preferida: true,
+                    tipo: "Email",
+                    direccion: data.email
+                }
+            ],
             documento: {
                 tipoDocumento: data.tipoDocumento as unknown as TipoDocumento,
                 nroDocumento: Number(data.numeroDocumento),
