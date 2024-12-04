@@ -307,12 +307,29 @@ export default function ContribucionesPage() {
                                             onChange={(e) => {
                                                 setTipoContribucion(e.target.value as "DonacionMonetaria" | "DonacionVianda" | "OfertaPremio" | "AdministracionHeladera" | "DistribucionViandas");
                                                 formContext.reset();
-                                            }} fullWidth sx={{mb: 2}}>
-                                        <MenuItem value="DonacionMonetaria">Donación Monetaria</MenuItem>
-                                        <MenuItem value="DonacionVianda">Donación de Viandas</MenuItem>
-                                        <MenuItem value="OfertaPremio">Oferta de Premio</MenuItem>
-                                        <MenuItem value="AdministracionHeladera">Administración de Heladera</MenuItem>
-                                        <MenuItem value="DistribucionViandas">Distribución de Viandas</MenuItem>
+                                            }} fullWidth sx={{mb: 2}}
+                                    >
+                                        {
+                                            user.personaTipo === "Juridica" &&
+                                                [
+                                                    {value: "DonacionMonetaria", label: "Donación Monetaria"},
+                                                    {value: "AdministracionHeladera", label: "Administración de Heladera"},
+                                                    {value: "OfertaPremio", label: "Oferta de Premio"}
+                                                ].map((item) =>
+                                                    <MenuItem value={item.value} key={item.value}>{item.label}</MenuItem>
+                                                )
+                                        }
+                                        {
+                                            user.personaTipo === "Humana" &&
+                                                [
+                                                    {value: "DonacionMonetaria", label: "Donación Monetaria"},
+                                                    {value: "DonacionVianda", label: "Donación de Viandas"},
+                                                    {value: "DistribucionViandas", label: "Distribución de Viandas"}
+                                                ].map((item) =>
+                                                    <MenuItem value={item.value} key={item.value}>{item.label}</MenuItem>
+                                                )
+                                        }
+                                        }*/}
                                     </Select>
                                     {
                                         tipoContribucion === "DonacionMonetaria" ? (

@@ -67,7 +67,7 @@ public static class ColaborarConDonacionDeHeladera
             await _unitOfWork.AdministracionHeladeraRepository.AddAsync(contribucion);
             await _unitOfWork.SaveChangesAsync();
             
-            return Results.Ok(contribucion);
+            return Results.Ok();
         }
     }
 }
