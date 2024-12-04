@@ -67,8 +67,8 @@ public static class LogInUsuario
                 new KeyValuePair<string, string>("personaTipo",
                     persona switch
                     {
-                        PersonaHumana => "humana",
-                        PersonaJuridica => "juridica",
+                        PersonaHumana => "Humana",
+                        PersonaJuridica => "Juridica",
                         _ => ""
                     })
             ]);
