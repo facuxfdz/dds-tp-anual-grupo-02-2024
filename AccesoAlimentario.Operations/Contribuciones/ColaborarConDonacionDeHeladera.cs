@@ -14,10 +14,10 @@ public static class ColaborarConDonacionDeHeladera
     public class ColaborarConDonacionDeHeladeraCommand : IRequest<IResult>
     {
         public Guid ColaboradorId { get; set; } = Guid.Empty;
-        public DateTime FechaContribucion { get; set; } = DateTime.Now;
+        public DateTime FechaContribucion { get; set; } = DateTime.UtcNow;
         public PuntoEstrategicoRequest PuntoEstrategico { get; set; } = null!;
         public EstadoHeladera Estado { get; set; } = EstadoHeladera.FueraServicio;
-        public DateTime FechaInstalacion { get; set; } = DateTime.Now;
+        public DateTime FechaInstalacion { get; set; } = DateTime.UtcNow;
         public float TemperaturaMinimaConfig { get; set; } = 0;
         public float TemperaturaMaximaConfig { get; set; } = 0;
         public List<SensorRequest> Sensores { get; set; } = [];

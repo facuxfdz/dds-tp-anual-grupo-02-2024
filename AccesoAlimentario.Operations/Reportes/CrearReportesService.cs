@@ -18,7 +18,7 @@ namespace AccesoAlimentario.Operations.Reportes
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             // Get current time
-            var now = DateTime.Now;
+            var now = DateTime.UtcNow;
 
             // Calculate next Monday
             var daysUntilNextSunday = (7 - (int)now.DayOfWeek) % 7;

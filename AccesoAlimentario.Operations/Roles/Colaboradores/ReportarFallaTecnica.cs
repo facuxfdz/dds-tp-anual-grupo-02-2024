@@ -11,7 +11,7 @@ public static class ReportarFallaTecnica
 {
     public class ReportarFallaTecnicaCommand : IRequest<IResult>
     {
-        public DateTime Fecha { get; set; } = DateTime.Now;
+        public DateTime Fecha { get; set; } = DateTime.UtcNow;
         public Guid ReporteroId { get; set; } = Guid.Empty;
         public Guid HeladeraId { get; set; } = Guid.Empty;
         public string Descripcion { get; set; } = string.Empty;

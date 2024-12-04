@@ -34,7 +34,7 @@ public static class ObtenerReporteVigente
             var query = _unitOfWork.ReporteRepository.GetQueryable();
             query = query
                 .Where(r => r.Tipo == request.TipoReporte)
-                .Where(r => r.FechaExpiracion < DateTime.Now);
+                .Where(r => r.FechaExpiracion < DateTime.UtcNow);
 
             var reporte = await _unitOfWork.ReporteRepository.GetAsync(query);
 

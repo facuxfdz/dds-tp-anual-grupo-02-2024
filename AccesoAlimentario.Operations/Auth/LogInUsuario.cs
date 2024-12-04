@@ -44,6 +44,11 @@ public static class LogInUsuario
 
             var persona = existingUser.Persona;
             var rolColaborador = persona.Roles.OfType<Colaborador>().FirstOrDefault();
+            var tarjetaColaboradorId = "";
+            if (rolColaborador != null)
+            {
+                tarjetaColaboradorId = rolColaborador.TarjetaColaboracion?.Id.ToString() ?? "";
+            }
             var rolTecnico = persona.Roles.OfType<Tecnico>().FirstOrDefault();
 
             // Generate jwt token
@@ -55,9 +60,10 @@ public static class LogInUsuario
                 new KeyValuePair<string, string>("colaboradorId", rolColaborador?.Id.ToString() ?? ""),
                 new KeyValuePair<string, string>("tecnicoId", rolTecnico?.Id.ToString() ?? ""),
                 new KeyValuePair<string, string>("name", persona.Nombre),
-                new KeyValuePair<string, string>("profile_picture", existingUser.ProfilePicture),
+                new KeyValuePair<string, string>("profile_picture", existingUser.ProfilePicture ?? ""),
                 new KeyValuePair<string, string>("contribucionesPreferidas",
                     string.Join(",", contribucionesPreferidasInt)),
+                new KeyValuePair<string, string>("tarjetaColaboracionId", tarjetaColaboradorId),
                 new KeyValuePair<string, string>("personaTipo",
                     persona switch
                     {

@@ -13,7 +13,7 @@ public static class RegistrarVisitaHeladera
     {
         public Guid IncidenteId { get; set; } = Guid.Empty;
         public string Foto { get; set; } = string.Empty;
-        public DateTime Fecha { get; set; } = DateTime.Now;
+        public DateTime Fecha { get; set; } = DateTime.UtcNow;
         public string Comentario { get; set; } = string.Empty;
         public bool Resuelto { get; set; } = false;
     }

@@ -60,7 +60,7 @@ public class ReporteBuilderHeladeraCambioViandas : IReporteBuilder
             reporteHeladeras.Add(reporteHeladera);
         }
 
-        reporte.FechaCreacion = DateTime.Now;
+        reporte.FechaCreacion = DateTime.UtcNow;
         reporte.FechaExpiracion = fechaFin;
         reporte.Cuerpo = JsonSerializer.Serialize(reporteHeladeras);
         reporte.Tipo = TipoReporte.CANTIDAD_VIANDAS_RET_COL_POR_HELADERA;

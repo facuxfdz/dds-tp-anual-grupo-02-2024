@@ -63,7 +63,7 @@ public static class RegistrarAperturaHeladera
             {
                 Tarjeta = tarjetaColaboracion,
                 Heladera = heladera,
-                FechaAcceso = DateTime.Now,
+                FechaAcceso = DateTime.UtcNow,
                 Autorizacion = auth,
                 TipoAcceso = request.TipoAcceso
             };

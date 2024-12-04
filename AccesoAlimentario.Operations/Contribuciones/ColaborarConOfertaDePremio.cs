@@ -12,7 +12,7 @@ public static class ColaborarConOfertaDePremio
     public class ColaborarConOfertaDePremioCommand : IRequest<IResult>
     {
         public Guid ColaboradorId { get; set; }
-        public DateTime FechaContribucion { get; set; } = DateTime.Now;
+        public DateTime FechaContribucion { get; set; } = DateTime.UtcNow;
         public string Nombre { get; set; }
         public float PuntosNecesarios { get; set; }
         public string Imagen { get; set; }

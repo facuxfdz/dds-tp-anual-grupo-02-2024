@@ -4,7 +4,7 @@ public class RegistroMovimiento
 {
     public Guid Id { get; set; } = Guid.NewGuid();
 
-    public DateTime Date { get; set; } = DateTime.Now;
+    public DateTime Date { get; set; } = DateTime.UtcNow;
     public bool Movimiento { get; set; } = false;
 
     public RegistroMovimiento()

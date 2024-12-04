@@ -102,7 +102,7 @@ public static class RegistrarUsuario
             }
             else
             {
-                _logger.LogWarning(" Error al crear el usuario.");
+                _logger.LogWarning("Error al crear el usuario.");
                 return Results.BadRequest("Error al crear el usuario.");
             }
 

@@ -122,7 +122,7 @@ const NavCollapse = ({menu, level}:
     const borderIcon = level === 1 ?
         <i className="fa-duotone fa-solid fa-border-outer" style={{fontSize: '1rem'}}/> : false;
     const menuIcon = menu.icon ?
-        <Icon style={{fontSize: drawerOpen ? '1rem' : '1.25rem'}} className={menu.icon}/> : borderIcon;
+        <Icon style={{fontSize: drawerOpen ? '1rem' : '1.25rem', overflow: 'visible'}} className={menu.icon}/> : borderIcon;
     const textColor = theme.palette.mode === 'dark' ? 'grey.400' : 'text.primary';
     const iconSelectedColor = theme.palette.mode === 'dark' && drawerOpen ? theme.palette.text.primary : theme.palette.primary.main;
 

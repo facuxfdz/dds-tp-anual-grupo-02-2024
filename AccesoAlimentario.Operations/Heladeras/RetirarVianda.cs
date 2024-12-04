@@ -28,7 +28,7 @@ public static class RetirarVianda
         public async Task<IResult> Handle(RetirarViandaCommand request, CancellationToken cancellationToken)
         {
             var tarjeta = await _unitOfWork.TarjetaRepository.GetByIdAsync(request.TarjetaId);
-            if (tarjeta == null || tarjeta is not TarjetaConsumo tarjetaConsumo)
+            if (tarjeta == null)
             {
                 return Results.NotFound("Tarjeta no encontrada");
             }
@@ -60,18 +60,19 @@ public static class RetirarVianda
             var viandaConsumida = heladera.ConsumirVianda();
             var acceso = new AccesoHeladera
             {
-                Tarjeta = tarjetaConsumo,
+                Tarjeta = tarjeta,
                 Viandas = [viandaConsumida],
-                FechaAcceso = DateTime.Now,
+                FechaAcceso = DateTime.UtcNow,
                 TipoAcceso = TipoAcceso.RetiroVianda,
-                Heladera = heladera
+                Heladera = heladera,
+                Autorizacion = tarjeta is TarjetaColaboracion tarjetaColaboracion ? tarjetaColaboracion.TieneAutorizacion(heladera) : null
             };
-            tarjetaConsumo.RegistrarAcceso(acceso);
+            tarjeta.RegistrarAcceso(acceso);
             
             await _unitOfWork.AccesoHeladeraRepository.AddAsync(acceso);
             await _unitOfWork.SaveChangesAsync();
             
-            return Results.Ok(viandaConsumida);
+            return Results.Ok();
         }
     }
 }

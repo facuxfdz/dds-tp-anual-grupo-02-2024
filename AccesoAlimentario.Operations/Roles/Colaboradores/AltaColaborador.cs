@@ -103,6 +103,7 @@ public static class AltaColaborador
             if (request.Tarjeta != null)
             {
                 var tarjeta = _mapper.Map<TarjetaColaboracion>(request.Tarjeta);
+                tarjeta.Propietario = colaborador;
                 colaborador.TarjetaColaboracion = tarjeta;
             }
             

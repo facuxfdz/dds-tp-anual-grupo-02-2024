@@ -24,15 +24,14 @@ export default function LoginPage() {
         {isLoading: loginValidationIsLoading}
     ] = usePostLoginValidateMutation();
 
-    const parseToEnumArray = (input: string[]): ContribucionesTipo[] => {
+    const parseToEnumArray = (input: string): ContribucionesTipo[] => {
         return input
-            .map(item => {
-                if (Object.values(ContribucionesTipo).includes(item as unknown as ContribucionesTipo)) {
-                    return item as unknown as ContribucionesTipo;
-                }
-                return [];
-            })
-            .filter((item): item is ContribucionesTipo => item !== null);
+            .split(",") // Divide el string en un array de cadenas
+            .map(item => Number(item.trim())) // Convierte cada elemento en número
+            .filter(
+                (item): item is ContribucionesTipo =>
+                    Object.values(ContribucionesTipo).includes(item as ContribucionesTipo) // Valida si el número pertenece al enum
+            );
     };
 
     const handleLogin = async (response: {
@@ -52,7 +51,8 @@ export default function LoginPage() {
                 name: jsonRes.name ?? '',
                 profile_picture: jsonRes.profile_picture ?? '',
 
-                contribucionesPreferidas: parseToEnumArray(jsonRes.contribucionesPreferidas?.split(",") ?? []),
+                contribucionesPreferidas: parseToEnumArray(jsonRes.contribucionesPreferidas || ""),
+                tarjetaColaboracionId: jsonRes.tarjetaColaboracionId ?? '',
                 personaTipo: jsonRes.personaTipo ? jsonRes.personaTipo as 'Humana' | 'Juridica' : 'Humana',
             };
             dispatch(setUser(user));

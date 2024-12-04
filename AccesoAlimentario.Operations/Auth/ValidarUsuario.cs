@@ -60,7 +60,7 @@ public static class ValidarUsuario
 
             var existingUser =
                 await _unitOfWork.UsuarioSistemaRepository
-                    .GetAsync(query, false); // No tracking, since we're only checking if it exists
+                    .GetAsync(query);
 
             if (existingUser == null)
             {
@@ -76,6 +76,11 @@ public static class ValidarUsuario
 
             var persona = existingUser.Persona;
             var rolColaborador = persona.Roles.OfType<Colaborador>().FirstOrDefault();
+            var tarjetaColaboradorId = "";
+            if (rolColaborador != null)
+            {
+                tarjetaColaboradorId = rolColaborador.TarjetaColaboracion?.Id.ToString() ?? "";
+            }
             var rolTecnico = persona.Roles.OfType<Tecnico>().FirstOrDefault();
 
             // Generate jwt token
@@ -87,9 +92,10 @@ public static class ValidarUsuario
                 new KeyValuePair<string, string>("colaboradorId", rolColaborador?.Id.ToString() ?? ""),
                 new KeyValuePair<string, string>("tecnicoId", rolTecnico?.Id.ToString() ?? ""),
                 new KeyValuePair<string, string>("name", persona.Nombre),
-                new KeyValuePair<string, string>("profile_picture", existingUser.ProfilePicture),
+                new KeyValuePair<string, string>("profile_picture", existingUser.ProfilePicture ?? ""),
                 new KeyValuePair<string, string>("contribucionesPreferidas",
                     string.Join(",", contribucionesPreferidasInt)),
+                new KeyValuePair<string, string>("tarjetaColaboracionId", tarjetaColaboradorId),
                 new KeyValuePair<string, string>("personaTipo",
                     persona switch
                     {

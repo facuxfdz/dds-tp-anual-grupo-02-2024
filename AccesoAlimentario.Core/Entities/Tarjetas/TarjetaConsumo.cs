@@ -13,7 +13,7 @@ public class TarjetaConsumo : Tarjeta
     {
         var consumosDeHoy = Accesos
             .Where(acceso =>
-                acceso.FechaAcceso.Date == DateTime.Now.Date 
+                acceso.FechaAcceso.Date == DateTime.UtcNow.Date 
                 && acceso.TipoAcceso == TipoAcceso.RetiroVianda);
 
         var cosumosMaximosPermitidos = 4 + 2 * Propietario.CantidadDeMenores;

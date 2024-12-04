@@ -10,7 +10,7 @@ public class Premio
     public float PuntosNecesarios { get; set; } = 0;
     public string Imagen { get; set; } = null!;
     public virtual Colaborador? ReclamadoPor { get; set; } = null!;
-    public DateTime FechaReclamo { get; set; } = DateTime.Now;
+    public DateTime FechaReclamo { get; set; } = DateTime.UtcNow;
     public TipoRubro Rubro { get; set; } = TipoRubro.Otros;
 
     public Premio()
@@ -28,7 +28,7 @@ public class Premio
     public void Reclamar(Colaborador colaborador)
     {
         ReclamadoPor = colaborador;
-        FechaReclamo = DateTime.Now;
+        FechaReclamo = DateTime.UtcNow;
     }
 
     public float GetPuntosNecesarios()

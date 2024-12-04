@@ -15,13 +15,15 @@ export const PremioCard = ({
                                nombre,
                                puntos,
                                imagen,
-                               rubro
+                               rubro,
+                               reclamable
                            }: {
     id: string,
     nombre: string,
     puntos: number,
     imagen: string,
-    rubro: TipoRubro
+    rubro: TipoRubro,
+    reclamable: boolean
 }) => {
     const user = useAppSelector(state => state.user);
     const [
@@ -31,7 +33,7 @@ export const PremioCard = ({
     const {addNotification} = useNotification();
 
     const handleCanje = async () => {
-        const request : ICanjeDePremioRequest = {
+        const request: ICanjeDePremioRequest = {
             premioId: id,
             colaboradorId: user.colaboradorId
         };
@@ -81,14 +83,19 @@ export const PremioCard = ({
                     </Grid>
                 </Grid>
                 <Divider/>
-                <Grid container justifyContent="center" sx={{padding: '10px 0'}}>
-                    <Grid size={12}>
-                        <Button variant="contained" color="primary" fullWidth disabled={canjeDePremioIsLoading} onClick={handleCanje}>
-                            Canjear
-                        </Button>
-                    </Grid>
-                </Grid>
+                {
+                    reclamable && (
+                        <Grid container justifyContent="center" sx={{padding: '10px 0'}}>
+                            <Grid size={12}>
+                                <Button variant="contained" color="primary" fullWidth disabled={canjeDePremioIsLoading}
+                                        onClick={handleCanje}>
+                                    Canjear
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    )
+                }
             </MainCard>
         </Grid>
-    );
+    )
 }

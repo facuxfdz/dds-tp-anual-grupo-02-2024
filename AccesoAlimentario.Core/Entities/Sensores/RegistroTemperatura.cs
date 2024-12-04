@@ -3,7 +3,7 @@ namespace AccesoAlimentario.Core.Entities.Sensores;
 public class RegistroTemperatura
 {
     public Guid Id { get; set; } = Guid.NewGuid();
-    public DateTime Date { get; set; } = DateTime.Now;
+    public DateTime Date { get; set; } = DateTime.UtcNow;
     public float Temperatura { get; set; } = 0;
 
     public RegistroTemperatura()

@@ -1,4 +1,5 @@
-﻿using AccesoAlimentario.Core.Entities.Roles;
+﻿using AccesoAlimentario.Core.Entities.Premios;
+using AccesoAlimentario.Core.Entities.Roles;
 using AccesoAlimentario.Operations.Dto.Responses.Externos;
 using AccesoAlimentario.Operations.Roles.Colaboradores;
 using AccesoAlimentario.Web.Constants;
@@ -14,7 +15,6 @@ namespace AccesoAlimentario.Web.Controllers;
 [ApiController]
 public class ColaboradoresController(ISender sender, ILogger<ColaboradoresController> logger) : ControllerBase
 {
-    
     [HttpGet]
     public async Task<IResult> Get()
     {
@@ -28,7 +28,7 @@ public class ColaboradoresController(ISender sender, ILogger<ColaboradoresContro
             return Results.StatusCode(500);
         }
     }
-    
+
     [HttpPost]
     public async Task<IResult> Post([FromBody] AltaColaborador.AltaColaboradorCommand command)
     {
@@ -139,6 +139,41 @@ public class ColaboradoresController(ISender sender, ILogger<ColaboradoresContro
         catch (Exception e)
         {
             logger.LogError(e, "Error al obtener las suscripciones de un colaborador");
+            return Results.StatusCode(500);
+        }
+    }
+
+    [HttpGet("{id}/accesos")]
+    public async Task<IResult> GetAccesos(Guid id)
+    {
+        try
+        {
+            return await sender.Send(new ObtenerAccesos.ObtenerAccesosCommand { ColaboradorId = id });
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Error al obtener los accesos de un colaborador");
+            return Results.StatusCode(500);
+        }
+    }
+
+    [HttpGet("{id}/premiosCanjeados")]
+    public async Task<IResult> GetPremiosCanjeados(Guid id, [FromQuery] string? nombre,
+        [FromQuery] float? puntosNecesarios, [FromQuery] TipoRubro? rubro)
+    {
+        try
+        {
+            return await sender.Send(new ObtenerPremiosCanjeados.ObtenerPremiosCanjeadosCommand
+            {
+                ColaboradorId = id,
+                Nombre = nombre,
+                PuntosNecesarios = puntosNecesarios,
+                Rubro = rubro
+            });
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Error al obtener los premios canjeados de un colaborador");
             return Results.StatusCode(500);
         }
     }

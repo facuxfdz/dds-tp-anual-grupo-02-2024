@@ -11,6 +11,6 @@ public abstract class PersonaResponse
     public DireccionResponse? Direccion { get; set; } = null;
     public DocumentoIdentidadResponse? DocumentoIdentidad { get; set; } = null;
     public List<MedioContactoResponse> MediosDeContacto { get; set; } = [];
-    public DateTime FechaAlta { get; set; } = DateTime.Now;
+    public DateTime FechaAlta { get; set; } = DateTime.UtcNow;
     public string TipoPersona { get; set; } = string.Empty;
 }

@@ -39,8 +39,8 @@ public static class SolicitarAutorizacionAperturaDeHeladera
 
             var auth = new AutorizacionManipulacionHeladera
             {
-                FechaCreacion = DateTime.Now,
-                FechaExpiracion = DateTime.Now.AddHours(3),
+                FechaCreacion = DateTime.UtcNow,
+                FechaExpiracion = DateTime.UtcNow.AddHours(3),
                 Heladera = heladera,
                 TarjetaAutorizada = tarjetaColaboracion
             };
@@ -49,7 +49,7 @@ public static class SolicitarAutorizacionAperturaDeHeladera
             tarjetaColaboracion.Autorizaciones.Add(auth);
             await _unitOfWork.SaveChangesAsync();
 
-            return Results.Ok(auth);
+            return Results.Ok();
         }
     }
 }

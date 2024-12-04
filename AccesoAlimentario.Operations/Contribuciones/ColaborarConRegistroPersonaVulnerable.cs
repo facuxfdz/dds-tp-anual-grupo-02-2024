@@ -72,7 +72,7 @@ public static class ColaborarConRegistroPersonaVulnerable
             var personaVulnerable = new PersonaVulnerable
             {
                 Persona = persona,
-                FechaRegistroSistema = DateTime.Now,
+                FechaRegistroSistema = DateTime.UtcNow,
                 CantidadDeMenores = request.CantidadDeMenores,
             };
 
@@ -88,7 +88,7 @@ public static class ColaborarConRegistroPersonaVulnerable
 
             var colaboracion = new RegistroPersonaVulnerable
             {
-                FechaContribucion = DateTime.Now,
+                FechaContribucion = DateTime.UtcNow,
                 Tarjeta = tarjetaConsumo,
             };
 

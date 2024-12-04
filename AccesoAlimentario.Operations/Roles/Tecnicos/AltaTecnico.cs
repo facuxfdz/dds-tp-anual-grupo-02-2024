@@ -6,6 +6,7 @@ using AccesoAlimentario.Core.Entities.Roles;
 using AccesoAlimentario.Operations.Dto.Requests.DocumentosDeIdentidad;
 using AccesoAlimentario.Operations.Dto.Requests.MediosDeComunicacion;
 using AccesoAlimentario.Operations.Dto.Requests.Personas;
+using AccesoAlimentario.Operations.Roles.Usuarios;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
@@ -50,11 +51,13 @@ public static class AltaTecnico
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly ISender _sender;
 
-        public Handler(IUnitOfWork unitOfWork, IMapper mapper)
+        public Handler(IUnitOfWork unitOfWork, IMapper mapper, ISender sender)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _sender = sender;
         }
 
         public async Task<IResult> Handle(AltaTecnicoCommand request, CancellationToken cancellationToken)
@@ -69,6 +72,12 @@ public static class AltaTecnico
             var persona = _mapper.Map<Persona>(request.Persona);
             persona.DocumentoIdentidad = _mapper.Map<DocumentoIdentidad>(request.Documento);
             persona.MediosDeContacto = _mapper.Map<List<MedioContacto>>(request.MediosDeContacto);
+
+            var email = persona.MediosDeContacto.OfType<Email>().FirstOrDefault();
+            if (email == null)
+            {
+                return Results.BadRequest("El técnico debe tener al menos un email de contacto");
+            }
 
             var tecnico = new Tecnico
             {
@@ -85,7 +94,26 @@ public static class AltaTecnico
             await _unitOfWork.TecnicoRepository.AddAsync(tecnico);
             await _unitOfWork.SaveChangesAsync();
 
-            return Results.Ok(tecnico);
+
+            var createUserCommand = new CrearUsuario.CrearUsuarioCommand
+            {
+                PersonaId = persona.Id,
+                Username = email.Direccion,
+                Password = CrearPassword(),
+                ProfilePicture = "",
+                RegisterType = RegisterType.Standard
+            };
+
+            return await _sender.Send(createUserCommand, cancellationToken);
+        }
+
+        private static string CrearPassword()
+        {
+            const int length = 16;
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+";
+            var random = new Random();
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }

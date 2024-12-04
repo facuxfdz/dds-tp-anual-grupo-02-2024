@@ -17,7 +17,7 @@ public abstract class Persona
     public virtual List<MedioContacto> MediosDeContacto { get; set; } = [];
 
     public virtual List<Rol> Roles { get; set; } = [];
-    public DateTime FechaAlta { get; set; } = DateTime.Now;
+    public DateTime FechaAlta { get; set; } = DateTime.UtcNow;
 
     public Persona()
     {

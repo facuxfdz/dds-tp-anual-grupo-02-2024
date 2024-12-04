@@ -9,7 +9,7 @@ public class AccesoHeladera
 
     public virtual Tarjeta Tarjeta { get; set; } = null!;
     public virtual List<Vianda> Viandas { get; set; } = [];
-    public DateTime FechaAcceso { get; set; } = DateTime.Now;
+    public DateTime FechaAcceso { get; set; } = DateTime.UtcNow;
     public TipoAcceso TipoAcceso { get; set; } = TipoAcceso.IngresoVianda;
     public virtual Heladera Heladera { get; set; } = null!;
     public virtual AutorizacionManipulacionHeladera? Autorizacion { get; set; } = null!;

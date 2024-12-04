@@ -30,6 +30,10 @@ export const suscripcionesRoute = () => {
     return '/admin/suscripciones';
 }
 
+export const accesosRoute = () => {
+    return '/admin/accesos';
+}
+
 export const colaboradoresRegistroRoute = () => {
     return '/admin/colaboradores/registro';
 }
@@ -44,6 +48,10 @@ export const reportarIncidenciaRoute = () => {
 
 export const reportesRoute = () => {
     return '/admin/reportes';
+}
+
+export const tecnicoRegistroRoute = () => {
+    return '/admin/tecnicos/registro';
 }
 
 export const perfilRoute = () => {

@@ -21,7 +21,7 @@ public class TarjetaColaboracion : Tarjeta
     public AutorizacionManipulacionHeladera? TieneAutorizacion(Heladera heladera)
     {
         return Autorizaciones.Find(autorizacion =>
-            autorizacion.Heladera == heladera && autorizacion.FechaExpiracion > DateTime.Now);
+            autorizacion.Heladera == heladera && autorizacion.FechaExpiracion > DateTime.UtcNow);
     }
 
     public void AgregarAutorizacion(AutorizacionManipulacionHeladera autorizacion)

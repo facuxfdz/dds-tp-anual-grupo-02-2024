@@ -51,14 +51,14 @@ public static class ObtenerColaboraderesParaReconocimiento
             var colaboradores = await _unitOfWork.ColaboradorRepository.GetCollectionAsync(query);
             
             colaboradores = colaboradores.Where(
-                c => c.ContribucionesRealizadas.Any(d => d.FechaContribucion >= DateTime.Now.AddDays(-30))
+                c => c.ContribucionesRealizadas.Any(d => d.FechaContribucion >= DateTime.UtcNow.AddDays(-30))
             );
 
             var colaboradoresValidos = new List<Colaborador>();
             foreach (var colaborador in colaboradores)
             {
                 var donacionesViandas = colaborador.ContribucionesRealizadas.OfType<DonacionVianda>().ToList();
-                var cantidadDonadaUltimoMes = donacionesViandas.Count(d => d.FechaContribucion >= DateTime.Now.AddDays(-30));
+                var cantidadDonadaUltimoMes = donacionesViandas.Count(d => d.FechaContribucion >= DateTime.UtcNow.AddDays(-30));
                 if (cantidadDonadaUltimoMes >= request.DonacionesViandasMinimas)
                 {
                     colaboradoresValidos.Add(colaborador);
@@ -74,7 +74,7 @@ public static class ObtenerColaboraderesParaReconocimiento
                     Nombre = c.Persona.Nombre,
                     Puntos = c.Puntos,
                     DonacionesUltimoMes = c.ContribucionesRealizadas.OfType<DonacionVianda>()
-                        .Count(d => d.FechaContribucion >= DateTime.Now.AddDays(-30))
+                        .Count(d => d.FechaContribucion >= DateTime.UtcNow.AddDays(-30))
                 })
                 .ToList();
 

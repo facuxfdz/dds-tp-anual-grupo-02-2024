@@ -13,7 +13,7 @@ public static class ColaborarConDonacionMonetaria
     public class ColaborarConDonacionMonetariaCommand : IRequest<IResult>
     {
         public Guid ColaboradorId { get; set; }
-        public DateTime FechaContribucion { get; set; } = DateTime.Now;
+        public DateTime FechaContribucion { get; set; } = DateTime.UtcNow;
         public float Monto { get; set; }
         public int FrecuenciaDias { get; set; }
     }

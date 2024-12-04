@@ -1,32 +1,53 @@
 "use client";
 import {PremioCard} from "@/app/admin/premios/PremioCard";
-import {CircularProgress, FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
+import {Button, CircularProgress, FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import React, {useEffect, useState} from "react";
 import {useLazyGetPremiosQuery} from "@redux/services/contribucionesApi";
 import {TipoRubro} from "@models/enums/tipoRubro";
+import {useLazyGetPremiosReclamadosQuery} from "@redux/services/colaboradoresApi";
+import {useAppSelector} from "@redux/hook";
 
 export default function PremiosPage() {
     const [rubro, setRubro] = useState<TipoRubro | "todos">("todos");
     const [puntosNecesarios, setPuntosNecesarios] = useState<number | "">("");
+    const user = useAppSelector(state => state.user);
     const [nombre, setNombre] = useState('');
+    const [verReclamador, setVerReclamador] = useState(false);
     const [
         getPremios,
         {data: premiosData, isLoading: premiosIsLoading}
     ] = useLazyGetPremiosQuery();
+    const [
+        getPremiosReclamados,
+        {data: premiosReclamadosData, isLoading: premiosReclamadosIsLoading}
+    ] = useLazyGetPremiosReclamadosQuery();
 
     useEffect(() => {
-        getPremios({
-            nombre,
-            puntosNecesarios: puntosNecesarios === "" ? undefined : puntosNecesarios,
-            rubro: typeof rubro === 'string' ? undefined : rubro
-        });
-    }, [getPremios, nombre, puntosNecesarios, rubro]);
+        if (!verReclamador) {
+            getPremios({
+                nombre,
+                puntosNecesarios: puntosNecesarios === "" ? undefined : puntosNecesarios,
+                rubro: typeof rubro === 'string' ? undefined : rubro
+            });
+        }
+    }, [getPremios, nombre, puntosNecesarios, rubro, verReclamador]);
+
+    useEffect(() => {
+        if (verReclamador) {
+            getPremiosReclamados({
+                colaboradorId: user.colaboradorId,
+                nombre,
+                puntosNecesarios: puntosNecesarios === "" ? undefined : puntosNecesarios,
+                rubro: typeof rubro === 'string' ? undefined : rubro
+            });
+        }
+    }, [getPremiosReclamados, nombre, puntosNecesarios, rubro, user.colaboradorId, verReclamador]);
 
     return (
         <>
-            <Grid container spacing={3} mb={3}>
-                <Grid size={4} key={"categoria"}>
+            <Grid container spacing={3} mb={3} justifyContent={"center"} alignItems={"center"}>
+                <Grid size={3} key={"categoria"}>
                     <FormControl fullWidth>
                         <InputLabel id="categoria-label">Categoria</InputLabel>
                         <Select
@@ -43,7 +64,7 @@ export default function PremiosPage() {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid size={4} key={"puntos"}>
+                <Grid size={3} key={"puntos"}>
                     <FormControl fullWidth>
                         <TextField
                             fullWidth
@@ -55,7 +76,7 @@ export default function PremiosPage() {
                         />
                     </FormControl>
                 </Grid>
-                <Grid size={4} key={"nombre"}>
+                <Grid size={3} key={"nombre"}>
                     <FormControl fullWidth>
                         <TextField
                             fullWidth
@@ -66,14 +87,23 @@ export default function PremiosPage() {
                         />
                     </FormControl>
                 </Grid>
+                <Grid size={3} key={"reclamados"}>
+                    <Button
+                        onClick={() => setVerReclamador(!verReclamador)}
+                        variant={"contained"}
+                        fullWidth
+                    >
+                        {verReclamador ? "Ver todos" : "Ver reclamados"}
+                    </Button>
+                </Grid>
             </Grid>
             <Grid container spacing={3}>
                 {
-                    premiosIsLoading ?
+                    premiosIsLoading || premiosReclamadosIsLoading ?
                         (
                             <CircularProgress/>
                         ) : (
-                            (premiosData || [])
+                            ((verReclamador ? premiosReclamadosData : premiosData) || [])
                                 .map((premio) => (
                                     <PremioCard
                                         id={premio.id}
@@ -82,6 +112,7 @@ export default function PremiosPage() {
                                         imagen={premio.imagen}
                                         rubro={premio.rubro}
                                         key={premio.id}
+                                        reclamable={!verReclamador}
                                     />
                                 ))
                         )

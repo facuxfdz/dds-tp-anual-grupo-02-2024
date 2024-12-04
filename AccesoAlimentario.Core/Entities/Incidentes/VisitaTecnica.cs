@@ -8,7 +8,7 @@ public class VisitaTecnica
 
     public virtual Tecnico Tecnico { get; set; } = null!;
     public string? Foto { get; set; } = null!;
-    public DateTime Fecha { get; set; } = DateTime.Now;
+    public DateTime Fecha { get; set; } = DateTime.UtcNow;
     public string? Comentario { get; set; } = null!;
 
     public VisitaTecnica()
@@ -19,7 +19,7 @@ public class VisitaTecnica
     {
         Tecnico = tecnico;
         Foto = foto;
-        Fecha = DateTime.Now;
+        Fecha = DateTime.UtcNow;
         Comentario = comentario;
     }
     

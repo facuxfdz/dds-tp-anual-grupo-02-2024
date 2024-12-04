@@ -6,8 +6,8 @@ public class ViandaResponse
 {
     public Guid Id { get; set; } = Guid.Empty;
     public string Comida { get; set; } = null!;
-    public DateTime FechaDonacion { get; set; } = DateTime.Now;
-    public DateTime FechaCaducidad { get; set; } = DateTime.Now;
+    public DateTime FechaDonacion { get; set; } = DateTime.UtcNow;
+    public DateTime FechaCaducidad { get; set; } = DateTime.UtcNow;
     public float Calorias { get; set; } = 0;
     public float Peso { get; set; } = 0;
     public EstadoVianda Estado { get; set; } = EstadoVianda.Disponible;

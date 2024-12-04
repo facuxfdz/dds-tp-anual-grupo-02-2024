@@ -4,7 +4,7 @@ public abstract class FormaContribucion
 {
     public Guid Id { get; set; } = Guid.NewGuid();
 
-    public DateTime FechaContribucion { get; set; } = DateTime.Now;
+    public DateTime FechaContribucion { get; set; } = DateTime.UtcNow;
 
     public FormaContribucion()
     {

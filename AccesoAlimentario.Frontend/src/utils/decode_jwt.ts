@@ -10,6 +10,7 @@ export interface DecodedUser {
     profile_picture?: string;
 
     contribucionesPreferidas?: string;
+    tarjetaColaboracionId?: string;
     personaTipo?: string;
     // Add other fields as necessary
 }

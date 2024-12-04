@@ -1,11 +1,12 @@
 import {
+    accesosRoute,
     colaboradoresImportarRoute,
     colaboradoresRegistroRoute,
     contribucionesRoute,
     heladerasRoute,
     inicioRoute, perfilRoute,
     personaVulnerableRegistroRoute,
-    premiosRoute, reportarIncidenciaRoute, reportesRoute, suscripcionesRoute
+    premiosRoute, reportarIncidenciaRoute, reportesRoute, suscripcionesRoute, tecnicoRegistroRoute
 } from "@routes/router";
 
 const items : IMenuItem[] = [
@@ -66,6 +67,14 @@ const items : IMenuItem[] = [
         disabled: false
     },
     {
+        id: "accesos",
+        title: "Accesos",
+        type: "item",
+        url: accesosRoute(),
+        icon: "fa-sharp-duotone fa-light fa-key",
+        disabled: false
+    },
+    {
         id: "colaboradores",
         title: "Colaboradores",
         type: "collapse",
@@ -104,6 +113,22 @@ const items : IMenuItem[] = [
         url: reportesRoute(),
         icon: "fa-duotone fa-solid fa-chart-bar",
         disabled: false
+    },
+    {
+        id: "tecnicos",
+        title: "Tecnicos",
+        type: "collapse",
+        icon: "fa-duotone fa-solid fa-user-cog",
+        children: [
+            {
+                id: "tecnicos-registro",
+                title: "Registro",
+                type: "item",
+                url: tecnicoRegistroRoute(),
+                icon: "fa-duotone fa-solid fa-user-plus",
+                disabled: false
+            }
+        ]
     },
     {
         id: "perfil",

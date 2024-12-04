@@ -1,4 +1,3 @@
-// pages/index.tsx
 import React from "react";
 import { Grid, Card, CardContent, Typography, Box, CardActionArea } from "@mui/material";
 import { contribucionesRoute, heladerasRoute, personaVulnerableRegistroRoute, premiosRoute, reportarIncidenciaRoute, reportesRoute } from "@/routes/router";

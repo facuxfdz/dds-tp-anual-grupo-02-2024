@@ -6,9 +6,11 @@ import Box from '@mui/material/Box';
 import SimpleBar from 'simplebar-react';
 import {BrowserView, MobileView} from 'react-device-detect';
 import {SxProps, Theme} from '@mui/system';
+import React from "react";
+
 
 // root style
-const RootStyle = styled(BrowserView)({
+const RootStyle = styled('div')({
     flexGrow: 1,
     height: '100%',
     overflow: 'hidden'
@@ -46,9 +48,11 @@ export default function SimpleBarScroll({children, sx, ...other}: {
     return (
         <>
             <RootStyle>
-                <SimpleBarStyle clickOnTrack={false} sx={sx} {...other}>
-                    {children}
-                </SimpleBarStyle>
+                <BrowserView>
+                    <SimpleBarStyle clickOnTrack={false} sx={sx} {...other}>
+                        {children}
+                    </SimpleBarStyle>
+                </BrowserView>
             </RootStyle>
             <MobileView>
                 <Box sx={{overflowX: 'auto', ...sx}} {...other}>

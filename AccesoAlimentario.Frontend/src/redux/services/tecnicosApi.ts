@@ -1,23 +1,25 @@
 import {config} from "@config/config";
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
+import {IAltaTecnicoRequest} from "@models/requests/tecnicos/iAltaTecnicoRequest";
 
 export const tecnicosApi = createApi({
     reducerPath: "TecnicosApi",
     baseQuery: fetchBaseQuery({baseUrl: config.apiUrl}),
     tagTypes: ["Test"],
     endpoints: (builder) => ({
-        getTecnicos: builder.query<
+        postTecnico: builder.mutation<
             void,
-            { testId: string }
+            IAltaTecnicoRequest
         >({
-            query: ({testId}) => ({
-                url: `tests/${testId}`,
+            query: (body) => ({
+                url: `tecnicos`,
+                method: "POST",
+                body,
             }),
-            providesTags: ["Test"]
-        })
+        }),
     }),
 });
 
 export const {
-    useGetTecnicosQuery
+    usePostTecnicoMutation
 } = tecnicosApi;

@@ -5,11 +5,20 @@ import {IReportarFallaTecnicaRequest} from "@models/requests/colaboradores/iRepo
 import {ISuscribirseHeladeraRequest} from "@models/requests/colaboradores/iSuscribirseHeladeraRequest";
 import {IAltaColaboradorRequest} from "@models/requests/colaboradores/iAltaColaboradorRequest";
 import {ISuscripcionResponse} from "@models/responses/suscripcionesColaboradores/iSuscripcionResponse";
+import {IAccesoHeladeraResponse} from "@models/responses/autorizaciones/iAccesoHeladeraResponse";
+import {
+    IAutorizacionManipulacionHeladeraResponse
+} from "@models/responses/autorizaciones/iAutorizacionesManipulacionHeladeraResponse";
+import {
+    ISolicitarAutorizacionAperturaDeHeladeraRequest
+} from "@models/requests/colaboradores/iSolicitarAutorizacionAperturaDeHeladeraRequest";
+import {IPremioResponse} from "@models/responses/premios/iPremioResponse";
+import {TipoRubro} from "@models/enums/tipoRubro";
 
 export const colaboradoresApi = createApi({
     reducerPath: "ColaboradoresApi",
     baseQuery: fetchBaseQuery({baseUrl: config.apiUrl}),
-    tagTypes: ["Colaborador", "Suscripciones"],
+    tagTypes: ["Colaborador", "Suscripciones", "Accesos"],
     endpoints: (builder) => ({
         postImportarColaboradoresCsv: builder.mutation<
             void,
@@ -80,6 +89,47 @@ export const colaboradoresApi = createApi({
                 method: "GET",
             }),
             providesTags: ["Suscripciones"]
+        }),
+
+        getAccesos: builder.query<
+            { accesos: IAccesoHeladeraResponse[], autorizaciones: IAutorizacionManipulacionHeladeraResponse[] },
+            string
+        >({
+            query: (id) => ({
+                url: `colaboradores/${id}/accesos`,
+                method: "GET",
+            }),
+            providesTags: ["Accesos"]
+        }),
+
+        postSolicitarAccesoHeladera: builder.mutation<
+            void,
+            ISolicitarAutorizacionAperturaDeHeladeraRequest
+        >({
+            query: (body) => ({
+                url: `Heladeras/SolicitarAutorizacionAperturaDeHeladera`,
+                method: "POST",
+                body,
+            }),
+            invalidatesTags: ["Accesos"]
+        }),
+
+        getPremiosReclamados: builder.query<
+            IPremioResponse[],
+            { colaboradorId: string, nombre?: string, puntosNecesarios?: number, rubro?: TipoRubro }
+        >({
+            query: ({
+                        colaboradorId: id,
+                        nombre,
+                        puntosNecesarios,
+                        rubro
+                    }) => ({
+                url: `colaboradores/${id}/premiosCanjeados`,
+                method: "GET",
+                params: {
+                    nombre, puntosNecesarios, rubro
+                }
+            }),
         })
     }),
 });
@@ -91,4 +141,8 @@ export const {
     usePostAltaColaboradorMutation,
     usePostDesuscribirseHeladeraMutation,
     useGetSuscripcionesQuery,
+    useGetAccesosQuery,
+    usePostSolicitarAccesoHeladeraMutation,
+    useGetPremiosReclamadosQuery,
+    useLazyGetPremiosReclamadosQuery
 } = colaboradoresApi;

@@ -58,7 +58,7 @@ namespace AccesoAlimentario.Web.SensoresReader.Processors
                     await _mediator.Send(new AltaRegistroTemperatura.AltaRegistroTemperaturaCommand
                     {
                         SensorId = group.SensorId,  // Usar el SensorId del grupo
-                        Fecha = DateTime.Now,
+                        Fecha = DateTime.UtcNow,
                         Temperatura = group.AverageTemperature.ToString(CultureInfo.InvariantCulture)
                     });
                 }

@@ -21,7 +21,7 @@ export default function NavItem({item, level}: {
     const theme = useTheme();
     const drawerOpen = useAppSelector((state) => state.theme.drawerOpen);
 
-    const itemIcon = item.icon ? <Icon style={{fontSize: drawerOpen ? '1rem' : '1.25rem'}} className={item.icon}/> : false;
+    const itemIcon = item.icon ? <Icon style={{fontSize: drawerOpen ? '1rem' : '1.25rem', overflow: 'visible'}} className={item.icon}/> : false;
 
     const pathname = usePathname();
     const isSelected = pathname === item.url;

@@ -23,8 +23,8 @@ import {EstadoHeladera} from "@models/enums/estadoHeladera";
 import {heladeraRoute} from "@routes/router";
 import NextLink from "next/link";
 
-function getHeladeraEstado(estado: EstadoHeladera){
-    switch (estado){
+function getHeladeraEstado(estado: EstadoHeladera) {
+    switch (estado) {
         case EstadoHeladera.Activa:
             return 'Activa';
         case EstadoHeladera.Desperfecto:
@@ -40,12 +40,20 @@ export default function HeladerasPage() {
     const theme = useTheme();
     const {data, isError, isLoading} = useGetHeladerasQuery();
 
-    if (isLoading){
-        return <CircularProgress />
+    if (isLoading) {
+        return (
+            <Box sx={{display: 'flex', justifyContent: 'center'}}>
+                <CircularProgress/>
+            </Box>
+        )
     }
 
-    if (isError || !data){
-        return <Box>Error: Ha ocurrido un error al cargar los datos</Box>
+    if (isError || !data) {
+        return (<Box sx={{display: 'flex', justifyContent: 'center'}}>
+            <Typography variant="h5">
+                Error al cargar los datos
+            </Typography>
+        </Box>)
     }
 
     return (

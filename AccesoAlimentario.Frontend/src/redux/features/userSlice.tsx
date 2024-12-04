@@ -11,6 +11,7 @@ export interface User {
     profile_picture: string;
 
     contribucionesPreferidas: ContribucionesTipo[];
+    tarjetaColaboracionId: string;
     personaTipo: 'Humana' | 'Juridica';
 }
 
@@ -22,6 +23,7 @@ const initialState: User = {
     profile_picture: '',
 
     contribucionesPreferidas: [],
+    tarjetaColaboracionId: '',
     personaTipo: 'Humana',
 };
 
@@ -37,6 +39,7 @@ const userSlice = createSlice({
             state.profile_picture = action.payload.profile_picture;
 
             state.contribucionesPreferidas = action.payload.contribucionesPreferidas;
+            state.tarjetaColaboracionId = action.payload.tarjetaColaboracionId;
             state.personaTipo = action.payload.personaTipo;
         },
         clearUser: (state) => {
@@ -47,6 +50,7 @@ const userSlice = createSlice({
             state.profile_picture = '';
 
             state.contribucionesPreferidas = [];
+            state.tarjetaColaboracionId = '';
             state.personaTipo = 'Humana';
         },
     },

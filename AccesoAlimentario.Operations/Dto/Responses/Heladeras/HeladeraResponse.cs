@@ -11,7 +11,7 @@ public class HeladeraResponse
     public PuntoEstrategicoResponse PuntoEstrategico { get; set; } = null!;
     public List<ViandaResponse> Viandas { get; set; } = [];
     public EstadoHeladera Estado { get; set; } = EstadoHeladera.FueraServicio;
-    public DateTime FechaInstalacion { get; set; } = DateTime.Now;
+    public DateTime FechaInstalacion { get; set; } = DateTime.UtcNow;
     public float TemperaturaActual { get; set; } = 0;
     public float TemperaturaMinimaConfig { get; set; } = 0;
     public float TemperaturaMaximaConfig { get; set; } = 0;

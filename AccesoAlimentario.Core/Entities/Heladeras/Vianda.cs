@@ -7,8 +7,8 @@ public class Vianda
     public Guid Id { get; set; } = Guid.NewGuid();
 
     public string Comida { get; set; } = null!;
-    public DateTime FechaDonacion { get; set; } = DateTime.Now;
-    public DateTime FechaCaducidad { get; set; } = DateTime.Now;
+    public DateTime FechaDonacion { get; set; } = DateTime.UtcNow;
+    public DateTime FechaCaducidad { get; set; } = DateTime.UtcNow;
     public virtual Colaborador Colaborador { get; set; } = null!;
     public virtual Heladera Heladera { get; set; } = null!;
     public float Calorias { get; set; } = 0;

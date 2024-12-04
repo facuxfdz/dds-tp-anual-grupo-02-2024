@@ -44,7 +44,7 @@ public static class RegistrarCanjeDePremio
             }
 
             premio.ReclamadoPor = colaborador;
-            premio.FechaReclamo = DateTime.Now;
+            premio.FechaReclamo = DateTime.UtcNow;
             colaborador.Puntos -= premio.PuntosNecesarios;
             
             await _unitOfWork.SaveChangesAsync();

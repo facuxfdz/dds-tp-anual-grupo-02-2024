@@ -6,8 +6,8 @@ namespace AccesoAlimentario.Core.Entities.Roles;
 public class PersonaVulnerable : Rol
 {
     public int CantidadDeMenores { get; set; } = 0;
-    public virtual TarjetaConsumo Tarjeta { get; set; } = null;
-    public DateTime FechaRegistroSistema { get; set; } = DateTime.Now;
+    public virtual TarjetaConsumo Tarjeta { get; set; } = null!;
+    public DateTime FechaRegistroSistema { get; set; } = DateTime.UtcNow;
     
     public PersonaVulnerable()
     {

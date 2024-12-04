@@ -13,7 +13,7 @@ public static class ColaborarConDonacionDeVianda
     public class ColaborarConDonacionDeViandaCommand : IRequest<IResult>
     {
         public Guid ColaboradorId { get; set; }
-        public DateTime FechaContribucion { get; set; } = DateTime.Now;
+        public DateTime FechaContribucion { get; set; } = DateTime.UtcNow;
         public Guid HeladeraId { get; set; }
         public string Comida { get; set; }
         public DateTime FechaCaducidad { get; set; }
