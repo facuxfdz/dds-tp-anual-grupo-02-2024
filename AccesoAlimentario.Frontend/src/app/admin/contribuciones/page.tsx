@@ -329,7 +329,6 @@ export default function ContribucionesPage() {
                                                     <MenuItem value={item.value} key={item.value}>{item.label}</MenuItem>
                                                 )
                                         }
-                                        }*/}
                                     </Select>
                                     {
                                         tipoContribucion === "DonacionMonetaria" ? (

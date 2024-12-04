@@ -145,35 +145,3 @@ jobs:
           echo "full_image_front=$ECR_REGISTRY/$ECR_REPOSITORY/front:$IMAGE_TAG"
           echo "full_image_front=$ECR_REGISTRY/$ECR_REPOSITORY/front:$IMAGE_TAG" >> $GITHUB_ENV
         working-directory: "./AccesoAlimentario.Frontend"
-
-#      - name: Fill in the new image ID in the Amazon ECS task definition
-#        id: task-def
-#        uses: aws-actions/amazon-ecs-render-task-definition@v1
-#        with:
-#          task-definition: ${{ env.ECS_TASK_DEFINITION }}
-#          container-name: "accesoalimentario"
-#          image: ${{ env.full_image }}
-#      
-#      - name: Update Task def to use the deployed TASK role and ECS task execution role
-#        run: |
-#          set -eux
-#          if [ -z "${{ steps.ecs_cluster.outputs.task_role_arn }}" ] || [ -z "${{ steps.ecs_cluster.outputs.task_execution_role_arn }}" ]; then
-#            echo "ERROR: Required ECS role ARNs are missing!"
-#            exit 1
-#          fi
-#          sed -i "s#TASK_ROLE_ARN#${{ steps.ecs_cluster.outputs.task_role_arn }}#" "${{ steps.task-def.outputs.task-definition }}"
-#          sed -i "s#TASK_EXECUTION_ROLE_ARN#${{ steps.ecs_cluster.outputs.task_execution_role_arn }}#" "${{ steps.task-def.outputs.task-definition }}"
-#          sed -i "s#IMAGE_FRONT#${{ env.full_image_front }}#" "${{ steps.task-def.outputs.task-definition }}"
-#          
-#
-#      - name: Echo the new ECS task definition
-#        run: cat "${{ steps.task-def.outputs.task-definition }}"
-#        
-#      - name: Deploy Amazon ECS task definition
-#        id: deploy
-#        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
-#        with:
-#          task-definition: ${{ steps.task-def.outputs.task-definition }}
-#          service: "accesoalimentario"
-#          cluster: "accesoalimentario"
-#          wait-for-service-stability: false   
