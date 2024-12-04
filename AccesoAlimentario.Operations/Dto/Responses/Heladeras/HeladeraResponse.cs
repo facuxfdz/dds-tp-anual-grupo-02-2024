@@ -1,5 +1,4 @@
 ﻿using AccesoAlimentario.Core.Entities.Heladeras;
-using AccesoAlimentario.Operations.Dto.Requests.Heladeras;
 using AccesoAlimentario.Operations.Dto.Responses.Incidentes;
 using AccesoAlimentario.Operations.Dto.Responses.Sensores;
 

@@ -3,9 +3,6 @@ using AccesoAlimentario.Operations.Dto.Responses.Personas;
 
 namespace AccesoAlimentario.Operations.Dto.Responses.Roles;
 
-[JsonDerivedType(typeof(ColaboradorResponse))]
-[JsonDerivedType(typeof(PersonaVulnerableResponse))]
-[JsonDerivedType(typeof(TecnicoResponse))]
 public abstract class RolResponse
 {
     public Guid Id { get; set; } = Guid.Empty;

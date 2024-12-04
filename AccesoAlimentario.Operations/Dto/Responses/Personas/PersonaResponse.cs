@@ -1,12 +1,9 @@
-﻿using System.Text.Json.Serialization;
-using AccesoAlimentario.Operations.Dto.Responses.Direcciones;
+﻿using AccesoAlimentario.Operations.Dto.Responses.Direcciones;
 using AccesoAlimentario.Operations.Dto.Responses.DocumentosIdentidad;
 using AccesoAlimentario.Operations.Dto.Responses.MediosContacto;
 
 namespace AccesoAlimentario.Operations.Dto.Responses.Personas;
 
-[JsonDerivedType(typeof(PersonaHumanaResponse))]
-[JsonDerivedType(typeof(PersonaJuridicaResponse))]
 public abstract class PersonaResponse
 {
     public Guid Id { get; set; } = Guid.Empty;

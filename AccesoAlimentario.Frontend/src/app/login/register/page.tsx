@@ -235,7 +235,7 @@ export default function RegisterPage() {
                                                             }
                                                         },
                                                     }}
-                                                    render={({ field, fieldState }) => (
+                                                    render={({field, fieldState}) => (
                                                         <TextFieldElement
                                                             {...field}
                                                             label="Contraseña"
