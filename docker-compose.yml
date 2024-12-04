@@ -24,10 +24,14 @@ services:
       - DB_NAME=AccesoAlimentario
       - DB_USER=dev
       - DB_PASSWORD=YourStrongPassword!123
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_USER=guest
+      - RABBITMQ_PASSWORD=guest
     ports:
       - "5000:8085" # Mapea el puerto 8080 del contenedor al puerto 5000 del host
     depends_on:
       - mysql
+      - rabbitmq
     networks:
       - accesodb
       - default

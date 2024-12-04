@@ -16,18 +16,28 @@ namespace AccesoAlimentario.Web.SensoresReader
         private readonly Timer _flushTimer;
         private const int BufferIntervalSeconds = 5; // Intervalo en segundos para hacer el "flush"
 
-        public RabbitMQConsumer(IServiceScopeFactory scopeFactory, string queueName, Func<List<string>, Task> messageProcessor)
+        public RabbitMQConsumer(ConnectionFactory connectionFactory, IServiceScopeFactory scopeFactory, string queueName, Func<List<string>, Task> messageProcessor)
         {
             _queueName = queueName;
             _messageProcessor = messageProcessor;
             _scopeFactory = scopeFactory;
-            var factory = new ConnectionFactory
+            var retry_count = 5;
+            var retry_delay = 5000;
+            while (retry_count > 0)
             {
-                HostName = "localhost" // Ajusta según sea necesario
-            };
-
-            _connection = factory.CreateConnectionAsync().Result;
-            _channel = _connection.CreateChannelAsync().Result;
+                try
+                {
+                    _connection = connectionFactory.CreateConnectionAsync().Result;
+                    _channel = _connection.CreateChannelAsync().Result;
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error connecting to RabbitMQ: {ex.Message}");
+                    retry_count--;
+                    Thread.Sleep(retry_delay);
+                }
+            }
 
             // Asegúrate de que la cola exista
             _channel.QueueDeclareAsync(
@@ -35,8 +45,7 @@ namespace AccesoAlimentario.Web.SensoresReader
                 durable: false,
                 exclusive: false,
                 autoDelete: false,
-                arguments: null
-            ).Wait();
+                arguments: null).Wait();
 
             // Configura el temporizador para "flush" de datos
             _flushTimer = new Timer(FlushMessages, null, TimeSpan.Zero, TimeSpan.FromSeconds(BufferIntervalSeconds));

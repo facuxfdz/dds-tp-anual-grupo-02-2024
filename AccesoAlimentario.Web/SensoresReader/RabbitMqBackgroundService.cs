@@ -1,6 +1,8 @@
-﻿using AccesoAlimentario.Web.SensoresReader;
+﻿using AccesoAlimentario.Web.SecretRetrieve;
+using AccesoAlimentario.Web.SensoresReader;
 using AccesoAlimentario.Web.SensoresReader.Processors;
 using MediatR;
+using RabbitMQ.Client;
 
 public class RabbitMqBackgroundService : BackgroundService
 {
@@ -13,9 +15,30 @@ public class RabbitMqBackgroundService : BackgroundService
         _scope = scopeFactory.CreateScope();
         var sender = _scope.ServiceProvider.GetRequiredService<ISender>();
         var tempProcessor = new TemperaturaProcessor(sender);  
+        // if development retrieve rabbitconfig from environment variables
+        var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+        var rabbitConfig = new ConnectionFactory();
+        if (env == "Development")
+        {
+            rabbitConfig.HostName = Environment.GetEnvironmentVariable("RABBITMQ_HOST") ?? "localhost";
+            rabbitConfig.UserName = Environment.GetEnvironmentVariable("RABBITMQ_USER") ?? "guest";
+            rabbitConfig.Password = Environment.GetEnvironmentVariable("RABBITMQ_PASSWORD") ?? "guest";
+        }
+        else
+        {
+            SecretRetrieve secretRetrieve = new SecretRetrieve();
+            var rabbitSecret = secretRetrieve.GetSecretAs<RabbitMQSecret>("rabbitmq");
+            if (rabbitSecret == null)
+            {
+                throw new Exception("RabbitMQ secret not found");
+            }
+            rabbitConfig.HostName = rabbitSecret.HostName;
+            rabbitConfig.UserName = rabbitSecret.UserName;
+            rabbitConfig.Password = rabbitSecret.Password;
+        }
         _consumers = new List<RabbitMQConsumer>
         {
-            new RabbitMQConsumer(scopeFactory, "temperatura", tempProcessor.ProcessMessageBuffered)
+            new RabbitMQConsumer(rabbitConfig, scopeFactory, "temperatura", tempProcessor.ProcessMessageBuffered)
         };
     }
 
