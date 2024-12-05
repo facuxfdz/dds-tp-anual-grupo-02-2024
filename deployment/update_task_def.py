@@ -152,15 +152,15 @@ if __name__ == '__main__':
     subnet_ids = ['subnet-0a094580305b044f2', 'subnet-0e147b4b3ad9a5a02', 'subnet-07b5be1eae03a7cb3']
     security_groups = ['sg-047447291c2271910']
 
-    os.environ["FRONT_IMAGE"] = "034781041905.dkr.ecr.us-east-1.amazonaws.com/acceso-alimentario_releases/front:ea80f21c0d6e0640198a4d362d530a4cea0089b7"
-    os.environ["BACK_IMAGE"] = "034781041905.dkr.ecr.us-east-1.amazonaws.com/acceso-alimentario_releases:ea80f21c0d6e0640198a4d362d530a4cea0089b7"
-    os.environ["RECOMENDACIONES_API_IMAGE"] = "034781041905.dkr.ecr.us-east-1.amazonaws.com/acceso-alimentario_releases/recomendaciones-api:ea80f21c0d6e0640198a4d362d530a4cea0089b7"
+    os.environ["BACK_IMAGE"] = "034781041905.dkr.ecr.us-east-1.amazonaws.com/acceso-alimentario_releases:b57b106db5f74e14d3886297bd5407cc4f3e5132"
+    os.environ["FRONT_IMAGE"] = "034781041905.dkr.ecr.us-east-1.amazonaws.com/acceso-alimentario_releases/front:b57b106db5f74e14d3886297bd5407cc4f3e5132"
+    os.environ["RECOMENDACIONES_API_IMAGE"] = "034781041905.dkr.ecr.us-east-1.amazonaws.com/acceso-alimentario_releases/recomendaciones-api:b57b106db5f74e14d3886297bd5407cc4f3e5132"
 
     NOT_EXPOSED_SERVICES = ["rabbitmq"]
     HOST_MAPPING = {
         "frontend": "acceso-alimentario.opsconsultingservices.com",
         "backend": "back.acceso-alimentario.opsconsultingservices.com",
-        "recomendaciones_api": "recomendaciones.acceso-alimentario.opsconsultingservices.com/"
+        "recomendaciones_api": "recomendaciones.acceso-alimentario.opsconsultingservices.com"
     }
     SERVICE_MAPPING = {
         "frontend": {
