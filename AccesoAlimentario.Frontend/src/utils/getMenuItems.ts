@@ -192,7 +192,7 @@ const items: IMenuItem[] = [
         type: "item",
         url: reportarIncidenciaRoute(),
         icon: "fa-duotone fa-solid fa-exclamation-triangle",
-        tecnicos: true,
+        tecnicos: false,
         colaboradores: true,
         tarjetaColaborador: false,
         personaHumana: true,

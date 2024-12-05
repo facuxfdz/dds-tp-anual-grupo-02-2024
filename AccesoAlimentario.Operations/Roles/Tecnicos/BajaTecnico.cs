@@ -30,7 +30,8 @@ public static class BajaTecnico
             {
                 return Results.NotFound("El tecnico no existe");
             }
-
+            
+            await _unitOfWork.AreaCoberturaRepository.RemoveAsync(tecnico.AreaCobertura);
             await _unitOfWork.TecnicoRepository.RemoveAsync(tecnico);
             await _unitOfWork.SaveChangesAsync();
 

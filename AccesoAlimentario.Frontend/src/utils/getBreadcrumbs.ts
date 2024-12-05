@@ -88,7 +88,7 @@ const items : IBreadcrumbItem[] = [
     },
     {
         id: "colaboradores-administracion",
-        title: "Administracoin",
+        title: "Administracion",
         url: colaboradoresAdministracionRoute(),
         father: "colaboradores"
     },

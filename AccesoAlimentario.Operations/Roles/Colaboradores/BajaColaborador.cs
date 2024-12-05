@@ -57,6 +57,19 @@ public static class BajaColaborador
                 premio.ReclamadoPor = null;
                 await _unitOfWork.PremioRepository.UpdateAsync(premio);
             }
+
+            if (colaborador.TarjetaColaboracion != null)
+            {
+                foreach (var autorizacion in colaborador.TarjetaColaboracion.Autorizaciones)
+                {
+                    await _unitOfWork.AutorizacionManipulacionHeladeraRepository.RemoveAsync(autorizacion);
+                }
+                foreach (var acceso in colaborador.TarjetaColaboracion.Accesos)
+                {
+                    await _unitOfWork.AccesoHeladeraRepository.RemoveAsync(acceso);
+                }
+                await _unitOfWork.TarjetaColaboracionRepository.RemoveAsync(colaborador.TarjetaColaboracion);
+            }
             
             await _unitOfWork.ColaboradorRepository.RemoveAsync(colaborador);
             await _unitOfWork.SaveChangesAsync();

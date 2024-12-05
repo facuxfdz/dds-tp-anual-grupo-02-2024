@@ -39,14 +39,14 @@ public static class BajaHeladera
                 {
                     case SensorTemperatura sensorTemperatura:
                         await _unitOfWork.RegistroTemperaturaRepository.RemoveRangeAsync(sensorTemperatura.RegistrosTemperatura);
+                        await _unitOfWork.SensorTemperaturaRepository.RemoveAsync(sensorTemperatura);
                         break;
                     case SensorMovimiento sensorMovimiento:
                         await _unitOfWork.RegistroMovimientoRepository.RemoveRangeAsync(sensorMovimiento.RegistrosMovimiento);
+                        await _unitOfWork.SensorMovimientoRepository.RemoveAsync(sensorMovimiento);
                         break;
                 }
             }
-            
-            await _unitOfWork.SensorRepository.RemoveRangeAsync(heladera.Sensores);
 
             await _unitOfWork.ViandaRepository.RemoveRangeAsync(heladera.Viandas);
 
@@ -101,6 +101,8 @@ public static class BajaHeladera
                 }
                 await _unitOfWork.DistribucionViandasRepository.UpdateAsync(distribucion);
             }
+            
+            await _unitOfWork.PuntoEstrategicoRepository.RemoveAsync(heladera.PuntoEstrategico);
             
             await _unitOfWork.HeladeraRepository.RemoveAsync(heladera);
             await _unitOfWork.SaveChangesAsync();

@@ -41,15 +41,17 @@ const Home: React.FC = () => {
             }
             menuItems.push({title: "Premios", icon: "fa-duotone fa-solid fa-gift", href: premiosRoute()});
             menuItems.push({title: "Suscripciones", icon: "fa-duotone fa-solid fa-envelope", href: suscripcionesRoute()});
+            menuItems.push({title: "Reportar incidencia", icon: "fa-duotone fa-solid fa-exclamation-triangle", href: reportarIncidenciaRoute()});
         }
 
         if (user.tecnicoId != "") {
             menuItems.push({title: "Incidentes", icon: "fa-duotone fa-solid fa-exclamation-circle", href: incidentesRoute()});
         }
 
-        menuItems.push({title: "Reportar incidencia", icon: "fa-duotone fa-solid fa-exclamation-triangle", href: reportarIncidenciaRoute()});
+        if (user.colaboradorId != "" || user.tecnicoId != ""){
+            menuItems.push({title: "Ver reportes", icon: "fa-duotone fa-solid fa-chart-bar", href: reportesRoute()});
+        }
 
-        menuItems.push({title: "Ver reportes", icon: "fa-duotone fa-solid fa-chart-bar", href: reportesRoute()});
 
         return menuItems;
     }
