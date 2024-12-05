@@ -54,7 +54,7 @@ jobs:
         shell: bash
         run: |
           set -eux
-          modules=(ecr vpc alb ecs rds)
+          modules=(ecr vpc alb ecs rds outputs)
 
           for module in "${modules[@]}"; do
             echo "module: $module" 
