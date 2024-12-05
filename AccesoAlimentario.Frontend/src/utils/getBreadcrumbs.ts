@@ -1,11 +1,21 @@
 import {
     colaboradoresImportarRoute,
     colaboradoresRegistroRoute,
-    contribucionesRoute, heladerasRoute, heladeraRoute, inicioRoute,
-    perfilRoute, personaVulnerableRegistroRoute, premiosRoute,
+    contribucionesRoute,
+    heladerasRoute,
+    heladeraRoute,
+    inicioRoute,
+    perfilRoute,
+    personaVulnerableRegistroRoute,
+    premiosRoute,
     reportarIncidenciaRoute,
     reportesRoute,
-    suscripcionesRoute, accesosRoute, tecnicoRegistroRoute, incidentesRoute
+    suscripcionesRoute,
+    accesosRoute,
+    tecnicoRegistroRoute,
+    incidentesRoute,
+    tecnicosAdministracionRoute,
+    colaboradoresAdministracionRoute
 } from "@routes/router";
 
 export interface IBreadcrumbItem {
@@ -77,6 +87,12 @@ const items : IBreadcrumbItem[] = [
         father: "inicio"
     },
     {
+        id: "colaboradores-administracion",
+        title: "Administracion",
+        url: colaboradoresAdministracionRoute(),
+        father: "colaboradores"
+    },
+    {
         id: "colaboradores-registro",
         title: "Registro",
         url: colaboradoresRegistroRoute(),
@@ -111,6 +127,12 @@ const items : IBreadcrumbItem[] = [
         title: "Tecnicos",
         url: "#",
         father: "inicio"
+    },
+    {
+        id: "tecnicos-administracion",
+        title: "Administracion",
+        url: tecnicosAdministracionRoute(),
+        father: "tecnicos"
     },
     {
         id: "tecnicos-registro",

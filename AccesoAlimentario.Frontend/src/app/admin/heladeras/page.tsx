@@ -1,9 +1,10 @@
 "use client";
 import {
+    Backdrop,
     Box,
     Button,
     CardActions,
-    CircularProgress,
+    CircularProgress, Divider, Fade, Modal,
     Stack,
     Table,
     TableBody,
@@ -18,10 +19,14 @@ import Typography from "@mui/material/Typography";
 import CardContent from "@mui/material/CardContent";
 import MainCard from "@components/Cards/MainCard";
 import {useTheme} from "@mui/material/styles";
-import {useGetHeladerasQuery} from "@redux/services/heladerasApi";
+import {useDeleteHeladeraMutation, useGetHeladerasQuery} from "@redux/services/heladerasApi";
 import {EstadoHeladera} from "@models/enums/estadoHeladera";
 import {heladeraRoute} from "@routes/router";
 import NextLink from "next/link";
+import Grid from "@mui/material/Grid2";
+import {useNotification} from "@components/Notifications/NotificationContext";
+import {useAppSelector} from "@redux/hook";
+import dynamic from "next/dynamic";
 
 function getHeladeraEstado(estado: EstadoHeladera) {
     switch (estado) {
@@ -36,9 +41,40 @@ function getHeladeraEstado(estado: EstadoHeladera) {
     }
 }
 
+const HeladerasMap = dynamic(() => import('./HeladerasMap'), {
+    ssr: false,
+})
+
 export default function HeladerasPage() {
     const theme = useTheme();
-    const {data, isError, isLoading} = useGetHeladerasQuery();
+    const {data, isLoading} = useGetHeladerasQuery();
+    const [
+        deleteHeladera,
+        {isLoading: isDeleting}
+    ] = useDeleteHeladeraMutation();
+    const [heladeraSeleccionada, setHeladeraSeleccionada] = React.useState<string | null>(null);
+    const [showModal, setShowModal] = React.useState(false);
+    const {addNotification} = useNotification();
+    const user = useAppSelector((state) => state.user);
+    const [verMapa, setVerMapa] = React.useState(false);
+
+    const handleDelete = (heladeraId: string) => {
+        setHeladeraSeleccionada(heladeraId);
+        setShowModal(true);
+    }
+
+    const handleSubmit = async () => {
+        if (heladeraSeleccionada) {
+            try {
+                await deleteHeladera(heladeraSeleccionada).unwrap();
+                addNotification("Heladera eliminada correctamente", "success");
+                setShowModal(false);
+                setHeladeraSeleccionada(null);
+            } catch {
+                addNotification("Error al eliminar la heladera", "error");
+            }
+        }
+    }
 
     if (isLoading) {
         return (
@@ -46,14 +82,6 @@ export default function HeladerasPage() {
                 <CircularProgress/>
             </Box>
         )
-    }
-
-    if (isError || !data) {
-        return (<Box sx={{display: 'flex', justifyContent: 'center'}}>
-            <Typography variant="h5">
-                Error al cargar los datos
-            </Typography>
-        </Box>)
     }
 
     return (
@@ -78,46 +106,131 @@ export default function HeladerasPage() {
                         </Typography>
                     </Box>
                 </Stack>
+                <Stack direction="row" spacing={1} justifyContent="flex-end">
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        size="small"
+                        onClick={() => setVerMapa(!verMapa)}
+                    >
+                        {verMapa ? 'Ocultar Mapa' : 'Ver Mapa'}
+                    </Button>
+                </Stack>
             </CardActions>
             <CardContent>
-                <TableContainer>
-                    <Table sx={{minWidth: 350}} aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
-                                <StyledTableCell sx={{pl: 3}}>#</StyledTableCell>
-                                <StyledTableCell align="center">Nombre</StyledTableCell>
-                                <StyledTableCell align="center">Estado</StyledTableCell>
-                                <StyledTableCell align="center" sx={{pr: 3}}>Acciones</StyledTableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {data.map((row, index) => (
-                                <StyledTableRow hover key={`${row.id}-${index}`}>
-                                    <StyledTableCell sx={{pl: 3}} component="th" scope="row">
-                                        {index + 1}
-                                    </StyledTableCell>
-                                    <StyledTableCell align="center">{row.puntoEstrategico.nombre}</StyledTableCell>
-                                    <StyledTableCell align="center">{getHeladeraEstado(row.estado)}</StyledTableCell>
-                                    <StyledTableCell align="center" sx={{pr: 3}}>
-                                        <Stack direction="row" spacing={1} justifyContent="center">
-                                            <Button
-                                                variant="contained"
-                                                color="primary"
-                                                size="small"
-                                                sx={{minWidth: '30px'}}
-                                                component={NextLink}
-                                                href={heladeraRoute(row.id)}
-                                            >
-                                                Ver Detalles
-                                            </Button>
-                                        </Stack>
-                                    </StyledTableCell>
-                                </StyledTableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                {
+                    !verMapa ? (
+                        <TableContainer>
+                            <Table sx={{minWidth: 350}} aria-label="simple table">
+                                <TableHead>
+                                    <TableRow>
+                                        <StyledTableCell sx={{pl: 3}}>#</StyledTableCell>
+                                        <StyledTableCell align="center">Nombre</StyledTableCell>
+                                        <StyledTableCell align="center">Estado</StyledTableCell>
+                                        <StyledTableCell align="center" sx={{pr: 3}}>Acciones</StyledTableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {(data || []).map((row, index) => (
+                                        <StyledTableRow hover key={`${row.id}-${index}`}>
+                                            <StyledTableCell sx={{pl: 3}} component="th" scope="row">
+                                                {index + 1}
+                                            </StyledTableCell>
+                                            <StyledTableCell
+                                                align="center">{row.puntoEstrategico.nombre}</StyledTableCell>
+                                            <StyledTableCell
+                                                align="center">{getHeladeraEstado(row.estado)}</StyledTableCell>
+                                            <StyledTableCell align="center" sx={{pr: 3}}>
+                                                <Stack direction="row" spacing={1} justifyContent="center">
+                                                    <Button
+                                                        variant="contained"
+                                                        color="primary"
+                                                        size="small"
+                                                        sx={{minWidth: '30px'}}
+                                                        component={NextLink}
+                                                        href={heladeraRoute(row.id)}
+                                                    >
+                                                        Ver Detalles
+                                                    </Button>
+                                                    {
+                                                        user.isAdmin && (
+                                                            <Button
+                                                                variant="contained"
+                                                                color="error"
+                                                                size="small"
+                                                                sx={{minWidth: '30px'}}
+                                                                onClick={() => handleDelete(row.id)}
+                                                            >
+                                                                Eliminar
+                                                            </Button>
+                                                        )
+                                                    }
+                                                </Stack>
+                                            </StyledTableCell>
+                                        </StyledTableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    ) : (
+                        <HeladerasMap data={data || []}/>
+                    )
+                }
             </CardContent>
+
+            <Modal
+                open={showModal}
+                onClose={() => setShowModal(false)}
+                closeAfterTransition
+                slots={{
+                    backdrop: Backdrop
+                }}
+                slotProps={{
+                    backdrop: {
+                        timeout: 500
+                    }
+                }}
+            >
+                <Fade in={showModal}>
+                    <MainCard modal darkTitle content={false} title={"Eliminar heladera"} sx={{
+                        width: {
+                            xs: "100%",
+                            sm: "80%",
+                            md: "60%",
+                        }
+                    }}>
+                        <CardContent>
+                            <Grid container spacing={3} alignItems="center">
+                                <Grid size={12}>
+                                    <Typography variant="body1">
+                                        ¿Está seguro que desea eliminar la heladera?
+                                    </Typography>
+                                </Grid>
+                            </Grid>
+                        </CardContent>
+                        <Divider/>
+                        <Stack direction="row" spacing={1} justifyContent="flex-end" sx={{px: 2.5, py: 2}}>
+                            <Button color="secondary" size="small" onClick={() => {
+                                setShowModal(false);
+                                setHeladeraSeleccionada(null);
+                            }}>
+                                Cancelar
+                            </Button>
+                            <Button
+                                variant="contained"
+                                size="small"
+                                disabled={
+                                    isDeleting
+                                }
+                                color="error"
+                                onClick={handleSubmit}
+                            >
+                                Eliminar
+                            </Button>
+                        </Stack>
+                    </MainCard>
+                </Fade>
+            </Modal>
         </MainCard>
     );
 }

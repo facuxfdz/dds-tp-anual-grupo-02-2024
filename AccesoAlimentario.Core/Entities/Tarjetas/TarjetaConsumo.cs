@@ -6,7 +6,7 @@ namespace AccesoAlimentario.Core.Entities.Tarjetas;
 
 public class TarjetaConsumo : Tarjeta
 {
-    public virtual Colaborador Responsable { get; set; } = null!;
+    public virtual Colaborador? Responsable { get; set; } = null!;
     public new virtual PersonaVulnerable Propietario { get; set; } = null!;
 
     public bool PuedeConsumir()

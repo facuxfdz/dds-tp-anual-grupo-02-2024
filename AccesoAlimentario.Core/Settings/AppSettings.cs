@@ -23,16 +23,16 @@ public sealed class AppSettings
                 .AddJsonFile("Resources/CoeficientesPuntos.json", optional: true, reloadOnChange: true)
                 .AddJsonFile("Resources/appsettings.json")
                 .Build();
-            PesoDonadosCoef = float.Parse(build["PesoDonadosCoef"]);
-            ViandasDistribuidasCoef = float.Parse(build["ViandasDistribuidasCoef"]);
-            ViandasDonadasCoef = float.Parse(build["ViandasDonadasCoef"]);
-            TarjetasRepartidasCoef = float.Parse(build["TarjetasRepartidasCoef"]);
+            PesoDonadosCoef = float.Parse(build["PesoDonadosCoef"] ?? "0");
+            ViandasDistribuidasCoef = float.Parse(build["ViandasDistribuidasCoef"] ?? "0");
+            ViandasDonadasCoef = float.Parse(build["ViandasDonadasCoef"] ?? "0");
+            TarjetasRepartidasCoef = float.Parse(build["TarjetasRepartidasCoef"] ?? "0");
             SmtpConfig = new SmtpConfiguration
             {
-                Host = build["Smtp:Host"],
-                Port = int.Parse(build["Smtp:Port"]),
-                Username = build["Smtp:Username"],
-                Password = build["Smtp:Password"]
+                Host = build["Smtp:Host"] ?? "",
+                Port = int.Parse(build["Smtp:Port"] ?? ""),
+                Username = build["Smtp:Username"] ?? "",
+                Password = build["Smtp:Password"] ?? ""
             };
         }
         catch (Exception e)

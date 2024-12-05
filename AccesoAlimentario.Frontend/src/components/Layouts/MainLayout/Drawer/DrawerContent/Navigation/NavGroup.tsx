@@ -16,6 +16,9 @@ export default function NavGroup({item}: { item: IMenuItem }) {
     const user = useAppSelector((state) => state.user);
 
     const filterMenuItemRol = (item : IMenuItem) => {
+        if (user.isAdmin) {
+            return true;
+        }
         if (item.tecnicos && user.tecnicoId != "") {
             return true;
         }
@@ -33,6 +36,9 @@ export default function NavGroup({item}: { item: IMenuItem }) {
     }
 
     const filterMenuItemTipoPersona = (item : IMenuItem) => {
+        if (user.isAdmin) {
+            return true;
+        }
         if (item.personaHumana && user.personaTipo == "Humana") {
             return true;
         }

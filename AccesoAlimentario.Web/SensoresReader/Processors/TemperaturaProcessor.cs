@@ -31,9 +31,9 @@ namespace AccesoAlimentario.Web.SensoresReader.Processors
 
                         var record = new AltaRegistroTemperatura.AltaRegistroTemperaturaCommand
                         {
-                            SensorId = Guid.Parse(root.GetProperty("SensorId").GetString()),
+                            SensorId = Guid.Parse(root.GetProperty("SensorId").GetString() ?? Guid.Empty.ToString()),
                             Fecha = root.GetProperty("Fecha").GetDateTime(),
-                            Temperatura = root.GetProperty("Temperatura").GetString()
+                            Temperatura = root.GetProperty("Temperatura").GetString() ?? "0"
                         };
 
                         records.Add(record);

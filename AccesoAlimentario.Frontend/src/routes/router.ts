@@ -34,6 +34,10 @@ export const accesosRoute = () => {
     return '/admin/accesos';
 }
 
+export const colaboradoresAdministracionRoute = () => {
+    return '/admin/colaboradores/administracion';
+}
+
 export const colaboradoresRegistroRoute = () => {
     return '/admin/colaboradores/registro';
 }
@@ -52,6 +56,10 @@ export const reportesRoute = () => {
 
 export const incidentesRoute = () => {
     return '/admin/incidentes';
+}
+
+export const tecnicosAdministracionRoute = () =>{
+    return '/admin/tecnicos/administracion';
 }
 
 export const tecnicoRegistroRoute = () => {

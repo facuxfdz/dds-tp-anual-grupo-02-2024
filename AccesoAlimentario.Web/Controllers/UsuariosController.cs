@@ -1,4 +1,5 @@
-﻿using AccesoAlimentario.Operations.Roles.Usuarios;
+﻿using AccesoAlimentario.Operations.Roles;
+using AccesoAlimentario.Operations.Roles.Usuarios;
 using AccesoAlimentario.Web.Constants;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +23,21 @@ public class UsuariosController(ISender sender, ILogger<UsuariosController> logg
         catch (Exception e)
         {
             logger.LogError(e, "Error al crear un usuario");
+            return Results.StatusCode(500);
+        }
+    }
+    
+    [ApiExplorerSettings(IgnoreApi = true)]
+    [HttpPost("admin")]
+    public async Task<IResult> Post([FromBody] CrearAdmin.CrearAdminCommand command)
+    {
+        try
+        {
+            return await sender.Send(command);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Error al crear un admin");
             return Results.StatusCode(500);
         }
     }

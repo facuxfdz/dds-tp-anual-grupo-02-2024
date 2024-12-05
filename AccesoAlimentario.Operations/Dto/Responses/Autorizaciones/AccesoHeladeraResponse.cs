@@ -9,6 +9,6 @@ public class AccesoHeladeraResponse
     public List<ViandaResponse> Viandas { get; set; } = null!;
     public DateTime FechaAcceso { get; set; } = DateTime.UtcNow;
     public TipoAcceso TipoAcceso { get; set; } = TipoAcceso.IngresoVianda;
-    public HeladeraResponse Heladera { get; set; } = null!;
+    public HeladeraResponseMinimo Heladera { get; set; } = null!;
     public AutorizacionManipulacionHeladeraResponse? Autorizacion { get; set; } = null!;
 }

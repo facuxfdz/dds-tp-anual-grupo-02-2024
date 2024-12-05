@@ -9,3 +9,9 @@ public abstract class RolResponse
     public PersonaResponse Persona { get; set; } = null!;
     public string Tipo { get; set; } = string.Empty;
 }
+
+public abstract class RolResponseMinimo
+{
+    public Guid Id { get; set; } = Guid.Empty;
+    public string Tipo { get; set; } = string.Empty;
+}

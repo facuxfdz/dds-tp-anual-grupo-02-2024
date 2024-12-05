@@ -1,5 +1,6 @@
 ﻿using AccesoAlimentario.Core.Entities.Contribuciones;
 using AccesoAlimentario.Core.Entities.Personas;
+using AccesoAlimentario.Core.Entities.Premios;
 using AccesoAlimentario.Core.Entities.SuscripcionesColaboradores;
 using AccesoAlimentario.Core.Entities.Tarjetas;
 
@@ -12,6 +13,7 @@ public class Colaborador : Rol
     public virtual List<Suscripcion> Suscripciones { get; set; } = [];
     public float Puntos { get; set; } = 0;
     public virtual TarjetaColaboracion? TarjetaColaboracion { get; set; } = null;
+    public virtual List<Premio> PremiosReclamados { get; set; } = [];
 
     public Colaborador()
     {

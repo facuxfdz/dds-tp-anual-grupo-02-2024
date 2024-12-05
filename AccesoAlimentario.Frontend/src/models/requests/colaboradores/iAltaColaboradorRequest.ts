@@ -43,7 +43,7 @@ export interface IPersonaHumanaRequest extends IPersonaRequest {
 
 export interface IPersonaJuridicaRequest extends IPersonaRequest {
     razonSocial: string;
-    tipoJuridico: TipoJuridica;
+    tipo: TipoJuridica;
     rubro: string;
     tipoPersona: 'Juridica';
 }

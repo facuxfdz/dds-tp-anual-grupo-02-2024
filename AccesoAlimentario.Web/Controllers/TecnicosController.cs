@@ -12,6 +12,20 @@ namespace AccesoAlimentario.Web.Controllers;
 [ApiController]
 public class TecnicosController(ISender sender, ILogger<TecnicosController> logger) : ControllerBase
 {
+    [HttpGet]
+    public async Task<IResult> Get()
+    {
+        try
+        {
+            return await sender.Send(new ObtenerTecnicos.ObtenerTecnicosCommand());
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Error al obtener los técnicos");
+            return Results.StatusCode(500);
+        }
+    }
+    
     [HttpPost]
     public async Task<IResult> Post([FromBody] AltaTecnico.AltaTecnicoCommand command)
     {

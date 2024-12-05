@@ -5,9 +5,15 @@ import {LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
 import {DatePickerElement} from "react-hook-form-mui/date-pickers";
 import {TextFieldElement} from "react-hook-form-mui";
+import {useTheme} from "@mui/material/styles";
 
 
-export const DonacionMonetariaForm = () => {
+export const DonacionMonetariaForm = ({
+                                          onlyView = false,
+                                      }: {
+    onlyView?: boolean
+}) => {
+    const theme = useTheme();
     return (
         <Grid container spacing={3} alignItems="center">
             <Grid size={12} key={"fechaContribucion"}>
@@ -21,7 +27,16 @@ export const DonacionMonetariaForm = () => {
                                 required: "Por favor ingrese una fecha"
                             }
                         }
-                        sx={{width: '100%'}}
+                        disabled={onlyView}
+                        sx={{
+                            width: '100%',
+                            "& .MuiInputBase-input.Mui-disabled": {
+                                WebkitTextFillColor: theme.palette.text.primary,
+                            },
+                            "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                color: theme.palette.text.secondary,
+                            },
+                        }}
                     />
                 </LocalizationProvider>
             </Grid>
@@ -38,6 +53,15 @@ export const DonacionMonetariaForm = () => {
                             required: "Por favor ingrese un monto"
                         }
                     }
+                    disabled={onlyView}
+                    sx={{
+                        "& .MuiInputBase-input.Mui-disabled": {
+                            WebkitTextFillColor: theme.palette.text.primary,
+                        },
+                        "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                            color: theme.palette.text.secondary,
+                        },
+                    }}
                 />
             </Grid>
             <Grid size={12} key={"frecuenciaDias"}>
@@ -53,6 +77,15 @@ export const DonacionMonetariaForm = () => {
                             required: "Por favor ingrese una frecuencia"
                         }
                     }
+                    disabled={onlyView}
+                    sx={{
+                        "& .MuiInputBase-input.Mui-disabled": {
+                            WebkitTextFillColor: theme.palette.text.primary,
+                        },
+                        "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                            color: theme.palette.text.secondary,
+                        },
+                    }}
                 />
             </Grid>
         </Grid>

@@ -1,7 +1,6 @@
 ﻿using AccesoAlimentario.Core.DAL;
-using AccesoAlimentario.Core.Entities.Personas;
-using AccesoAlimentario.Core.Entities.Roles;
-using AccesoAlimentario.Operations.JwtToken;
+using AccesoAlimentario.Core.Passwords;
+using AccesoAlimentario.Core.Tokens;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -33,45 +32,18 @@ public static class LogInUsuario
         public async Task<IResult> Handle(LogInUsuarioCommand request, CancellationToken cancellationToken)
         {
             _logger.LogInformation("LogIn usuario");
-
+            var passwordHash = PasswordManager.HashPassword(request.Password);
             var query = _unitOfWork.UsuarioSistemaRepository.GetQueryable()
-                .Where(u => u.UserName == request.Username && u.Password == request.Password);
-            var existingUser = await _unitOfWork.UsuarioSistemaRepository.GetAsync(query, false);
+                .Where(u => u.UserName == request.Username && u.Password == passwordHash);
+            var existingUser = await _unitOfWork.UsuarioSistemaRepository.GetAsync(query);
             if (existingUser == null)
             {
                 return Results.Unauthorized();
             }
-
-            var persona = existingUser.Persona;
-            var rolColaborador = persona.Roles.OfType<Colaborador>().FirstOrDefault();
-            var tarjetaColaboradorId = "";
-            if (rolColaborador != null)
-            {
-                tarjetaColaboradorId = rolColaborador.TarjetaColaboracion?.Id.ToString() ?? "";
-            }
-            var rolTecnico = persona.Roles.OfType<Tecnico>().FirstOrDefault();
-
+            
             // Generate jwt token
-            var jwtGenerator = new JwtGenerator(60);
-            var contribucionesPreferidasInt =
-                rolColaborador?.ContribucionesPreferidas.Select(c => (int)c).ToArray() ?? [];
-            var newToken = jwtGenerator.GenerateToken(existingUser.Id.ToString(),
-            [
-                new KeyValuePair<string, string>("colaboradorId", rolColaborador?.Id.ToString() ?? ""),
-                new KeyValuePair<string, string>("tecnicoId", rolTecnico?.Id.ToString() ?? ""),
-                new KeyValuePair<string, string>("name", persona.Nombre),
-                new KeyValuePair<string, string>("profile_picture", existingUser.ProfilePicture ?? ""),
-                new KeyValuePair<string, string>("contribucionesPreferidas",
-                    string.Join(",", contribucionesPreferidasInt)),
-                new KeyValuePair<string, string>("tarjetaColaboracionId", tarjetaColaboradorId),
-                new KeyValuePair<string, string>("personaTipo",
-                    persona switch
-                    {
-                        PersonaHumana => "Humana",
-                        PersonaJuridica => "Juridica",
-                        _ => ""
-                    })
-            ]);
+            var newToken = TokenUsuario.GenerarToken(existingUser);
+            
             // Set cookie
             _httpContext.HttpContext!.Response.Cookies.Append("session", newToken, new CookieOptions
             {

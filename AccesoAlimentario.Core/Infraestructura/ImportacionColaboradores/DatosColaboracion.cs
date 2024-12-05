@@ -3,7 +3,7 @@ namespace AccesoAlimentario.Core.Infraestructura.ImportacionColaboradores;
 public class DatosColaboracion
 {
     public string TipoDoc { get; set; } = null!;
-    public string Documento { get; set; }
+    public string Documento { get; set; } = null!;
     public string Nombre { get; set; } = null!;
     public string Apellido { get; set; } = null!;
     public string Mail { get; set; } = null!;

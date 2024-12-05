@@ -4,26 +4,27 @@ using System.Text;
 
 namespace AccesoAlimentario.Web.SensoresReader
 {
-    public class RabbitMQConsumer
+    public class RabbitMqConsumer
     {
         private readonly string _queueName;
         private readonly Func<List<string>, Task> _messageProcessor;
-        private readonly IConnection _connection;
-        private readonly IChannel _channel;
+        private readonly IConnection? _connection;
+        private readonly IChannel? _channel;
         private readonly IServiceScopeFactory _scopeFactory;
-        
+
         private readonly List<string> _messageBuffer = new List<string>();
         private readonly Timer _flushTimer;
         private const int BufferIntervalSeconds = 5; // Intervalo en segundos para hacer el "flush"
 
-        public RabbitMQConsumer(ConnectionFactory connectionFactory, IServiceScopeFactory scopeFactory, string queueName, Func<List<string>, Task> messageProcessor)
+        public RabbitMqConsumer(ConnectionFactory connectionFactory, IServiceScopeFactory scopeFactory,
+            string queueName, Func<List<string>, Task> messageProcessor)
         {
             _queueName = queueName;
             _messageProcessor = messageProcessor;
             _scopeFactory = scopeFactory;
-            var retry_count = 5;
-            var retry_delay = 5000;
-            while (retry_count > 0)
+            var retryCount = 5;
+            var retryDelay = 5000;
+            while (retryCount > 0)
             {
                 try
                 {
@@ -34,13 +35,13 @@ namespace AccesoAlimentario.Web.SensoresReader
                 catch (Exception ex)
                 {
                     Console.WriteLine($"Error connecting to RabbitMQ: {ex.Message}");
-                    retry_count--;
-                    Thread.Sleep(retry_delay);
+                    retryCount--;
+                    Thread.Sleep(retryDelay);
                 }
             }
 
             // Asegúrate de que la cola exista
-            _channel.QueueDeclareAsync(
+            _channel?.QueueDeclareAsync(
                 queue: _queueName,
                 durable: false,
                 exclusive: false,
@@ -48,11 +49,17 @@ namespace AccesoAlimentario.Web.SensoresReader
                 arguments: null).Wait();
 
             // Configura el temporizador para "flush" de datos
-            _flushTimer = new Timer(FlushMessages, null, TimeSpan.Zero, TimeSpan.FromSeconds(BufferIntervalSeconds));
+            _flushTimer = new Timer(FlushMessages!, null, TimeSpan.Zero, TimeSpan.FromSeconds(BufferIntervalSeconds));
         }
 
         public async void StartConsuming()
         {
+            if (_channel == null)
+            {
+                Console.WriteLine("Error: Channel is null");
+                return;
+            }
+
             var consumer = new AsyncEventingBasicConsumer(_channel);
 
             consumer.ReceivedAsync += async (model, ea) =>
@@ -89,7 +96,7 @@ namespace AccesoAlimentario.Web.SensoresReader
         // Función de "flush" que procesa los mensajes del buffer
         private async void FlushMessages(object state)
         {
-            List<string> messagesToProcess = null;
+            List<string>? messagesToProcess = null;
 
             // Bloqueamos el acceso al buffer para asegurar que no haya acceso concurrente
             lock (_messageBuffer)
@@ -118,8 +125,14 @@ namespace AccesoAlimentario.Web.SensoresReader
 
         public async void StopConsuming()
         {
-            await _channel.CloseAsync();
-            await _connection.CloseAsync();
+            if (_channel != null)
+            {
+                await _channel.CloseAsync();
+            }
+            if (_connection != null)
+            {
+                await _connection.CloseAsync();
+            }
         }
     }
 }

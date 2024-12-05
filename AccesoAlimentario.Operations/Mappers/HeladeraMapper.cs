@@ -14,6 +14,7 @@ public class HeladeraMapper : Profile
         CreateMap<ModeloHeladeraRequest, ModeloHeladera>();
 
         CreateMap<Heladera, HeladeraResponse>();
+        CreateMap<Heladera, HeladeraResponseMinimo>();
         CreateMap<ModeloHeladera, ModeloHeladeraResponse>();
         CreateMap<PuntoEstrategico, PuntoEstrategicoResponse>();
         CreateMap<Vianda, ViandaResponse>();

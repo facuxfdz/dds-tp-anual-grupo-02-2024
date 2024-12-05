@@ -18,3 +18,14 @@ export interface IHeladeraResponse {
     incidentes: IIncidenteResponse[],
     modelo: IModeloHeladeraResponse
 }
+
+export interface IHeladeraResponseMinimo {
+    id: string,
+    puntoEstrategico: IPuntoEstrategicoResponse,
+    estado: EstadoHeladera,
+    fechaInstalacion: string,
+    temperaturaActual: number,
+    temperaturaMinimaConfig: number,
+    temperaturaMaximaConfig: number,
+    modelo: IModeloHeladeraResponse
+}

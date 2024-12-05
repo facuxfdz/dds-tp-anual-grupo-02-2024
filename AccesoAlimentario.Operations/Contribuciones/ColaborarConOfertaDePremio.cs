@@ -11,11 +11,11 @@ public static class ColaborarConOfertaDePremio
 {
     public class ColaborarConOfertaDePremioCommand : IRequest<IResult>
     {
-        public Guid ColaboradorId { get; set; }
+        public Guid ColaboradorId { get; set; } = Guid.Empty;
         public DateTime FechaContribucion { get; set; } = DateTime.UtcNow;
-        public string Nombre { get; set; }
-        public float PuntosNecesarios { get; set; }
-        public string Imagen { get; set; }
+        public string Nombre { get; set; } = string.Empty;
+        public float PuntosNecesarios { get; set; } = 0;
+        public string Imagen { get; set; } = string.Empty;
         public TipoRubro Rubro { get; set; }
     }
     

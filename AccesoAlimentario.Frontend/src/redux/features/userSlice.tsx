@@ -13,6 +13,7 @@ export interface User {
     contribucionesPreferidas: ContribucionesTipo[];
     tarjetaColaboracionId: string;
     personaTipo: 'Humana' | 'Juridica';
+    isAdmin?: boolean;
 }
 
 const initialState: User = {
@@ -25,6 +26,7 @@ const initialState: User = {
     contribucionesPreferidas: [],
     tarjetaColaboracionId: '',
     personaTipo: 'Humana',
+    isAdmin: false,
 };
 
 const userSlice = createSlice({
@@ -41,6 +43,7 @@ const userSlice = createSlice({
             state.contribucionesPreferidas = action.payload.contribucionesPreferidas;
             state.tarjetaColaboracionId = action.payload.tarjetaColaboracionId;
             state.personaTipo = action.payload.personaTipo;
+            state.isAdmin = action.payload.isAdmin;
         },
         clearUser: (state) => {
             state.colaboradorId = '';
@@ -52,9 +55,19 @@ const userSlice = createSlice({
             state.contribucionesPreferidas = [];
             state.tarjetaColaboracionId = '';
             state.personaTipo = 'Humana';
+            state.isAdmin = false;
         },
+        setUserName: (state, action: PayloadAction<string>) => {
+            state.name = action.payload;
+        },
+        setUserTarjetaColaboracionId: (state, action: PayloadAction<string>) => {
+            state.tarjetaColaboracionId = action.payload;
+        }
     },
 });
 
-export const {setUser, clearUser} = userSlice.actions;
+export const {
+    setUser, clearUser, setUserName,
+    setUserTarjetaColaboracionId
+} = userSlice.actions;
 export default userSlice.reducer;

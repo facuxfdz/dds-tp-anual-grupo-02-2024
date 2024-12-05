@@ -10,6 +10,7 @@ import {IOfertaPremioRequest} from "@models/requests/contribuciones/iOfertaPremi
 import {IFormaContribucionResponse} from "@models/responses/contribuciones/iFormaContribucionResponse";
 import {TipoRubro} from "@models/enums/tipoRubro";
 import {IPremioResponse} from "@models/responses/premios/iPremioResponse";
+import {IActualizarHeladera} from "@models/requests/heladeras/iActualizarHeladera";
 
 export const contribucionesApi = createApi({
     reducerPath: "ContribucionesApi",
@@ -126,7 +127,18 @@ export const contribucionesApi = createApi({
                 params
             }),
             providesTags: ["Premios"]
-        })
+        }),
+        actualizarHeladera: builder.mutation<
+            void,
+            IActualizarHeladera
+        >({
+            query: (body) => ({
+                url: "heladeras",
+                method: "PUT",
+                body
+            }),
+            invalidatesTags: ["Contribuciones"]
+        }),
     }),
 });
 
@@ -143,5 +155,6 @@ export const {
     useGetContribucionesQuery,
     useLazyGetContribucionesQuery,
     useGetPremiosQuery,
-    useLazyGetPremiosQuery
+    useLazyGetPremiosQuery,
+    useActualizarHeladeraMutation
 } = contribucionesApi;

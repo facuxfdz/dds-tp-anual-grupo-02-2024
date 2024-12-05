@@ -1,4 +1,4 @@
-import {IHeladeraResponse} from "@models/responses/heladeras/iHeladeraResponse";
+import {IHeladeraResponseMinimo} from "@models/responses/heladeras/iHeladeraResponse";
 import {TipoAcceso} from "@models/enums/tipoAcceso";
 import {IViandaResponse} from "@models/responses/heladeras/iViandaResponse";
 import {
@@ -10,6 +10,6 @@ export interface IAccesoHeladeraResponse {
     viandas: IViandaResponse[];
     fechaAcceso: string;
     tipoAcceso: TipoAcceso;
-    heladera: IHeladeraResponse;
+    heladera: IHeladeraResponseMinimo;
     autorizacion?: IAutorizacionManipulacionHeladeraResponse;
 }

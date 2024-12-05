@@ -8,3 +8,10 @@ public class PersonaVulnerableResponse : RolResponse
     public TarjetaConsumoResponse Tarjeta { get; set; } = null!;
     public DateTime FechaRegistroSistema { get; set; } = DateTime.UtcNow;
 }
+
+public class PersonaVulnerableResponseMinimo : RolResponseMinimo
+{
+    public int CantidadDeMenores { get; set; } = 0;
+    public TarjetaConsumoResponse Tarjeta { get; set; } = null!;
+    public DateTime FechaRegistroSistema { get; set; } = DateTime.UtcNow;
+}

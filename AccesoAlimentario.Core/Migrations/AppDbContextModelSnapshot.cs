@@ -611,7 +611,7 @@ namespace AccesoAlimentario.Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid?>("HeladeraId")
+                    b.Property<Guid>("HeladeraId")
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id");
@@ -923,6 +923,9 @@ namespace AccesoAlimentario.Core.Migrations
                 {
                     b.HasBaseType("AccesoAlimentario.Core.Entities.Roles.Rol");
 
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -992,7 +995,7 @@ namespace AccesoAlimentario.Core.Migrations
                 {
                     b.HasBaseType("AccesoAlimentario.Core.Entities.Tarjetas.Tarjeta");
 
-                    b.Property<Guid>("ResponsableId")
+                    b.Property<Guid?>("ResponsableId")
                         .HasColumnType("char(36)");
 
                     b.HasIndex("ResponsableId");
@@ -1007,7 +1010,7 @@ namespace AccesoAlimentario.Core.Migrations
                         .HasForeignKey("AutorizacionId");
 
                     b.HasOne("AccesoAlimentario.Core.Entities.Heladeras.Heladera", "Heladera")
-                        .WithMany()
+                        .WithMany("Accesos")
                         .HasForeignKey("HeladeraId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1170,7 +1173,7 @@ namespace AccesoAlimentario.Core.Migrations
             modelBuilder.Entity("AccesoAlimentario.Core.Entities.Premios.Premio", b =>
                 {
                     b.HasOne("AccesoAlimentario.Core.Entities.Roles.Colaborador", "ReclamadoPor")
-                        .WithMany()
+                        .WithMany("PremiosReclamados")
                         .HasForeignKey("ReclamadoPorId");
 
                     b.Navigation("ReclamadoPor");
@@ -1203,9 +1206,13 @@ namespace AccesoAlimentario.Core.Migrations
 
             modelBuilder.Entity("AccesoAlimentario.Core.Entities.Sensores.Sensor", b =>
                 {
-                    b.HasOne("AccesoAlimentario.Core.Entities.Heladeras.Heladera", null)
+                    b.HasOne("AccesoAlimentario.Core.Entities.Heladeras.Heladera", "Heladera")
                         .WithMany("Sensores")
-                        .HasForeignKey("HeladeraId");
+                        .HasForeignKey("HeladeraId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Heladera");
                 });
 
             modelBuilder.Entity("AccesoAlimentario.Core.Entities.SuscripcionesColaboradores.Suscripcion", b =>
@@ -1217,7 +1224,7 @@ namespace AccesoAlimentario.Core.Migrations
                         .IsRequired();
 
                     b.HasOne("AccesoAlimentario.Core.Entities.Heladeras.Heladera", "Heladera")
-                        .WithMany()
+                        .WithMany("Suscripciones")
                         .HasForeignKey("HeladeraId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1367,9 +1374,7 @@ namespace AccesoAlimentario.Core.Migrations
                 {
                     b.HasOne("AccesoAlimentario.Core.Entities.Roles.Colaborador", "Responsable")
                         .WithMany()
-                        .HasForeignKey("ResponsableId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ResponsableId");
 
                     b.Navigation("Responsable");
                 });
@@ -1381,9 +1386,13 @@ namespace AccesoAlimentario.Core.Migrations
 
             modelBuilder.Entity("AccesoAlimentario.Core.Entities.Heladeras.Heladera", b =>
                 {
+                    b.Navigation("Accesos");
+
                     b.Navigation("Incidentes");
 
                     b.Navigation("Sensores");
+
+                    b.Navigation("Suscripciones");
 
                     b.Navigation("Viandas");
                 });
@@ -1418,6 +1427,8 @@ namespace AccesoAlimentario.Core.Migrations
             modelBuilder.Entity("AccesoAlimentario.Core.Entities.Roles.Colaborador", b =>
                 {
                     b.Navigation("ContribucionesRealizadas");
+
+                    b.Navigation("PremiosReclamados");
 
                     b.Navigation("Suscripciones");
                 });

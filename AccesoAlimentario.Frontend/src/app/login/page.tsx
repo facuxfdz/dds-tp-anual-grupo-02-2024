@@ -11,7 +11,7 @@ import {useRouter} from 'next/navigation';
 import {parseJwt, parseJwtGoogle} from "@utils/decode_jwt";
 import {CredentialResponse, GoogleLogin} from '@react-oauth/google';
 import {useNotification} from "@components/Notifications/NotificationContext";
-import {usePostLoginValidateMutation} from "@redux/services/authApi";
+import {usePostLoginValidarMutation} from "@redux/services/authApi";
 import {inicioRoute} from "@routes/router";
 import {ContribucionesTipo} from "@models/enums/contribucionesTipo";
 
@@ -22,7 +22,7 @@ export default function LoginPage() {
     const [
         postLoginValidate,
         {isLoading: loginValidationIsLoading}
-    ] = usePostLoginValidateMutation();
+    ] = usePostLoginValidarMutation();
 
     const parseToEnumArray = (input: string): ContribucionesTipo[] => {
         return input
@@ -54,13 +54,14 @@ export default function LoginPage() {
                 contribucionesPreferidas: parseToEnumArray(jsonRes.contribucionesPreferidas || ""),
                 tarjetaColaboracionId: jsonRes.tarjetaColaboracionId ?? '',
                 personaTipo: jsonRes.personaTipo ? jsonRes.personaTipo as 'Humana' | 'Juridica' : 'Humana',
+                isAdmin: jsonRes.isAdmin ? jsonRes.isAdmin == "1" : false,
             };
             dispatch(setUser(user));
             router.push(inicioRoute());
         } else {
             if (jwtToken) {
                 const jsonRes = parseJwtGoogle(jwtToken);
-                router.replace("/login/register?nombre=" + jsonRes.name + "&email=" + jsonRes.email + "&profilePicture=" + jsonRes.picture + "&register=sso");
+                router.replace("/login/registrar?nombre=" + jsonRes.name + "&email=" + jsonRes.email + "&profilePicture=" + jsonRes.picture + "&register=sso");
             }
         }
     }
@@ -100,7 +101,7 @@ export default function LoginPage() {
                         variant="contained"
                         color="secondary"
                         onClick={() => {
-                            router.push("/login/register");
+                            router.push("/login/registrar");
                         }}
                         fullWidth
                     >

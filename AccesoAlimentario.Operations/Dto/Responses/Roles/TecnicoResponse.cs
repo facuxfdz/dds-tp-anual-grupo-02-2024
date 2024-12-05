@@ -4,3 +4,8 @@ public class TecnicoResponse : RolResponse
 {
     public AreaCoberturaResponse AreaCobertura { get; set; } = null!;
 }
+
+public class TecnicoResponseMinimo : RolResponseMinimo
+{
+    public AreaCoberturaResponse AreaCobertura { get; set; } = null!;
+}

@@ -15,12 +15,26 @@ namespace AccesoAlimentario.Web.Controllers;
 [ApiController]
 public class ColaboradoresController(ISender sender, ILogger<ColaboradoresController> logger) : ControllerBase
 {
+    [HttpGet("externos")]
+    public async Task<IResult> GetExterno()
+    {
+        try
+        {
+            return await sender.Send(new ObtenerColaboradoresExterno.ObtenerColaboradoresExternoCommand());
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Error al obtener los colaboradores para servicios externos");
+            return Results.StatusCode(500);
+        }
+    }
+
     [HttpGet]
     public async Task<IResult> Get()
     {
         try
         {
-            return await sender.Send(new ObtenerColaboradores.ObtenerAllCommand());
+            return await sender.Send(new ObtenerColaboradores.ObtenerColaboradoresCommand());
         }
         catch (Exception e)
         {
@@ -28,7 +42,7 @@ public class ColaboradoresController(ISender sender, ILogger<ColaboradoresContro
             return Results.StatusCode(500);
         }
     }
-
+    
     [HttpPost]
     public async Task<IResult> Post([FromBody] AltaColaborador.AltaColaboradorCommand command)
     {

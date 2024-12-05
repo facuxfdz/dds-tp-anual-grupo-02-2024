@@ -1,12 +1,19 @@
 import {
-    accesosRoute,
+    accesosRoute, colaboradoresAdministracionRoute,
     colaboradoresImportarRoute,
     colaboradoresRegistroRoute,
     contribucionesRoute,
-    heladerasRoute, incidentesRoute,
-    inicioRoute, perfilRoute,
+    heladerasRoute,
+    incidentesRoute,
+    inicioRoute,
+    perfilRoute,
     personaVulnerableRegistroRoute,
-    premiosRoute, reportarIncidenciaRoute, reportesRoute, suscripcionesRoute, tecnicoRegistroRoute
+    premiosRoute,
+    reportarIncidenciaRoute,
+    reportesRoute,
+    suscripcionesRoute,
+    tecnicoRegistroRoute,
+    tecnicosAdministracionRoute
 } from "@routes/router";
 
 const items: IMenuItem[] = [
@@ -126,6 +133,19 @@ const items: IMenuItem[] = [
         personaJuridica: true,
         children: [
             {
+                id: "colaboradores-administracion",
+                title: "Administracion",
+                type: "item",
+                url: colaboradoresAdministracionRoute(),
+                icon: "fa-duotone fa-light fa-people-group",
+                tecnicos: false,
+                colaboradores: false,
+                tarjetaColaborador: false,
+                personaHumana: true,
+                personaJuridica: true,
+                disabled: false
+            },
+            {
                 id: "colaboradores-registro",
                 title: "Registro",
                 type: "item",
@@ -172,7 +192,7 @@ const items: IMenuItem[] = [
         type: "item",
         url: reportarIncidenciaRoute(),
         icon: "fa-duotone fa-solid fa-exclamation-triangle",
-        tecnicos: true,
+        tecnicos: false,
         colaboradores: true,
         tarjetaColaborador: false,
         personaHumana: true,
@@ -197,19 +217,32 @@ const items: IMenuItem[] = [
         title: "Tecnicos",
         type: "collapse",
         icon: "fa-duotone fa-solid fa-user-cog",
-        tecnicos: true,
+        tecnicos: false,
         colaboradores: false,
         tarjetaColaborador: false,
         personaHumana: true,
         personaJuridica: true,
         children: [
             {
+                id: "tecnicos-administracion",
+                title: "Administracion",
+                type: "item",
+                url: tecnicosAdministracionRoute(),
+                icon: "fa-duotone fa-light fa-people-group",
+                tecnicos: false,
+                colaboradores: false,
+                tarjetaColaborador: false,
+                personaHumana: true,
+                personaJuridica: true,
+                disabled: false
+            },
+            {
                 id: "tecnicos-registro",
                 title: "Registro",
                 type: "item",
                 url: tecnicoRegistroRoute(),
                 icon: "fa-duotone fa-solid fa-user-plus",
-                tecnicos: true,
+                tecnicos: false,
                 colaboradores: false,
                 tarjetaColaborador: false,
                 personaHumana: true,

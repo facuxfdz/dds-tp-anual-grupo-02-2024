@@ -2,8 +2,8 @@
 
 public class ColaboradorResponseExterno
 {
-    public Guid Id { get; set; }
-    public string Nombre { get; set; }
-    public float Puntos { get; set; }
-    public int DonacionesUltimoMes { get; set; }
+    public Guid Id { get; set; } = Guid.Empty;
+    public string Nombre { get; set; } = string.Empty;
+    public float Puntos { get; set; } = 0;
+    public int DonacionesUltimoMes { get; set; } = 0;
 }

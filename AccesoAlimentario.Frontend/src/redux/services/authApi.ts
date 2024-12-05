@@ -1,28 +1,31 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {config} from "@config/config";
 import {IPostRegisterRequest} from "@models/requests/auth/iPostRegisterRequest";
+import {IPersonaResponse} from "@models/responses/personas/iPersonaResponse";
+import {IActualizarPerfilRequest} from "@models/requests/auth/iActualizarPerfilRequest";
+import {IRolResponseMinimo} from "@models/responses/roles/iRolResponse";
 
 export const authApi = createApi({
     reducerPath: "AuthApi",
     baseQuery: fetchBaseQuery({baseUrl: config.apiUrl, credentials: "include"}),
     endpoints: (builder) => ({
-        postLoginValidate: builder.mutation<
+        postLoginValidar: builder.mutation<
             { userExists: boolean, token: string },
             string
         >({
             query: (token) => ({
-                url: `auth/validate`,
+                url: `auth/validar`,
                 method: "POST",
                 body: {token}
             }),
         }),
 
-        postRegister: builder.mutation<
+        postRegistrar: builder.mutation<
             void,
             IPostRegisterRequest
         >({
             query: (body) => ({
-                url: `auth/register`,
+                url: `auth/registrar`,
                 method: "POST",
                 body
             }),
@@ -57,18 +60,44 @@ export const authApi = createApi({
             string
         >({
             query: (password) => ({
-                url: `auth/password/validate`,
+                url: `auth/password/validar`,
                 method: "POST",
                 body: {password}
             }),
-        })
+        }),
+
+        getObtenerPerfil: builder.query<
+            {
+                persona: IPersonaResponse,
+                roles: IRolResponseMinimo[]
+            },
+            void
+        >({
+            query: () => ({
+                url: `auth/perfil`,
+                method: "GET",
+            }),
+        }),
+
+        actualizarPerfil: builder.mutation<
+            void,
+            IActualizarPerfilRequest
+        >({
+            query: (body) => ({
+                url: `auth/perfil`,
+                method: "PUT",
+                body
+            }),
+        }),
     }),
 });
 
 export const {
-    usePostLoginValidateMutation,
-    usePostRegisterMutation,
+    usePostLoginValidarMutation,
+    usePostRegistrarMutation,
     usePostLoginMutation,
     usePostLogoutMutation,
-    usePostValidarPasswordMutation
+    usePostValidarPasswordMutation,
+    useGetObtenerPerfilQuery,
+    useActualizarPerfilMutation
 } = authApi;

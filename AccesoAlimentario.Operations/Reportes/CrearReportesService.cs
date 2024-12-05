@@ -8,7 +8,6 @@ namespace AccesoAlimentario.Operations.Reportes
     public class CrearReportesService : BackgroundService
     {
         private readonly IServiceScopeFactory _scopeFactory;
-        private Timer _timer;
 
         public CrearReportesService(IServiceScopeFactory scopeFactory)
         {
@@ -103,14 +102,7 @@ namespace AccesoAlimentario.Operations.Reportes
 
         public override Task StopAsync(CancellationToken stoppingToken)
         {
-            _timer?.Change(Timeout.Infinite, 0);
             return base.StopAsync(stoppingToken);
-        }
-
-        public override void Dispose()
-        {
-            _timer?.Dispose();
-            base.Dispose();
         }
     }
 }

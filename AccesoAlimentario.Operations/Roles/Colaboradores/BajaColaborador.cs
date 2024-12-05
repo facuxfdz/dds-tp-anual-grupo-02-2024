@@ -1,4 +1,5 @@
 ﻿using AccesoAlimentario.Core.DAL;
+using AccesoAlimentario.Core.Entities.Contribuciones;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -29,6 +30,45 @@ public static class BajaColaborador
             if (colaborador == null)
             {
                 return Results.NotFound("El colaborador no existe");
+            }
+
+            var ofertaPremios = colaborador.ContribucionesRealizadas.OfType<OfertaPremio>();
+            
+            foreach (var ofertaPremio in ofertaPremios)
+            {
+                await _unitOfWork.PremioRepository.RemoveAsync(ofertaPremio.Premio);
+            }
+            
+            var registrosPersonaVulnerable = colaborador.ContribucionesRealizadas.OfType<RegistroPersonaVulnerable>();
+            
+            foreach (var registroPersonaVulnerable in registrosPersonaVulnerable)
+            {
+                if (registroPersonaVulnerable.Tarjeta != null)
+                {
+                    registroPersonaVulnerable.Tarjeta.Responsable = null;
+                    await _unitOfWork.TarjetaConsumoRepository.UpdateAsync(registroPersonaVulnerable.Tarjeta);
+                }
+            }
+            
+            await _unitOfWork.FormaContribucionRepository.RemoveRangeAsync(colaborador.ContribucionesRealizadas);
+
+            foreach (var premio in colaborador.PremiosReclamados)
+            {
+                premio.ReclamadoPor = null;
+                await _unitOfWork.PremioRepository.UpdateAsync(premio);
+            }
+
+            if (colaborador.TarjetaColaboracion != null)
+            {
+                foreach (var autorizacion in colaborador.TarjetaColaboracion.Autorizaciones)
+                {
+                    await _unitOfWork.AutorizacionManipulacionHeladeraRepository.RemoveAsync(autorizacion);
+                }
+                foreach (var acceso in colaborador.TarjetaColaboracion.Accesos)
+                {
+                    await _unitOfWork.AccesoHeladeraRepository.RemoveAsync(acceso);
+                }
+                await _unitOfWork.TarjetaColaboracionRepository.RemoveAsync(colaborador.TarjetaColaboracion);
             }
             
             await _unitOfWork.ColaboradorRepository.RemoveAsync(colaborador);

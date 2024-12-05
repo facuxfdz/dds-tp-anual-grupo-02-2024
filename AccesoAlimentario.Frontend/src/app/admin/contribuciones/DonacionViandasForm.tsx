@@ -7,8 +7,14 @@ import {DatePickerElement} from "react-hook-form-mui/date-pickers";
 import {SelectElement, TextFieldElement} from "react-hook-form-mui";
 import {useGetHeladerasQuery} from "@redux/services/heladerasApi";
 import {CircularProgress} from "@mui/material";
+import {useTheme} from "@mui/material/styles";
 
-export const DonacionViandasForm = () => {
+export const DonacionViandasForm = ({
+                                        onlyView = false,
+                                    }: {
+    onlyView?: boolean
+}) => {
+    const theme = useTheme();
     const {data, isLoading} = useGetHeladerasQuery();
 
     if (isLoading) {
@@ -34,7 +40,16 @@ export const DonacionViandasForm = () => {
                                 required: "Por favor ingrese una fecha"
                             }
                         }
-                        sx={{width: '100%'}}
+                        disabled={onlyView}
+                        sx={{
+                            width: '100%',
+                            "& .MuiInputBase-input.Mui-disabled": {
+                                WebkitTextFillColor: theme.palette.text.primary,
+                            },
+                            "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                color: theme.palette.text.secondary,
+                            },
+                        }}
                     />
                 </LocalizationProvider>
             </Grid>
@@ -50,6 +65,15 @@ export const DonacionViandasForm = () => {
                             required: "Por favor ingrese el nombre de la comida"
                         }
                     }
+                    disabled={onlyView}
+                    sx={{
+                        "& .MuiInputBase-input.Mui-disabled": {
+                            WebkitTextFillColor: theme.palette.text.primary,
+                        },
+                        "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                            color: theme.palette.text.secondary,
+                        },
+                    }}
                 />
             </Grid>
             <Grid size={4} key={"calorias"}>
@@ -65,6 +89,15 @@ export const DonacionViandasForm = () => {
                             required: "Por favor ingrese la cantidad de calorias"
                         }
                     }
+                    disabled={onlyView}
+                    sx={{
+                        "& .MuiInputBase-input.Mui-disabled": {
+                            WebkitTextFillColor: theme.palette.text.primary,
+                        },
+                        "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                            color: theme.palette.text.secondary,
+                        },
+                    }}
                 />
             </Grid>
             <Grid size={4} key={"peso"}>
@@ -80,6 +113,15 @@ export const DonacionViandasForm = () => {
                             required: "Por favor ingrese el peso de la comida"
                         }
                     }
+                    disabled={onlyView}
+                    sx={{
+                        "& .MuiInputBase-input.Mui-disabled": {
+                            WebkitTextFillColor: theme.palette.text.primary,
+                        },
+                        "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                            color: theme.palette.text.secondary,
+                        },
+                    }}
                 />
             </Grid>
             <Grid size={4} key={"fechaCaducidad"}>
@@ -93,7 +135,16 @@ export const DonacionViandasForm = () => {
                                 required: "Por favor ingrese una fecha de caducidad"
                             }
                         }
-                        sx={{width: '100%'}}
+                        disabled={onlyView}
+                        sx={{
+                            width: '100%',
+                            "& .MuiInputBase-input.Mui-disabled": {
+                                WebkitTextFillColor: theme.palette.text.primary,
+                            },
+                            "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                color: theme.palette.text.secondary,
+                            },
+                        }}
                     />
                 </LocalizationProvider>
             </Grid>
@@ -116,6 +167,15 @@ export const DonacionViandasForm = () => {
                             required: "Por favor seleccione una opción"
                         }
                     }
+                    disabled={onlyView}
+                    sx={{
+                        "& .MuiInputBase-input.Mui-disabled": {
+                            WebkitTextFillColor: theme.palette.text.primary,
+                        },
+                        "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                            color: theme.palette.text.secondary,
+                        },
+                    }}
                 />
             </Grid>
         </Grid>

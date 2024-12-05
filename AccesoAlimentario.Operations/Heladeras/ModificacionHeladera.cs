@@ -1,5 +1,6 @@
 ﻿using AccesoAlimentario.Core.DAL;
 using AccesoAlimentario.Core.Entities.Heladeras;
+using AccesoAlimentario.Core.Entities.Sensores;
 using AccesoAlimentario.Operations.Dto.Requests.Heladeras;
 using AutoMapper;
 using FluentValidation;
@@ -18,8 +19,9 @@ public static class ModificacionHeladera
         public float TemperaturaMinimaConfig { get; set; } = 0;
         public float TemperaturaMaximaConfig { get; set; } = 0;
         public List<SensorRequest> Sensores { get; set; } = [];
+        public ModeloHeladeraRequest Modelo { get; set; } = null!;
     }
-    
+
     public class ModificacionHeladeraValidator : AbstractValidator<ModificacionHeladeraCommand>
     {
         public ModificacionHeladeraValidator()
@@ -36,7 +38,7 @@ public static class ModificacionHeladera
                 .NotNull();
         }
     }
-    
+
     public class Handler : IRequestHandler<ModificacionHeladeraCommand, IResult>
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -55,15 +57,33 @@ public static class ModificacionHeladera
             {
                 return Results.NotFound("La heladera no existe");
             }
-            
-            heladera.PuntoEstrategico = _mapper.Map<PuntoEstrategico>(request.PuntoEstrategico);
+
+            var puntoEstrategico = _mapper.Map<PuntoEstrategico>(request.PuntoEstrategico);
+            var modelo = _mapper.Map<ModeloHeladera>(request.Modelo);
+            var sensores = _mapper.Map<List<Sensor>>(request.Sensores);
+
+            heladera.PuntoEstrategico.Actualizar(puntoEstrategico.Nombre, puntoEstrategico.Longitud,
+                puntoEstrategico.Latitud, puntoEstrategico.Direccion);
+
             heladera.Estado = request.Estado;
+            
+            heladera.Modelo.Actualizar(modelo.Capacidad, modelo.TemperaturaMinima, modelo.TemperaturaMaxima);
+            
             heladera.CambiarTemperaturaMaxima(request.TemperaturaMaximaConfig);
             heladera.CambiarTemperaturaMinima(request.TemperaturaMinimaConfig);
-            
+
+            foreach (var sensor in sensores)
+            {
+                var sensorHeladera = heladera.Sensores.FirstOrDefault(s => s.Id == sensor.Id);
+                if (sensorHeladera == null)
+                {
+                    heladera.AgregarSensor(sensor);
+                }
+            }
+
             await _unitOfWork.HeladeraRepository.UpdateAsync(heladera);
             await _unitOfWork.SaveChangesAsync();
-            
+
             return Results.Ok();
         }
     }
