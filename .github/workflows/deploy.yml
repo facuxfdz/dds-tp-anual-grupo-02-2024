@@ -152,3 +152,19 @@ jobs:
           echo "full_image_front=$ECR_REGISTRY/$ECR_REPOSITORY/front:$IMAGE_TAG"
           echo "full_image_front=$ECR_REGISTRY/$ECR_REPOSITORY/front:$IMAGE_TAG" >> $GITHUB_ENV
         working-directory: "./AccesoAlimentario.Frontend"
+        
+      - name: Build, tag, and push recomendaciones-api to Amazon ECR
+        id: build-publish-recomendaciones-api
+        shell: bash        
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{ env.ECR_REPO_NAME }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build "." -f "./Dockerfile" -t "$ECR_REGISTRY/$ECR_REPOSITORY/recomendaciones-api:$IMAGE_TAG"
+          docker push "$ECR_REGISTRY/$ECR_REPOSITORY/recomendaciones-api:$IMAGE_TAG"
+          echo "IMAGE $IMAGE_TAG is pushed to $ECR_REGISTRY/$ECR_REPOSITORY/recomendaciones-api"
+          echo "image_tag_recomendaciones-api=$IMAGE_TAG"           
+          echo "full_image_recomendaciones-api=$ECR_REGISTRY/$ECR_REPOSITORY/recomendaciones-api:$IMAGE_TAG"
+          echo "full_image_recomendaciones-api=$ECR_REGISTRY/$ECR_REPOSITORY/recomendaciones-api:$IMAGE_TAG" >> $GITHUB_ENV
+        working-directory: "./ServicioRecomendaciones"
