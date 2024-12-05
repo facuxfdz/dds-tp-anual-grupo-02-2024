@@ -9,7 +9,7 @@ import {
     premiosRoute, reportarIncidenciaRoute, reportesRoute, suscripcionesRoute, tecnicoRegistroRoute
 } from "@routes/router";
 
-const items : IMenuItem[] = [
+const items: IMenuItem[] = [
     {
         id: "inicio",
         title: "Inicio",
@@ -18,6 +18,9 @@ const items : IMenuItem[] = [
         icon: "fa-duotone fa-solid fa-house",
         tecnicos: true,
         colaboradores: true,
+        tarjetaColaborador: false,
+        personaHumana: true,
+        personaJuridica: true,
         disabled: false
     },
     {
@@ -28,6 +31,9 @@ const items : IMenuItem[] = [
         icon: "fa-duotone fa-solid fa-gift",
         tecnicos: false,
         colaboradores: true,
+        tarjetaColaborador: false,
+        personaHumana: true,
+        personaJuridica: true,
         disabled: false
     },
     {
@@ -38,6 +44,9 @@ const items : IMenuItem[] = [
         icon: "fa-duotone fa-solid fa-hand-holding-usd",
         tecnicos: false,
         colaboradores: true,
+        tarjetaColaborador: false,
+        personaHumana: true,
+        personaJuridica: true,
         disabled: false
     },
     {
@@ -47,6 +56,9 @@ const items : IMenuItem[] = [
         icon: "fa-duotone fa-solid fa-user-injured",
         tecnicos: false,
         colaboradores: true,
+        tarjetaColaborador: false,
+        personaHumana: true,
+        personaJuridica: false,
         children: [
             {
                 id: "personas-vulnerables-registro",
@@ -56,6 +68,9 @@ const items : IMenuItem[] = [
                 icon: "fa-duotone fa-solid fa-user-plus",
                 tecnicos: false,
                 colaboradores: true,
+                tarjetaColaborador: false,
+                personaHumana: true,
+                personaJuridica: false,
                 disabled: false
             }
         ]
@@ -68,6 +83,9 @@ const items : IMenuItem[] = [
         icon: "fa-duotone fa-solid fa-ice-cream",
         tecnicos: true,
         colaboradores: true,
+        tarjetaColaborador: false,
+        personaHumana: true,
+        personaJuridica: true,
         disabled: false
     },
     {
@@ -76,8 +94,11 @@ const items : IMenuItem[] = [
         type: "item",
         url: suscripcionesRoute(),
         icon: "fa-duotone fa-solid fa-envelope",
-        tecnicos: true,
+        tecnicos: false,
         colaboradores: true,
+        tarjetaColaborador: false,
+        personaHumana: true,
+        personaJuridica: true,
         disabled: false
     },
     {
@@ -88,6 +109,9 @@ const items : IMenuItem[] = [
         icon: "fa-sharp-duotone fa-light fa-key",
         tecnicos: false,
         colaboradores: true,
+        tarjetaColaborador: true,
+        personaHumana: true,
+        personaJuridica: false,
         disabled: false
     },
     {
@@ -96,7 +120,10 @@ const items : IMenuItem[] = [
         type: "collapse",
         icon: "fa-duotone fa-solid fa-users",
         tecnicos: false,
-        colaboradores: true,
+        colaboradores: false,
+        tarjetaColaborador: false,
+        personaHumana: true,
+        personaJuridica: true,
         children: [
             {
                 id: "colaboradores-registro",
@@ -106,6 +133,9 @@ const items : IMenuItem[] = [
                 icon: "fa-duotone fa-solid fa-user-plus",
                 tecnicos: false,
                 colaboradores: true,
+                tarjetaColaborador: false,
+                personaHumana: true,
+                personaJuridica: true,
                 disabled: false
             },
             {
@@ -116,9 +146,25 @@ const items : IMenuItem[] = [
                 icon: "fa-duotone fa-solid fa-file-import",
                 tecnicos: false,
                 colaboradores: true,
+                tarjetaColaborador: false,
+                personaHumana: true,
+                personaJuridica: true,
                 disabled: false
             }
         ]
+    },
+    {
+        id: "incidentes",
+        title: "Incidentes",
+        type: "item",
+        url: incidentesRoute(),
+        icon: "fa-duotone fa-solid fa-exclamation-circle",
+        tecnicos: true,
+        colaboradores: false,
+        tarjetaColaborador: false,
+        personaHumana: true,
+        personaJuridica: true,
+        disabled: false
     },
     {
         id: "reportar-incidencia",
@@ -128,6 +174,9 @@ const items : IMenuItem[] = [
         icon: "fa-duotone fa-solid fa-exclamation-triangle",
         tecnicos: true,
         colaboradores: true,
+        tarjetaColaborador: false,
+        personaHumana: true,
+        personaJuridica: true,
         disabled: false
     },
     {
@@ -138,16 +187,9 @@ const items : IMenuItem[] = [
         icon: "fa-duotone fa-solid fa-chart-bar",
         tecnicos: true,
         colaboradores: true,
-        disabled: false
-    },
-    {
-        id: "incidentes",
-        title: "Incidentes",
-        type: "item",
-        url: incidentesRoute(),
-        icon: "fa-duotone fa-solid fa-exclamation-circle",
-        tecnicos: true,
-        colaboradores: false,
+        tarjetaColaborador: false,
+        personaHumana: true,
+        personaJuridica: true,
         disabled: false
     },
     {
@@ -157,6 +199,9 @@ const items : IMenuItem[] = [
         icon: "fa-duotone fa-solid fa-user-cog",
         tecnicos: true,
         colaboradores: false,
+        tarjetaColaborador: false,
+        personaHumana: true,
+        personaJuridica: true,
         children: [
             {
                 id: "tecnicos-registro",
@@ -166,6 +211,9 @@ const items : IMenuItem[] = [
                 icon: "fa-duotone fa-solid fa-user-plus",
                 tecnicos: true,
                 colaboradores: false,
+                tarjetaColaborador: false,
+                personaHumana: true,
+                personaJuridica: true,
                 disabled: false
             }
         ]
@@ -178,7 +226,10 @@ const items : IMenuItem[] = [
         icon: "fa-duotone fa-solid fa-user",
         tecnicos: true,
         colaboradores: true,
-        disabled: false
+        tarjetaColaborador: false,
+        personaHumana: true,
+        personaJuridica: true,
+        disabled: false,
     }
 ]
 
@@ -199,6 +250,9 @@ export interface IMenuItem {
     },
     tecnicos: boolean,
     colaboradores: boolean,
+    tarjetaColaborador: boolean,
+    personaHumana: boolean,
+    personaJuridica: boolean,
 }
 
 export function GetMenuItems() {
@@ -208,7 +262,10 @@ export function GetMenuItems() {
         type: "group",
         children: items,
         tecnicos: true,
-        colaboradores: true
+        colaboradores: true,
+        tarjetaColaborador: false,
+        personaHumana: true,
+        personaJuridica: true
     }
 
     return [menuItem];

@@ -11,7 +11,7 @@ import {useFormContext} from "react-hook-form";
 
 export const RegistroPersonaFisica = () => {
     const formContext = useFormContext();
-    const contribucionesPreferidas : number[] = formContext.watch("contribucionesPreferidas");
+    const contribucionesPreferidas: number[] = formContext.watch("contribucionesPreferidas");
 
     return (
         <Grid container spacing={3} alignItems="center">
@@ -66,7 +66,6 @@ export const RegistroPersonaFisica = () => {
                         {label: "Dni", id: TipoDocumento.DNI},
                         {label: "LE", id: TipoDocumento.LE},
                         {label: "LC", id: TipoDocumento.LC},
-                        {label: "Cuit", id: TipoDocumento.CUIT},
                         {label: "Cuil", id: TipoDocumento.CUIL},
                     ]}
                     required={true}
@@ -237,15 +236,20 @@ export const RegistroPersonaFisica = () => {
                     }
                 />
             </Grid>
-            <Grid size={12} key={"codigoTarjeta"}>
-                <TextFieldElement
-                    name={"codigoTarjeta"}
-                    label={"Código Tarjeta"}
-                    placeholder={"Ingrese el código de la tarjeta de contribución"}
-                    required={contribucionesPreferidas?.some((contribucion) => contribucion === 3)}
-                    fullWidth
-                />
-            </Grid>
+            {
+                contribucionesPreferidas?.some((contribucion) => contribucion === 3) &&
+                (
+                    <Grid size={12} key={"codigoTarjeta"}>
+                        <TextFieldElement
+                            name={"codigoTarjeta"}
+                            label={"Código Tarjeta"}
+                            placeholder={"Ingrese el código de la tarjeta de contribución"}
+                            required={contribucionesPreferidas?.some((contribucion) => contribucion === 3)}
+                            fullWidth
+                        />
+                    </Grid>
+                )
+            }
         </Grid>
     );
 }

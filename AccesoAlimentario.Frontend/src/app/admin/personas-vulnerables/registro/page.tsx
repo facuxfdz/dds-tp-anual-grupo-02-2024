@@ -135,7 +135,6 @@ export default function PersonasVulnerablesRegistroPage() {
                                     {label: "Dni", id: TipoDocumento.DNI},
                                     {label: "LE", id: TipoDocumento.LE},
                                     {label: "LC", id: TipoDocumento.LC},
-                                    {label: "Cuit", id: TipoDocumento.CUIT},
                                     {label: "Cuil", id: TipoDocumento.CUIL},
                                 ]}
                                 required={true}
