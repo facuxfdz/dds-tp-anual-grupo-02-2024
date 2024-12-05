@@ -69,7 +69,7 @@ public static class RegistrarUsuario
                 ContribucionesPreferidas = request.ContribucionesPreferidas,
                 Tarjeta = request.Tarjeta,
                 Password = request.Password,
-                ProfilePicture = request.Password,
+                ProfilePicture = request.ProfilePicture,
                 RegisterType = request.RegisterType,
             };
             var resultAltaColaborador = await _sender.Send(altaColaboradorCommand, cancellationToken);
