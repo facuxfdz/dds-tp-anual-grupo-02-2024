@@ -5,3 +5,8 @@ export interface IRolResponse {
     persona: IPersonaResponse;
     tipo: 'Tecnico' | 'PersonaVulnerable' | 'Colaborador';
 }
+
+export interface IRolResponseMinimo {
+    id: string;
+    tipo: 'Tecnico' | 'PersonaVulnerable' | 'Colaborador';
+}

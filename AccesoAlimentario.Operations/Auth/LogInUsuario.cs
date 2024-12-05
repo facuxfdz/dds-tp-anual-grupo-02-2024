@@ -1,6 +1,7 @@
 ﻿using AccesoAlimentario.Core.DAL;
 using AccesoAlimentario.Core.Entities.Personas;
 using AccesoAlimentario.Core.Entities.Roles;
+using AccesoAlimentario.Core.Tokens;
 using AccesoAlimentario.Operations.JwtToken;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -41,37 +42,10 @@ public static class LogInUsuario
             {
                 return Results.Unauthorized();
             }
-
-            var persona = existingUser.Persona;
-            var rolColaborador = persona.Roles.OfType<Colaborador>().FirstOrDefault();
-            var tarjetaColaboradorId = "";
-            if (rolColaborador != null)
-            {
-                tarjetaColaboradorId = rolColaborador.TarjetaColaboracion?.Id.ToString() ?? "";
-            }
-            var rolTecnico = persona.Roles.OfType<Tecnico>().FirstOrDefault();
-
+            
             // Generate jwt token
-            var jwtGenerator = new JwtGenerator(60);
-            var contribucionesPreferidasInt =
-                rolColaborador?.ContribucionesPreferidas.Select(c => (int)c).ToArray() ?? [];
-            var newToken = jwtGenerator.GenerateToken(existingUser.Id.ToString(),
-            [
-                new KeyValuePair<string, string>("colaboradorId", rolColaborador?.Id.ToString() ?? ""),
-                new KeyValuePair<string, string>("tecnicoId", rolTecnico?.Id.ToString() ?? ""),
-                new KeyValuePair<string, string>("name", persona.Nombre),
-                new KeyValuePair<string, string>("profile_picture", existingUser.ProfilePicture ?? ""),
-                new KeyValuePair<string, string>("contribucionesPreferidas",
-                    string.Join(",", contribucionesPreferidasInt)),
-                new KeyValuePair<string, string>("tarjetaColaboracionId", tarjetaColaboradorId),
-                new KeyValuePair<string, string>("personaTipo",
-                    persona switch
-                    {
-                        PersonaHumana => "Humana",
-                        PersonaJuridica => "Juridica",
-                        _ => ""
-                    })
-            ]);
+            var newToken = TokenUsuario.GenerarToken(existingUser);
+            
             // Set cookie
             _httpContext.HttpContext!.Response.Cookies.Append("session", newToken, new CookieOptions
             {

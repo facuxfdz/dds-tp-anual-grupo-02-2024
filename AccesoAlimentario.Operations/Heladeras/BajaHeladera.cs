@@ -1,4 +1,6 @@
 ﻿using AccesoAlimentario.Core.DAL;
+using AccesoAlimentario.Core.Entities.Sensores;
+using AccesoAlimentario.Core.Entities.SuscripcionesColaboradores;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -31,6 +33,75 @@ public static class BajaHeladera
                 return Results.NotFound("La heladera no existe");
             }
 
+            foreach (var sensor in heladera.Sensores)
+            {
+                switch (sensor)
+                {
+                    case SensorTemperatura sensorTemperatura:
+                        await _unitOfWork.RegistroTemperaturaRepository.RemoveRangeAsync(sensorTemperatura.RegistrosTemperatura);
+                        break;
+                    case SensorMovimiento sensorMovimiento:
+                        await _unitOfWork.RegistroMovimientoRepository.RemoveRangeAsync(sensorMovimiento.RegistrosMovimiento);
+                        break;
+                }
+            }
+            
+            await _unitOfWork.SensorRepository.RemoveRangeAsync(heladera.Sensores);
+
+            await _unitOfWork.ViandaRepository.RemoveRangeAsync(heladera.Viandas);
+
+            foreach (var suscripcion in heladera.Suscripciones)
+            {
+                await _unitOfWork.NotificacionRepository.RemoveRangeAsync(suscripcion.Historial);
+            }
+            
+            await _unitOfWork.SuscripcionRepository.RemoveRangeAsync(heladera.Suscripciones);
+
+            foreach (var incidente in heladera.Incidentes)
+            {
+                await _unitOfWork.VisitaTecnicaRepository.RemoveRangeAsync(incidente.VisitasTecnicas);
+            }
+            
+            await _unitOfWork.IncidenteRepository.RemoveRangeAsync(heladera.Incidentes);
+
+            foreach (var acceso in heladera.Accesos)
+            {
+                if (acceso.Autorizacion != null)
+                {
+                    await _unitOfWork.AutorizacionManipulacionHeladeraRepository.RemoveAsync(acceso.Autorizacion);
+                }
+            }
+            
+            await _unitOfWork.AccesoHeladeraRepository.RemoveRangeAsync(heladera.Accesos);
+
+            var donacionViandasQuery = _unitOfWork.DonacionViandaRepository.GetQueryable()
+                .Where(donacion => donacion.Heladera != null && donacion.Heladera.Id == heladera.Id);
+            var donaciones = await _unitOfWork.DonacionViandaRepository.GetCollectionAsync(donacionViandasQuery);
+            
+            foreach (var donacion in donaciones)
+            {
+                donacion.Heladera = null;
+                await _unitOfWork.DonacionViandaRepository.UpdateAsync(donacion);
+            }
+            
+            var distribucionViandasQuery = _unitOfWork.DistribucionViandasRepository.GetQueryable()
+                .Where(distribucion => distribucion.HeladeraOrigen != null && distribucion.HeladeraOrigen.Id == heladera.Id
+                                       || distribucion.HeladeraDestino != null && distribucion.HeladeraDestino.Id == heladera.Id);
+            var distribuciones = await _unitOfWork.DistribucionViandasRepository.GetCollectionAsync(distribucionViandasQuery);
+            
+            foreach (var distribucion in distribuciones)
+            {
+                if (distribucion.HeladeraOrigen != null && distribucion.HeladeraOrigen.Id == heladera.Id)
+                {
+                    distribucion.HeladeraOrigen = null;
+                }
+                if (distribucion.HeladeraDestino != null && distribucion.HeladeraDestino.Id == heladera.Id)
+                {
+                    distribucion.HeladeraDestino = null;
+                }
+                await _unitOfWork.DistribucionViandasRepository.UpdateAsync(distribucion);
+            }
+            
             await _unitOfWork.HeladeraRepository.RemoveAsync(heladera);
             await _unitOfWork.SaveChangesAsync();
 

@@ -1,4 +1,6 @@
-﻿using AccesoAlimentario.Core.Entities.Incidentes;
+﻿using AccesoAlimentario.Core.Entities.Autorizaciones;
+using AccesoAlimentario.Core.Entities.Contribuciones;
+using AccesoAlimentario.Core.Entities.Incidentes;
 using AccesoAlimentario.Core.Entities.Sensores;
 using AccesoAlimentario.Core.Entities.SuscripcionesColaboradores;
 
@@ -20,6 +22,7 @@ public class Heladera : IObserverSensorMovimiento, IObserverSensorTemperatura, I
     public virtual ModeloHeladera Modelo { get; set; } = null!;
     
     public virtual List<Suscripcion> Suscripciones { get; set; } = [];
+    public virtual List<AccesoHeladera> Accesos { get; set; } = [];
     
     private List<IObserverHeladera> Observers { get; set; } = [];
 

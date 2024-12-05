@@ -13,3 +13,9 @@ public class ColaboradorResponse : RolResponse
     public float Puntos { get; set; } = 0;
     public TarjetaColaboracionResponse? TarjetaColaboracion { get; set; } = null!;
 }
+
+public class ColaboradorResponseMinimo : RolResponseMinimo
+{
+    public List<TipoContribucion> ContribucionesPreferidas { get; set; } = [];
+    public TarjetaColaboracionResponse? TarjetaColaboracion { get; set; } = null!;
+}

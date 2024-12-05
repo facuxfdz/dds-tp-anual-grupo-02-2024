@@ -7,6 +7,7 @@ import {Form, FormFieldType, FormFieldValue, IFormField} from "@components/Forms
 import MainCard from "@components/Cards/MainCard";
 import React from "react";
 import {useTheme} from "@mui/material/styles";
+import {useGetObtenerPerfilQuery} from "@redux/services/authApi";
 
 const fields: IFormField[] = [
     {
@@ -161,6 +162,7 @@ export default function PerfilPage() {
     const handleSave = async (data: FormFieldValue) => {
         console.log(data);
     };
+    const {data} = useGetObtenerPerfilQuery();
 
     return (
         <MainCard content={false} sx={{overflow: 'visible'}}>

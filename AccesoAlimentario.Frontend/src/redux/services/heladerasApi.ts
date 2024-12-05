@@ -19,6 +19,7 @@ export const heladerasApi = createApi({
             }),
             providesTags: ["Heladera"]
         }),
+
         getHeladeras: builder.query<
             IHeladeraResponse[],
             void
@@ -28,6 +29,7 @@ export const heladerasApi = createApi({
             }),
             providesTags: ["Heladeras"]
         }),
+
         getSensor: builder.query<
             ISensorResponse,
             string
@@ -37,6 +39,7 @@ export const heladerasApi = createApi({
             }),
             providesTags: ["Sensor"]
         }),
+
         postVisitaHeladera: builder.mutation<
             void,
             IRegistroVisitaHeladeraRequest
@@ -45,6 +48,20 @@ export const heladerasApi = createApi({
                 url: `tecnicos/registrar/visita`,
                 method: "POST",
                 body
+            }),
+            invalidatesTags: ["Heladeras"]
+        }),
+
+        deleteHeladera: builder.mutation<
+            void,
+            string
+        >({
+            query: (heladeraId) => ({
+                url: `heladeras`,
+                method: "DELETE",
+                body: {
+                    id: heladeraId
+                }
             }),
             invalidatesTags: ["Heladeras"]
         })
@@ -58,5 +75,6 @@ export const {
     useLazyGetHeladerasQuery,
     useGetSensorQuery,
     useLazyGetSensorQuery,
-    usePostVisitaHeladeraMutation
+    usePostVisitaHeladeraMutation,
+    useDeleteHeladeraMutation
 } = heladerasApi;

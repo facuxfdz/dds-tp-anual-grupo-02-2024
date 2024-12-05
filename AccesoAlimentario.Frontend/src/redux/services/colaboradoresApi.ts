@@ -143,6 +143,5 @@ export const {
     useGetSuscripcionesQuery,
     useGetAccesosQuery,
     usePostSolicitarAccesoHeladeraMutation,
-    useGetPremiosReclamadosQuery,
     useLazyGetPremiosReclamadosQuery
 } = colaboradoresApi;
