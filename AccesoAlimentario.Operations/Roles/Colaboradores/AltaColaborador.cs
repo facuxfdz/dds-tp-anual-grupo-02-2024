@@ -125,7 +125,7 @@ public static class AltaColaborador
             {
                 PersonaId = colaborador.PersonaId,
                 Username = email,
-                Password = request.Password ?? CrearPassword(),
+                Password = (request.Password != "" ? request.Password : CrearPassword()) ?? CrearPassword(),
                 ProfilePicture = request.ProfilePicture ?? "",
                 RegisterType = request.RegisterType ?? RegisterType.Standard,
             };
