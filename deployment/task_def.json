@@ -1,11 +1,11 @@
-﻿{
+{
   "family": "acceso-alimentario-task",
   "executionRoleArn": "TASK_EXECUTION_ROLE_ARN",
   "taskRoleArn": "TASK_ROLE_ARN",
   "containerDefinitions": [
     {
       "name": "accesoalimentario",
-      "image": "034781041905.dkr.ecr.sa-east-1.amazonaws.com/acceso-alimentario_releases:abfbee3225cd705656d49b2cfa85aab6a76ce736",
+      "image": "IMAGE",
       "essential": true,
       "memory": 512,
       "cpu": 256,
