@@ -5,8 +5,15 @@ resource "random_password" "master_passwd" {
 }
 
 resource "aws_secretsmanager_secret" "db_secret" {
-  name        = "acceso_alimentario/db_connection_data"
+  name_prefix = "acceso_alimentario/db_connection_data"
   description = "Master password for RDS instance"
+}
+
+// Store the secret name in an SSM parameter
+resource "aws_ssm_parameter" "db_secret_name" {
+  name  = "/AccesoAlimentario/Production/DB/SecretName"
+  type  = "String"
+  value = aws_secretsmanager_secret.db_secret.name
 }
 
 # We need to remove the ":3306" from the endpoint module.db.db_instance_endpoint

@@ -1,6 +1,7 @@
 using AccesoAlimentario.Core;
 using AccesoAlimentario.Core.DAL;
 using AccesoAlimentario.Operations;
+using AccesoAlimentario.Web.ParametersRetrieve;
 using AccesoAlimentario.Web.Swagger;
 using Microsoft.EntityFrameworkCore;
 using AccesoAlimentario.Web.SecretRetrieve;
@@ -30,8 +31,13 @@ string connectionString;
 // Obtener parametros de conexion de AWS Secrets Manager (AWS) si se encuentra en ambiente de producción
 if (builder.Environment.IsProduction())
 {
+    
     var awsSecretsManager = new SecretRetrieve();
-    var dbConnectionData = awsSecretsManager.GetSecretAs<DbConnectionData>("acceso_alimentario/db_connection_data");
+    var secretName = new SSMParameterRetriever
+    {
+        Region = Environment.GetEnvironmentVariable("AWS_REGION") ?? "us-east-1"
+    }.GetString("/AccesoAlimentario/Production/DB/SecretName");
+    var dbConnectionData = awsSecretsManager.GetSecretAs<DbConnectionData>(secretName);
 
     if (dbConnectionData != null)
     {
