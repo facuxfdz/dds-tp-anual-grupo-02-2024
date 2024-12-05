@@ -11,16 +11,20 @@ public class SensorTemperatura : Sensor, ISubjectHeladeraTemperatura
     {
     }
 
-    public override void Registrar(DateTime fecha, string temperatura)
+    public override Guid Registrar(DateTime fecha, string temperatura)
     {
         try
         {
-            RegistrosTemperatura.Add(new RegistroTemperatura(fecha, Convert.ToSingle(temperatura)));
+            var registro = new RegistroTemperatura(fecha, Convert.ToSingle(temperatura));
+            RegistrosTemperatura.Add(registro);
             Notificar(Convert.ToSingle(temperatura), false);
+            return registro.Id;
         }
         catch (Exception e)
         {
             Notificar(0, true);
+            Console.WriteLine(e);
+            return Guid.Empty;
         }
     }
 

@@ -48,8 +48,16 @@ public static class AltaRegistroMovimiento
                 return Results.NotFound("Sensor no encontrado");
             }
             
-            sensorMovimiento.Registrar(request.Fecha, request.Movimiento);
-            var registro = sensorMovimiento.RegistrosMovimiento.Last();
+            var registroId = sensorMovimiento.Registrar(request.Fecha, request.Movimiento);
+            if (registroId == Guid.Empty)
+            {
+                return Results.BadRequest("Error al registrar el movimiento");
+            }
+            var registro = sensorMovimiento.RegistrosMovimiento.Find(r => r.Id == registroId);
+            if (registro == null)
+            {
+                return Results.BadRequest("Error al registrar el movimiento");
+            }
             
             await _unitOfWork.RegistroMovimientoRepository.AddAsync(registro);
             await _unitOfWork.SensorRepository.UpdateAsync(sensorMovimiento);

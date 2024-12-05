@@ -48,9 +48,16 @@ public static class AltaRegistroTemperatura
                 return Results.NotFound("Sensor no encontrado");
             }
             
-            sensorTemperatura.Registrar(request.Fecha, request.Temperatura);
-            var registro = sensorTemperatura.RegistrosTemperatura.Last();
-            
+            var id = sensorTemperatura.Registrar(request.Fecha, request.Temperatura);
+            if (id == Guid.Empty)
+            {
+                return Results.BadRequest("Error al registrar la temperatura");
+            }
+            var registro = sensorTemperatura.RegistrosTemperatura.Find(r => r.Id == id);
+            if (registro == null)
+            {
+                return Results.BadRequest("Error al registrar la temperatura");
+            }
             await _unitOfWork.RegistroTemperaturaRepository.AddAsync(registro);
             await _unitOfWork.SensorRepository.UpdateAsync(sensorTemperatura);
             await _unitOfWork.SaveChangesAsync();

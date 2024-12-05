@@ -8,5 +8,5 @@ public abstract class Sensor
     public Guid HeladeraId { get; set; } = Guid.Empty;
     public virtual Heladera Heladera { get; set; } = null!;
 
-    public abstract void Registrar(DateTime fecha, string valor);
+    public abstract Guid Registrar(DateTime fecha, string valor);
 }

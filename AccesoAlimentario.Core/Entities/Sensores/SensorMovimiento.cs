@@ -10,18 +10,20 @@ public class SensorMovimiento : Sensor, ISubjectHeladeraMovimiento
     public SensorMovimiento()
     {
     }
-    public override void Registrar(DateTime fecha, string movimiento)
+    public override Guid Registrar(DateTime fecha, string movimiento)
     {
         try
         {
-            RegistrosMovimiento.Add(new RegistroMovimiento(fecha, Convert.ToBoolean(movimiento)));
+            var registro = new RegistroMovimiento(fecha, Convert.ToBoolean(movimiento));
+            RegistrosMovimiento.Add(registro);
             Notificar(RegistrosMovimiento.Last().Movimiento, false);
+            return registro.Id;
         }
         catch (Exception e)
         {
             Notificar(false, true);
             Console.WriteLine(e);
-            throw;
+            return Guid.Empty;
         }
     }
     
