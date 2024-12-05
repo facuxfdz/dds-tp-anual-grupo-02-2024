@@ -4,9 +4,8 @@ import Grid from "@mui/material/Grid2";
 import {LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
 import {DatePickerElement} from "react-hook-form-mui/date-pickers";
-import {Backdrop, Button, Fade, Modal} from "@mui/material";
+import {Button} from "@mui/material";
 import {FormContainer, SelectElement, TextFieldElement, useForm} from "react-hook-form-mui";
-import IconButton from "@mui/material/IconButton";
 import React from "react";
 import {useFieldArray} from "react-hook-form";
 import {useTheme} from "@mui/material/styles";
@@ -85,6 +84,9 @@ export default function HeladeraTab({
                             "& .MuiInputBase-input.Mui-disabled": {
                                 WebkitTextFillColor: theme.palette.text.primary,
                             },
+                            "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                color: theme.palette.text.secondary,
+                            },
                         }}
                     />
                 </Grid>
@@ -105,6 +107,9 @@ export default function HeladeraTab({
                         sx={{
                             "& .MuiInputBase-input.Mui-disabled": {
                                 WebkitTextFillColor: theme.palette.text.primary,
+                            },
+                            "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                color: theme.palette.text.secondary,
                             },
                         }}
                     />
@@ -127,6 +132,9 @@ export default function HeladeraTab({
                             "& .MuiInputBase-input.Mui-disabled": {
                                 WebkitTextFillColor: theme.palette.text.primary,
                             },
+                            "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                color: theme.palette.text.secondary,
+                            },
                         }}
                     />
                 </Grid>
@@ -146,6 +154,9 @@ export default function HeladeraTab({
                         sx={{
                             "& .MuiInputBase-input.Mui-disabled": {
                                 WebkitTextFillColor: theme.palette.text.primary,
+                            },
+                            "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                color: theme.palette.text.secondary,
                             },
                         }}
                     />
@@ -167,6 +178,9 @@ export default function HeladeraTab({
                             "& .MuiInputBase-input.Mui-disabled": {
                                 WebkitTextFillColor: theme.palette.text.primary,
                             },
+                            "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                color: theme.palette.text.secondary,
+                            },
                         }}
                     />
                 </Grid>
@@ -187,6 +201,9 @@ export default function HeladeraTab({
                             "& .MuiInputBase-input.Mui-disabled": {
                                 WebkitTextFillColor: theme.palette.text.primary,
                             },
+                            "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                color: theme.palette.text.secondary,
+                            },
                         }}
                     />
                 </Grid>
@@ -202,6 +219,9 @@ export default function HeladeraTab({
                             "& .MuiInputBase-input.Mui-disabled": {
                                 WebkitTextFillColor: theme.palette.text.primary,
                             },
+                            "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                color: theme.palette.text.secondary,
+                            },
                         }}
                     />
                 </Grid>
@@ -216,6 +236,9 @@ export default function HeladeraTab({
                         sx={{
                             "& .MuiInputBase-input.Mui-disabled": {
                                 WebkitTextFillColor: theme.palette.text.primary,
+                            },
+                            "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                color: theme.palette.text.secondary,
                             },
                         }}
                     />
@@ -236,6 +259,9 @@ export default function HeladeraTab({
                         sx={{
                             "& .MuiInputBase-input.Mui-disabled": {
                                 WebkitTextFillColor: theme.palette.text.primary,
+                            },
+                            "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                color: theme.palette.text.secondary,
                             },
                         }}
                     />
@@ -266,6 +292,9 @@ export default function HeladeraTab({
                             "& .MuiInputBase-input.Mui-disabled": {
                                 WebkitTextFillColor: theme.palette.text.primary,
                             },
+                            "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                color: theme.palette.text.secondary,
+                            },
                         }}
                     />
                 </Grid>
@@ -285,6 +314,9 @@ export default function HeladeraTab({
                                 width: '100%',
                                 "& .MuiInputBase-input.Mui-disabled": {
                                     WebkitTextFillColor: theme.palette.text.primary,
+                                },
+                                "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                    color: theme.palette.text.secondary,
                                 },
                             }}
                         />
@@ -317,6 +349,9 @@ export default function HeladeraTab({
                             "& .MuiInputBase-input.Mui-disabled": {
                                 WebkitTextFillColor: theme.palette.text.primary,
                             },
+                            "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                color: theme.palette.text.secondary,
+                            },
                         }}
                     />
                 </Grid>
@@ -337,6 +372,9 @@ export default function HeladeraTab({
                         sx={{
                             "& .MuiInputBase-input.Mui-disabled": {
                                 WebkitTextFillColor: theme.palette.text.primary,
+                            },
+                            "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                color: theme.palette.text.secondary,
                             },
                         }}
                     />
@@ -368,6 +406,9 @@ export default function HeladeraTab({
                                                 "& .MuiInputBase-input.Mui-disabled": {
                                                     WebkitTextFillColor: theme.palette.text.primary,
                                                 },
+                                                "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                                    color: theme.palette.text.secondary,
+                                                },
                                             }}
                                         />
                                     </Grid>
@@ -390,6 +431,9 @@ export default function HeladeraTab({
                                             sx={{
                                                 "& .MuiInputBase-input.Mui-disabled": {
                                                     WebkitTextFillColor: theme.palette.text.primary,
+                                                },
+                                                "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                                    color: theme.palette.text.secondary,
                                                 },
                                             }}
                                         />
@@ -434,6 +478,9 @@ export default function HeladeraTab({
                             "& .MuiInputBase-input.Mui-disabled": {
                                 WebkitTextFillColor: theme.palette.text.primary,
                             },
+                            "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                color: theme.palette.text.secondary,
+                            },
                         }}
                     />
                 </Grid>
@@ -455,6 +502,9 @@ export default function HeladeraTab({
                             "& .MuiInputBase-input.Mui-disabled": {
                                 WebkitTextFillColor: theme.palette.text.primary,
                             },
+                            "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                color: theme.palette.text.secondary,
+                            },
                         }}
                     />
                 </Grid>
@@ -475,6 +525,9 @@ export default function HeladeraTab({
                         sx={{
                             "& .MuiInputBase-input.Mui-disabled": {
                                 WebkitTextFillColor: theme.palette.text.primary,
+                            },
+                            "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                color: theme.palette.text.secondary,
                             },
                         }}
                     />

@@ -7,8 +7,14 @@ import {CircularProgress} from "@mui/material";
 import {LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
 import {DatePickerElement} from "react-hook-form-mui/date-pickers";
+import {useTheme} from "@mui/material/styles";
 
-export const DistribucionViandasForm = () => {
+export const DistribucionViandasForm = ({
+                                            onlyView = false,
+                                        }: {
+    onlyView?: boolean
+}) => {
+    const theme = useTheme();
     const {data, isLoading} = useGetHeladerasQuery();
 
     if (isLoading) {
@@ -34,7 +40,16 @@ export const DistribucionViandasForm = () => {
                                 required: "Por favor ingrese una fecha"
                             }
                         }
-                        sx={{width: '100%'}}
+                        disabled={onlyView}
+                        sx={{
+                            width: '100%',
+                            "& .MuiInputBase-input.Mui-disabled": {
+                                WebkitTextFillColor: theme.palette.text.primary,
+                            },
+                            "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                color: theme.palette.text.secondary,
+                            },
+                        }}
                     />
                 </LocalizationProvider>
             </Grid>
@@ -66,6 +81,15 @@ export const DistribucionViandasForm = () => {
                             required: "Por favor seleccione una opción"
                         }
                     }
+                    disabled={onlyView}
+                    sx={{
+                        "& .MuiInputBase-input.Mui-disabled": {
+                            WebkitTextFillColor: theme.palette.text.primary,
+                        },
+                        "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                            color: theme.palette.text.secondary,
+                        },
+                    }}
                 />
             </Grid>
             <Grid size={6} key={"cantidad"}>
@@ -81,6 +105,15 @@ export const DistribucionViandasForm = () => {
                             required: "Por favor ingrese una cantidad"
                         }
                     }
+                    disabled={onlyView}
+                    sx={{
+                        "& .MuiInputBase-input.Mui-disabled": {
+                            WebkitTextFillColor: theme.palette.text.primary,
+                        },
+                        "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                            color: theme.palette.text.secondary,
+                        },
+                    }}
                 />
             </Grid>
             <Grid size={12} key={"heladeraOrigen"}>
@@ -102,6 +135,15 @@ export const DistribucionViandasForm = () => {
                             required: "Por favor seleccione una opción"
                         }
                     }
+                    disabled={onlyView}
+                    sx={{
+                        "& .MuiInputBase-input.Mui-disabled": {
+                            WebkitTextFillColor: theme.palette.text.primary,
+                        },
+                        "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                            color: theme.palette.text.secondary,
+                        },
+                    }}
                 />
             </Grid>
             <Grid size={12} key={"heladeraDestino"}>
@@ -123,6 +165,15 @@ export const DistribucionViandasForm = () => {
                             required: "Por favor seleccione una opción"
                         }
                     }
+                    disabled={onlyView}
+                    sx={{
+                        "& .MuiInputBase-input.Mui-disabled": {
+                            WebkitTextFillColor: theme.palette.text.primary,
+                        },
+                        "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                            color: theme.palette.text.secondary,
+                        },
+                    }}
                 />
             </Grid>
         </Grid>

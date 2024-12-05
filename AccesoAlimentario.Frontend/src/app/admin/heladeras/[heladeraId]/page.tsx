@@ -101,10 +101,14 @@ export default function HeladeraPage({
                     </Box>
                 </Stack>
                 <Stack direction="row" spacing={1} sx={{px: 1.5, py: 0.75}}>
-                    <Button color="primary" variant="contained" onClick={() => setShowModal(true)}
-                            disabled={isHeladeraLoading}>
-                        Suscribirse
-                    </Button>
+                    {
+                        user.colaboradorId && (
+                            <Button color="primary" variant="contained" onClick={() => setShowModal(true)}
+                                    disabled={isHeladeraLoading}>
+                                Suscribirse
+                            </Button>
+                        )
+                    }
                 </Stack>
             </CardActions>
             <CardContent>

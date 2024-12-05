@@ -18,4 +18,11 @@ public class DocumentoIdentidad
         NroDocumento = nroDocumento;
         FechaNacimiento = fechaNacimiento;
     }
+    
+    public void Actualizar(TipoDocumento tipoDocumento, string nroDocumento, DateTime? fechaNacimiento)
+    {
+        TipoDocumento = tipoDocumento;
+        NroDocumento = nroDocumento;
+        FechaNacimiento = fechaNacimiento;
+    }
 }

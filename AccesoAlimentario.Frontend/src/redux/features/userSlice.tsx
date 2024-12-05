@@ -53,8 +53,17 @@ const userSlice = createSlice({
             state.tarjetaColaboracionId = '';
             state.personaTipo = 'Humana';
         },
+        setUserName: (state, action: PayloadAction<string>) => {
+            state.name = action.payload;
+        },
+        setUserTarjetaColaboracionId: (state, action: PayloadAction<string>) => {
+            state.tarjetaColaboracionId = action.payload;
+        }
     },
 });
 
-export const {setUser, clearUser} = userSlice.actions;
+export const {
+    setUser, clearUser, setUserName,
+    setUserTarjetaColaboracionId
+} = userSlice.actions;
 export default userSlice.reducer;

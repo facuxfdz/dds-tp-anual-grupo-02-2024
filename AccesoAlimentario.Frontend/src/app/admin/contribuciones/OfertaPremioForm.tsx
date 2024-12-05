@@ -7,8 +7,14 @@ import {DatePickerElement} from "react-hook-form-mui/date-pickers";
 import {Controller, SelectElement, TextFieldElement} from "react-hook-form-mui";
 import {MuiFileInput} from "mui-file-input";
 import {useFormContext} from "react-hook-form";
+import {useTheme} from "@mui/material/styles";
 
-export const OfertaPremioForm = () => {
+export const OfertaPremioForm = ({
+                                     onlyView = false,
+                                 }: {
+    onlyView?: boolean
+}) => {
+    const theme = useTheme();
     const context = useFormContext();
     const handleFileChange = (newFile: File | null) => {
         const reader = new FileReader();
@@ -31,7 +37,16 @@ export const OfertaPremioForm = () => {
                                 required: "Por favor ingrese una fecha"
                             }
                         }
-                        sx={{width: '100%'}}
+                        disabled={onlyView}
+                        sx={{
+                            width: '100%',
+                            "& .MuiInputBase-input.Mui-disabled": {
+                                WebkitTextFillColor: theme.palette.text.primary,
+                            },
+                            "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                color: theme.palette.text.secondary,
+                            },
+                        }}
                     />
                 </LocalizationProvider>
             </Grid>
@@ -47,6 +62,15 @@ export const OfertaPremioForm = () => {
                             required: "Por favor ingrese el nombre de su premio"
                         }
                     }
+                    disabled={onlyView}
+                    sx={{
+                        "& .MuiInputBase-input.Mui-disabled": {
+                            WebkitTextFillColor: theme.palette.text.primary,
+                        },
+                        "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                            color: theme.palette.text.secondary,
+                        },
+                    }}
                 />
             </Grid>
             <Grid size={6} key={"puntos"}>
@@ -62,6 +86,15 @@ export const OfertaPremioForm = () => {
                             required: "Por favor ingrese la cantidad de puntos necesarios"
                         }
                     }
+                    disabled={onlyView}
+                    sx={{
+                        "& .MuiInputBase-input.Mui-disabled": {
+                            WebkitTextFillColor: theme.palette.text.primary,
+                        },
+                        "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                            color: theme.palette.text.secondary,
+                        },
+                    }}
                 />
             </Grid>
             <Grid size={12} key={"rubro"}>
@@ -83,28 +116,52 @@ export const OfertaPremioForm = () => {
                             required: "Por favor seleccione una opción"
                         }
                     }
+                    disabled={onlyView}
+                    sx={{
+                        "& .MuiInputBase-input.Mui-disabled": {
+                            WebkitTextFillColor: theme.palette.text.primary,
+                        },
+                        "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                            color: theme.palette.text.secondary,
+                        },
+                    }}
                 />
             </Grid>
             <Grid size={12} key={"imagen"}>
-                <Controller
-                    name="imagen"
-                    rules={{required: "Por favor cargue una imagen"}}
-                    render={({field, fieldState}) => (
-                        <MuiFileInput
-                            {...field}
-                            onChange={(newFile) => {
-                                handleFileChange(newFile);
-                            }}
-                            label="Imagen"
-                            placeholder="Seleccione una imagen"
-                            inputProps={{accept: "image/*"}}
-                            error={!!fieldState.error}
-                            helperText={fieldState.error?.message}
-                            getInputText={(value) => value ? 'Imagen seleccionada' : 'Seleccione una imagen'}
-                            fullWidth
+                {
+                    !onlyView ? (
+                        <Controller
+                            name="imagen"
+                            rules={{required: "Por favor cargue una imagen"}}
+                            render={({field, fieldState}) => (
+                                <MuiFileInput
+                                    {...field}
+                                    onChange={(newFile) => {
+                                        handleFileChange(newFile);
+                                    }}
+                                    label="Imagen"
+                                    placeholder="Seleccione una imagen"
+                                    inputProps={{accept: "image/*"}}
+                                    error={!!fieldState.error}
+                                    helperText={fieldState.error?.message}
+                                    getInputText={(value) => value ? 'Imagen seleccionada' : 'Seleccione una imagen'}
+                                    fullWidth
+                                    disabled={onlyView}
+                                    sx={{
+                                        "& .MuiInputBase-input.Mui-disabled": {
+                                            WebkitTextFillColor: theme.palette.text.primary,
+                                        },
+                                        "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                            color: theme.palette.text.secondary,
+                                        },
+                                    }}
+                                />
+                            )}
                         />
-                    )}
-                />
+                    ) : (
+                        <img src={context.watch("imagen")} alt="imagen" style={{maxWidth: '100%'}}/>
+                    )
+                }
             </Grid>
         </Grid>
     );

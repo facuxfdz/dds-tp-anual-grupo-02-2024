@@ -9,7 +9,13 @@ import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
 import {DatePickerElement} from "react-hook-form-mui/date-pickers";
 import {useFormContext} from "react-hook-form";
 
-export const RegistroPersonaFisica = () => {
+export const RegistroPersonaFisica = (
+    {
+        hideEmail = false,
+    }: {
+        hideEmail: boolean
+    }
+) => {
     const formContext = useFormContext();
     const contribucionesPreferidas: number[] = formContext.watch("contribucionesPreferidas");
 
@@ -43,21 +49,26 @@ export const RegistroPersonaFisica = () => {
                     }
                 />
             </Grid>
-            <Grid size={12} key={"email"}>
-                <TextFieldElement
-                    name={"email"}
-                    label={"Email"}
-                    placeholder={"Ingrese la dirección de correo electrónico"}
-                    required={true}
-                    fullWidth
-                    type={"email"}
-                    rules={
-                        {
-                            required: "Por favor ingrese la dirección de correo electrónico",
-                        }
-                    }
-                />
-            </Grid>
+            {
+                !hideEmail &&
+                (
+                    <Grid size={12} key={"email"}>
+                        <TextFieldElement
+                            name={"email"}
+                            label={"Email"}
+                            placeholder={"Ingrese la dirección de correo electrónico"}
+                            required={true}
+                            fullWidth
+                            type={"email"}
+                            rules={
+                                {
+                                    required: "Por favor ingrese la dirección de correo electrónico",
+                                }
+                            }
+                        />
+                    </Grid>
+                )
+            }
             <Grid size={6} key={"tipoDocumento"}>
                 <SelectElement
                     name={"tipoDocumento"}

@@ -22,7 +22,6 @@ import {DatePickerElement} from "react-hook-form-mui/date-pickers";
 export default function TecnicoRegistroPage() {
     const theme = useTheme();
     const formContext = useForm();
-    const user = useAppSelector(state => state.user);
     const [
         postTecnico,
         {isLoading}

@@ -16,12 +16,21 @@ import {DatePickerElement} from "react-hook-form-mui/date-pickers";
 import {SelectElement, TextFieldElement} from "react-hook-form-mui";
 import Typography from "@mui/material/Typography";
 import {v4 as uuidv4} from 'uuid';
+import {useTheme} from "@mui/material/styles";
+import {EstadoHeladera} from "@models/enums/estadoHeladera";
 
 const Map = dynamic(() => import('./Map'), {
     ssr: false,
 })
 
-export const AdministracionHeladeraForm = () => {
+export const AdministracionHeladeraForm = ({
+                                               onlyView = false,
+                                               edit = false
+                                           }: {
+    onlyView?: boolean,
+    edit?: boolean
+}) => {
+    const theme = useTheme();
     const [open, setOpen] = React.useState(false);
     const [latitud, setLatitud] = React.useState<number>(-34.56);
     const [longitud, setLongitud] = React.useState<number>(-58.45);
@@ -66,7 +75,16 @@ export const AdministracionHeladeraForm = () => {
                                     required: "Por favor ingrese una fecha"
                                 }
                             }
-                            sx={{width: '100%'}}
+                            disabled={onlyView}
+                            sx={{
+                                width: '100%',
+                                "& .MuiInputBase-input.Mui-disabled": {
+                                    WebkitTextFillColor: theme.palette.text.primary,
+                                },
+                                "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                    color: theme.palette.text.secondary,
+                                },
+                            }}
                         />
                     </LocalizationProvider>
                 </Grid>
@@ -75,14 +93,18 @@ export const AdministracionHeladeraForm = () => {
                         Punto estratégico
                     </Typography>
                 </Grid>
-                <Grid size={3} key={"puntoEstrategicoBuscar"}>
-                    <Button variant="contained" color="primary" onClick={() => setOpen(true)} sx={{
-                        width: "100%",
-                        mb: 2
-                    }}>
-                        Solicitar puntos de colocación
-                    </Button>
-                </Grid>
+                {
+                    !onlyView && (
+                        <Grid size={3} key={"puntoEstrategicoBuscar"}>
+                            <Button variant="contained" color="primary" onClick={() => setOpen(true)} sx={{
+                                width: "100%",
+                                mb: 2
+                            }}>
+                                Solicitar puntos de colocación
+                            </Button>
+                        </Grid>
+                    )
+                }
                 <Grid size={6} key={"puntoEstrategicoNombre"}>
                     <TextFieldElement
                         name={"puntoEstrategicoNombre"}
@@ -95,6 +117,15 @@ export const AdministracionHeladeraForm = () => {
                                 required: "Por favor ingrese el nombre del punto estratégico"
                             }
                         }
+                        disabled={onlyView && !edit}
+                        sx={{
+                            "& .MuiInputBase-input.Mui-disabled": {
+                                WebkitTextFillColor: theme.palette.text.primary,
+                            },
+                            "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                color: theme.palette.text.secondary,
+                            },
+                        }}
                     />
                 </Grid>
                 <Grid size={3} key={"puntoEstrategicoLongitud"}>
@@ -110,6 +141,15 @@ export const AdministracionHeladeraForm = () => {
                                 required: "Por favor ingrese la longitud"
                             }
                         }
+                        disabled={onlyView && !edit}
+                        sx={{
+                            "& .MuiInputBase-input.Mui-disabled": {
+                                WebkitTextFillColor: theme.palette.text.primary,
+                            },
+                            "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                color: theme.palette.text.secondary,
+                            },
+                        }}
                     />
                 </Grid>
                 <Grid size={3} key={"puntoEstrategicoLatitud"}>
@@ -125,6 +165,15 @@ export const AdministracionHeladeraForm = () => {
                                 required: "Por favor ingrese la latitud"
                             }
                         }
+                        disabled={onlyView && !edit}
+                        sx={{
+                            "& .MuiInputBase-input.Mui-disabled": {
+                                WebkitTextFillColor: theme.palette.text.primary,
+                            },
+                            "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                color: theme.palette.text.secondary,
+                            },
+                        }}
                     />
                 </Grid>
                 <Grid size={9} key={"puntoEstrategicoCalle"}>
@@ -139,6 +188,15 @@ export const AdministracionHeladeraForm = () => {
                                 required: "Por favor ingrese la calle"
                             }
                         }
+                        disabled={onlyView && !edit}
+                        sx={{
+                            "& .MuiInputBase-input.Mui-disabled": {
+                                WebkitTextFillColor: theme.palette.text.primary,
+                            },
+                            "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                color: theme.palette.text.secondary,
+                            },
+                        }}
                     />
                 </Grid>
                 <Grid size={3} key={"puntoEstrategicoNumero"}>
@@ -153,6 +211,15 @@ export const AdministracionHeladeraForm = () => {
                                 required: "Por favor ingrese el número"
                             }
                         }
+                        disabled={onlyView && !edit}
+                        sx={{
+                            "& .MuiInputBase-input.Mui-disabled": {
+                                WebkitTextFillColor: theme.palette.text.primary,
+                            },
+                            "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                color: theme.palette.text.secondary,
+                            },
+                        }}
                     />
                 </Grid>
                 <Grid size={4} key={"puntoEstrategicoLocalidad"}>
@@ -167,6 +234,15 @@ export const AdministracionHeladeraForm = () => {
                                 required: "Por favor ingrese la localidad"
                             }
                         }
+                        disabled={onlyView && !edit}
+                        sx={{
+                            "& .MuiInputBase-input.Mui-disabled": {
+                                WebkitTextFillColor: theme.palette.text.primary,
+                            },
+                            "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                color: theme.palette.text.secondary,
+                            },
+                        }}
                     />
                 </Grid>
                 <Grid size={3} key={"puntoEstrategicoPiso"}>
@@ -176,6 +252,15 @@ export const AdministracionHeladeraForm = () => {
                         placeholder={"Ingrese el piso"}
                         required={false}
                         fullWidth
+                        disabled={onlyView && !edit}
+                        sx={{
+                            "& .MuiInputBase-input.Mui-disabled": {
+                                WebkitTextFillColor: theme.palette.text.primary,
+                            },
+                            "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                color: theme.palette.text.secondary,
+                            },
+                        }}
                     />
                 </Grid>
                 <Grid size={3} key={"puntoEstrategicoDepartamento"}>
@@ -185,6 +270,15 @@ export const AdministracionHeladeraForm = () => {
                         placeholder={"Ingrese el departamento"}
                         required={false}
                         fullWidth
+                        disabled={onlyView && !edit}
+                        sx={{
+                            "& .MuiInputBase-input.Mui-disabled": {
+                                WebkitTextFillColor: theme.palette.text.primary,
+                            },
+                            "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                color: theme.palette.text.secondary,
+                            },
+                        }}
                     />
                 </Grid>
                 <Grid size={2} key={"puntoEstrategicoCodigoPostal"}>
@@ -199,6 +293,15 @@ export const AdministracionHeladeraForm = () => {
                                 required: "Por favor ingrese el código postal"
                             }
                         }
+                        disabled={onlyView && !edit}
+                        sx={{
+                            "& .MuiInputBase-input.Mui-disabled": {
+                                WebkitTextFillColor: theme.palette.text.primary,
+                            },
+                            "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                color: theme.palette.text.secondary,
+                            },
+                        }}
                     />
                 </Grid>
                 <Grid size={12} key={"estadoInstalacion"}>
@@ -211,9 +314,9 @@ export const AdministracionHeladeraForm = () => {
                         name={"estado"}
                         label={"Estado"}
                         options={[
-                            {label: "Activa", id: "Activa"},
-                            {label: "Desperfecto", id: "Desperfecto"},
-                            {label: "Fuera de servicio", id: "FueraServicio"}
+                            {label: "Activa", id: EstadoHeladera.Activa},
+                            {label: "Desperfecto", id: EstadoHeladera.Desperfecto},
+                            {label: "Fuera de servicio", id: EstadoHeladera.FueraServicio}
                         ]}
                         required={true}
                         fullWidth
@@ -222,6 +325,15 @@ export const AdministracionHeladeraForm = () => {
                                 required: "Por favor seleccione un estado"
                             }
                         }
+                        disabled={onlyView && !edit}
+                        sx={{
+                            "& .MuiInputBase-input.Mui-disabled": {
+                                WebkitTextFillColor: theme.palette.text.primary,
+                            },
+                            "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                color: theme.palette.text.secondary,
+                            },
+                        }}
                     />
                 </Grid>
                 <Grid size={6} key={"fechaInstalacion"}>
@@ -235,7 +347,16 @@ export const AdministracionHeladeraForm = () => {
                                     required: "Por favor ingrese una fecha de instalación"
                                 }
                             }
-                            sx={{width: '100%'}}
+                            disabled={onlyView}
+                            sx={{
+                                width: '100%',
+                                "& .MuiInputBase-input.Mui-disabled": {
+                                    WebkitTextFillColor: theme.palette.text.primary,
+                                },
+                                "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                    color: theme.palette.text.secondary,
+                                },
+                            }}
                         />
                     </LocalizationProvider>
                 </Grid>
@@ -256,6 +377,15 @@ export const AdministracionHeladeraForm = () => {
                                 required: "Por favor ingrese la temperatura mínima de configuración"
                             }
                         }
+                        disabled={onlyView && !edit}
+                        sx={{
+                            "& .MuiInputBase-input.Mui-disabled": {
+                                WebkitTextFillColor: theme.palette.text.primary,
+                            },
+                            "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                color: theme.palette.text.secondary,
+                            },
+                        }}
                     />
                 </Grid>
                 <Grid size={6} key={"temperaturaMaximaConfig"}>
@@ -271,6 +401,15 @@ export const AdministracionHeladeraForm = () => {
                                 required: "Por favor ingrese la temperatura máxima de configuración"
                             }
                         }
+                        disabled={onlyView && !edit}
+                        sx={{
+                            "& .MuiInputBase-input.Mui-disabled": {
+                                WebkitTextFillColor: theme.palette.text.primary,
+                            },
+                            "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                color: theme.palette.text.secondary,
+                            },
+                        }}
                     />
                 </Grid>
                 <Grid size={9} key={"sensores"}>
@@ -278,16 +417,20 @@ export const AdministracionHeladeraForm = () => {
                         Sensores
                     </Typography>
                 </Grid>
-                <Grid size={3} key={"sensoresAgregar"}>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() => append({id: uuidv4(), tipo: "Temperatura"})}
-                        sx={{width: "100%", mb: 2}}
-                    >
-                        Agregar sensor
-                    </Button>
-                </Grid>
+                {
+                    (!onlyView || edit) && (
+                        <Grid size={3} key={"sensoresAgregar"}>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={() => append({id: uuidv4(), tipo: "Temperatura"})}
+                                sx={{width: "100%", mb: 2}}
+                            >
+                                Agregar sensor
+                            </Button>
+                        </Grid>
+                    )
+                }
                 <Grid size={12} key={"sensoress"}>
                     {
                         sensores.map((sensor, index) => {
@@ -305,6 +448,15 @@ export const AdministracionHeladeraForm = () => {
                                                     required: "Por favor ingrese el ID del sensor"
                                                 }
                                             }
+                                            disabled={onlyView && !edit}
+                                            sx={{
+                                                "& .MuiInputBase-input.Mui-disabled": {
+                                                    WebkitTextFillColor: theme.palette.text.primary,
+                                                },
+                                                "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                                    color: theme.palette.text.secondary,
+                                                },
+                                            }}
                                         />
                                     </Grid>
                                     <Grid size={5} key={"sensoresTipo"}>
@@ -322,13 +474,26 @@ export const AdministracionHeladeraForm = () => {
                                                     required: "Por favor seleccione un tipo de sensor"
                                                 }
                                             }
+                                            disabled={onlyView && !edit}
+                                            sx={{
+                                                "& .MuiInputBase-input.Mui-disabled": {
+                                                    WebkitTextFillColor: theme.palette.text.primary,
+                                                },
+                                                "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                                    color: theme.palette.text.secondary,
+                                                },
+                                            }}
                                         />
                                     </Grid>
-                                    <Grid size={1} key={"sensoresEliminar"} textAlign={"center"}>
-                                        <IconButton onClick={() => remove(index)}>
-                                            <i className="fa-duotone fa-solid fa-trash"/>
-                                        </IconButton>
-                                    </Grid>
+                                    {
+                                        (!onlyView || edit) && (
+                                            <Grid size={1} key={"sensoresEliminar"} textAlign={"center"}>
+                                                <IconButton onClick={() => remove(index)}>
+                                                    <i className="fa-duotone fa-solid fa-trash"/>
+                                                </IconButton>
+                                            </Grid>
+                                        )
+                                    }
                                 </Grid>
                             )
                         })
@@ -352,6 +517,15 @@ export const AdministracionHeladeraForm = () => {
                                 required: "Por favor ingrese la capacidad del modelo"
                             }
                         }
+                        disabled={onlyView && !edit}
+                        sx={{
+                            "& .MuiInputBase-input.Mui-disabled": {
+                                WebkitTextFillColor: theme.palette.text.primary,
+                            },
+                            "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                color: theme.palette.text.secondary,
+                            },
+                        }}
                     />
                 </Grid>
                 <Grid size={4} key={"modeloTemperaturaMinima"}>
@@ -367,6 +541,15 @@ export const AdministracionHeladeraForm = () => {
                                 required: "Por favor ingrese la temperatura mínima del modelo"
                             }
                         }
+                        disabled={onlyView && !edit}
+                        sx={{
+                            "& .MuiInputBase-input.Mui-disabled": {
+                                WebkitTextFillColor: theme.palette.text.primary,
+                            },
+                            "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                color: theme.palette.text.secondary,
+                            },
+                        }}
                     />
                 </Grid>
                 <Grid size={4} key={"modeloTemperaturaMaxima"}>
@@ -382,6 +565,15 @@ export const AdministracionHeladeraForm = () => {
                                 required: "Por favor ingrese la temperatura máxima del modelo"
                             }
                         }
+                        disabled={onlyView && !edit}
+                        sx={{
+                            "& .MuiInputBase-input.Mui-disabled": {
+                                WebkitTextFillColor: theme.palette.text.primary,
+                            },
+                            "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
+                                color: theme.palette.text.secondary,
+                            },
+                        }}
                     />
                 </Grid>
             </Grid>

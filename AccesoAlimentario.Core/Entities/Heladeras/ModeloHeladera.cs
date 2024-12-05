@@ -27,4 +27,11 @@ public class ModeloHeladera
         }
         return true;
     }
+    
+    public void Actualizar(int capacidad, int temperaturaMinima, int temperaturaMaxima)
+    {
+        Capacidad = capacidad;
+        TemperaturaMinima = temperaturaMinima;
+        TemperaturaMaxima = temperaturaMaxima;
+    }
 }

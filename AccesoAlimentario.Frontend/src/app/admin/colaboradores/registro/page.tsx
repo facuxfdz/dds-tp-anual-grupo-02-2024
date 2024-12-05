@@ -43,7 +43,7 @@ export default function ColaboradoresRegistroPage() {
         } else {
             personaRequest = {
                 nombre: data.nombre,
-                tipoJuridico: data.tipoJuridico as unknown as TipoJuridica,
+                tipo: data.tipoJuridico as unknown as TipoJuridica,
                 razonSocial: data.razonSocial,
                 rubro: data.rubro,
                 tipoPersona: "Juridica"
@@ -72,10 +72,12 @@ export default function ColaboradoresRegistroPage() {
                 fechaNacimiento: data.fechaNacimiento
             },
             contribucionesPreferidas: data.contribucionesPreferidas as unknown as ContribucionesTipo[],
-            tarjeta: tipoColaborador === "fisica" ? {
-                codigo: data.codigo,
-                tipo: 'Colaboracion'
-            } : undefined
+            tarjeta: (tipoColaborador === "fisica" &&
+                data.codigo != null && data.codigo != "")
+                ? {
+                    codigo: data.codigo,
+                    tipo: 'Colaboracion'
+                } : undefined
         }
         try {
             await postAltaColaborador(request).unwrap();
@@ -126,9 +128,9 @@ export default function ColaboradoresRegistroPage() {
                 <CardContent>
                     {
                         tipoColaborador === "fisica" ? (
-                            <RegistroPersonaFisica/>
+                            <RegistroPersonaFisica hideEmail={false}/>
                         ) : (
-                            <RegistroPersonaJuridica/>
+                            <RegistroPersonaJuridica hideEmail={false}/>
                         )
                     }
                 </CardContent>

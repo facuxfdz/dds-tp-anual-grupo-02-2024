@@ -2,6 +2,7 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {config} from "@config/config";
 import {IPostRegisterRequest} from "@models/requests/auth/iPostRegisterRequest";
 import {IPersonaResponse} from "@models/responses/personas/iPersonaResponse";
+import {IActualizarPerfilRequest} from "@models/requests/auth/iActualizarPerfilRequest";
 
 export const authApi = createApi({
     reducerPath: "AuthApi",
@@ -75,7 +76,18 @@ export const authApi = createApi({
                 url: `auth/perfil`,
                 method: "GET",
             }),
-        })
+        }),
+
+        actualizarPerfil: builder.mutation<
+            void,
+            IActualizarPerfilRequest
+        >({
+            query: (body) => ({
+                url: `auth/perfil`,
+                method: "PUT",
+                body
+            }),
+        }),
     }),
 });
 
@@ -85,5 +97,6 @@ export const {
     usePostLoginMutation,
     usePostLogoutMutation,
     usePostValidarPasswordMutation,
-    useGetObtenerPerfilQuery
+    useGetObtenerPerfilQuery,
+    useActualizarPerfilMutation
 } = authApi;

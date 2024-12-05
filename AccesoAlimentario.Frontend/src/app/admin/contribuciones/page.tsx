@@ -26,6 +26,7 @@ import {OfertaPremioForm} from "@/app/admin/contribuciones/OfertaPremioForm";
 import {AdministracionHeladeraForm} from "@/app/admin/contribuciones/AdministracionHeladeraForm";
 import {DistribucionViandasForm} from "@/app/admin/contribuciones/DistribucionViandasForm";
 import {
+    useActualizarHeladeraMutation,
     useGetContribucionesQuery,
     usePostDistribucionViandasMutation, usePostDonacionHeladeraMutation,
     usePostDonacionMonetariaMutation, usePostDonacionViandaMutation,
@@ -39,6 +40,16 @@ import {IDonacionHeladeraRequest} from "@models/requests/contribuciones/iDonacio
 import {IDistribucionViandaRequest} from "@models/requests/contribuciones/iDistribucionViandaRequest";
 import {useAppSelector} from "@redux/hook";
 import {formatDate} from "@utils/formatDate";
+import {IFormaContribucionResponse} from "@models/responses/contribuciones/iFormaContribucionResponse";
+import {IDonacionMonetariaResponse} from "@models/responses/contribuciones/iDonacionMonetariaResponse";
+import {IDonacionViandasResponse} from "@models/responses/contribuciones/iDonacionViandasResponse";
+import {IDistribucionViandasResponse} from "@models/responses/contribuciones/iDistribucionViandasResponse";
+import {IOfertaPremioResponse} from "@models/responses/contribuciones/iOfertaPremioResponse";
+import {IAdministracionHeladeraResponse} from "@models/responses/contribuciones/iAdministracionHeladeraResponse";
+import {IActualizarHeladera} from "@models/requests/heladeras/iActualizarHeladera";
+import {RegistroPersonaVulnerableForm} from "@/app/admin/contribuciones/RegistroPersonaVulnerableForm";
+import {IRegistroPersonaVulnerableResponse} from "@models/responses/contribuciones/iRegistroPersonaVulnerableResponse";
+import {IPersonaHumanaReponse} from "@models/responses/personas/iPersonaHumanaReponse";
 
 function getTipoContribucion(tipo: string) {
     switch (tipo) {
@@ -90,6 +101,13 @@ export default function ContribucionesPage() {
         data: colaboracionesData,
         isLoading: isLoadingColaboraciones
     } = useGetContribucionesQuery(user.colaboradorId);
+    const [contribucionAEditar, setContribucionAEditar] = React.useState<IFormaContribucionResponse | null>(null);
+    const [showModalEditar, setShowModalEditar] = React.useState(false);
+    const formContextEdit = useForm();
+    const [
+        putActualizarHeladera,
+        {isLoading: isLoadingActualizarHeladera}
+    ] = useActualizarHeladeraMutation();
 
     const handleSave = async (data: FormFieldValue) => {
         switch (tipoContribucion) {
@@ -211,6 +229,137 @@ export default function ContribucionesPage() {
         }
     };
 
+    const handleView = (contribucion: IFormaContribucionResponse) => {
+        setContribucionAEditar(contribucion);
+        switch (contribucion.tipo) {
+            case "DonacionMonetaria":
+                formContextEdit.reset({
+                    fechaContribucion: contribucion.fechaContribucion,
+                    monto: (contribucion as IDonacionMonetariaResponse).monto,
+                    frecuenciaDias: (contribucion as IDonacionMonetariaResponse).frecuenciaDias
+                });
+                break;
+            case "DonacionVianda":
+                formContextEdit.reset({
+                    fechaContribucion: contribucion.fechaContribucion,
+                    heladera: (contribucion as IDonacionViandasResponse).heladera?.id,
+                    comida: (contribucion as IDonacionViandasResponse).vianda?.comida || "Vianda no disponible",
+                    fechaCaducidad: (contribucion as IDonacionViandasResponse).vianda?.fechaCaducidad,
+                    calorias: (contribucion as IDonacionViandasResponse).vianda?.calorias || 0,
+                    peso: (contribucion as IDonacionViandasResponse).vianda?.peso || 0
+                });
+                break;
+            case "DistribucionViandas":
+                formContextEdit.reset({
+                    fechaContribucion: contribucion.fechaContribucion,
+                    heladeraOrigenId: (contribucion as IDistribucionViandasResponse).heladeraOrigen?.id || "",
+                    heladeraDestinoId: (contribucion as IDistribucionViandasResponse).heladeraDestino?.id || "",
+                    cantidadDeViandas: (contribucion as IDistribucionViandasResponse).cantViandas,
+                    motivo: (contribucion as IDistribucionViandasResponse).motivoDistribucion
+                });
+                break;
+            case "OfertaPremio":
+                formContextEdit.reset({
+                    fechaContribucion: contribucion.fechaContribucion,
+                    nombre: (contribucion as IOfertaPremioResponse).premio.nombre,
+                    puntos: (contribucion as IOfertaPremioResponse).premio.puntosNecesarios,
+                    imagen: (contribucion as IOfertaPremioResponse).premio.imagen,
+                    rubro: (contribucion as IOfertaPremioResponse).premio.rubro
+                });
+                break;
+            case "AdministracionHeladera":
+                formContextEdit.reset({
+                    fechaContribucion: contribucion.fechaContribucion,
+                    puntoEstrategicoNombre: (contribucion as IAdministracionHeladeraResponse).heladera.puntoEstrategico.nombre,
+                    puntoEstrategicoLongitud: (contribucion as IAdministracionHeladeraResponse).heladera.puntoEstrategico.longitud,
+                    puntoEstrategicoLatitud: (contribucion as IAdministracionHeladeraResponse).heladera.puntoEstrategico.latitud,
+                    puntoEstrategicoCalle: (contribucion as IAdministracionHeladeraResponse).heladera.puntoEstrategico.direccion.calle,
+                    puntoEstrategicoNumero: (contribucion as IAdministracionHeladeraResponse).heladera.puntoEstrategico.direccion.numero,
+                    puntoEstrategicoLocalidad: (contribucion as IAdministracionHeladeraResponse).heladera.puntoEstrategico.direccion.localidad,
+                    puntoEstrategicoPiso: (contribucion as IAdministracionHeladeraResponse).heladera.puntoEstrategico.direccion.piso,
+                    puntoEstrategicoDepartamento: (contribucion as IAdministracionHeladeraResponse).heladera.puntoEstrategico.direccion.departamento,
+                    puntoEstrategicoCodigoPostal: (contribucion as IAdministracionHeladeraResponse).heladera.puntoEstrategico.direccion.codigoPostal,
+                    estado: (contribucion as IAdministracionHeladeraResponse).heladera.estado,
+                    fechaInstalacion: (contribucion as IAdministracionHeladeraResponse).heladera.fechaInstalacion,
+                    temperaturaMinimaConfig: (contribucion as IAdministracionHeladeraResponse).heladera.temperaturaMinimaConfig,
+                    temperaturaMaximaConfig: (contribucion as IAdministracionHeladeraResponse).heladera.temperaturaMaximaConfig,
+                    sensores: (contribucion as IAdministracionHeladeraResponse).heladera.sensores.map((sensor) => ({
+                        id: sensor.id,
+                        tipo: sensor.tipo
+                    })),
+                    modeloCapacidad: (contribucion as IAdministracionHeladeraResponse).heladera.modelo.capacidad,
+                    modeloTemperaturaMinima: (contribucion as IAdministracionHeladeraResponse).heladera.modelo.temperaturaMinima,
+                    modeloTemperaturaMaxima: (contribucion as IAdministracionHeladeraResponse).heladera.modelo.temperaturaMaxima
+                });
+                break;
+            case "RegistroPersonaVulnerable":
+                formContextEdit.reset({
+                    fechaContribucion: contribucion.fechaContribucion,
+                    nombre: (contribucion as IRegistroPersonaVulnerableResponse).propietario.persona.nombre,
+                    apellido: ((contribucion as IRegistroPersonaVulnerableResponse).propietario.persona as IPersonaHumanaReponse).apellido,
+                    tipoDocumento: (contribucion as IRegistroPersonaVulnerableResponse).propietario.persona.documentoIdentidad?.tipoDocumento,
+                    numeroDocumento: (contribucion as IRegistroPersonaVulnerableResponse).propietario.persona.documentoIdentidad?.nroDocumento,
+                    sexo: ((contribucion as IRegistroPersonaVulnerableResponse).propietario.persona as IPersonaHumanaReponse).sexo,
+                    fechaNacimiento: ((contribucion as IRegistroPersonaVulnerableResponse).propietario.persona as IPersonaHumanaReponse).documentoIdentidad?.fechaNacimiento,
+                    cantidadHijos: (contribucion as IRegistroPersonaVulnerableResponse).propietario.cantidadDeMenores,
+                    calle: ((contribucion as IRegistroPersonaVulnerableResponse).propietario.persona as IPersonaHumanaReponse).direccion?.calle,
+                    numero: ((contribucion as IRegistroPersonaVulnerableResponse).propietario.persona as IPersonaHumanaReponse).direccion?.numero,
+                    localidad: ((contribucion as IRegistroPersonaVulnerableResponse).propietario.persona as IPersonaHumanaReponse).direccion?.localidad,
+                    piso: ((contribucion as IRegistroPersonaVulnerableResponse).propietario.persona as IPersonaHumanaReponse).direccion?.piso,
+                    departamento: ((contribucion as IRegistroPersonaVulnerableResponse).propietario.persona as IPersonaHumanaReponse).direccion?.departamento,
+                    codigoPostal: ((contribucion as IRegistroPersonaVulnerableResponse).propietario.persona as IPersonaHumanaReponse).direccion?.codigoPostal,
+                    codigoTarjeta: (contribucion as IRegistroPersonaVulnerableResponse).propietario.tarjeta.codigo,
+                });
+                break;
+            default:
+                break;
+        }
+        setShowModalEditar(true);
+    }
+
+    const handleEdit = async (data: FormFieldValue) => {
+        if (contribucionAEditar?.tipo === "AdministracionHeladera") {
+            const sensores = formContextEdit.watch("sensores") as FormFieldValue[];
+            const donacionHeladeraData: IActualizarHeladera = {
+                id: (contribucionAEditar as IAdministracionHeladeraResponse).heladera.id,
+                puntoEstrategico: {
+                    nombre: data.puntoEstrategicoNombre,
+                    longitud: Number(data.puntoEstrategicoLongitud),
+                    latitud: Number(data.puntoEstrategicoLatitud),
+                    direccion: {
+                        calle: data.puntoEstrategicoCalle,
+                        numero: data.puntoEstrategicoNumero,
+                        localidad: data.puntoEstrategicoLocalidad,
+                        piso: data.puntoEstrategicoPiso,
+                        departamento: data.puntoEstrategicoDepartamento,
+                        codigoPostal: data.puntoEstrategicoCodigoPostal
+                    }
+                },
+                estado: data.estado as "Activa" | "Desperfecto" | "FueraServicio",
+                temperaturaMinimaConfig: Number(data.temperaturaMinimaConfig),
+                temperaturaMaximaConfig: Number(data.temperaturaMaximaConfig),
+                sensores: sensores.map((sensor: FormFieldValue) => ({
+                    id: sensor.id,
+                    tipo: sensor.tipo as "Temperatura" | "Movimiento"
+                })),
+                modelo: {
+                    capacidad: Number(data.modeloCapacidad),
+                    temperaturaMinima: Number(data.modeloTemperaturaMinima),
+                    temperaturaMaxima: Number(data.modeloTemperaturaMaxima)
+                }
+            };
+            try {
+                await putActualizarHeladera(donacionHeladeraData).unwrap();
+                addNotification("Heladera actualizada con éxito", "success");
+                setShowModalEditar(false);
+                setContribucionAEditar(null);
+                formContextEdit.reset();
+            } catch {
+                addNotification("Error al actualizar la heladera", "error");
+            }
+        }
+    }
+
     return (
         <MainCard content={false} sx={{overflow: 'visible'}}>
             <CardActions
@@ -269,9 +418,16 @@ export default function ContribucionesPage() {
                                                     <StyledTableCell
                                                         align="center">{formatDate(row.fechaContribucion)}</StyledTableCell>
                                                     <StyledTableCell sx={{pr: 3}} align="center">
-                                                        <Button color="primary" size="small" variant="contained">
-                                                            Ver
-                                                        </Button>
+                                                        {
+                                                            row.tipo != "RegistroPersonaVulnerable" && (
+                                                                <Button color="primary" size="small" variant="contained"
+                                                                        onClick={() => {
+                                                                            handleView(row);
+                                                                        }}>
+                                                                    Ver
+                                                                </Button>
+                                                            )
+                                                        }
                                                     </StyledTableCell>
                                                 </StyledTableRow>
                                             ))
@@ -321,22 +477,24 @@ export default function ContribucionesPage() {
                                         }
                                         {
                                             user.personaTipo === "Humana" &&
-                                            user.tarjetaColaboracionId != "" ? (
-                                                [
-                                                    {value: "DonacionMonetaria", label: "Donación Monetaria"},
-                                                    {value: "DonacionVianda", label: "Donación de Viandas"},
-                                                    {value: "DistribucionViandas", label: "Distribución de Viandas"}
-                                                ].map((item) =>
-                                                    <MenuItem value={item.value}
-                                                              key={item.value}>{item.label}</MenuItem>
-                                                )
-                                            ) : (
-                                                [
-                                                    {value: "DonacionMonetaria", label: "Donación Monetaria"},
-                                                    {value: "DonacionVianda", label: "Donación de Viandas"},
-                                                ].map((item) =>
-                                                    <MenuItem value={item.value}
-                                                              key={item.value}>{item.label}</MenuItem>
+                                            (
+                                                user.tarjetaColaboracionId != "" ? (
+                                                    [
+                                                        {value: "DonacionMonetaria", label: "Donación Monetaria"},
+                                                        {value: "DonacionVianda", label: "Donación de Viandas"},
+                                                        {value: "DistribucionViandas", label: "Distribución de Viandas"}
+                                                    ].map((item) =>
+                                                        <MenuItem value={item.value}
+                                                                  key={item.value}>{item.label}</MenuItem>
+                                                    )
+                                                ) : (
+                                                    [
+                                                        {value: "DonacionMonetaria", label: "Donación Monetaria"},
+                                                        {value: "DonacionVianda", label: "Donación de Viandas"},
+                                                    ].map((item) =>
+                                                        <MenuItem value={item.value}
+                                                                  key={item.value}>{item.label}</MenuItem>
+                                                    )
                                                 )
                                             )
                                         }
@@ -374,6 +532,85 @@ export default function ContribucionesPage() {
                                     >
                                         Enviar
                                     </Button>
+                                </Stack>
+                            </FormContainer>
+                        </MainCard>
+                    </Fade>
+                </Modal>
+
+                <Modal
+                    open={showModalEditar}
+                    onClose={() => setShowModalEditar(false)}
+                    closeAfterTransition
+                    slots={{
+                        backdrop: Backdrop
+                    }}
+                    slotProps={{
+                        backdrop: {
+                            timeout: 500
+                        }
+                    }}
+                >
+                    <Fade in={showModalEditar}>
+                        <MainCard modal darkTitle content={false} title={"Detalle contribución"} sx={{width: "80%"}}>
+                            <FormContainer
+                                formContext={formContextEdit}
+                                onSuccess={handleEdit}
+                            >
+                                <CardContent>
+                                    {
+                                        contribucionAEditar?.tipo === "DonacionMonetaria" && (
+                                            <DonacionMonetariaForm onlyView={true}/>
+                                        )
+                                    }
+                                    {
+                                        contribucionAEditar?.tipo === "DonacionVianda" && (
+                                            <DonacionViandasForm onlyView={true}/>
+                                        )
+                                    }
+                                    {
+                                        contribucionAEditar?.tipo === "DistribucionViandas" && (
+                                            <DistribucionViandasForm onlyView={true}/>
+                                        )
+                                    }
+                                    {
+                                        contribucionAEditar?.tipo === "OfertaPremio" && (
+                                            <OfertaPremioForm onlyView={true}/>
+                                        )
+                                    }
+                                    {
+                                        contribucionAEditar?.tipo === "AdministracionHeladera" && (
+                                            <AdministracionHeladeraForm onlyView={true} edit={true}/>
+                                        )
+                                    }
+                                    {
+                                        contribucionAEditar?.tipo === "RegistroPersonaVulnerable" && (
+                                            <RegistroPersonaVulnerableForm onlyView={true}/>
+                                        )
+                                    }
+                                    {
+                                        contribucionAEditar?.tipo === "RegistroPersonaVulnerable" && (
+                                            <RegistroPersonaVulnerableForm onlyView={true}/>
+                                        )
+                                    }
+                                </CardContent>
+                                <Divider/>
+                                <Stack direction="row" spacing={1} justifyContent="flex-end" sx={{px: 2.5, py: 2}}>
+                                    <Button color="error" size="small" onClick={() => setShowModalEditar(false)}>
+                                        {contribucionAEditar?.tipo === "AdministracionHeladera" ? "Cancelar" : "Cerrar"}
+                                    </Button>
+                                    {
+                                        contribucionAEditar?.tipo === "AdministracionHeladera" && (
+                                            <Button
+                                                variant="contained"
+                                                size="small"
+                                                type="submit"
+                                                disabled={isLoadingActualizarHeladera}
+                                            >
+                                                Actualizar
+                                            </Button>
+                                        )
+                                    }
                                 </Stack>
                             </FormContainer>
                         </MainCard>

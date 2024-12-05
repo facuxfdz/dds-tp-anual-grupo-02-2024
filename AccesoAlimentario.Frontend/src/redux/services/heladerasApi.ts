@@ -3,6 +3,7 @@ import {config} from "@config/config";
 import {IHeladeraResponse} from "@models/responses/heladeras/iHeladeraResponse";
 import {ISensorResponse} from "@models/responses/sensores/iSensorResponse";
 import {IRegistroVisitaHeladeraRequest} from "@models/requests/tecnicos/iRegistroVisitaHeladeraRequest";
+import {IActualizarHeladera} from "@models/requests/heladeras/iActualizarHeladera";
 
 export const heladerasApi = createApi({
     reducerPath: "HeladerasApi",
@@ -64,7 +65,7 @@ export const heladerasApi = createApi({
                 }
             }),
             invalidatesTags: ["Heladeras"]
-        })
+        }),
     }),
 });
 

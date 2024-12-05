@@ -30,15 +30,17 @@ const Home: React.FC = () => {
         if (user.colaboradorId != "")
         {
             menuItems.push({title: "Contribuciones", icon: "fa-duotone fa-solid fa-hand-holding-usd", href: contribucionesRoute()});
-            menuItems.push({title: "Registrar persona vulnerable", icon: "fa-duotone fa-solid fa-user-injured", href: personaVulnerableRegistroRoute()});
+            if (user.personaTipo == "Humana")
+            {
+                menuItems.push({title: "Registrar persona vulnerable", icon: "fa-duotone fa-solid fa-user-injured", href: personaVulnerableRegistroRoute()});
+
+                if (user.tarjetaColaboracionId != "")
+                {
+                    menuItems.push({title: "Accesos", icon: "fa-sharp-duotone fa-light fa-key", href: accesosRoute()});
+                }
+            }
             menuItems.push({title: "Premios", icon: "fa-duotone fa-solid fa-gift", href: premiosRoute()});
             menuItems.push({title: "Suscripciones", icon: "fa-duotone fa-solid fa-envelope", href: suscripcionesRoute()});
-        }
-
-        if (user.tarjetaColaboracionId != "")
-        {
-            menuItems.push({title: "Accesos", icon: "fa-sharp-duotone fa-light fa-key", href: accesosRoute()});
-
         }
 
         if (user.tecnicoId != "") {

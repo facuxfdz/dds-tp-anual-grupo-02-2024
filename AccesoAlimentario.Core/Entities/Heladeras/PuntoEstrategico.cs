@@ -28,6 +28,7 @@ public class PuntoEstrategico
         Nombre = nombre;
         Longitud = longitud;
         Latitud = latitud;
-        Direccion = direccion;
+        Direccion.Actualizar(direccion.Calle, direccion.Numero, direccion.Localidad, direccion.CodigoPostal,
+            direccion.Piso, direccion.Departamento);
     }
 }

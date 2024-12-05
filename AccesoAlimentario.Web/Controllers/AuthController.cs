@@ -101,5 +101,19 @@ namespace AccesoAlimentario.Api.Controllers
                 return Results.StatusCode(500);
             }
         }
+        
+        [HttpPut("perfil")]
+        public async Task<IResult> Perfil([FromBody] ActualizarPerfil.ActualizarPerfilCommand command)
+        {
+            try
+            {
+                return await _sender.Send(command);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error durante la actualización del perfil");
+                return Results.StatusCode(500);
+            }
+        }
     }
 }

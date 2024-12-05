@@ -2,6 +2,6 @@ import {IFormaContribucionResponse} from "@models/responses/contribuciones/iForm
 import {IPersonaVulnerableResponse} from "@models/responses/roles/iPersonaVulnerableResponse";
 
 export interface IRegistroPersonaVulnerableResponse extends IFormaContribucionResponse {
-    personaVulnerable: IPersonaVulnerableResponse;
+    propietario: IPersonaVulnerableResponse;
     tipo: 'RegistroPersonaVulnerable';
 }

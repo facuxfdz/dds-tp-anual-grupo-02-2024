@@ -33,4 +33,15 @@ public class Direccion
         Piso = piso;
         Departamento = departamento;
     }
+    
+    public void Actualizar(string calle, string numero, string localidad, string codigoPostal, string? piso,
+        string? departamento)
+    {
+        Calle = calle;
+        Numero = numero;
+        Localidad = localidad;
+        CodigoPostal = codigoPostal;
+        Piso = piso;
+        Departamento = departamento;
+    }
 }

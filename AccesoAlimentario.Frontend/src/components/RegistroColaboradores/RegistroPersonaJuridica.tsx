@@ -5,7 +5,11 @@ import Grid from "@mui/material/Grid2";
 import {TipoDocumento} from "@models/enums/tipoDocumento";
 import {TipoJuridica} from "@models/enums/tipoJuridica";
 
-export const RegistroPersonaJuridica = () => {
+export const RegistroPersonaJuridica = ({
+                                            hideEmail = false,
+                                        }: {
+    hideEmail: boolean
+}) => {
     return (
         <Grid container spacing={3} alignItems="center">
             <Grid size={12} key={"nombre"}>
@@ -22,21 +26,26 @@ export const RegistroPersonaJuridica = () => {
                     }
                 />
             </Grid>
-            <Grid size={12} key={"email"}>
-                <TextFieldElement
-                    name={"email"}
-                    label={"Email"}
-                    placeholder={"Ingrese la dirección de correo electrónico"}
-                    required={true}
-                    fullWidth
-                    type={"email"}
-                    rules={
-                        {
-                            required: "Por favor ingrese la dirección de correo electrónico",
-                        }
-                    }
-                />
-            </Grid>
+            {
+                !hideEmail &&
+                (
+                    <Grid size={12} key={"email"}>
+                        <TextFieldElement
+                            name={"email"}
+                            label={"Email"}
+                            placeholder={"Ingrese la dirección de correo electrónico"}
+                            required={true}
+                            fullWidth
+                            type={"email"}
+                            rules={
+                                {
+                                    required: "Por favor ingrese la dirección de correo electrónico",
+                                }
+                            }
+                        />
+                    </Grid>
+                )
+            }
             <Grid size={6} key={"tipoJuridico"}>
                 <SelectElement
                     name={"tipoJuridico"}
