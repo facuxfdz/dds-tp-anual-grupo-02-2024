@@ -96,8 +96,17 @@ def create_service(
             },
             serviceConnectConfiguration={
                 'enabled': True,
-                'discoveryName': service_name,
-                'clientAliases': [{'dnsName': f'{service_name}.svc.local', 'port': port}]
+                'namespace': 'accesoalimentario_namespace',
+                'services': [
+                    {
+                        'portName': 'http',
+                        'discoveryName': service_name,
+                        'clientAliases': [{
+                            'port': port,
+                            'dnsName': f"{service_name}.accesoalimentario_namespace"
+                        }]
+                    }
+                ]
             } if exposed else {
                 'enabled': False
             },
@@ -139,7 +148,8 @@ def create_or_get_alb_target_group(elbv2_client, service_name, vpc_id, target_po
         Protocol='HTTP',
         Port=target_port,
         VpcId=vpc_id,
-        TargetType='ip'
+        TargetType='ip',
+        Matcher={'HttpCode': '200-499'}
     )
     tg_arn = response['TargetGroups'][0]['TargetGroupArn']
     print(f"Target Group created: {tg_arn}")
@@ -189,9 +199,9 @@ if __name__ == '__main__':
     subnet_ids = ['subnet-0a094580305b044f2', 'subnet-0e147b4b3ad9a5a02', 'subnet-07b5be1eae03a7cb3']
     security_groups = ['sg-047447291c2271910']
 
-    os.environ["BACK_IMAGE"] = "034781041905.dkr.ecr.us-east-1.amazonaws.com/acceso-alimentario_releases:b57b106db5f74e14d3886297bd5407cc4f3e5132"
-    os.environ["FRONT_IMAGE"] = "034781041905.dkr.ecr.us-east-1.amazonaws.com/acceso-alimentario_releases/front:b57b106db5f74e14d3886297bd5407cc4f3e5132"
-    os.environ["RECOMENDACIONES_API_IMAGE"] = "034781041905.dkr.ecr.us-east-1.amazonaws.com/acceso-alimentario_releases/recomendaciones-api:b57b106db5f74e14d3886297bd5407cc4f3e5132"
+    os.environ["BACK_IMAGE"] = "034781041905.dkr.ecr.us-east-1.amazonaws.com/acceso-alimentario_releases:62f99eadf052b024c93c3d69d7ffaf4f6c7377fc"
+    os.environ["FRONT_IMAGE"] = "034781041905.dkr.ecr.us-east-1.amazonaws.com/acceso-alimentario_releases/front:62f99eadf052b024c93c3d69d7ffaf4f6c7377fc"
+    os.environ["RECOMENDACIONES_API_IMAGE"] = "034781041905.dkr.ecr.us-east-1.amazonaws.com/acceso-alimentario_releases/recomendaciones-api:62f99eadf052b024c93c3d69d7ffaf4f6c7377fc"
 
     NOT_EXPOSED_SERVICES = ["rabbitmq"]
     HOST_MAPPING = {
