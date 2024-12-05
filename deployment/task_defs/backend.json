@@ -1,0 +1,41 @@
+{
+    "family": "backend",
+    "executionRoleArn": "TASK_EXECUTION_ROLE_ARN",
+    "taskRoleArn": "TASK_ROLE_ARN",
+    "containerDefinitions": [
+      {
+        "name": "backend",
+        "image": "your-registry/accesoalimentario:latest",
+        "essential": true,
+        "cpu": 256,
+        "memory": 512,
+        "portMappings": [
+          {
+            "name": "http",
+            "containerPort": 8085,
+            "hostPort": 8085
+          }
+        ],
+        "logConfiguration": {
+          "logDriver": "awslogs",
+          "options": {
+            "awslogs-create-group": "true",
+            "awslogs-group": "/aws/ecs/acceso-alimentario",
+            "awslogs-region": "us-east-1",
+            "awslogs-stream-prefix": "acceso-alimentario"
+          }
+        },
+        "environment": [
+          { "name": "DB_HOST", "value": "db.internal" },
+          { "name": "QUEUE_HOST", "value": "rabbitmq.internal" }
+        ]
+      }
+    ],
+    "networkMode": "awsvpc",
+    "requiresCompatibilities": [
+      "FARGATE"
+    ],
+    "cpu": "256",
+    "memory": "512"
+  }
+  

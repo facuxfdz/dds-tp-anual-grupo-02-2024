@@ -1,0 +1,28 @@
+{
+    "family": "frontend",
+    "executionRoleArn": "TASK_EXECUTION_ROLE_ARN",
+    "taskRoleArn": "TASK_ROLE_ARN",
+    "containerDefinitions": [
+      {
+        "name": "frontend",
+        "image": "your-registry/frontend:latest",
+        "essential": true,
+        "cpu": 256,
+        "memory": 512,
+        "portMappings": [
+          {
+            "name": "http",
+            "containerPort": 3000,
+            "hostPort": 3000
+          }
+        ],        
+        "environment": [
+          { "name": "API_ENDPOINT", "value": "https://accesoalimentario.internal" }
+        ]
+      }
+    ],
+    "networkMode": "awsvpc",
+    "cpu": "256",
+    "memory": "512"
+  }
+  
