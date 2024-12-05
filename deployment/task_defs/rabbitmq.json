@@ -1,7 +1,7 @@
 {
     "family": "rabbitmq",
-    "executionRoleArn": "TASK_EXECUTION_ROLE_ARN",
-    "taskRoleArn": "TASK_ROLE_ARN",
+    "executionRoleArn": "arn:aws:iam::034781041905:role/accesoalimentario-task-exec-role-20241205005421814600000002",
+    "taskRoleArn": "arn:aws:iam::034781041905:role/accesoalimentario_task_role",
     "containerDefinitions": [
       {
         "name": "rabbitmq",

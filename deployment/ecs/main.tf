@@ -53,6 +53,12 @@ resource "aws_iam_role" "task_role" {
   })
 }
 
+# Attach policy to task role
+resource "aws_iam_role_policy_attachment" "secrets_manager" {
+  role       = aws_iam_role.task_role.name
+  policy_arn = aws_iam_policy.secrets_manager.arn
+}
+
 module "ecs" {
   source  = "terraform-aws-modules/ecs/aws"
   version = "5.11.4"

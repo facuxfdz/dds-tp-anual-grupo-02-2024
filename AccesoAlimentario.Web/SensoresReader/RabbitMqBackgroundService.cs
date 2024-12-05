@@ -34,7 +34,7 @@ public class RabbitMqBackgroundService : BackgroundService
                 Region = Environment.GetEnvironmentVariable("AWS_REGION") ?? "us-east-1"
             }.GetString("/accesoalimentario/rabbitmq/secret_name");
             SecretRetrieve.SecretRetrieve secretRetrieve = new SecretRetrieve.SecretRetrieve();
-            var rabbitSecret = secretRetrieve.GetSecretAs<RabbitMQSecret>("rabbitmq");
+            var rabbitSecret = secretRetrieve.GetSecretAs<RabbitMQSecret>(secretName);
             if (rabbitSecret == null)
             {
                 throw new Exception("RabbitMQ secret not found");
