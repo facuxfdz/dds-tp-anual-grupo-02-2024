@@ -18,10 +18,10 @@
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
-            "awslogs-create-group": "true",
-            "awslogs-group": "/aws/ecs/acceso-alimentario",
-            "awslogs-region": "us-east-1",
-            "awslogs-stream-prefix": "acceso-alimentario"
+          "awslogs-create-group": "true",
+          "awslogs-group": "/aws/ecs/acceso-alimentario",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "acceso-alimentario"
         }
       },
       "environment": [
@@ -35,8 +35,8 @@
       "name": "accesoalimentario-front",
       "image": "IMAGE_FRONT",
       "essential": true,
-      "memory": 512,
-      "cpu": 256,
+      "memory": 256,
+      "cpu": 128,
       "portMappings": [
         {
           "containerPort": 3000,
@@ -52,12 +52,60 @@
           "awslogs-stream-prefix": "acceso-alimentario-front"
         }
       }
+    },
+    {
+      "name": "rabbitmq",
+      "image": "rabbitmq:3-management",
+      "essential": true,
+      "memory": 512,
+      "cpu": 128,
+      "portMappings": [
+        {
+          "containerPort": 5672,
+          "hostPort": 5672
+        },
+        {
+          "containerPort": 15672,
+          "hostPort": 15672
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-create-group": "true",
+          "awslogs-group": "/aws/ecs/rabbitmq",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "rabbitmq"
+        }
+      }
+    },
+    {
+      "name": "recomendaciones_api",
+      "image": "IMAGE_RECOMENDACIONES_API",
+      "essential": true,
+      "memory": 512,
+      "cpu": 256,
+      "portMappings": [
+        {
+          "containerPort": 8080,
+          "hostPort": 8080
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-create-group": "true",
+          "awslogs-group": "/aws/ecs/recomendaciones_api",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "recomendaciones_api"
+        }
+      }
     }
   ],
   "networkMode": "awsvpc",
   "requiresCompatibilities": [
     "FARGATE"
   ],
-  "cpu": "512",
-  "memory": "1024"
+  "cpu": "2048",
+  "memory": "4096"
 }

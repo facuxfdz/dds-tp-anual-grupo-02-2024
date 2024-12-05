@@ -45,10 +45,11 @@ module "alb" {
   source  = "terraform-aws-modules/alb/aws"
   version = "9.12.0"
 
+  enable_deletion_protection = false
   name    = var.alb_name
   vpc_id  = local.vpc_id
   subnets = local.public_subnet_ids
-
+  
   # Security Group
   security_group_ingress_rules = {
     all_http = {

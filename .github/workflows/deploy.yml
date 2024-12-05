@@ -108,6 +108,13 @@ jobs:
           set -eux
           terraform apply -var-file="prod.tfvars" -auto-approve
         working-directory: "./deployment/rds"
+        
+      - name: Create outputs [TF apply]
+        shell: bash
+        run: |
+          set -eux
+          terraform apply -var-file="prod.tfvars" -auto-approve
+        working-directory: "./deployment/outputs"
 #      
       - name: Login to Amazon ECR
         id: login-ecr
@@ -145,35 +152,30 @@ jobs:
           echo "full_image_front=$ECR_REGISTRY/$ECR_REPOSITORY/front:$IMAGE_TAG"
           echo "full_image_front=$ECR_REGISTRY/$ECR_REPOSITORY/front:$IMAGE_TAG" >> $GITHUB_ENV
         working-directory: "./AccesoAlimentario.Frontend"
-
-#      - name: Fill in the new image ID in the Amazon ECS task definition
-#        id: task-def
-#        uses: aws-actions/amazon-ecs-render-task-definition@v1
-#        with:
-#          task-definition: ${{ env.ECS_TASK_DEFINITION }}
-#          container-name: "accesoalimentario"
-#          image: ${{ env.full_image }}
-#      
-#      - name: Update Task def to use the deployed TASK role and ECS task execution role
-#        run: |
-#          set -eux
-#          if [ -z "${{ steps.ecs_cluster.outputs.task_role_arn }}" ] || [ -z "${{ steps.ecs_cluster.outputs.task_execution_role_arn }}" ]; then
-#            echo "ERROR: Required ECS role ARNs are missing!"
-#            exit 1
-#          fi
-#          sed -i "s#TASK_ROLE_ARN#${{ steps.ecs_cluster.outputs.task_role_arn }}#" "${{ steps.task-def.outputs.task-definition }}"
-#          sed -i "s#TASK_EXECUTION_ROLE_ARN#${{ steps.ecs_cluster.outputs.task_execution_role_arn }}#" "${{ steps.task-def.outputs.task-definition }}"
-#          sed -i "s#IMAGE_FRONT#${{ env.full_image_front }}#" "${{ steps.task-def.outputs.task-definition }}"
-#          
-#
-#      - name: Echo the new ECS task definition
-#        run: cat "${{ steps.task-def.outputs.task-definition }}"
-#        
-#      - name: Deploy Amazon ECS task definition
-#        id: deploy
-#        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
-#        with:
-#          task-definition: ${{ steps.task-def.outputs.task-definition }}
-#          service: "accesoalimentario"
-#          cluster: "accesoalimentario"
-#          wait-for-service-stability: false   
+        
+      - name: Build, tag, and push recomendaciones-api to Amazon ECR
+        id: build-publish-recomendaciones-api
+        shell: bash        
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{ env.ECR_REPO_NAME }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build "." -f "./Dockerfile" -t "$ECR_REGISTRY/$ECR_REPOSITORY/recomendaciones-api:$IMAGE_TAG"
+          docker push "$ECR_REGISTRY/$ECR_REPOSITORY/recomendaciones-api:$IMAGE_TAG"
+          echo "IMAGE $IMAGE_TAG is pushed to $ECR_REGISTRY/$ECR_REPOSITORY/recomendaciones-api"
+          echo "image_tag_recomendaciones-api=$IMAGE_TAG"           
+          echo "full_image_recomendaciones-api=$ECR_REGISTRY/$ECR_REPOSITORY/recomendaciones-api:$IMAGE_TAG"
+          echo "full_image_recomendaciones-api=$ECR_REGISTRY/$ECR_REPOSITORY/recomendaciones-api:$IMAGE_TAG" >> $GITHUB_ENV
+        working-directory: "./ServicioRecomendaciones"
+        
+      - name: Update ECS Task Definition
+        id: update-task-def
+        run: |
+          python3 deployment/update_task_def.py
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          ECS_TASK_DEFINITION: ${{ env.ECS_TASK_DEFINITION }}
+          full_image: ${{ env.full_image }}
+          full_image_front: ${{ env.full_image_front }}
+          full_image_recomendaciones-api: ${{ env.full_image_recomendaciones-api }}
