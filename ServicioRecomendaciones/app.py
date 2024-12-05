@@ -3,7 +3,7 @@ import requests
 import time
 import logging
 from flask import Flask, request, jsonify
-from flask_restx import Api, Resource, fields
+from flask_restx import Api, Resource, fields, Namespace
 
 # Configuración inicial
 app = Flask(__name__)
@@ -26,8 +26,11 @@ LOGGER.addHandler(handler)
 # URL de la API de colaboradores (variable de entorno)
 COLABORADORES_API_URL = os.getenv("COLABORADORES_API_URL", "http://localhost:5000/api/colaboradores")
 
+# Crear un namespace personalizado
+recomendaciones_ns = Namespace("recomendaciones", description="Operaciones relacionadas con recomendaciones")
+
 # Esquemas para Swagger
-colaborador_response_model = api.model(
+colaborador_response_model = recomendaciones_ns.model(
     "ColaboradorResponse",
     {
         "id": fields.String(description="ID del colaborador"),
@@ -37,7 +40,7 @@ colaborador_response_model = api.model(
     },
 )
 
-recomendaciones_request_model = api.model(
+recomendaciones_request_model = recomendaciones_ns.model(
     "RecomendacionesRequest",
     {
         "puntos_minimos": fields.Integer(required=True, description="Cantidad mínima de puntos"),
@@ -57,10 +60,10 @@ def parse_iso8601_to_timestamp(iso8601_str):
 
 
 # Endpoint de recomendaciones
-@api.route("/recomendaciones")
+@recomendaciones_ns.route("/recomendaciones")
 class RecomendacionesResource(Resource):
-    @api.expect(recomendaciones_request_model, validate=True)
-    @api.marshal_list_with(colaborador_response_model)
+    @recomendaciones_ns.expect(recomendaciones_request_model, validate=True)
+    @recomendaciones_ns.marshal_list_with(colaborador_response_model)
     def get(self):
         """Obtener colaboradores recomendados desde la API"""
         try:
@@ -115,3 +118,8 @@ class RecomendacionesResource(Resource):
             LOGGER.exception("Error inesperado")
             return {"error": "Error interno del servidor"}, 500
 
+# Registrar el namespace personalizado
+api.add_namespace(recomendaciones_ns)
+
+if __name__ == "__main__":
+    app.run(debug=True)
