@@ -15,7 +15,7 @@ public static class ColaborarConDonacionDeVianda
         public Guid ColaboradorId { get; set; }
         public DateTime FechaContribucion { get; set; } = DateTime.UtcNow;
         public Guid HeladeraId { get; set; }
-        public string Comida { get; set; }
+        public string Comida { get; set; } = string.Empty;
         public DateTime FechaCaducidad { get; set; }
         public float Calorias { get; set; }
         public float Peso { get; set; }

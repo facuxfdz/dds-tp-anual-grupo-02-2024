@@ -3,6 +3,7 @@ using AccesoAlimentario.Core.Entities.DocumentosIdentidad;
 using AccesoAlimentario.Core.Entities.MediosContacto;
 using AccesoAlimentario.Core.Entities.Personas;
 using AccesoAlimentario.Core.Entities.Roles;
+using AccesoAlimentario.Core.Passwords;
 using AccesoAlimentario.Operations.Dto.Requests.DocumentosDeIdentidad;
 using AccesoAlimentario.Operations.Dto.Requests.MediosDeComunicacion;
 using AccesoAlimentario.Operations.Dto.Requests.Personas;
@@ -99,21 +100,12 @@ public static class AltaTecnico
             {
                 PersonaId = persona.Id,
                 Username = email.Direccion,
-                Password = CrearPassword(),
+                Password = PasswordManager.CrearPassword(),
                 ProfilePicture = "",
                 RegisterType = RegisterType.Standard
             };
 
             return await _sender.Send(createUserCommand, cancellationToken);
-        }
-
-        private static string CrearPassword()
-        {
-            const int length = 16;
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+";
-            var random = new Random();
-            return new string(Enumerable.Repeat(chars, length)
-                .Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }

@@ -4,7 +4,7 @@ import {
     Box,
     Button,
     CardActions,
-    CircularProgress, Divider, Fade, MenuItem, Modal, Select,
+    CircularProgress, Divider, Fade, Modal,
     Stack,
     Table,
     TableBody,
@@ -23,10 +23,9 @@ import {useDeleteHeladeraMutation, useGetHeladerasQuery} from "@redux/services/h
 import {EstadoHeladera} from "@models/enums/estadoHeladera";
 import {heladeraRoute} from "@routes/router";
 import NextLink from "next/link";
-import {FormContainer, TextFieldElement, useForm} from "react-hook-form-mui";
-import {TipoSuscripcion} from "@models/enums/tipoSuscripcion";
 import Grid from "@mui/material/Grid2";
 import {useNotification} from "@components/Notifications/NotificationContext";
+import {useAppSelector} from "@redux/hook";
 
 function getHeladeraEstado(estado: EstadoHeladera) {
     switch (estado) {
@@ -51,6 +50,7 @@ export default function HeladerasPage() {
     const [heladeraSeleccionada, setHeladeraSeleccionada] = React.useState<string | null>(null);
     const [showModal, setShowModal] = React.useState(false);
     const {addNotification} = useNotification();
+    const user = useAppSelector((state) => state.user);
 
     const handleDelete = (heladeraId: string) => {
         setHeladeraSeleccionada(heladeraId);
@@ -139,15 +139,19 @@ export default function HeladerasPage() {
                                             >
                                                 Ver Detalles
                                             </Button>
-                                            <Button
-                                                variant="contained"
-                                                color="error"
-                                                size="small"
-                                                sx={{minWidth: '30px'}}
-                                                onClick={() => handleDelete(row.id)}
-                                            >
-                                                Eliminar
-                                            </Button>
+                                            {
+                                                user.isAdmin && (
+                                                    <Button
+                                                        variant="contained"
+                                                        color="error"
+                                                        size="small"
+                                                        sx={{minWidth: '30px'}}
+                                                        onClick={() => handleDelete(row.id)}
+                                                    >
+                                                        Eliminar
+                                                    </Button>
+                                                )
+                                            }
                                         </Stack>
                                     </StyledTableCell>
                                 </StyledTableRow>

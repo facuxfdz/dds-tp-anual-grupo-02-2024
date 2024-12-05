@@ -50,6 +50,8 @@ import {IActualizarHeladera} from "@models/requests/heladeras/iActualizarHelader
 import {RegistroPersonaVulnerableForm} from "@/app/admin/contribuciones/RegistroPersonaVulnerableForm";
 import {IRegistroPersonaVulnerableResponse} from "@models/responses/contribuciones/iRegistroPersonaVulnerableResponse";
 import {IPersonaHumanaReponse} from "@models/responses/personas/iPersonaHumanaReponse";
+import {useDeleteHeladeraMutation} from "@redux/services/heladerasApi";
+import Grid from "@mui/material/Grid2";
 
 function getTipoContribucion(tipo: string) {
     switch (tipo) {
@@ -108,6 +110,11 @@ export default function ContribucionesPage() {
         putActualizarHeladera,
         {isLoading: isLoadingActualizarHeladera}
     ] = useActualizarHeladeraMutation();
+    const [
+        deleteHeladera,
+        {isLoading: isDeleting}
+    ] = useDeleteHeladeraMutation();
+    const [showModalDelete, setShowModalDelete] = React.useState(false);
 
     const handleSave = async (data: FormFieldValue) => {
         switch (tipoContribucion) {
@@ -360,6 +367,21 @@ export default function ContribucionesPage() {
         }
     }
 
+    const handleDelete = async () => {
+        if (contribucionAEditar?.tipo === "AdministracionHeladera") {
+            const heladeraId = (contribucionAEditar as IAdministracionHeladeraResponse).heladera.id;
+            try {
+                await deleteHeladera(heladeraId).unwrap();
+                addNotification("Heladera eliminada correctamente", "success");
+                setShowModalDelete(false);
+                setShowModalEditar(false);
+                setContribucionAEditar(null);
+            } catch {
+                addNotification("Error al eliminar la heladera", "error");
+            }
+        }
+    }
+
     return (
         <MainCard content={false} sx={{overflow: 'visible'}}>
             <CardActions
@@ -604,8 +626,21 @@ export default function ContribucionesPage() {
                                             <Button
                                                 variant="contained"
                                                 size="small"
+                                                color="error"
+                                                disabled={isLoadingActualizarHeladera || isDeleting}
+                                                onClick={() => setShowModalDelete(true)}
+                                            >
+                                                Eliminar
+                                            </Button>
+                                        )
+                                    }
+                                    {
+                                        contribucionAEditar?.tipo === "AdministracionHeladera" && (
+                                            <Button
+                                                variant="contained"
+                                                size="small"
                                                 type="submit"
-                                                disabled={isLoadingActualizarHeladera}
+                                                disabled={isLoadingActualizarHeladera || isDeleting}
                                             >
                                                 Actualizar
                                             </Button>
@@ -613,6 +648,59 @@ export default function ContribucionesPage() {
                                     }
                                 </Stack>
                             </FormContainer>
+                        </MainCard>
+                    </Fade>
+                </Modal>
+
+                <Modal
+                    open={showModalDelete}
+                    onClose={() => setShowModalDelete(false)}
+                    closeAfterTransition
+                    slots={{
+                        backdrop: Backdrop
+                    }}
+                    slotProps={{
+                        backdrop: {
+                            timeout: 500
+                        }
+                    }}
+                >
+                    <Fade in={showModalDelete}>
+                        <MainCard modal darkTitle content={false} title={"Eliminar heladera"} sx={{
+                            width: {
+                                xs: "100%",
+                                sm: "80%",
+                                md: "60%",
+                            }
+                        }}>
+                            <CardContent>
+                                <Grid container spacing={3} alignItems="center">
+                                    <Grid size={12}>
+                                        <Typography variant="body1">
+                                            ¿Está seguro que desea eliminar la heladera?
+                                        </Typography>
+                                    </Grid>
+                                </Grid>
+                            </CardContent>
+                            <Divider/>
+                            <Stack direction="row" spacing={1} justifyContent="flex-end" sx={{px: 2.5, py: 2}}>
+                                <Button color="secondary" size="small" onClick={() => {
+                                    setShowModalDelete(false);
+                                }}>
+                                    Cancelar
+                                </Button>
+                                <Button
+                                    variant="contained"
+                                    size="small"
+                                    disabled={
+                                        isDeleting
+                                    }
+                                    color="error"
+                                    onClick={handleDelete}
+                                >
+                                    Eliminar
+                                </Button>
+                            </Stack>
                         </MainCard>
                     </Fade>
                 </Modal>

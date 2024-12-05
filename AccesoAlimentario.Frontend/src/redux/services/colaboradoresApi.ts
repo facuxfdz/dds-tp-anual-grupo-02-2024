@@ -14,6 +14,7 @@ import {
 } from "@models/requests/colaboradores/iSolicitarAutorizacionAperturaDeHeladeraRequest";
 import {IPremioResponse} from "@models/responses/premios/iPremioResponse";
 import {TipoRubro} from "@models/enums/tipoRubro";
+import {IColaboradorResponse} from "@models/responses/roles/iColaboradorResponse";
 
 export const colaboradoresApi = createApi({
     reducerPath: "ColaboradoresApi",
@@ -130,6 +131,18 @@ export const colaboradoresApi = createApi({
                     nombre, puntosNecesarios, rubro
                 }
             }),
+        }),
+
+        getColaboradores: builder.query<
+            IColaboradorResponse[],
+            void
+        >({
+            query: () => {
+                return {
+                    url: `colaboradores`,
+                    method: "GET"
+                }
+            }
         })
     }),
 });
@@ -143,5 +156,6 @@ export const {
     useGetSuscripcionesQuery,
     useGetAccesosQuery,
     usePostSolicitarAccesoHeladeraMutation,
-    useLazyGetPremiosReclamadosQuery
+    useLazyGetPremiosReclamadosQuery,
+    useGetColaboradoresQuery
 } = colaboradoresApi;

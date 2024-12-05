@@ -1,6 +1,7 @@
 ﻿using AccesoAlimentario.Core.DAL;
 using AccesoAlimentario.Core.Entities.Notificaciones;
 using AccesoAlimentario.Core.Entities.Roles;
+using AccesoAlimentario.Core.Passwords;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -17,6 +18,7 @@ public static class CrearUsuario
         public string Password { get; set; } = null!;
         public string ProfilePicture { get; set; } = null!;
         public RegisterType RegisterType { get; set; } = RegisterType.Standard;
+        public bool IsAdmin { get; set; } = false;
     }
 
     public class CrearUsuarioHandler : IRequestHandler<CrearUsuarioCommand, IResult>
@@ -42,20 +44,23 @@ public static class CrearUsuario
                 return Results.NotFound();
             }
 
+            var passwordHashed = PasswordManager.HashPassword(request.Password);
+
             var usuario = new UsuarioSistema
             {
                 PersonaId = persona.Id,
                 UserName = request.Username,
-                Password = request.Password,
+                Password = passwordHashed,
                 ProfilePicture = request.ProfilePicture,
-                RegisterType = request.RegisterType
+                RegisterType = request.RegisterType,
+                IsAdmin = request.IsAdmin
             };
 
             await _unitOfWork.UsuarioSistemaRepository.AddAsync(usuario);
             await _unitOfWork.SaveChangesAsync();
             _logger.LogInformation("Usuario creado");
 
-            var builder = new NotificacionUsuarioCreadoBuilder(usuario.UserName, usuario.Password);
+            var builder = new NotificacionUsuarioCreadoBuilder(usuario.UserName, request.Password);
             persona.EnviarNotificacion(builder.CrearNotificacion());
             _logger.LogInformation("Notificacion enviada");
 

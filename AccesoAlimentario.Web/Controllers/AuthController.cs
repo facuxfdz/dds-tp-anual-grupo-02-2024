@@ -18,8 +18,8 @@ namespace AccesoAlimentario.Api.Controllers
             _sender = sender;
         }
 
-        [HttpPost("register")]
-        public async Task<IResult> Register([FromBody] RegistrarUsuario.RegistrarUsuarioCommand command)
+        [HttpPost("registrar")]
+        public async Task<IResult> Registrar([FromBody] RegistrarUsuario.RegistrarUsuarioCommand command)
         {
             try
             {
@@ -32,8 +32,8 @@ namespace AccesoAlimentario.Api.Controllers
             }
         }
 
-        [HttpPost("validate")]
-        public async Task<IResult> Validate([FromBody] ValidarUsuario.ValidarUsuarioCommand command)
+        [HttpPost("validar")]
+        public async Task<IResult> Validar([FromBody] ValidarUsuario.ValidarUsuarioCommand command)
         {
             try
             {
@@ -74,8 +74,8 @@ namespace AccesoAlimentario.Api.Controllers
             }
         }
 
-        [HttpPost("password/validate")]
-        public async Task<IResult> Password([FromBody] ValidarPassword.ValidarPasswordCommand command)
+        [HttpPost("password/validar")]
+        public async Task<IResult> PasswordValidar([FromBody] ValidarPassword.ValidarPasswordCommand command)
         {
             try
             {

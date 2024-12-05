@@ -24,7 +24,7 @@ handler.setFormatter(formatter)
 LOGGER.addHandler(handler)
 
 # URL de la API de colaboradores (variable de entorno)
-COLABORADORES_API_URL = os.getenv("COLABORADORES_API_URL", "http://localhost:5000/api/colaboradores")
+COLABORADORES_API_URL = os.getenv("COLABORADORES_API_URL", "http://localhost:5000/api/colaboradores/externos")
 
 # Crear un namespace personalizado
 recomendaciones_ns = Namespace("recomendaciones", description="Operaciones relacionadas con recomendaciones")

@@ -16,7 +16,7 @@ public class ConsultoraExternaApi
         var request = new RestRequest($"longitud={longitud}&latitud={latitud}&radio={radio}", Method.Get);
         var response = await client.GetAsync(request); //meterle un try catch
         var recomendacionesUbicacionResponse =
-            JsonConvert.DeserializeObject<RecomendacionesUbicacionResponse>(response.Content);
+            JsonConvert.DeserializeObject<RecomendacionesUbicacionResponse>(response.Content ?? throw new InvalidOperationException());
         return recomendacionesUbicacionResponse?.Data.Select((d, i) => new PuntoEstrategico(
             $"opcion {i + 1}",
             float.Parse(d.Longitud),

@@ -6,6 +6,7 @@ using AccesoAlimentario.Core.Entities.MediosContacto;
 using AccesoAlimentario.Core.Entities.Personas;
 using AccesoAlimentario.Core.Entities.Roles;
 using AccesoAlimentario.Core.Entities.Tarjetas;
+using AccesoAlimentario.Core.Passwords;
 using AccesoAlimentario.Operations.Dto.Requests.Direcciones;
 using AccesoAlimentario.Operations.Dto.Requests.DocumentosDeIdentidad;
 using AccesoAlimentario.Operations.Dto.Requests.MediosDeComunicacion;
@@ -125,7 +126,7 @@ public static class AltaColaborador
             {
                 PersonaId = colaborador.PersonaId,
                 Username = email,
-                Password = (request.Password != "" ? request.Password : CrearPassword()) ?? CrearPassword(),
+                Password = (request.Password != "" ? request.Password : PasswordManager.CrearPassword()) ?? PasswordManager.CrearPassword(),
                 ProfilePicture = request.ProfilePicture ?? "",
                 RegisterType = request.RegisterType ?? RegisterType.Standard,
             };
@@ -142,15 +143,6 @@ public static class AltaColaborador
             }
             
             return Results.Ok(colaborador.Id);
-        }
-
-        private static string CrearPassword()
-        {
-            const int length = 16;
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+";
-            var random = new Random();
-            return new string(Enumerable.Repeat(chars, length)
-                .Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }

@@ -73,9 +73,9 @@ export default function ColaboradoresRegistroPage() {
             },
             contribucionesPreferidas: data.contribucionesPreferidas as unknown as ContribucionesTipo[],
             tarjeta: (tipoColaborador === "fisica" &&
-                data.codigo != null && data.codigo != "")
+                data.codigoTarjeta != null && data.codigoTarjeta != "")
                 ? {
-                    codigo: data.codigo,
+                    codigo: data.codigoTarjeta,
                     tipo: 'Colaboracion'
                 } : undefined
         }

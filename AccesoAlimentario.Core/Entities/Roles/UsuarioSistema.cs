@@ -8,6 +8,7 @@ public class UsuarioSistema : Rol
     public string Password { get; set; } = string.Empty;
     public string? ProfilePicture { get; set; } = string.Empty;
     public RegisterType RegisterType { get; set; } = RegisterType.Standard;
+    public bool IsAdmin { get; set; } = false;
     
     public UsuarioSistema()
     {

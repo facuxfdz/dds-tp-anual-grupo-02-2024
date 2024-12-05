@@ -24,7 +24,7 @@ import {
 } from "@models/requests/colaboradores/iAltaColaboradorRequest";
 import {SexoDocumento} from "@models/enums/sexoDocumento";
 import {TipoJuridica} from "@models/enums/tipoJuridica";
-import {usePostRegisterMutation, usePostValidarPasswordMutation} from "@redux/services/authApi";
+import {usePostRegistrarMutation, usePostValidarPasswordMutation} from "@redux/services/authApi";
 import {IPostRegisterRequest, RegisterType} from "@models/requests/auth/iPostRegisterRequest";
 import {TipoDocumento} from "@models/enums/tipoDocumento";
 import {ContribucionesTipo} from "@models/enums/contribucionesTipo";
@@ -39,7 +39,7 @@ export default function RegisterPage() {
     const [
         postRegister,
         {isLoading: registerIsLoading}
-    ] = usePostRegisterMutation();
+    ] = usePostRegistrarMutation();
     const [
         postValidarPassword,
     ] = usePostValidarPasswordMutation();
@@ -85,9 +85,9 @@ export default function RegisterPage() {
             },
             contribucionesPreferidas: data.contribucionesPreferidas as unknown as ContribucionesTipo[],
             tarjeta: (tipoColaborador === "fisica" &&
-                data.codigo != null && data.codigo != "")
+                data.codigoTarjeta != null && data.codigoTarjeta != "")
                 ? {
-                    codigo: data.codigo,
+                    codigo: data.codigoTarjeta,
                     tipo: 'Colaboracion'
                 } : undefined
         };
@@ -205,21 +205,7 @@ export default function RegisterPage() {
                                             )
                                         }
                                         <Grid container marginTop={3} spacing={3} alignItems="center">
-                                            <Grid size={6} key={"email"}>
-                                                <TextFieldElement
-                                                    name={"email"}
-                                                    label={"Correo Electrónico"}
-                                                    placeholder={"Ingrese su correo electrónico"}
-                                                    required={true}
-                                                    fullWidth
-                                                    rules={
-                                                        {
-                                                            required: "Por favor ingrese su correo electrónico"
-                                                        }
-                                                    }
-                                                />
-                                            </Grid>
-                                            <Grid size={6} key={"password"}>
+                                            <Grid size={12} key={"password"}>
                                                 <Controller
                                                     name="password"
                                                     rules={{
@@ -253,7 +239,6 @@ export default function RegisterPage() {
                                                     <Grid size={12} key={"profilePicture"}>
                                                         <Controller
                                                             name="profilePicture"
-                                                            rules={{required: "Por favor cargue una imagen"}}
                                                             render={({field, fieldState}) => (
                                                                 <MuiFileInput
                                                                     {...field}

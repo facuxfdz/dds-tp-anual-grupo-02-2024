@@ -1,8 +1,6 @@
 ﻿using AccesoAlimentario.Core.DAL;
-using AccesoAlimentario.Core.Entities.Personas;
-using AccesoAlimentario.Core.Entities.Roles;
+using AccesoAlimentario.Core.Passwords;
 using AccesoAlimentario.Core.Tokens;
-using AccesoAlimentario.Operations.JwtToken;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -34,10 +32,10 @@ public static class LogInUsuario
         public async Task<IResult> Handle(LogInUsuarioCommand request, CancellationToken cancellationToken)
         {
             _logger.LogInformation("LogIn usuario");
-
+            var passwordHash = PasswordManager.HashPassword(request.Password);
             var query = _unitOfWork.UsuarioSistemaRepository.GetQueryable()
-                .Where(u => u.UserName == request.Username && u.Password == request.Password);
-            var existingUser = await _unitOfWork.UsuarioSistemaRepository.GetAsync(query, false);
+                .Where(u => u.UserName == request.Username && u.Password == passwordHash);
+            var existingUser = await _unitOfWork.UsuarioSistemaRepository.GetAsync(query);
             if (existingUser == null)
             {
                 return Results.Unauthorized();

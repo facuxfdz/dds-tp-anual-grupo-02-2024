@@ -28,6 +28,7 @@ import {useNotification} from "@components/Notifications/NotificationContext";
 import Grid from "@mui/material/Grid2";
 import {useDispatch} from "react-redux";
 import {setUserName, setUserTarjetaColaboracionId} from "@redux/features/userSlice";
+import {IColaboradorResponseMinimo} from "@models/responses/roles/iColaboradorResponse";
 
 export default function PerfilPage() {
     const theme = useTheme();
@@ -58,7 +59,6 @@ export default function PerfilPage() {
                 tipoPersona: "Juridica"
             } as IPersonaJuridicaRequest;
         }
-
         const request: IActualizarPerfilRequest = {
             persona: personaRequest,
             direccion: {
@@ -76,9 +76,9 @@ export default function PerfilPage() {
             },
             contribucionesPreferidas: (user.colaboradorId != null) ? data.contribucionesPreferidas as unknown as ContribucionesTipo[] : undefined,
             tarjeta: (user.personaTipo === "Humana" &&
-                data.codigo != null && data.codigo != "")
+                data.codigoTarjeta != null && data.codigoTarjeta != "")
                 ? {
-                    codigo: data.codigo,
+                    codigo: data.codigoTarjeta,
                     tipo: 'Colaboracion'
                 } : undefined
         };
@@ -87,8 +87,8 @@ export default function PerfilPage() {
             await actualizarPerfil(request).unwrap();
             addNotification("Perfil actualizado correctamente", "success");
             dispatch(setUserName(data.nombre));
-            if (user.personaTipo === "Humana" && data.codigo != null && data.codigo != "") {
-                dispatch(setUserTarjetaColaboracionId(data.codigo));
+            if (user.personaTipo === "Humana" && data.codigoTarjeta != null && data.codigoTarjeta != "") {
+                dispatch(setUserTarjetaColaboracionId(data.codigoTarjeta));
             }
         } catch {
             addNotification("Error al actualizar el perfil", "error");
@@ -98,6 +98,7 @@ export default function PerfilPage() {
 
     useEffect(() => {
         if (data) {
+            const colaborador = data.roles.find((rol) => rol.tipo === "Colaborador");
             const initialData: any = {
                 nombre: data.persona.nombre,
 
@@ -117,6 +118,8 @@ export default function PerfilPage() {
                 piso: data.persona.direccion!.piso,
                 departamento: data.persona.direccion!.departamento,
                 codigoPostal: data.persona.direccion!.codigoPostal,
+                contribucionesPreferidas: (colaborador as IColaboradorResponseMinimo)?.contribucionesPreferidas,
+                codigoTarjeta: (colaborador as IColaboradorResponseMinimo)?.tarjetaColaboracion?.codigo
             }
 
             formContext.reset(initialData);

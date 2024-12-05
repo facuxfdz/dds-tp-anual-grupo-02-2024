@@ -43,12 +43,13 @@ public static class TokenUsuario
                     PersonaHumana => "Humana",
                     PersonaJuridica => "Juridica",
                     _ => ""
-                })
+                }),
+            new KeyValuePair<string, string>("isAdmin", usuario.IsAdmin ? "1" : "0")
         ]);
         return newToken;
     }
 
-    private static string Generar(string userId, List<KeyValuePair<string, string>> additionalClaims = null)
+    private static string Generar(string userId, List<KeyValuePair<string, string>> additionalClaims)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.UTF8.GetBytes(SecretKey);
@@ -63,12 +64,9 @@ public static class TokenUsuario
         };
 
         // Agrega cualquier claim adicional.
-        if (additionalClaims != null)
+        foreach (var claim in additionalClaims)
         {
-            foreach (var claim in additionalClaims)
-            {
-                claims.Add(new Claim(claim.Key, claim.Value));
-            }
+            claims.Add(new Claim(claim.Key, claim.Value));
         }
 
         // Configura la clave de seguridad.

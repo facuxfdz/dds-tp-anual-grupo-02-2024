@@ -1,9 +1,6 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using AccesoAlimentario.Core.DAL;
-using AccesoAlimentario.Core.Entities.Personas;
-using AccesoAlimentario.Core.Entities.Roles;
 using AccesoAlimentario.Core.Tokens;
-using AccesoAlimentario.Operations.JwtToken;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;

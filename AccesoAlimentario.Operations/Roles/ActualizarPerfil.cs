@@ -105,11 +105,11 @@ public static class ActualizarPerfil
                     colaborador.TarjetaColaboracion = tarjeta;
                     await _unitOfWork.TarjetaColaboracionRepository.AddAsync(tarjeta);
                 }
-                
-                if (request.ContribucionesPreferidas != null)
-                {
-                    colaborador.ContribucionesPreferidas = request.ContribucionesPreferidas;
-                }
+            }
+            
+            if (request.ContribucionesPreferidas != null && colaborador != null)
+            {
+                colaborador.ContribucionesPreferidas = request.ContribucionesPreferidas;
             }
 
             var tecnico = persona.Roles.OfType<Tecnico>().FirstOrDefault();

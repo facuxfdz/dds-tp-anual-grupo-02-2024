@@ -4,6 +4,7 @@ using AccesoAlimentario.Core.Entities.DocumentosIdentidad;
 using AccesoAlimentario.Core.Entities.MediosContacto;
 using AccesoAlimentario.Core.Entities.Personas;
 using AccesoAlimentario.Core.Entities.Roles;
+using AccesoAlimentario.Core.Passwords;
 using AccesoAlimentario.Core.Settings;
 using AccesoAlimentario.Core.Validadores.ImportacionMasiva;
 using CsvHelper;
@@ -60,7 +61,7 @@ public class ImportadorCsv : FormaImportacion
             new Email(true, datos.Mail)
         }, null, documento, SexoDocumento.Otro);
         var colaborador = new Colaborador(personaHumana, []);
-        var usuario = new UsuarioSistema(personaHumana, datos.Mail, CrearPassword(), "", RegisterType.BulkImport);
+        var usuario = new UsuarioSistema(personaHumana, datos.Mail, PasswordManager.CrearPassword(), "", RegisterType.BulkImport);
         personaHumana.AgregarRol(usuario);
         personaHumana.AgregarRol(colaborador);
         var tipoContribucion = (TipoContribucion)Enum.Parse(typeof(TipoContribucion), datos.FormaColaboracion);
@@ -117,14 +118,5 @@ public class ImportadorCsv : FormaImportacion
         }
 
         return colaborador;
-    }
-
-    private static string CrearPassword()
-    {
-        const int length = 16;
-        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+";
-        var random = new Random();
-        return new string(Enumerable.Repeat(chars, length)
-            .Select(s => s[random.Next(s.Length)]).ToArray());
     }
 }

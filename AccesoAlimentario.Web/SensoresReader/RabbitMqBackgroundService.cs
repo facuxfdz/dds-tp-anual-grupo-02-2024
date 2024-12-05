@@ -1,12 +1,14 @@
 ﻿using AccesoAlimentario.Web.SecretRetrieve;
-using AccesoAlimentario.Web.SensoresReader;
 using AccesoAlimentario.Web.SensoresReader.Processors;
 using MediatR;
 using RabbitMQ.Client;
 
+namespace AccesoAlimentario.Web.SensoresReader;
+
 public class RabbitMqBackgroundService : BackgroundService
 {
-    private readonly IEnumerable<RabbitMQConsumer> _consumers;
+    private readonly IEnumerable<RabbitMqConsumer> _consumers;
+    // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
     private readonly IServiceScope _scope;
     
     public RabbitMqBackgroundService(IServiceScopeFactory scopeFactory)
@@ -26,7 +28,7 @@ public class RabbitMqBackgroundService : BackgroundService
         }
         else
         {
-            SecretRetrieve secretRetrieve = new SecretRetrieve();
+            SecretRetrieve.SecretRetrieve secretRetrieve = new SecretRetrieve.SecretRetrieve();
             var rabbitSecret = secretRetrieve.GetSecretAs<RabbitMQSecret>("rabbitmq");
             if (rabbitSecret == null)
             {
@@ -36,9 +38,9 @@ public class RabbitMqBackgroundService : BackgroundService
             rabbitConfig.UserName = rabbitSecret.UserName;
             rabbitConfig.Password = rabbitSecret.Password;
         }
-        _consumers = new List<RabbitMQConsumer>
+        _consumers = new List<RabbitMqConsumer>
         {
-            new RabbitMQConsumer(rabbitConfig, scopeFactory, "temperatura", tempProcessor.ProcessMessageBuffered)
+            new RabbitMqConsumer(rabbitConfig, scopeFactory, "temperatura", tempProcessor.ProcessMessageBuffered)
         };
     }
 

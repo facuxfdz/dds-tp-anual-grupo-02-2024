@@ -12,7 +12,7 @@ export interface DecodedUser {
     contribucionesPreferidas?: string;
     tarjetaColaboracionId?: string;
     personaTipo?: string;
-    // Add other fields as necessary
+    isAdmin?: string;
 }
 
 export interface DecodedUserGoogle {
