@@ -89,11 +89,7 @@ export const RegistroPersonaJuridica = () => {
                     name={"tipoDocumento"}
                     label={"Tipo de Documento"}
                     options={[
-                        {label: "Dni", id: TipoDocumento.DNI},
-                        {label: "LE", id: TipoDocumento.LE},
-                        {label: "LC", id: TipoDocumento.LC},
                         {label: "Cuit", id: TipoDocumento.CUIT},
-                        {label: "Cuil", id: TipoDocumento.CUIL},
                     ]}
                     required={true}
                     fullWidth

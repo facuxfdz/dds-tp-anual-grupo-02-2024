@@ -188,7 +188,6 @@ export default function RegisterPage() {
                                                         formContext.reset();
                                                         formContext.setValue("email", query.get("email"));
                                                         formContext.setValue("nombre", query.get("nombre"));
-                                                        console.log(formContext.getValues());
                                                     }}>
                                                 <MenuItem value="fisica">Persona Física</MenuItem>
                                                 <MenuItem value="juridico">Persona Jurídica</MenuItem>

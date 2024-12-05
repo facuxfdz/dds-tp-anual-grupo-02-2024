@@ -15,18 +15,38 @@ export default function NavGroup({item}: { item: IMenuItem }) {
     const drawerOpen = useAppSelector((state) => state.theme.drawerOpen);
     const user = useAppSelector((state) => state.user);
 
-    const filterMenuItem = (item : IMenuItem) => {
+    const filterMenuItemRol = (item : IMenuItem) => {
         if (item.tecnicos && user.tecnicoId != "") {
             return true;
         }
         if (item.colaboradores && user.colaboradorId != "") {
+            if (!item.tarjetaColaborador)
+            {
+                return true;
+            } else {
+                if (user.tarjetaColaboracionId != "") {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    const filterMenuItemTipoPersona = (item : IMenuItem) => {
+        if (item.personaHumana && user.personaTipo == "Humana") {
+            return true;
+        }
+        if (item.personaJuridica && user.personaTipo == "Juridica") {
             return true;
         }
         return false;
     }
 
     const navCollapse = item.children?.map((menuItem: IMenuItem) => {
-        if (!filterMenuItem(menuItem)) {
+        if (!filterMenuItemRol(menuItem)) {
+            return null;
+        }
+        if (!filterMenuItemTipoPersona(menuItem)) {
             return null;
         }
         switch (menuItem.type) {
