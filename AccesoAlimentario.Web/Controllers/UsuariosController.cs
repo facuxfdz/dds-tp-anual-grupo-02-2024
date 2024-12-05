@@ -27,7 +27,8 @@ public class UsuariosController(ISender sender, ILogger<UsuariosController> logg
         }
     }
     
-    [HttpPost("/admin")]
+    [ApiExplorerSettings(IgnoreApi = true)]
+    [HttpPost("admin")]
     public async Task<IResult> Post([FromBody] CrearAdmin.CrearAdminCommand command)
     {
         try
