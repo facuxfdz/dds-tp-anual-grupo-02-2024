@@ -1,8 +1,10 @@
 "use client";
+import {useTheme} from "@mui/material/styles";
+import {useDeleteTecnicoMutation, useGetTecnicosQuery} from "@redux/services/tecnicosApi";
+import {useNotification} from "@components/Notifications/NotificationContext";
 import {
     Backdrop,
-    Box,
-    Button,
+    Box, Button,
     CardActions,
     CircularProgress, Divider, Fade, Modal,
     Stack,
@@ -12,60 +14,42 @@ import {
     TableHead,
     TableRow
 } from "@mui/material";
-import {StyledTableCell} from "@components/Tables/StyledTableCell";
-import {StyledTableRow} from "@components/Tables/StyledTableRow";
 import React from "react";
+import MainCard from "@components/Cards/MainCard";
 import Typography from "@mui/material/Typography";
 import CardContent from "@mui/material/CardContent";
-import MainCard from "@components/Cards/MainCard";
-import {useTheme} from "@mui/material/styles";
-import {useDeleteHeladeraMutation, useGetHeladerasQuery} from "@redux/services/heladerasApi";
-import {EstadoHeladera} from "@models/enums/estadoHeladera";
-import {heladeraRoute} from "@routes/router";
-import NextLink from "next/link";
+import {StyledTableCell} from "@components/Tables/StyledTableCell";
+import {StyledTableRow} from "@components/Tables/StyledTableRow";
 import Grid from "@mui/material/Grid2";
-import {useNotification} from "@components/Notifications/NotificationContext";
 import {useAppSelector} from "@redux/hook";
+import {formatDate} from "@utils/formatDate";
 
-function getHeladeraEstado(estado: EstadoHeladera) {
-    switch (estado) {
-        case EstadoHeladera.Activa:
-            return 'Activa';
-        case EstadoHeladera.Desperfecto:
-            return 'Desperfecto';
-        case EstadoHeladera.FueraServicio:
-            return 'Fuera de Servicio';
-        default:
-            return 'Desconocido';
-    }
-}
-
-export default function HeladerasPage() {
+export default function AdministracionTecnicosPage() {
     const theme = useTheme();
-    const {data, isError, isLoading} = useGetHeladerasQuery();
+    const {data, isLoading} = useGetTecnicosQuery();
     const [
-        deleteHeladera,
+        deleteTecnico,
         {isLoading: isDeleting}
-    ] = useDeleteHeladeraMutation();
-    const [heladeraSeleccionada, setHeladeraSeleccionada] = React.useState<string | null>(null);
+    ] = useDeleteTecnicoMutation();
+    const [tecnicoSeleccionado, setTecnicoSeleccionado] = React.useState<string | null>(null);
     const [showModal, setShowModal] = React.useState(false);
     const {addNotification} = useNotification();
-    const user = useAppSelector((state) => state.user);
+    const user = useAppSelector(state => state.user);
 
-    const handleDelete = (heladeraId: string) => {
-        setHeladeraSeleccionada(heladeraId);
+    const handleDelete = (tecnicoId: string) => {
+        setTecnicoSeleccionado(tecnicoId);
         setShowModal(true);
     }
 
     const handleSubmit = async () => {
-        if (heladeraSeleccionada) {
+        if (tecnicoSeleccionado) {
             try {
-                await deleteHeladera(heladeraSeleccionada).unwrap();
-                addNotification("Heladera eliminada correctamente", "success");
+                await deleteTecnico(tecnicoSeleccionado).unwrap();
+                addNotification("Técnico eliminado correctamente", "success");
                 setShowModal(false);
-                setHeladeraSeleccionada(null);
+                setTecnicoSeleccionado(null);
             } catch {
-                addNotification("Error al eliminar la heladera", "error");
+                addNotification("Error al eliminar técnico", "error");
             }
         }
     }
@@ -76,14 +60,6 @@ export default function HeladerasPage() {
                 <CircularProgress/>
             </Box>
         )
-    }
-
-    if (isError || !data) {
-        return (<Box sx={{display: 'flex', justifyContent: 'center'}}>
-            <Typography variant="h5">
-                Error al cargar los datos
-            </Typography>
-        </Box>)
     }
 
     return (
@@ -101,10 +77,10 @@ export default function HeladerasPage() {
                        sx={{width: 1}}>
                     <Box component="div" sx={{flexGrow: 1, m: 0, pl: 1.5}}>
                         <Typography variant="h5" sx={{flexGrow: 1}}>
-                            Heladeras
+                            Tecnicos
                         </Typography>
                         <Typography variant="subtitle1" sx={{flexGrow: 1}}>
-                            Listado de heladeras
+                            Listado de tecnicos
                         </Typography>
                     </Box>
                 </Stack>
@@ -116,30 +92,22 @@ export default function HeladerasPage() {
                             <TableRow>
                                 <StyledTableCell sx={{pl: 3}}>#</StyledTableCell>
                                 <StyledTableCell align="center">Nombre</StyledTableCell>
-                                <StyledTableCell align="center">Estado</StyledTableCell>
+                                <StyledTableCell align="center">Fecha Alta</StyledTableCell>
+                                <StyledTableCell align="center">Tipo Persona</StyledTableCell>
                                 <StyledTableCell align="center" sx={{pr: 3}}>Acciones</StyledTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {data.map((row, index) => (
+                            {(data || []).map((row, index) => (
                                 <StyledTableRow hover key={`${row.id}-${index}`}>
                                     <StyledTableCell sx={{pl: 3}} component="th" scope="row">
                                         {index + 1}
                                     </StyledTableCell>
-                                    <StyledTableCell align="center">{row.puntoEstrategico.nombre}</StyledTableCell>
-                                    <StyledTableCell align="center">{getHeladeraEstado(row.estado)}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.persona.nombre}</StyledTableCell>
+                                    <StyledTableCell align="center">{formatDate(row.persona.fechaAlta)}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.persona.tipoPersona}</StyledTableCell>
                                     <StyledTableCell align="center" sx={{pr: 3}}>
                                         <Stack direction="row" spacing={1} justifyContent="center">
-                                            <Button
-                                                variant="contained"
-                                                color="primary"
-                                                size="small"
-                                                sx={{minWidth: '30px'}}
-                                                component={NextLink}
-                                                href={heladeraRoute(row.id)}
-                                            >
-                                                Ver Detalles
-                                            </Button>
                                             {
                                                 user.isAdmin && (
                                                     <Button
@@ -176,42 +144,42 @@ export default function HeladerasPage() {
                 }}
             >
                 <Fade in={showModal}>
-                    <MainCard modal darkTitle content={false} title={"Eliminar heladera"} sx={{
+                    <MainCard modal darkTitle content={false} title={"Eliminar tecnico"} sx={{
                         width: {
                             xs: "100%",
                             sm: "80%",
                             md: "60%",
                         }
                     }}>
-                            <CardContent>
-                                <Grid container spacing={3} alignItems="center">
-                                    <Grid size={12}>
-                                        <Typography variant="body1">
-                                            ¿Está seguro que desea eliminar la heladera?
-                                        </Typography>
-                                    </Grid>
+                        <CardContent>
+                            <Grid container spacing={3} alignItems="center">
+                                <Grid size={12}>
+                                    <Typography variant="body1">
+                                        ¿Está seguro que desea eliminar el técnico?
+                                    </Typography>
                                 </Grid>
-                            </CardContent>
-                            <Divider/>
-                            <Stack direction="row" spacing={1} justifyContent="flex-end" sx={{px: 2.5, py: 2}}>
-                                <Button color="secondary" size="small" onClick={() => {
-                                    setShowModal(false);
-                                    setHeladeraSeleccionada(null);
-                                }}>
-                                    Cancelar
-                                </Button>
-                                <Button
-                                    variant="contained"
-                                    size="small"
-                                    disabled={
-                                        isDeleting
-                                    }
-                                    color="error"
-                                    onClick={handleSubmit}
-                                >
-                                    Eliminar
-                                </Button>
-                            </Stack>
+                            </Grid>
+                        </CardContent>
+                        <Divider/>
+                        <Stack direction="row" spacing={1} justifyContent="flex-end" sx={{px: 2.5, py: 2}}>
+                            <Button color="secondary" size="small" onClick={() => {
+                                setShowModal(false);
+                                setTecnicoSeleccionado(null);
+                            }}>
+                                Cancelar
+                            </Button>
+                            <Button
+                                variant="contained"
+                                size="small"
+                                disabled={
+                                    isDeleting
+                                }
+                                color="error"
+                                onClick={handleSubmit}
+                            >
+                                Eliminar
+                            </Button>
+                        </Stack>
                     </MainCard>
                 </Fade>
             </Modal>

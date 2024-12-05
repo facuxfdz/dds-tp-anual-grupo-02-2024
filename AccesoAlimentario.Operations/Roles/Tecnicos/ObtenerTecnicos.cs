@@ -33,7 +33,7 @@ public static class ObtenerTecnicos
             var query = _unitOfWork.TecnicoRepository.GetQueryable();
             var tecnicos = await _unitOfWork.TecnicoRepository.GetCollectionAsync(query);
 
-            var response = tecnicos.Select(c => _mapper.Map<TecnicoResponse>(c));
+            var response = tecnicos.Select(c => _mapper.Map(c, c.GetType(), typeof(TecnicoResponse)));
             return Results.Ok(response);
         }
     }

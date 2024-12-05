@@ -1,5 +1,8 @@
-﻿namespace AccesoAlimentario.Operations.Dto.Responses.MediosContacto;
+﻿using System.Text.Json.Serialization;
 
+namespace AccesoAlimentario.Operations.Dto.Responses.MediosContacto;
+
+[JsonDerivedType(typeof(EmailResponse))]
 public abstract class MedioContactoResponse
 {
     public Guid Id { get; set; } = Guid.Empty;

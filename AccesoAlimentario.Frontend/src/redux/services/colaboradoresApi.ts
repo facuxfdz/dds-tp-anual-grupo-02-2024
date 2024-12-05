@@ -19,7 +19,7 @@ import {IColaboradorResponse} from "@models/responses/roles/iColaboradorResponse
 export const colaboradoresApi = createApi({
     reducerPath: "ColaboradoresApi",
     baseQuery: fetchBaseQuery({baseUrl: config.apiUrl}),
-    tagTypes: ["Colaborador", "Suscripciones", "Accesos"],
+    tagTypes: ["Colaborador", "Suscripciones", "Accesos", "Colaboradores"],
     endpoints: (builder) => ({
         postImportarColaboradoresCsv: builder.mutation<
             void,
@@ -142,8 +142,17 @@ export const colaboradoresApi = createApi({
                     url: `colaboradores`,
                     method: "GET"
                 }
-            }
-        })
+            },
+            providesTags: ["Colaboradores"]
+        }),
+
+        deleteColaborador: builder.mutation<void, string>({
+            query: (id) => ({
+                url: `colaboradores/${id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ["Colaborador", "Colaboradores"]
+        }),
     }),
 });
 
@@ -157,5 +166,6 @@ export const {
     useGetAccesosQuery,
     usePostSolicitarAccesoHeladeraMutation,
     useLazyGetPremiosReclamadosQuery,
-    useGetColaboradoresQuery
+    useGetColaboradoresQuery,
+    useDeleteColaboradorMutation
 } = colaboradoresApi;

@@ -6,7 +6,7 @@ import {ITecnicoResponse} from "@models/responses/roles/iTecnicoResponse";
 export const tecnicosApi = createApi({
     reducerPath: "TecnicosApi",
     baseQuery: fetchBaseQuery({baseUrl: config.apiUrl}),
-    tagTypes: ["Test"],
+    tagTypes: ["Tecnicos"],
     endpoints: (builder) => ({
         postTecnico: builder.mutation<
             void,
@@ -17,6 +17,7 @@ export const tecnicosApi = createApi({
                 method: "POST",
                 body,
             }),
+            invalidatesTags: ["Tecnicos"],
         }),
 
         getTecnicos: builder.query<ITecnicoResponse[], void>({
@@ -24,11 +25,21 @@ export const tecnicosApi = createApi({
                 url: `tecnicos`,
                 method: "GET",
             }),
+            providesTags: ["Tecnicos"],
         }),
+
+        deleteTecnico: builder.mutation<void, string>({
+            query: (id) => ({
+                url: `tecnicos/${id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ["Tecnicos"],
+        })
     }),
 });
 
 export const {
     usePostTecnicoMutation,
-    useGetTecnicosQuery
+    useGetTecnicosQuery,
+    useDeleteTecnicoMutation
 } = tecnicosApi;
