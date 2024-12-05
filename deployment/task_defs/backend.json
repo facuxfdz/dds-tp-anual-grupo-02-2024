@@ -1,11 +1,11 @@
 {
     "family": "backend",
-    "executionRoleArn": "TASK_EXECUTION_ROLE_ARN",
-    "taskRoleArn": "TASK_ROLE_ARN",
+    "executionRoleArn": "arn:aws:iam::034781041905:role/accesoalimentario-task-exec-role-20241205005421814600000002",
+    "taskRoleArn": "arn:aws:iam::034781041905:role/accesoalimentario_task_role",
     "containerDefinitions": [
       {
         "name": "backend",
-        "image": "your-registry/accesoalimentario:latest",
+        "image": "",
         "essential": true,
         "cpu": 256,
         "memory": 512,
@@ -26,8 +26,7 @@
           }
         },
         "environment": [
-          { "name": "DB_HOST", "value": "db.internal" },
-          { "name": "QUEUE_HOST", "value": "rabbitmq.internal" }
+          { "name": "ASPNETCORE_ENVIRONMENT", "value": "Production" }
         ]
       }
     ],

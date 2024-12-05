@@ -1,16 +1,8 @@
-data "aws_lb_target_group" "alb_tg" {
-  name = var.alb_name
-}
 data "aws_subnets" "private" {
   filter {
     name   = "tag:Name"
     values = ["${var.vpc_name}-private"]
   }
-}
-
-data "aws_iam_role" "task_role_arn" {
-  name       = var.service_name
-  depends_on = [module.ecs]
 }
 
 resource "aws_iam_policy" "secrets_manager" {
@@ -23,6 +15,7 @@ resource "aws_iam_policy" "secrets_manager" {
         Effect = "Allow",
         Action = [
           "secretsmanager:*",
+          "ssm:*",
         ],
         Resource = "*",
       },
@@ -41,6 +34,23 @@ data "aws_vpc" "vpc" {
 resource "aws_service_discovery_private_dns_namespace" "namespace" {
   name = "accesoalimentario_namespace"
   vpc  = data.aws_vpc.vpc.id
+}
+
+# IAM Role for task role
+resource "aws_iam_role" "task_role" {
+  name = "accesoalimentario_task_role"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect    = "Allow",
+        Principal = {
+          Service = "ecs-tasks.amazonaws.com",
+        },
+        Action    = "sts:AssumeRole",
+      },
+    ],
+  })
 }
 
 module "ecs" {

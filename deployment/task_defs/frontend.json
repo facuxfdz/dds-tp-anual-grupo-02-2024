@@ -1,11 +1,11 @@
 {
     "family": "frontend",
-    "executionRoleArn": "TASK_EXECUTION_ROLE_ARN",
-    "taskRoleArn": "TASK_ROLE_ARN",
+    "executionRoleArn": "arn:aws:iam::034781041905:role/accesoalimentario-task-exec-role-20241205005421814600000002",
+    "taskRoleArn": "arn:aws:iam::034781041905:role/accesoalimentario_task_role",
     "containerDefinitions": [
       {
         "name": "frontend",
-        "image": "your-registry/frontend:latest",
+        "image": "",
         "essential": true,
         "cpu": 256,
         "memory": 512,
@@ -17,7 +17,7 @@
           }
         ],        
         "environment": [
-          { "name": "API_ENDPOINT", "value": "https://accesoalimentario.internal" }
+          { "name": "NEXT_PUBLIC_API_URL", "value": "https://back.acceso-alimentario.opsconsultingservices.com/api" }
         ]
       }
     ],

@@ -1,4 +1,5 @@
-﻿using AccesoAlimentario.Web.SecretRetrieve;
+﻿using AccesoAlimentario.Web.ParametersRetrieve;
+using AccesoAlimentario.Web.SecretRetrieve;
 using AccesoAlimentario.Web.SensoresReader.Processors;
 using MediatR;
 using RabbitMQ.Client;
@@ -28,6 +29,10 @@ public class RabbitMqBackgroundService : BackgroundService
         }
         else
         {
+            var secretName = new SSMParameterRetriever
+            {
+                Region = Environment.GetEnvironmentVariable("AWS_REGION") ?? "us-east-1"
+            }.GetString("/accesoalimentario/rabbitmq/secret_name");
             SecretRetrieve.SecretRetrieve secretRetrieve = new SecretRetrieve.SecretRetrieve();
             var rabbitSecret = secretRetrieve.GetSecretAs<RabbitMQSecret>("rabbitmq");
             if (rabbitSecret == null)
