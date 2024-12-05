@@ -168,3 +168,14 @@ jobs:
           echo "full_image_recomendaciones-api=$ECR_REGISTRY/$ECR_REPOSITORY/recomendaciones-api:$IMAGE_TAG"
           echo "full_image_recomendaciones-api=$ECR_REGISTRY/$ECR_REPOSITORY/recomendaciones-api:$IMAGE_TAG" >> $GITHUB_ENV
         working-directory: "./ServicioRecomendaciones"
+        
+      - name: Update ECS Task Definition
+        id: update-task-def
+        run: |
+          python3 deployment/update_task_def.py
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          ECS_TASK_DEFINITION: ${{ env.ECS_TASK_DEFINITION }}
+          full_image: ${{ env.full_image }}
+          full_image_front: ${{ env.full_image_front }}
+          full_image_recomendaciones-api: ${{ env.full_image_recomendaciones-api }}
