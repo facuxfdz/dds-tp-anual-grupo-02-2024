@@ -43,3 +43,8 @@ variable "user_pool_domain" {
   description = "The domain of the Cognito user pool"
   type        = string
 }
+
+variable "additional_records" {
+  description = "Additional records to create"
+  type        = list(string)
+}

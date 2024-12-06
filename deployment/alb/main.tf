@@ -41,6 +41,19 @@ resource "aws_route53_record" "acceso_alimentario" {
   }
 }
 
+# Route53 additional records pointing to the ALB
+resource "aws_route53_record" "back_acceso_alimentario" {
+  for_each = toset(var.additional_records)
+  zone_id  = var.domain_zone_id
+  name     = each.value
+  type     = "A"
+
+  alias {
+    name                   = module.alb.dns_name
+    zone_id                = module.alb.zone_id
+    evaluate_target_health = false
+  }
+}
 module "alb" {
   source  = "terraform-aws-modules/alb/aws"
   version = "9.12.0"
