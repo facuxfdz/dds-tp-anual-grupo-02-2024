@@ -1,10 +1,12 @@
 ﻿using AccesoAlimentario.Core.Entities.DocumentosIdentidad;
 using AccesoAlimentario.Core.Entities.Personas;
+using AccesoAlimentario.Core.Entities.Reportes;
 using AccesoAlimentario.Operations.Dto.Requests.Direcciones;
 using AccesoAlimentario.Operations.Dto.Requests.DocumentosDeIdentidad;
 using AccesoAlimentario.Operations.Dto.Requests.Heladeras;
 using AccesoAlimentario.Operations.Dto.Requests.Personas;
 using AccesoAlimentario.Operations.Dto.Requests.Tarjetas;
+using AccesoAlimentario.Operations.Dto.Responses.Reportes;
 
 namespace AccesoAlimentario.Testing.Utils;
 
@@ -93,6 +95,18 @@ public static class MockRequest
             TemperaturaMaxima = 24,
         };
         return modeloHeladera;
+    }
+
+    public static ReporteResponse GetReporteResponse()
+    {
+        var reporteCantidadFallasPorHeladera = new ReporteResponse
+        {
+            Tipo = TipoReporte.CANTIDAD_FALLAS_POR_HELADERA,
+            FechaExpiracion = DateTime.UtcNow.AddDays(-1),
+            Cuerpo = "Reporte de prueba"
+        };
+
+        return reporteCantidadFallasPorHeladera;
     }
     
         

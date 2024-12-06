@@ -4,6 +4,7 @@ using AccesoAlimentario.Core.Entities.Contribuciones;
 using AccesoAlimentario.Core.Entities.Direcciones;
 using AccesoAlimentario.Core.Entities.DocumentosIdentidad;
 using AccesoAlimentario.Core.Entities.Heladeras;
+using AccesoAlimentario.Core.Entities.Incidentes;
 using AccesoAlimentario.Core.Entities.Personas;
 using AccesoAlimentario.Core.Entities.Premios;
 using AccesoAlimentario.Core.Entities.Reportes;
@@ -118,7 +119,10 @@ public class MockServices
             context.Viandas.Add(vianda2);
             context.Viandas.Add(vianda3);*/
 
-            
+            var incidenteFalla = new FallaTecnica
+            {
+
+            };
             
             var heladeraOrigen = new Heladera
             { 
@@ -131,13 +135,15 @@ public class MockServices
                     TemperaturaMaxima = 28
                 },
                 Estado = EstadoHeladera.Activa,
-                PuntoEstrategico = puntoEstrategico
+                PuntoEstrategico = puntoEstrategico,
+                Incidentes = [incidenteFalla]
             };
             heladeraOrigen.IngresarVianda(vianda1);
             heladeraOrigen.IngresarVianda(vianda2);
             vianda1.Heladera = heladeraOrigen;
             vianda2.Heladera = heladeraOrigen;
             context.Heladeras.Add(heladeraOrigen);
+            
 
             var heladeraDestino = new Heladera
             { 
@@ -150,7 +156,8 @@ public class MockServices
                     TemperaturaMaxima = 28
                 },
                 Estado = EstadoHeladera.Activa,
-                PuntoEstrategico = puntoEstrategico
+                PuntoEstrategico = puntoEstrategico,
+                Incidentes = [incidenteFalla]
             };
             heladeraDestino.IngresarVianda(vianda3);
             vianda3.Heladera = heladeraDestino;
@@ -271,8 +278,8 @@ public class MockServices
             
             var reporteCantidadFallasPorHeladera = new Reporte
             {
-                Tipo = TipoReporte.CANTIDAD_FALLAS_POR_HELADERA,
-                FechaExpiracion = DateTime.Now,
+                Tipo = TipoReporte.CANTIDAD_VIANDAS_POR_COLABORADOR,
+                FechaExpiracion = DateTime.UtcNow.AddDays(-1),
                 Cuerpo = "Reporte de prueba"
             };
         
