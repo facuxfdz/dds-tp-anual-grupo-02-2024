@@ -190,11 +190,13 @@ def attach_or_get_tg_to_service(elbv2_client, alb_arn, tg_arn, host, priority):
     return rule_arn
 
 def get_vpc_id():
-    """Retrieve VPC ID from environment variables."""
-    vpc_id = os.getenv('VPC_ID')
-    if not vpc_id:
-        raise ValueError("VPC_ID environment variable is not set.")
-    return vpc_id
+    """Retrieve VPC ID from AWS By using the name."""
+    vpc_name = "acceso-alimentario"
+    ec2_client = boto3.client('ec2', region_name=os.getenv('AWS_REGION', 'us-east-1'))
+    response = ec2_client.describe_vpcs(Filters=[{'Name': 'tag:Name', 'Values': [vpc_name]}])
+    if not response['Vpcs']:
+        raise ValueError(f"No VPC found with name {vpc_name}.")
+    return response['Vpcs'][0]['VpcId']
 
 
 def get_alb_arn(elbv2_client, alb_name):
