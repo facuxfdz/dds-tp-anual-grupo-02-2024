@@ -21,7 +21,6 @@ public static class MockRequest
             Localidad = "La Matanza",
             Numero = "123",
             Piso = "3"
-
         };
         
         return direccionRequest;
@@ -64,10 +63,11 @@ public static class MockRequest
 
     public static PuntoEstrategicoRequest GetPuntoEstrategicoRequest()
     {
+        var direccionRequest = GetDireccionRequest();
         var puntoEstrategicoRequest = new PuntoEstrategicoRequest
         {
             Nombre = "Medrano",
-            Direccion = GetDireccionRequest(),
+            Direccion = direccionRequest,
             Longitud = 350859,
             Latitud = 2785
         };
@@ -89,11 +89,12 @@ public static class MockRequest
         var modeloHeladera = new ModeloHeladeraRequest
         {
             Capacidad = 29,
-            TemperaturaMinima = 18,
+            TemperaturaMinima = -20,
             TemperaturaMaxima = 24,
         };
         return modeloHeladera;
     }
+    
         
     
 }

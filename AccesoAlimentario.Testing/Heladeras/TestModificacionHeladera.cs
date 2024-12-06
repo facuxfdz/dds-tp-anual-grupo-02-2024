@@ -1,4 +1,4 @@
-﻿using AccesoAlimentario.Core.DAL;
+﻿﻿using AccesoAlimentario.Core.DAL;
 using AccesoAlimentario.Core.Entities.Heladeras;
 using AccesoAlimentario.Operations.Heladeras;
 using AccesoAlimentario.Testing.Utils;
@@ -10,8 +10,8 @@ public class TestModificacionHeladera
 {
     [Test]
     
-    // TODO: NO FUNCIONA
-
+    //TODO: Funciona pero si se corren todos los test no funca
+    
     public async Task ModificacionHeladeraTest()
     {
         var mockServices = new MockServices();
@@ -22,20 +22,21 @@ public class TestModificacionHeladera
         
         var heladera = context.Heladeras.First();
         var puntoEstrategicoRequest = MockRequest.GetPuntoEstrategicoRequest();
-        var sensorRequest = MockRequest.GetSensorTemperaturaRequest();
-
+        var sensorTemperaturaRequest = MockRequest.GetSensorTemperaturaRequest();
+        var modeloHeladeraRequest = MockRequest.GetModeloHeladeraRequest();
+        
         var command = new ModificacionHeladera.ModificacionHeladeraCommand()
         {
             Id = heladera.Id,
             Estado = EstadoHeladera.Activa,
-            PuntoEstrategico = puntoEstrategicoRequest ,
-            TemperaturaMinimaConfig = 14,
-            TemperaturaMaximaConfig = 22,
-            Sensores = [sensorRequest]
+            PuntoEstrategico = puntoEstrategicoRequest,
+            TemperaturaMinimaConfig = -20,
+            TemperaturaMaximaConfig = 24,
+            Sensores = [sensorTemperaturaRequest],
+            Modelo = modeloHeladeraRequest
 
         };
         
-        Assert.Pass($"El comando devolvió Ok. Se pudo modificar la heladera de Id: {heladera.Id}" );
         var result = await mediator.Send(command);
         
          switch (result)

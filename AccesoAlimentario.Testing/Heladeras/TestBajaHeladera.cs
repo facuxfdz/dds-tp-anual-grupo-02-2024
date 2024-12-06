@@ -8,7 +8,9 @@ namespace AccesoAlimentario.Testing.Heladeras;
 public class TestBajaHeladera
 {
     [Test]
-
+    
+    //TODO: Funciona pero si se corren todos los test no funca
+    
     public async Task BajaHeladeraTest()
     {
         var mockServices = new MockServices();
@@ -23,9 +25,9 @@ public class TestBajaHeladera
         {
             Id = heladera.Id,
         };
-        Assert.Pass($"El comando devolvió Ok. Se dió de baja la heladera con Id: {heladera.Id} ");
+        
         var result = await mediator.Send(command);
-
+        
         switch (result)
         {
             case Microsoft.AspNetCore.Http.HttpResults.BadRequest<string> badRequest:
@@ -35,7 +37,7 @@ public class TestBajaHeladera
                 Assert.Fail($"El comando devolvió NotFound: {notFound.Value}");
                 break;
             case Microsoft.AspNetCore.Http.HttpResults.Ok:
-                Assert.Pass($"El comando devolvió Ok. Se dió de baja la heladera con Id: {heladera.Id} ");
+                Assert.Pass($"El comando devolvió Ok. Se dió de baja la heladera. ");
                 break;
             default:
                 Assert.Fail($"El comando no devolvió ok - {result.GetType()}"); 

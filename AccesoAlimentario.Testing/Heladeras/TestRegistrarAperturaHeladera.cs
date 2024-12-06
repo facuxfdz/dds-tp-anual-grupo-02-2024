@@ -11,8 +11,8 @@ public class TestRegistrarAperturaHeladera
 {
     [Test]
     
-    //TODO: No funciona, me tira tarjeta no encontrada
-
+    //TODO: Funciona pero si se corren todos los test no funca
+    
     public async Task RegistrarApertura()
     {
         var mockServices = new MockServices();
@@ -22,17 +22,15 @@ public class TestRegistrarAperturaHeladera
         var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         
         var heladera = context.Heladeras.First();
-        var tarjetaConsumo = context.Tarjetas.OfType<TarjetaConsumo>().First();
+        var tarjetaColaboracion = context.Tarjetas.OfType<TarjetaColaboracion>().First();
 
         var command = new RegistrarAperturaHeladera.RegistrarAperturaHeladeraCommand
         {
             HeladeraId = heladera.Id,
-            TarjetaId = tarjetaConsumo.Id,
+            TarjetaId = tarjetaColaboracion.Id,
             TipoAcceso = TipoAcceso.RetiroVianda
         };
         
-        Assert.Pass($"El comando devolvió Ok. Se pudo registrar apertura" +
-                    $" de la heladera con id: {heladera.Id}");
         var result = await mediator.Send(command);
 
         switch (result)
@@ -45,10 +43,10 @@ public class TestRegistrarAperturaHeladera
                 break;
             case Microsoft.AspNetCore.Http.HttpResults.Ok:
                 Assert.Pass($"El comando devolvió Ok. Se pudo registrar apertura" +
-                            $" de la heladera con id: {heladera.Id}");
+                            $" de la heladera con id: {heladera.Id} con la tarjeta con id: {tarjetaColaboracion.Id}");
                 break;
             default:
-                Assert.Fail($"El comando no devolvió ok - {result.GetType()}"); 
+               Assert.Fail($"El comando no devolvió nulo - {result.GetType()}"); 
                 break;
         }
     }

@@ -42,7 +42,7 @@
   &lt;Assembly Path="C:\Users\Facu\.nuget\packages\swashbuckle.aspnetcore.swaggergen\6.9.0\lib\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e5c7046a_002Deed8_002D4686_002Da3e5_002D52e9f3892d9b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Test1" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;Project Location="F:\UTN\2024\Dds\Tp\dds-tp-anual-grupo-02-2024\AccesoAlimentario.Testing" Presentation="&amp;lt;AccesoAlimentario.Testing&amp;gt;" /&gt;&#xD;
+  &lt;Project Location="C:\Users\larip\Desktop\dds_tp_anual_2024\AccesoAlimentario.Testing" Presentation="&amp;lt;AccesoAlimentario.Testing&amp;gt;" /&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
     
     

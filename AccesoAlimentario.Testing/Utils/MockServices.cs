@@ -1,4 +1,5 @@
 ﻿using AccesoAlimentario.Core.DAL;
+using AccesoAlimentario.Core.Entities.Autorizaciones;
 using AccesoAlimentario.Core.Entities.Contribuciones;
 using AccesoAlimentario.Core.Entities.Direcciones;
 using AccesoAlimentario.Core.Entities.DocumentosIdentidad;
@@ -7,6 +8,7 @@ using AccesoAlimentario.Core.Entities.Personas;
 using AccesoAlimentario.Core.Entities.Premios;
 using AccesoAlimentario.Core.Entities.Reportes;
 using AccesoAlimentario.Core.Entities.Roles;
+using AccesoAlimentario.Core.Entities.Sensores;
 using AccesoAlimentario.Core.Entities.Tarjetas;
 using AccesoAlimentario.Operations;
 using MediatR;
@@ -71,6 +73,29 @@ public class MockServices
             };
             context.Premios.Add(premio);
             
+            
+            var direccion = new Direccion
+            {
+                Calle = "Avellaneda",
+                Numero = "213",
+                CodigoPostal = "234",
+                Departamento = "D 14",
+                Localidad = "Avellaneda",
+                Piso = "6"
+            };
+            
+            context.Direcciones.Add(direccion);
+
+            var puntoEstrategico = new PuntoEstrategico
+            {
+                Direccion = direccion,
+                Nombre = "Avellaneda",
+                Latitud = 1243,
+                Longitud = 1245,
+            };
+            
+            context.PuntosEstrategicos.Add(puntoEstrategico);
+
             var vianda1 = new Vianda
             {
                 Comida = "comida",
@@ -94,17 +119,19 @@ public class MockServices
             context.Viandas.Add(vianda3);*/
 
             
+            
             var heladeraOrigen = new Heladera
             { 
-                TemperaturaMaximaConfig = 24,
-                TemperaturaMinimaConfig = 18,
+                TemperaturaMaximaConfig = 28,
+                TemperaturaMinimaConfig = -20,
                 Modelo = new ModeloHeladera
                 {
                     Capacidad = 10,
-                    TemperaturaMinima = 14,
+                    TemperaturaMinima = -20,
                     TemperaturaMaxima = 28
                 },
-                Estado = EstadoHeladera.Activa
+                Estado = EstadoHeladera.Activa,
+                PuntoEstrategico = puntoEstrategico
             };
             heladeraOrigen.IngresarVianda(vianda1);
             heladeraOrigen.IngresarVianda(vianda2);
@@ -114,21 +141,43 @@ public class MockServices
 
             var heladeraDestino = new Heladera
             { 
-                TemperaturaMaximaConfig = 24,
-                TemperaturaMinimaConfig = 18,
+                TemperaturaMaximaConfig = 28,
+                TemperaturaMinimaConfig = -20,
                 Modelo = new ModeloHeladera
                 {
                     Capacidad = 10,
-                    TemperaturaMinima = 14,
+                    TemperaturaMinima = -20,
                     TemperaturaMaxima = 28
                 },
-                Estado = EstadoHeladera.Activa
+                Estado = EstadoHeladera.Activa,
+                PuntoEstrategico = puntoEstrategico
             };
             heladeraDestino.IngresarVianda(vianda3);
             vianda3.Heladera = heladeraDestino;
             context.Heladeras.Add(heladeraDestino);
+
+            var registroTemperatura = new RegistroTemperatura
+            {
+                Date = DateTime.Now,
+                Temperatura = 24
+            };
+
+            var sensorTemperatura1 = new SensorTemperatura
+            {
+                RegistrosTemperatura = [registroTemperatura]
+
+            };
             
-            // Crear y agregar una contribucion de prueba
+            var sensorTemperatura2 = new SensorTemperatura
+            {
+                RegistrosTemperatura = [registroTemperatura]
+
+            };
+            sensorTemperatura1.Heladera = heladeraOrigen;
+            sensorTemperatura2.Heladera = heladeraDestino;
+            heladeraOrigen.AgregarSensor(sensorTemperatura1);
+            heladeraDestino.AgregarSensor(sensorTemperatura2);
+            
             var donacionVianda = new DonacionVianda();
             context.FormasContribucion.Add(donacionVianda);
             
@@ -141,8 +190,7 @@ public class MockServices
                 
             };
             context.FormasContribucion.Add(donacionDistribucionVianda);
-    
-            // Crear y agregar una persona de prueba
+           
             var personaHumana = new PersonaHumana
             {
                 Nombre = "Juan Pérez",
@@ -151,7 +199,7 @@ public class MockServices
     
             context.Personas.Add(personaHumana);
     
-            // Crear y agregar un colaborador de prueba
+           
             var colaborador = new Colaborador
             {
                 Persona = personaHumana, 
@@ -162,28 +210,7 @@ public class MockServices
 
             context.Roles.Add(colaborador);
 
-            var direccion = new Direccion
-            {
-                Calle = "Avellaneda",
-                Numero = "213",
-                CodigoPostal = "234",
-                Departamento = "D 14",
-                Localidad = "Avellaneda",
-                Piso = "6"
-            };
-            
-            context.Direcciones.Add(direccion);
-
-            var puntoEstrategico = new PuntoEstrategico
-            {
-                Direccion = direccion,
-                Nombre = "Avellaneda",
-                Latitud = 1243,
-                Longitud = 1245,
-            };
-            
-            context.PuntosEstrategicos.Add(puntoEstrategico);
-
+           
             var personaVulnerable = new PersonaVulnerable
             {
                 Persona = personaHumana,
@@ -194,16 +221,41 @@ public class MockServices
             
             context.Roles.Add(personaVulnerable);
             
+            
             var tarjetaConsumo = new TarjetaConsumo
             {
                 Responsable = colaborador,
-                Codigo = "248urqe8393"
+                Codigo = "248urqe8393",
+                Accesos = []
 
             };
             
             tarjetaConsumo.Propietario = personaVulnerable;
             personaVulnerable.Tarjeta = tarjetaConsumo;
             context.Tarjetas.Add(tarjetaConsumo);
+            
+            var accesoHeladera = new AccesoHeladera
+            {
+                
+                FechaAcceso = DateTime.UtcNow,
+                Heladera = heladeraOrigen,
+                Tarjeta = tarjetaConsumo,
+                TipoAcceso = TipoAcceso.RetiroVianda,
+                Viandas = [vianda1]
+                
+            };
+            
+            //tarjetaConsumo.Accesos.Add(accesoHeladera);
+
+            var autorazacion1 = new AutorizacionManipulacionHeladera
+            {
+                FechaCreacion = DateTime.UtcNow,
+                FechaExpiracion = DateTime.UtcNow.AddDays(1),
+                Heladera = heladeraOrigen
+
+            };
+            
+            accesoHeladera.Autorizacion = autorazacion1;
 
             var tarjetaColaboracion = new TarjetaColaboracion
             {
@@ -214,6 +266,8 @@ public class MockServices
             };
             
             context.Tarjetas.Add(tarjetaColaboracion);
+            autorazacion1.TarjetaAutorizada = tarjetaColaboracion;
+            tarjetaColaboracion.AgregarAutorizacion(autorazacion1);
             
             var reporteCantidadFallasPorHeladera = new Reporte
             {
