@@ -92,9 +92,9 @@ export const DistribucionViandasForm = ({
                     }}
                 />
             </Grid>
-            <Grid size={6} key={"cantidad"}>
+            <Grid size={6} key={"cantidadDeViandas"}>
                 <TextFieldElement
-                    name={"cantidad"}
+                    name={"cantidadDeViandas"}
                     label={"Cantidad de viandas"}
                     placeholder={"Ingrese una cantidad"}
                     required={true}
@@ -116,9 +116,9 @@ export const DistribucionViandasForm = ({
                     }}
                 />
             </Grid>
-            <Grid size={12} key={"heladeraOrigen"}>
+            <Grid size={12} key={"heladeraOrigenId"}>
                 <SelectElement
-                    name={"heladeraOrigen"}
+                    name={"heladeraOrigenId"}
                     label={"Heladera Origen"}
                     options={
                         (data ?? []).map(heladera => {
@@ -146,9 +146,9 @@ export const DistribucionViandasForm = ({
                     }}
                 />
             </Grid>
-            <Grid size={12} key={"heladeraDestino"}>
+            <Grid size={12} key={"heladeraDestinoId"}>
                 <SelectElement
-                    name={"heladeraDestino"}
+                    name={"heladeraDestinoId"}
                     label={"Heladera Destino"}
                     options={
                         (data ?? []).map(heladera => {

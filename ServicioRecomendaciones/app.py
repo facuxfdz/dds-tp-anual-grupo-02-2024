@@ -27,7 +27,7 @@ LOGGER.addHandler(handler)
 COLABORADORES_API_URL = os.getenv("COLABORADORES_API_URL", "http://localhost:5000/api/colaboradores/externos")
 
 # Crear un namespace personalizado
-recomendaciones_ns = Namespace("recomendaciones", description="Operaciones relacionadas con recomendaciones")
+recomendaciones_ns = Namespace("api", description="Operaciones relacionadas con recomendaciones")
 
 # Esquemas para Swagger
 colaborador_response_model = recomendaciones_ns.model(
@@ -62,15 +62,18 @@ def parse_iso8601_to_timestamp(iso8601_str):
 # Endpoint de recomendaciones
 @recomendaciones_ns.route("/recomendaciones")
 class RecomendacionesResource(Resource):
-    @recomendaciones_ns.expect(recomendaciones_request_model, validate=True)
+    @recomendaciones_ns.doc(params={
+        "puntos_minimos": "Cantidad mínima de puntos",
+        "donaciones_viandas_minimas": "Donaciones de viandas mínimas",
+        "cantidad_de_colaboradores": "Cantidad máxima de colaboradores",
+    })
     @recomendaciones_ns.marshal_list_with(colaborador_response_model)
     def get(self):
         """Obtener colaboradores recomendados desde la API"""
         try:
-            data = request.json
-            puntos_minimos = data["puntos_minimos"]
-            donaciones_viandas_minimas = data["donaciones_viandas_minimas"]
-            cantidad_de_colaboradores = data["cantidad_de_colaboradores"]
+            puntos_minimos = int(request.args.get("puntos_minimos", 0))
+            donaciones_viandas_minimas = int(request.args.get("donaciones_viandas_minimas", 0))
+            cantidad_de_colaboradores = int(request.args.get("cantidad_de_colaboradores", 10))
 
             # Consultar colaboradores desde la API
             response = requests.get(COLABORADORES_API_URL, timeout=10)
@@ -82,7 +85,7 @@ class RecomendacionesResource(Resource):
             colaboradores = response.json()
 
             # Calcular timestamp del último mes
-            ahora = time.time()
+            ahora = time.time( )
             hace_un_mes = ahora - (30 * 24 * 60 * 60)
 
             # Filtrar colaboradores

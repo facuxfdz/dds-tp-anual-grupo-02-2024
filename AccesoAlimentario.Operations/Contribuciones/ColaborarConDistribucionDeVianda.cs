@@ -52,9 +52,22 @@ public static class ColaborarConDistribucionDeVianda
 
             var viandas = heladeraOrigen.RetirarViandas(request.CantidadDeViandas);
             viandas.ForEach(vianda => heladeraDestino.IngresarVianda(vianda));
+
+            var distribucionVianda = new DistribucionViandas
+            {
+                FechaContribucion = request.FechaContribucion,
+                HeladeraOrigen = heladeraOrigen,
+                HeladeraDestino = heladeraDestino,
+                CantViandas = request.CantidadDeViandas,
+                MotivoDistribucion = request.Motivo,
+            };
+            
+            colaborador.AgregarContribucion(distribucionVianda);
+            
+            
             var appSettings = AppSettings.Instance;
             colaborador.AgregarPuntos(appSettings.ViandasDistribuidasCoef * request.CantidadDeViandas);
-            
+            await _unitOfWork.FormaContribucionRepository.AddAsync(distribucionVianda);
             await _unitOfWork.SaveChangesAsync();
 
             return Results.Ok();
