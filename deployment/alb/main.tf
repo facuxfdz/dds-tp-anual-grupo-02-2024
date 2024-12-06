@@ -28,6 +28,17 @@ module "acm" {
   wait_for_validation = true
 }
 
+module "root_acm" {
+  source  = "terraform-aws-modules/acm/aws"
+  version = "5.1.1"
+
+  domain_name       = var.domain_record
+  zone_id           = var.domain_zone_id
+  validation_method = "DNS"
+
+  wait_for_validation = true
+}
+
 # Route53 record pointing to the ALB
 resource "aws_route53_record" "acceso_alimentario" {
   zone_id = var.domain_zone_id
