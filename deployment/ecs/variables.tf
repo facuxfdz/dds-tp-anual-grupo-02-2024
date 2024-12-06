@@ -13,11 +13,6 @@ variable "service_name" {
   type        = string
 }
 
-variable "alb_name" {
-  description = "The name of the ALB"
-  type        = string
-}
-
 variable "region" {
   description = "The AWS region"
   type        = string

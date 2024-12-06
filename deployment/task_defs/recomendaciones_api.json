@@ -1,0 +1,41 @@
+{
+    "family": "recomendaciones_api",
+    "executionRoleArn": "arn:aws:iam::034781041905:role/accesoalimentario-task-exec-role-20241205005421814600000002",
+    "taskRoleArn": "arn:aws:iam::034781041905:role/accesoalimentario_task_role",
+    "containerDefinitions": [
+      {
+        "name": "recomendaciones_api",
+        "image": "",
+        "essential": true,
+        "cpu": 256,
+        "memory": 512,
+        "portMappings": [
+          {
+            "name": "http",
+            "containerPort": 8080,
+            "hostPort": 8080
+          }
+        ],
+        "logConfiguration": {
+          "logDriver": "awslogs",
+          "options": {
+            "awslogs-create-group": "true",
+            "awslogs-group": "/aws/ecs/recomendaciones_api",
+            "awslogs-region": "us-east-1",
+            "awslogs-stream-prefix": "recomendaciones_api"
+          }
+        },
+        "environment": [
+          { "name": "COLABORADORES_API_URL", "value": "http://backend:8085/api/colaboradores/externos" },
+          { "name": "BACKEND_API", "value": "https://accesoalimentario.internal" }
+        ]
+      }
+    ],
+    "networkMode": "awsvpc",
+    "requiresCompatibilities": [
+      "FARGATE"
+    ],
+    "cpu": "256",
+    "memory": "512"
+  }
+  

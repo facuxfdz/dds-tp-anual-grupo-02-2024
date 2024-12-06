@@ -1,0 +1,40 @@
+{
+    "family": "backend",
+    "executionRoleArn": "arn:aws:iam::034781041905:role/accesoalimentario-task-exec-role-20241205005421814600000002",
+    "taskRoleArn": "arn:aws:iam::034781041905:role/accesoalimentario_task_role",
+    "containerDefinitions": [
+      {
+        "name": "backend",
+        "image": "",
+        "essential": true,
+        "cpu": 256,
+        "memory": 512,
+        "portMappings": [
+          {
+            "name": "http",
+            "containerPort": 8085,
+            "hostPort": 8085
+          }
+        ],
+        "logConfiguration": {
+          "logDriver": "awslogs",
+          "options": {
+            "awslogs-create-group": "true",
+            "awslogs-group": "/aws/ecs/acceso-alimentario",
+            "awslogs-region": "us-east-1",
+            "awslogs-stream-prefix": "acceso-alimentario"
+          }
+        },
+        "environment": [
+          { "name": "ASPNETCORE_ENVIRONMENT", "value": "Production" }
+        ]
+      }
+    ],
+    "networkMode": "awsvpc",
+    "requiresCompatibilities": [
+      "FARGATE"
+    ],
+    "cpu": "256",
+    "memory": "512"
+  }
+  

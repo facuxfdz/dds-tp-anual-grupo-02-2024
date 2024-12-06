@@ -1,7 +1,11 @@
 ﻿name: Deployment
 run-name: ${{ github.event.head_commit.message }}
 
-on: [workflow_dispatch]
+# On push
+on:
+  push:
+    branches:
+      - master
 
 permissions:
   id-token: write # This is required for requesting the JWT
@@ -134,8 +138,8 @@ jobs:
           docker push "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
           echo "IMAGE $IMAGE_TAG is pushed to $ECR_REGISTRY/$ECR_REPOSITORY"
           echo "image_tag=$IMAGE_TAG"           
-          echo "full_image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-          echo "full_image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
+          echo "BACK_IMAGE=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          echo "BACK_IMAGE=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
           
       - name: Build, tag, and push frontend to Amazon ECR
         id: build-publish-frontend
@@ -149,8 +153,8 @@ jobs:
           docker push "$ECR_REGISTRY/$ECR_REPOSITORY/front:$IMAGE_TAG"
           echo "IMAGE $IMAGE_TAG is pushed to $ECR_REGISTRY/$ECR_REPOSITORY/front"
           echo "image_tag_front=$IMAGE_TAG"           
-          echo "full_image_front=$ECR_REGISTRY/$ECR_REPOSITORY/front:$IMAGE_TAG"
-          echo "full_image_front=$ECR_REGISTRY/$ECR_REPOSITORY/front:$IMAGE_TAG" >> $GITHUB_ENV
+          echo "FRONT_IMAGE=$ECR_REGISTRY/$ECR_REPOSITORY/front:$IMAGE_TAG"
+          echo "FRONT_IMAGE=$ECR_REGISTRY/$ECR_REPOSITORY/front:$IMAGE_TAG" >> $GITHUB_ENV
         working-directory: "./AccesoAlimentario.Frontend"
         
       - name: Build, tag, and push recomendaciones-api to Amazon ECR
@@ -165,8 +169,8 @@ jobs:
           docker push "$ECR_REGISTRY/$ECR_REPOSITORY/recomendaciones-api:$IMAGE_TAG"
           echo "IMAGE $IMAGE_TAG is pushed to $ECR_REGISTRY/$ECR_REPOSITORY/recomendaciones-api"
           echo "image_tag_recomendaciones-api=$IMAGE_TAG"           
-          echo "full_image_recomendaciones-api=$ECR_REGISTRY/$ECR_REPOSITORY/recomendaciones-api:$IMAGE_TAG"
-          echo "full_image_recomendaciones-api=$ECR_REGISTRY/$ECR_REPOSITORY/recomendaciones-api:$IMAGE_TAG" >> $GITHUB_ENV
+          echo "RECOMENDACIONES_API_IMAGE=$ECR_REGISTRY/$ECR_REPOSITORY/recomendaciones-api:$IMAGE_TAG"
+          echo "RECOMENDACIONES_API_IMAGE=$ECR_REGISTRY/$ECR_REPOSITORY/recomendaciones-api:$IMAGE_TAG" >> $GITHUB_ENV
         working-directory: "./ServicioRecomendaciones"
         
       - name: Update ECS Task Definition
@@ -176,6 +180,6 @@ jobs:
           python3 deployment/update_task_def.py
         env:
           ECS_TASK_DEFINITION: ${{ env.ECS_TASK_DEFINITION }}
-          full_image: ${{ env.full_image }}
-          full_image_front: ${{ env.full_image_front }}
-          full_image_recomendaciones-api: ${{ env.full_image_recomendaciones-api }}
+          BACK_IMAGE: ${{ env.BACK_IMAGE }}
+          FRONT_IMAGE: ${{ env.FRONT_IMAGE }}
+          RECOMENDACIONES_API_IMAGE: ${{ env.RECOMENDACIONES_API_IMAGE }}

@@ -21,7 +21,7 @@ module "acm" {
   source  = "terraform-aws-modules/acm/aws"
   version = "5.1.1"
 
-  domain_name       = var.domain_record
+  domain_name       = "*.${var.domain_record}"
   zone_id           = var.domain_zone_id
   validation_method = "DNS"
 
@@ -88,30 +88,37 @@ module "alb" {
       port            = 443
       protocol        = "HTTPS"
       certificate_arn = module.acm.acm_certificate_arn
-      forward = {
-        target_group_key = "ex-tg"
+
+      # fixed response 404
+      fixed_response = {
+        content_type = "text/plain"
+        message_body = "404: Not Found"
+        status_code  = "404"
       }
+      # forward = {
+      #   target_group_key = "ex-tg"
+      # }
     }
   }
 
-  target_groups = {
-    ex-tg = {
-      name              = var.alb_name
-      create_attachment = false
-      protocol          = "HTTP"
-      port              = 8085
-      target_type       = "ip"
-      health_check = {
-        path                = "/"
-        protocol            = "HTTP"
-        matcher             = "200-399"
-        interval            = 30
-        timeout             = 5
-        healthy_threshold   = 2
-        unhealthy_threshold = 2
-      }
-    }
-  }
+  # target_groups = {
+  #   ex-tg = {
+  #     name              = var.alb_name
+  #     create_attachment = false
+  #     protocol          = "HTTP"
+  #     port              = 8085
+  #     target_type       = "ip"
+  #     health_check = {
+  #       path                = "/"
+  #       protocol            = "HTTP"
+  #       matcher             = "200-399"
+  #       interval            = 30
+  #       timeout             = 5
+  #       healthy_threshold   = 2
+  #       unhealthy_threshold = 2
+  #     }
+  #   }
+  # }
 
   tags = {
     Environment = "Development"

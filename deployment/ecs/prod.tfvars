@@ -1,5 +1,4 @@
 vpc_name     = "acceso-alimentario"
 cluster_name = "accesoalimentario"
 service_name = "accesoalimentario"
-alb_name     = "acceso-alimentario"
 region       = "us-east-1"
