@@ -179,3 +179,4 @@ jobs:
           BACK_IMAGE: ${{ env.BACK_IMAGE }}
           FRONT_IMAGE: ${{ env.FRONT_IMAGE }}
           RECOMENDACIONES_API_IMAGE: ${{ env.RECOMENDACIONES_API_IMAGE }}
+          working-directory: "./deployment"
