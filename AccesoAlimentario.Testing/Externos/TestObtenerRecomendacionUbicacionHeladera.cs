@@ -2,12 +2,12 @@
 using AccesoAlimentario.Operations.Externos;
 using AccesoAlimentario.Testing.Utils;
 
-namespace AccesoAlimentario.Testing.Contribuciones;
+namespace AccesoAlimentario.Testing.Externos;
 
-public class TestContribuciones
+public class TestObtenerRecomendacionUbicacionHeladera
 {
     [Test]
-    public async Task Test1()
+    public async Task ObtenerRecomendacionUbicacionHeladera()
     {
         var mockServices = new MockServices();
         var mediator = mockServices.GetMediator();
