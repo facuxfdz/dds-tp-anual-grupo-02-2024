@@ -25,6 +25,16 @@
             "awslogs-stream-prefix": "acceso-alimentario-front"
           }
         },
+        "healthCheck": {
+          "command": [
+            "CMD-SHELL",
+            "curl -f http://localhost:3000 || exit 0"
+          ],
+          "interval": 30,
+          "timeout": 5,
+          "retries": 3,
+          "startPeriod": 60
+        },
         "environment": [
           { "name": "NEXT_PUBLIC_API_URL", "value": "https://back.acceso-alimentario.opsconsultingservices.com/api" }
         ]

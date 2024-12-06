@@ -189,20 +189,71 @@ def attach_or_get_tg_to_service(elbv2_client, alb_arn, tg_arn, host, priority):
     print(f"Routing rule for host {host} added: {rule_arn}")
     return rule_arn
 
+def get_vpc_id():
+    """Retrieve VPC ID from environment variables."""
+    vpc_id = os.getenv('VPC_ID')
+    if not vpc_id:
+        raise ValueError("VPC_ID environment variable is not set.")
+    return vpc_id
 
-if __name__ == '__main__':
+
+def get_alb_arn(elbv2_client, alb_name):
+    """Retrieve ALB 443 listener ARN by name."""
+    response = elbv2_client.describe_load_balancers(Names=[alb_name])
+    if not response['LoadBalancers']:
+        raise ValueError(f"No ALB found with name {alb_name}.")
+    alb_arn = response['LoadBalancers'][0]['LoadBalancerArn']
+    # retrieve 443 listener ARN
+    response = elbv2_client.describe_listeners(LoadBalancerArn=alb_arn)
+    for listener in response['Listeners']:
+        if listener['Port'] == 443:
+            return listener['ListenerArn']
+    raise ValueError(f"No 443 listener found in ALB {alb_name}.")
+
+
+def get_private_subnets(ec2_client, vpc_id):
+    """Retrieve private subnet IDs by VPC ID."""
+    response = ec2_client.describe_subnets(
+        Filters=[
+            {'Name': 'vpc-id', 'Values': [vpc_id]},
+            {'Name': 'tag:Name', 'Values': ['*-private']}
+        ]
+    )
+    subnet_ids = [subnet['SubnetId'] for subnet in response['Subnets']]
+    if not subnet_ids:
+        raise ValueError(f"No private subnets found in VPC {vpc_id}.")
+    return subnet_ids
+
+
+def get_image_env_var(env_var_name):
+    """Retrieve image value from environment variables."""
+    image = os.getenv(env_var_name)
+    if not image:
+        raise ValueError(f"{env_var_name} environment variable is not set.")
+    return image
+
+
+def main():
     REGION = os.getenv('AWS_REGION', 'us-east-1')
-    VPC_ID = os.getenv('VPC_ID', "vpc-07ce9852c2808c23a")
-    ALB_ARN = os.getenv('ALB_ARN',"arn:aws:elasticloadbalancing:us-east-1:034781041905:listener/app/acceso-alimentario/8f9aac2357213e8a/5ed28c68b2124861")
     CLUSTER_NAME = 'accesoalimentario'
     TASK_DEFINITION_DIR = 'task_defs'
-    subnet_ids = ['subnet-0a094580305b044f2', 'subnet-0e147b4b3ad9a5a02', 'subnet-07b5be1eae03a7cb3']
+    alb_name = "acceso-alimentario"
+
+    # AWS clients
+    ec2_client = boto3.client('ec2', region_name=REGION)
+    elbv2_client = boto3.client('elbv2', region_name=REGION)
+
+    # Dynamic values
+    VPC_ID = get_vpc_id()
+    ALB_ARN = get_alb_arn(elbv2_client, alb_name)
+    subnet_ids = get_private_subnets(ec2_client, VPC_ID)
+
+    # Set images dynamically
+    os.environ["BACK_IMAGE"] = get_image_env_var("BACK_IMAGE")
+    os.environ["FRONT_IMAGE"] = get_image_env_var("FRONT_IMAGE")
+    os.environ["RECOMENDACIONES_API_IMAGE"] = get_image_env_var("RECOMENDACIONES_API_IMAGE")
+
     security_groups = ['sg-047447291c2271910']
-
-    os.environ["BACK_IMAGE"] = "034781041905.dkr.ecr.us-east-1.amazonaws.com/acceso-alimentario_releases:62f99eadf052b024c93c3d69d7ffaf4f6c7377fc"
-    os.environ["FRONT_IMAGE"] = "034781041905.dkr.ecr.us-east-1.amazonaws.com/acceso-alimentario_releases/front:62f99eadf052b024c93c3d69d7ffaf4f6c7377fc"
-    os.environ["RECOMENDACIONES_API_IMAGE"] = "034781041905.dkr.ecr.us-east-1.amazonaws.com/acceso-alimentario_releases/recomendaciones-api:62f99eadf052b024c93c3d69d7ffaf4f6c7377fc"
-
     NOT_EXPOSED_SERVICES = ["rabbitmq"]
     HOST_MAPPING = {
         "frontend": "acceso-alimentario.opsconsultingservices.com",
@@ -224,7 +275,6 @@ if __name__ == '__main__':
         }
     }
 
-    elbv2_client = boto3.client('elbv2', region_name=REGION)
     priority = 1
 
     for service_name, overrides in SERVICE_MAPPING.items():
@@ -243,3 +293,7 @@ if __name__ == '__main__':
             attach_or_get_tg_to_service(elbv2_client, ALB_ARN, tg_arn, host, priority)
         priority += 1
         create_service(CLUSTER_NAME, service_name, task_def_arn, tg_arn, subnet_ids, security_groups, port=target_port, exposed=exposed)
+
+
+if __name__ == '__main__':
+    main()
