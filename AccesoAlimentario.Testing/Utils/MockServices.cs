@@ -46,8 +46,8 @@ public class MockServices
         var csvContent = new StringBuilder();
         csvContent.AppendLine("TipoDoc,Documento,Nombre,Apellido,Mail,FechaColaboracion,FormaColaboracion,Cantidad");
         
-        csvContent.AppendLine("DNI,12345678,Juan,Pérez,juan@ejemplo.com,22/03/2024,DONACION_VIANDAS,2");
-        csvContent.AppendLine("DNI,87654321,usuario2,password2,usu@ejemplo.com,22/03/2024,DONACION_VIANDAS,1");
+        csvContent.AppendLine("DNI,12345678,Juan,Pérez,laripallenzona@gmail.com,22/03/2024,DONACION_VIANDAS,2");
+        csvContent.AppendLine("DNI,87654321,usuario2,password2,laripallenzona@gmail.com,22/03/2024,DONACION_VIANDAS,1");
 
         var csvBytes = Encoding.UTF8.GetBytes(csvContent.ToString());
         return Convert.ToBase64String(csvBytes);
@@ -135,8 +135,11 @@ public class MockServices
 
             var incidenteFalla = new FallaTecnica
             {
+                
 
             };
+            
+            context.Incidentes.Add(incidenteFalla);
             
             var heladeraOrigen = new Heladera
             { 

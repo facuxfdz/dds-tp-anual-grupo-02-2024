@@ -1,4 +1,5 @@
 ﻿using AccesoAlimentario.Core.DAL;
+using AccesoAlimentario.Core.Entities.Incidentes;
 using AccesoAlimentario.Core.Entities.Roles;
 using AccesoAlimentario.Operations.Roles.Tecnicos;
 using AccesoAlimentario.Testing.Utils;
@@ -6,33 +7,28 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace AccesoAlimentario.Testing.Tecnicos;
 
-public class TestModificacarTecnico
+public class TesrRegistrarVisitaTecnica
 {
     [Test]
-    
-    //TODO: NO FUNCIONA
 
-    public async Task ModificarTecnicoTest()
+    public async Task RegistrarVisitaTecnicaTest()
     {
-        
         var mockServices = new MockServices();
         var mediator = mockServices.GetMediator();
 
         using var scope = mockServices.GetScope();
         var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         
-        var personaHumanaRequest = MockRequest.GetPersonaHumanaRequest();
-        var medioContactoTelefonoRequest = MockRequest.GetTelefonoRequest();
         var tecnico = context.Roles.OfType<Tecnico>().Last();
+        var incidenteFalla = context.Incidentes.OfType<FallaTecnica>().First();
 
-        var command = new ModificacionTecnico.ModificacionTecnicoCommand
+        var command = new RegistrarVisitaHeladera.RegistrarVisitaHeladeraCommand
         {
-            Id = tecnico.Id,
-            AreaCoberturaLongitud = 2,
-            AreaCoberturaLatitud = 3,
-            AreaCoberturaRadio = 4,
-            Persona = personaHumanaRequest,
-            MediosDeContacto = [medioContactoTelefonoRequest],
+            Comentario = "Resuelto",
+            Fecha = DateTime.UtcNow,
+            IncidenteId = incidenteFalla.Id,
+            Resuelto = true,
+            TecnicoId = tecnico.Id
         };
         
         var result = await mediator.Send(command);
@@ -46,7 +42,7 @@ public class TestModificacarTecnico
                 Assert.Fail($"El comando devolvió NotFound: {notFound.Value}");
                 break;
             case Microsoft.AspNetCore.Http.HttpResults.Ok:
-                Assert.Pass($"El comando modificó al tecnico cuyo id es: {tecnico.Id}.");
+                Assert.Pass($"El comando registró la visita tecnica para el incidente {incidenteFalla.Id}");
                 break;
             default:
                 Assert.Fail($"El comando devolvió un tipo inesperado - {result.GetType()}");
