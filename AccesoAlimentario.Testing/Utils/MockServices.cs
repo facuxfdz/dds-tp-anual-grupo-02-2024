@@ -1,4 +1,5 @@
-﻿using AccesoAlimentario.Core.DAL;
+﻿using System.Text;
+using AccesoAlimentario.Core.DAL;
 using AccesoAlimentario.Core.Entities.Autorizaciones;
 using AccesoAlimentario.Core.Entities.Contribuciones;
 using AccesoAlimentario.Core.Entities.Direcciones;
@@ -39,6 +40,19 @@ public class MockServices
         // Este método crea un alcance (scope) dentro de los servicios registrados
         return _serviceProvider.CreateScope();
     }
+    
+    public static string CrearArchivoCsvColaboradores() 
+    {
+        var csvContent = new StringBuilder();
+        csvContent.AppendLine("TipoDoc,Documento,Nombre,Apellido,Mail,FechaColaboracion,FormaColaboracion,Cantidad");
+        
+        csvContent.AppendLine("DNI,12345678,Juan,Pérez,juan@ejemplo.com,22/03/2024,DONACION_VIANDAS,2");
+        csvContent.AppendLine("DNI,87654321,usuario2,password2,usu@ejemplo.com,22/03/2024,DONACION_VIANDAS,1");
+
+        var csvBytes = Encoding.UTF8.GetBytes(csvContent.ToString());
+        return Convert.ToBase64String(csvBytes);
+    }
+
     
     public static ServiceProvider Get()
     {
