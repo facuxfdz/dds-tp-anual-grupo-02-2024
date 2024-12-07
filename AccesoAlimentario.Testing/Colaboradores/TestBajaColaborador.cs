@@ -1,16 +1,16 @@
 ﻿using AccesoAlimentario.Core.DAL;
-using AccesoAlimentario.Core.Entities.Tarjetas;
-using AccesoAlimentario.Operations.Heladeras;
+using AccesoAlimentario.Operations.Roles.Colaboradores;
 using AccesoAlimentario.Testing.Utils;
 using Microsoft.Extensions.DependencyInjection;
+using AccesoAlimentario.Core.Entities.Roles;
 
-namespace AccesoAlimentario.Testing.Heladeras;
+namespace AccesoAlimentario.Testing.Colaboradores;
 
-public class TestSolicitarAutorizacionAperturaDeHeladera
+public class TestBajaColaborador
 {
     [Test]
-    
-    public async Task SolicitarAutorizacionAperturaDeHeladeraTest()
+
+    public async Task BajaColaboradorTest()
     {
         var mockServices = new MockServices();
         var mediator = mockServices.GetMediator();
@@ -18,17 +18,15 @@ public class TestSolicitarAutorizacionAperturaDeHeladera
         using var scope = mockServices.GetScope();
         var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         
-        var tarjetaColaboracion = context.Tarjetas.OfType<TarjetaColaboracion>().First();
-        var heladera = context.Heladeras.First();
-        
-        var command = new SolicitarAutorizacionAperturaDeHeladera.SolicitarAutorizacionAperturaDeHeladeraCommand
+        var colaborador = context.Roles.OfType<Colaborador>().First();
+
+        var command = new BajaColaborador.BajaColaboradorCommand
         {
-            HeladeraId = heladera.Id,
-            TarjetaId = tarjetaColaboracion.Id
+            Id = colaborador.Id,
         };
         
         var result = await mediator.Send(command);
-
+        
         switch (result)
         {
             case Microsoft.AspNetCore.Http.HttpResults.BadRequest<string> badRequest:
@@ -38,14 +36,12 @@ public class TestSolicitarAutorizacionAperturaDeHeladera
                 Assert.Fail($"El comando devolvió NotFound: {notFound.Value}");
                 break;
             case Microsoft.AspNetCore.Http.HttpResults.Ok:
-                Assert.Pass($"El comando devolvió Ok. Se solicitó autorizacion para apertura" +
-                            $" de la heladera con id: {heladera.Id} con la tarjeta con id: {tarjetaColaboracion.Id}");
+                Assert.Pass($"El comando dio de baja al colaborador: {colaborador.Id}.");
                 break;
             default:
-                Assert.Fail($"El comando no devolvió nulo - {result.GetType()}"); 
+                Assert.Fail($"El comando devolvió un tipo inesperado - {result.GetType()}");
                 break;
         }
         
     }
-    
 }

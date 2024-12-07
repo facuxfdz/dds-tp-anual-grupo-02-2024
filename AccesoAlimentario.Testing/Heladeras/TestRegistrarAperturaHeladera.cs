@@ -13,7 +13,7 @@ public class TestRegistrarAperturaHeladera
     
     //TODO: Funciona pero si se corren todos los test no funca
     
-    public async Task RegistrarApertura()
+    public async Task RegistrarAperturaTest()
     {
         var mockServices = new MockServices();
         var mediator = mockServices.GetMediator();

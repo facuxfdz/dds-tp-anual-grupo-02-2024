@@ -40,19 +40,12 @@ public class TestRetirarVianda
             case Microsoft.AspNetCore.Http.HttpResults.NotFound<string> notFound:
                 Assert.Fail($"El comando devolvió NotFound: {notFound.Value}");
                 break;
-            case Microsoft.AspNetCore.Http.HttpResults.Ok<Vianda> okResult:
-                // Accede al valor dentro del Ok
-                var registro = okResult.Value;
-                if (registro != null)
-                {
-                        Console.WriteLine($"Id de vianda retirada:" +
-                                          $" {registro.Id}");
-                }
+            case Microsoft.AspNetCore.Http.HttpResults.Ok:
                 Assert.Pass("El comando devolvió el registro de la persona vulnerable.");
                 break;
-           // default:
-             //   Assert.Fail($"El comando no devolvió nulo - {result.GetType()}"); 
-               // break;
+            default:
+                Assert.Fail($"El comando no devolvió nulo - {result.GetType()}");
+                break;
         }
 
     }

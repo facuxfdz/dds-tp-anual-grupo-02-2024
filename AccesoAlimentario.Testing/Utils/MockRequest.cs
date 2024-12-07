@@ -4,9 +4,12 @@ using AccesoAlimentario.Core.Entities.Reportes;
 using AccesoAlimentario.Operations.Dto.Requests.Direcciones;
 using AccesoAlimentario.Operations.Dto.Requests.DocumentosDeIdentidad;
 using AccesoAlimentario.Operations.Dto.Requests.Heladeras;
+using AccesoAlimentario.Operations.Dto.Requests.MediosDeComunicacion;
 using AccesoAlimentario.Operations.Dto.Requests.Personas;
 using AccesoAlimentario.Operations.Dto.Requests.Tarjetas;
+using AccesoAlimentario.Operations.Dto.Responses.DocumentosIdentidad;
 using AccesoAlimentario.Operations.Dto.Responses.Reportes;
+using AccesoAlimentario.Operations.Dto.Responses.Roles;
 
 namespace AccesoAlimentario.Testing.Utils;
 
@@ -26,7 +29,6 @@ public static class MockRequest
         };
         
         return direccionRequest;
-        
 
     }
 
@@ -40,16 +42,40 @@ public static class MockRequest
         };
         return tarjetaConsumoRequest;
     }
-
-    public static PersonaHumanaRequest GetPersonaRequest()
+    
+    public static MedioDeContactoRequest GetTelefonoRequest()
     {
-        var personaRequest = new PersonaHumanaRequest
+        var medioContactoTelefonoRequest = new TelefonoRequest
+        {
+            Tipo = "Telefono",
+            Numero = "1192348765"
+            
+        };
+
+        return medioContactoTelefonoRequest;
+    }
+    
+    public static MedioDeContactoRequest GetEmailRequest()
+    {
+        var medioContactoEmailRequest = new EmailRequest
+        {
+            Direccion = "prueba@gmail.com",
+            Tipo = "Email",
+            
+        };
+
+        return medioContactoEmailRequest;
+    }
+
+    public static PersonaHumanaRequest GetPersonaHumanaRequest()
+    {
+        var personaHumanaRequest = new PersonaHumanaRequest
         {
             Nombre = "Roberto",
             Apellido = "Carlos",
-            Sexo = SexoDocumento.Masculino
+            Sexo = SexoDocumento.Masculino,
         };
-        return personaRequest;
+        return personaHumanaRequest;
     }
 
     public static DocumentoIdentidadRequest GetDocumentoIdentidadRequest()
@@ -62,6 +88,7 @@ public static class MockRequest
         };
         return documentoIdentidadRequest;
     }
+    
 
     public static PuntoEstrategicoRequest GetPuntoEstrategicoRequest()
     {
@@ -109,6 +136,5 @@ public static class MockRequest
         return reporteCantidadFallasPorHeladera;
     }
     
-        
     
 }

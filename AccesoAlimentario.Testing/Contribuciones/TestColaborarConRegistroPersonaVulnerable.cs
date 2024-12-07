@@ -23,7 +23,7 @@ public class TestColaborarConRegistroPersonaVulnerable
         var colaborador = context.Roles.OfType<Colaborador>().First();
         var direccionRequest = MockRequest.GetDireccionRequest();
         var tarjetaConsumoRequest = MockRequest.GetTarjetaConsumoRequest();
-        var personaRequest = MockRequest.GetPersonaRequest();
+        var personaRequest = MockRequest.GetPersonaHumanaRequest();
         var documentoIdentidadRequest = MockRequest.GetDocumentoIdentidadRequest();
 
         var command = new ColaborarConRegistroPersonaVulnerable.ColaborarConRegistroPersonaVulnerableCommand
