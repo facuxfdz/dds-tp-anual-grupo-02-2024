@@ -138,6 +138,7 @@ public class MockServices
                 PuntoEstrategico = puntoEstrategico,
                 Incidentes = [incidenteFalla]
             };
+            
             heladeraOrigen.IngresarVianda(vianda1);
             heladeraOrigen.IngresarVianda(vianda2);
             vianda1.Heladera = heladeraOrigen;
@@ -159,6 +160,7 @@ public class MockServices
                 PuntoEstrategico = puntoEstrategico,
                 Incidentes = [incidenteFalla]
             };
+            
             heladeraDestino.IngresarVianda(vianda3);
             vianda3.Heladera = heladeraDestino;
             context.Heladeras.Add(heladeraDestino);
@@ -180,6 +182,7 @@ public class MockServices
                 RegistrosTemperatura = [registroTemperatura]
 
             };
+            
             sensorTemperatura1.Heladera = heladeraOrigen;
             sensorTemperatura2.Heladera = heladeraDestino;
             heladeraOrigen.AgregarSensor(sensorTemperatura1);
@@ -197,7 +200,7 @@ public class MockServices
                 
             };
             context.FormasContribucion.Add(donacionDistribucionVianda);
-           
+            
             var personaHumana = new PersonaHumana
             {
                 Nombre = "Juan Pérez",
@@ -205,17 +208,42 @@ public class MockServices
             };
     
             context.Personas.Add(personaHumana);
-    
-           
+            
             var colaborador = new Colaborador
             {
                 Persona = personaHumana, 
-                Puntos = 5000, 
+                Puntos = 5000,
             };
+            
             colaborador.AgregarContribucion(donacionVianda);
             colaborador.AgregarContribucion(donacionDistribucionVianda);
 
             context.Roles.Add(colaborador);
+            
+            var personaHumana1 = new PersonaHumana
+            {
+                Nombre = "Pedron Manuel",
+                DocumentoIdentidad = 
+                    new DocumentoIdentidad(TipoDocumento.DNI, "12345678", 
+                        new DateTime(2020, 1, 1)),
+            };
+            context.Personas.Add(personaHumana1);
+            
+            var areaCobertura = new AreaCobertura
+            {
+                Latitud = 0,
+                Longitud = 0,
+                Radio = 2
+            };
+            context.AreasCobertura.Add(areaCobertura);
+            
+            var tecnico = new Tecnico
+            {
+                AreaCobertura = areaCobertura,
+                Persona = personaHumana1
+            };
+            
+            context.Roles.Add(tecnico);
 
            
             var personaVulnerable = new PersonaVulnerable
@@ -243,14 +271,14 @@ public class MockServices
             
             var accesoHeladera = new AccesoHeladera
             {
-                
                 FechaAcceso = DateTime.UtcNow,
                 Heladera = heladeraOrigen,
                 Tarjeta = tarjetaConsumo,
                 TipoAcceso = TipoAcceso.RetiroVianda,
                 Viandas = [vianda1]
-                
             };
+            context.AccesosHeladera.Add(accesoHeladera);
+            
             
             //tarjetaConsumo.Accesos.Add(accesoHeladera);
 
@@ -263,6 +291,7 @@ public class MockServices
             };
             
             accesoHeladera.Autorizacion = autorazacion1;
+            context.AutorizacionesManipulacionHeladera.Add(autorazacion1);
 
             var tarjetaColaboracion = new TarjetaColaboracion
             {
@@ -276,14 +305,14 @@ public class MockServices
             autorazacion1.TarjetaAutorizada = tarjetaColaboracion;
             tarjetaColaboracion.AgregarAutorizacion(autorazacion1);
             
-            var reporteCantidadFallasPorHeladera = new Reporte
+            var reporteCantidadViandasPorColaborador = new Reporte
             {
                 Tipo = TipoReporte.CANTIDAD_VIANDAS_POR_COLABORADOR,
                 FechaExpiracion = DateTime.UtcNow.AddDays(-1),
                 Cuerpo = "Reporte de prueba"
             };
         
-            context.Reportes.Add(reporteCantidadFallasPorHeladera);
+            context.Reportes.Add(reporteCantidadViandasPorColaborador);
             
             context.SaveChanges();
         }
