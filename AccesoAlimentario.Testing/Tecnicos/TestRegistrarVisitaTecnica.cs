@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace AccesoAlimentario.Testing.Tecnicos;
 
-public class TesrRegistrarVisitaTecnica
+public class TestRegistrarVisitaTecnica
 {
     [Test]
 
