@@ -3,7 +3,7 @@ import {Box, Button, CardActions, Divider, Stack} from "@mui/material";
 import {FormContainer, TextFieldElement, useForm} from "react-hook-form-mui";
 import Typography from "@mui/material/Typography";
 import CardContent from "@mui/material/CardContent";
-import {Form, FormFieldType, FormFieldValue, IFormField} from "@components/Forms/Form";
+import {FormFieldValue} from "@components/Forms/Form";
 import MainCard from "@components/Cards/MainCard";
 import React, {useEffect} from "react";
 import {useTheme} from "@mui/material/styles";
@@ -11,7 +11,6 @@ import {useActualizarPerfilMutation, useGetObtenerPerfilQuery} from "@redux/serv
 import {RegistroPersonaFisica} from "@components/RegistroColaboradores/RegistroPersonaFisica";
 import {RegistroPersonaJuridica} from "@components/RegistroColaboradores/RegistroPersonaJuridica";
 import {useAppSelector} from "@redux/hook";
-import {IPersonaResponse} from "@models/responses/personas/iPersonaResponse";
 import {IPersonaHumanaReponse} from "@models/responses/personas/iPersonaHumanaReponse";
 import {IPersonaJuridicaResponse} from "@models/responses/personas/iPersonaJuridicaResponse";
 import {
@@ -109,15 +108,15 @@ export default function PerfilPage() {
                 razonSocial: user.personaTipo === "Juridica" ? (data.persona as IPersonaJuridicaResponse).razonSocial : "",
                 rubro: user.personaTipo === "Juridica" ? (data.persona as IPersonaJuridicaResponse).rubro : "",
 
-                tipoDocumento: data.persona.documentoIdentidad!.tipoDocumento,
-                numeroDocumento: data.persona.documentoIdentidad!.nroDocumento,
-                fechaNacimiento: data.persona.documentoIdentidad!.fechaNacimiento,
-                calle: data.persona.direccion!.calle,
-                numero: data.persona.direccion!.numero,
-                localidad: data.persona.direccion!.localidad,
-                piso: data.persona.direccion!.piso,
-                departamento: data.persona.direccion!.departamento,
-                codigoPostal: data.persona.direccion!.codigoPostal,
+                tipoDocumento: data.persona.documentoIdentidad?.tipoDocumento || "",
+                numeroDocumento: data.persona.documentoIdentidad?.nroDocumento || "",
+                fechaNacimiento: data.persona.documentoIdentidad?.fechaNacimiento || "",
+                calle: data.persona.direccion?.calle || "",
+                numero: data.persona.direccion?.numero || "",
+                localidad: data.persona.direccion?.localidad || "",
+                piso: data.persona.direccion?.piso || "",
+                departamento: data.persona.direccion?.departamento || "",
+                codigoPostal: data.persona.direccion?.codigoPostal || "",
                 contribucionesPreferidas: (colaborador as IColaboradorResponseMinimo)?.contribucionesPreferidas,
                 codigoTarjeta: (colaborador as IColaboradorResponseMinimo)?.tarjetaColaboracion?.codigo
             }

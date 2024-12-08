@@ -140,11 +140,27 @@ public static class ActualizarPerfil
                     personaRequest.Direccion.Localidad, personaRequest.Direccion.CodigoPostal,
                     personaRequest.Direccion.Piso, personaRequest.Direccion.Departamento);
             }
+            else
+            {
+                if (personaRequest.Direccion != null)
+                {
+                    var direccion = _mapper.Map<Direccion>(personaRequest.Direccion);
+                    persona.Direccion = direccion;
+                }
+            }
             
             if (personaRequest.DocumentoIdentidad != null && persona.DocumentoIdentidad != null)
             {
                 persona.DocumentoIdentidad.Actualizar(personaRequest.DocumentoIdentidad.TipoDocumento,
                     personaRequest.DocumentoIdentidad.NroDocumento, personaRequest.DocumentoIdentidad.FechaNacimiento);
+            }
+            else
+            {
+                if (personaRequest.DocumentoIdentidad != null)
+                {
+                    var documentoIdentidad = _mapper.Map<DocumentoIdentidad>(personaRequest.DocumentoIdentidad);
+                    persona.DocumentoIdentidad = documentoIdentidad;
+                }
             }
 
             await _unitOfWork.SaveChangesAsync();

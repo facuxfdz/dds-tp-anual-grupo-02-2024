@@ -48,7 +48,7 @@ public static class CrearUsuario
 
             var usuario = new UsuarioSistema
             {
-                PersonaId = persona.Id,
+                Persona = persona,
                 UserName = request.Username,
                 Password = passwordHashed,
                 ProfilePicture = request.ProfilePicture,

@@ -31,7 +31,6 @@ string connectionString;
 // Obtener parametros de conexion de AWS Secrets Manager (AWS) si se encuentra en ambiente de producción
 if (builder.Environment.IsProduction())
 {
-    
     var awsSecretsManager = new SecretRetrieve();
     var secretName = new SSMParameterRetriever
     {
@@ -122,10 +121,10 @@ using (var scope = app.Services.GetService<IServiceScopeFactory>()!.CreateScope(
             {
                 throw;
             }
+
             Thread.Sleep(10000);
         }
     }
-    
 }
 
 

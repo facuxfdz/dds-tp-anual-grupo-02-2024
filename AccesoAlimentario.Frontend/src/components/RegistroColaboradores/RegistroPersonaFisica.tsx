@@ -8,6 +8,7 @@ import {LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
 import {DatePickerElement} from "react-hook-form-mui/date-pickers";
 import {useFormContext} from "react-hook-form";
+import {useAppSelector} from "@redux/hook";
 
 export const RegistroPersonaFisica = (
     {
@@ -18,6 +19,7 @@ export const RegistroPersonaFisica = (
 ) => {
     const formContext = useFormContext();
     const contribucionesPreferidas: number[] = formContext.watch("contribucionesPreferidas");
+    const user = useAppSelector((state) => state.user);
 
     return (
         <Grid container spacing={3} alignItems="center">
@@ -213,40 +215,44 @@ export const RegistroPersonaFisica = (
                     }
                 />
             </Grid>
-            <Grid size={12} key={"contribucionesPreferidas"}>
-                <MultiSelectElement
-                    name={"contribucionesPreferidas"}
-                    label={"Contribuciones Preferidas"}
-                    itemKey="id"
-                    itemLabel="name"
-                    options={[
-                        {
-                            id: 1,
-                            name: 'Donacion Monetaria'
-                        },
-                        {
-                            id: 2,
-                            name: 'Donacion de Viandas'
-                        },
-                        {
-                            id: 3,
-                            name: 'Redistribucion de Viandas'
-                        },
-                        {
-                            id: 4,
-                            name: 'Entrega de Tarjetas de Consumo'
-                        }
-                    ]}
-                    required={true}
-                    fullWidth
-                    showChips
-                    rules={
-                        {
-                            required: "Por favor seleccione una opción",
-                        }
-                    }
-                />
-            </Grid>
+            {
+                user.colaboradorId != "" && (
+                    <Grid size={12} key={"contribucionesPreferidas"}>
+                        <MultiSelectElement
+                            name={"contribucionesPreferidas"}
+                            label={"Contribuciones Preferidas"}
+                            itemKey="id"
+                            itemLabel="name"
+                            options={[
+                                {
+                                    id: 1,
+                                    name: 'Donacion Monetaria'
+                                },
+                                {
+                                    id: 2,
+                                    name: 'Donacion de Viandas'
+                                },
+                                {
+                                    id: 3,
+                                    name: 'Redistribucion de Viandas'
+                                },
+                                {
+                                    id: 4,
+                                    name: 'Entrega de Tarjetas de Consumo'
+                                }
+                            ]}
+                            required={true}
+                            fullWidth
+                            showChips
+                            rules={
+                                {
+                                    required: "Por favor seleccione una opción",
+                                }
+                            }
+                        />
+                    </Grid>
+                )
+            }
             {
                 contribucionesPreferidas?.some((contribucion) => contribucion === 3) &&
                 (

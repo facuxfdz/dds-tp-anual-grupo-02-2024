@@ -4,6 +4,7 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace AccesoAlimentario.Operations.Roles.Colaboradores;
 
@@ -17,49 +18,37 @@ public static class ReportarFallaTecnica
         public string Descripcion { get; set; } = string.Empty;
         public string Foto { get; set; } = string.Empty;
     }
-
-    public class AltaColaboradorValidator : AbstractValidator<ReportarFallaTecnicaCommand>
-    {
-        public AltaColaboradorValidator()
-        {
-            RuleFor(x => x.Fecha)
-                .NotNull();
-            RuleFor(x => x.ReporteroId)
-                .NotNull();
-            /*RuleFor(x => x.Descripcion)
-                .NotNull();*/
-            /*RuleFor(x => x.Foto)
-                .NotNull();*/
-        }
-    }
-
-    public class Handler : IRequestHandler<ReportarFallaTecnicaCommand, IResult>
+    
+    public class ReportarFallaTecnicaHandler : IRequestHandler<ReportarFallaTecnicaCommand, IResult>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
+        private readonly ILogger _logger;
 
-        public Handler(IUnitOfWork unitOfWork, IMapper mapper)
+        public ReportarFallaTecnicaHandler(IUnitOfWork unitOfWork, ILogger<ReportarFallaTecnicaHandler> logger)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<IResult> Handle(ReportarFallaTecnicaCommand request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation("Reportar Falla Tecnica");
             var colaborador = await _unitOfWork.ColaboradorRepository.GetByIdAsync(request.ReporteroId);
-            
+
             if (colaborador == null)
             {
-                return Results.NotFound();
+                _logger.LogWarning("Colaborador no encontrado - {ReporteroId}", request.ReporteroId);
+                return Results.NotFound("Colaborador no encontrado");
             }
-            
+
             var heladera = await _unitOfWork.HeladeraRepository.GetByIdAsync(request.HeladeraId);
-            
+
             if (heladera == null)
             {
-                return Results.NotFound();
+                _logger.LogWarning("Heladera no encontrada - {HeladeraId}", request.HeladeraId);
+                return Results.NotFound("Heladera no encontrada");
             }
-            
+
             var fallaTecnica = new FallaTecnica
             {
                 Fecha = request.Fecha,
@@ -67,12 +56,22 @@ public static class ReportarFallaTecnica
                 Descripcion = request.Descripcion,
                 Foto = request.Foto
             };
-            
+
             heladera.AgregarIncidente(fallaTecnica);
 
             await _unitOfWork.IncidenteRepository.AddAsync(fallaTecnica);
-            await _unitOfWork.SaveChangesAsync();
+
+            var tecnicosQuery = _unitOfWork.TecnicoRepository.GetQueryable();
+            var tecnicos = (await _unitOfWork.TecnicoRepository.GetCollectionAsync(tecnicosQuery)).ToList();
+
+            if (tecnicos.Count > 0)
+            {
+                var tecnicoMasCeracno = tecnicos.OrderBy(t => t.ObtenerDistancia(heladera)).First();
+                tecnicoMasCeracno.NotificarIncidente(fallaTecnica);
+            }
             
+            await _unitOfWork.SaveChangesAsync();
+
             return Results.Ok();
         }
     }

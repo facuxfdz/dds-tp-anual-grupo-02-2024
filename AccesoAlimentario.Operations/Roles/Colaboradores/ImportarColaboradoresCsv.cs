@@ -80,6 +80,7 @@ public static class ImportarColaboradoresCsv
                     if (!esColaborador)
                     {
                         p.Roles.Add(colaborador);
+                        await _unitOfWork.RolRepository.AddAsync(colaborador);
                     }
                     else
                     {

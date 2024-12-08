@@ -34,11 +34,13 @@ public static class ObtenerAccesos
 
             if (colaborador == null)
             {
+                _logger.LogWarning("El colaborador {ColaboradorId} no existe", request.ColaboradorId);
                 return Results.BadRequest("El colaborador no existe");
             }
 
             if (colaborador.TarjetaColaboracion == null)
             {
+                _logger.LogWarning("El colaborador {ColaboradorId} no tiene una tarjeta de colaboración", request.ColaboradorId);
                 return Results.BadRequest("El colaborador no tiene una tarjeta de colaboración");
             }
 

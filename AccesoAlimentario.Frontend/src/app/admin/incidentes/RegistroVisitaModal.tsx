@@ -79,13 +79,14 @@ export default function RegistroVisitaModal({
             }}
         >
             <Fade in={open}>
-                <MainCard modal darkTitle content={false} title={"Detalle Incidente"} sx={{
-                    width: {
-                        xs: "100%",
-                        sm: "80%",
-                        md: "60%",
-                    }
-                }}>
+                <MainCard modal darkTitle content={false} title={"Registrar visita"}
+                          sx={{
+                              width: {
+                                  xs: "100%",
+                                  sm: "80%",
+                                  md: "60%",
+                              }
+                          }}>
                     <FormContainer
                         formContext={formContext}
                         onSuccess={handleSave}

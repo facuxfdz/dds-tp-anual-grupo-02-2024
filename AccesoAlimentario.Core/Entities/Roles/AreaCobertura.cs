@@ -31,4 +31,9 @@ public class AreaCobertura
         var distancia = Math.Sqrt(Math.Pow(longitud - Longitud, 2) + Math.Pow(latitud - Latitud, 2));
         return distancia <= Radio;
     }
+    
+    public double ObtenerDistancia(float longitud, float latitud)
+    {
+        return Math.Sqrt(Math.Pow(longitud - Longitud, 2) + Math.Pow(latitud - Latitud, 2));
+    }
 }

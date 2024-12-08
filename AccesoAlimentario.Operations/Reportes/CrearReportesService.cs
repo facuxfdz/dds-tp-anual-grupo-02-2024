@@ -30,10 +30,7 @@ namespace AccesoAlimentario.Operations.Reportes
             // Validate the delay
             if (timeUntilNextRun < TimeSpan.Zero)
             {
-                // Log additional details for debugging
-                Console.WriteLine($"Now: {now}");
-                Console.WriteLine($"Next Monday: {nextSunday}");
-                throw new InvalidOperationException("Calculated delay is negative. Check the logic.");
+                timeUntilNextRun = TimeSpan.Zero;
             }
             
             var firstRun = true;

@@ -124,7 +124,7 @@ public static class AltaColaborador
             
             var createUserCommand = new CrearUsuario.CrearUsuarioCommand
             {
-                PersonaId = colaborador.PersonaId,
+                PersonaId = colaborador.Persona.Id,
                 Username = email,
                 Password = (request.Password != "" ? request.Password : PasswordManager.CrearPassword()) ?? PasswordManager.CrearPassword(),
                 ProfilePicture = request.ProfilePicture ?? "",
