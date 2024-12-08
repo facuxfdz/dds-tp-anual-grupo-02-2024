@@ -75,6 +75,20 @@ def create_service(
             service=service_name,
             taskDefinition=task_definition_arn,
             desiredCount=1,
+            serviceConnectConfiguration={
+                'enabled': True,
+                'namespace': 'accesoalimentario_namespace',
+                'services': [
+                    {
+                        'portName': 'http',
+                        'discoveryName': service_name,
+                        'clientAliases': [{
+                            'port': port,
+                            'dnsName': f"{service_name}.accesoalimentario_namespace"
+                        }]
+                    }
+                ]
+            },
             loadBalancers=[
                 {
                     'targetGroupArn': tg_arn,
@@ -111,8 +125,6 @@ def create_service(
                         }]
                     }
                 ]
-            } if exposed else {
-                'enabled': False
             },
             loadBalancers=[
                 {

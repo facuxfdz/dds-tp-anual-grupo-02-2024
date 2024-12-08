@@ -11,6 +11,7 @@
         "cpu": 256,
         "portMappings": [
           {
+            "name": "http",
             "containerPort": 5672,
             "hostPort": 5672
           },

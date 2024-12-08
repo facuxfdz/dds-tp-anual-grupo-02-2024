@@ -43,6 +43,7 @@ public class RabbitMqBackgroundService : BackgroundService
             rabbitConfig.UserName = rabbitSecret.username;
             rabbitConfig.Password = rabbitSecret.password;
         }
+        Console.WriteLine($"RabbitMQ Host: {rabbitConfig.HostName}");
         _consumers = new List<RabbitMqConsumer>
         {
             new RabbitMqConsumer(rabbitConfig, scopeFactory, "temperatura", tempProcessor.ProcessMessageBuffered)
