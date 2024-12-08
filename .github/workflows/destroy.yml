@@ -49,7 +49,7 @@ jobs:
         shell: bash
         run: |
           set -eux
-          modules=(ecr vpc alb ecs rds)
+          modules=(ecr vpc alb ecs rds bastion)
           
           for module in "${modules[@]}"; do
             echo "module: $module" 
@@ -90,7 +90,7 @@ jobs:
         shell: bash
         run: |
           set -eux
-          modules=(rds ecs alb vpc ecr)
+          modules=(rds ecs alb bastion vpc ecr)
           
           for module in "${modules[@]}"; do
             echo "module: $module" 

@@ -72,7 +72,7 @@ resource "aws_instance" "bastion" {
   ami           = var.ami_id
   instance_type = "t2.micro" # Free tier eligible
   subnet_id     = local.private_subnets[0]
-  security_groups = [aws_security_group.bastion_sg.name]
+  vpc_security_group_ids = [aws_security_group.bastion_sg.id]
   iam_instance_profile = aws_iam_instance_profile.bastion_profile.name
   user_data           = file("${path.module}/userdata.sh")
 
