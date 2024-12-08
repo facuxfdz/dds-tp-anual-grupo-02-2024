@@ -27,7 +27,10 @@ public static class LogOutUsuario
             _logger.LogInformation("LogOut usuario");
 
             // Remove jwt token
-            _httpContext.HttpContext?.Response.Cookies.Delete("session");
+            _httpContext.HttpContext!.Response.Cookies.Delete("session", new CookieOptions
+            {
+                Domain = Environment.GetEnvironmentVariable("FRONT_DOMAIN") ?? "localhost"
+            });
 
             return Task.FromResult(Results.Ok());
         }
