@@ -246,6 +246,33 @@ def retrieve_sgs():
         raise ValueError("No security groups found with tag Name: accesoalimentario_task_sg.")
     return [sg['GroupId'] for sg in response['SecurityGroups']]
 
+def get_task_role_arn():
+    "task role begins with accesoalimentario_task_role"
+    iam_client = boto3.client('iam', region_name=os.getenv('AWS_REGION', 'us-east-1'))
+    response = iam_client.list_roles(
+        PathPrefix='/',
+        MaxItems=1000
+    )
+    for role in response['Roles']:
+        if role['RoleName'].startswith('accesoalimentario_task_role'):
+            return role['Arn']
+        
+    raise ValueError("No task role found with name accesoalimentario_task_role")
+
+def get_execution_role_arn():
+    "execution role begins with accesoalimentario-task-exec-role"
+    iam_client = boto3.client('iam', region_name=os.getenv('AWS_REGION', 'us-east-1'))
+    response = iam_client.list_roles(
+        PathPrefix='/',
+        MaxItems=1000
+    )
+    for role in response['Roles']:
+        if role['RoleName'].startswith('accesoalimentario-task-exec-role'):
+            return role['Arn']
+        
+    raise ValueError("No execution role found with name accesoalimentario-task-exec-role")
+
+
 def main():
     REGION = os.getenv('AWS_REGION', 'us-east-1')
     CLUSTER_NAME = 'accesoalimentario'
@@ -275,16 +302,24 @@ def main():
     }
     SERVICE_MAPPING = {
         "frontend": {
-            "containerDefinitions.0.image": lambda: os.getenv("FRONT_IMAGE")
+            "containerDefinitions.0.image": lambda: os.getenv("FRONT_IMAGE"),
+            "executionRoleArn": get_execution_role_arn,
+            "taskRoleArn": get_task_role_arn
         },
         "backend": {
-            "containerDefinitions.0.image": lambda: os.getenv("BACK_IMAGE")
+            "containerDefinitions.0.image": lambda: os.getenv("BACK_IMAGE"),
+            "executionRoleArn": get_execution_role_arn,
+            "taskRoleArn": get_task_role_arn
         },
         "recomendaciones_api": {
-            "containerDefinitions.0.image": lambda: os.getenv("RECOMENDACIONES_API_IMAGE")
+            "containerDefinitions.0.image": lambda: os.getenv("RECOMENDACIONES_API_IMAGE"),
+            "executionRoleArn": get_execution_role_arn,
+            "taskRoleArn": get_task_role_arn
         },
         "rabbitmq": {
-            "containerDefinitions.0.image": lambda: "rabbitmq:3.8-management-alpine"
+            "containerDefinitions.0.image": lambda: "rabbitmq:3.8-management-alpine",
+            "executionRoleArn": get_execution_role_arn,
+            "taskRoleArn": get_task_role_arn
         }
     }
 
