@@ -118,7 +118,7 @@ jobs:
           ECR_REPOSITORY: ${{ env.ECR_REPO_NAME }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build "." --build-arg NEXT_PUBLIC_API_URL="back.acceso-alimentario.opsconsultingservices.com" -f "./Dockerfile" -t "$ECR_REGISTRY/$ECR_REPOSITORY/front:$IMAGE_TAG" 
+          docker build "." --build-arg NEXT_PUBLIC_API_URL="https://back.acceso-alimentario.opsconsultingservices.com/api" -f "./Dockerfile" -t "$ECR_REGISTRY/$ECR_REPOSITORY/front:$IMAGE_TAG" 
           docker push "$ECR_REGISTRY/$ECR_REPOSITORY/front:$IMAGE_TAG"
           echo "IMAGE $IMAGE_TAG is pushed to $ECR_REGISTRY/$ECR_REPOSITORY/front"
           echo "image_tag_front=$IMAGE_TAG"           
