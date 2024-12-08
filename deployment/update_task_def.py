@@ -20,6 +20,10 @@ def load_task_definition(task_definition_file):
 def override_task_definition(task_def, overrides):
     """Apply overrides to the ECS task definition."""
     for key, value_fn in overrides.items():
+        # If there are two values to unpack, it means the key is a path to a nested attribute
+        if '.' not in key:
+            task_def[key] = value_fn()
+            continue
         path, attribute = key.rsplit('.', 1)
         current = task_def
         for part in path.split('.'):

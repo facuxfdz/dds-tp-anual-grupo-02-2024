@@ -22,8 +22,14 @@ namespace AccesoAlimentario.Web.SensoresReader
             _queueName = queueName;
             _messageProcessor = messageProcessor;
             _scopeFactory = scopeFactory;
-            var retryCount = 5;
+            var retryCount = 10;
             var retryDelay = 5000;
+            Console.WriteLine("Creating RabbitMqConsumer");
+            Console.WriteLine($"Queue: {_queueName}");
+            Console.WriteLine($"BufferIntervalSeconds: {BufferIntervalSeconds}");
+            Console.WriteLine($"Connection retryCount: {retryCount}");
+            Console.WriteLine($"Connection retryDelay: {retryDelay}");
+            Console.WriteLine($"Connection username: {connectionFactory.UserName}");
             while (retryCount > 0)
             {
                 try
