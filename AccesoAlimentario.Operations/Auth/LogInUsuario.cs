@@ -50,7 +50,7 @@ public static class LogInUsuario
             {
                 HttpOnly = true,
                 Secure = true,
-                SameSite = SameSiteMode.Strict
+                SameSite = SameSiteMode.Unspecified
             });
 
             return Results.Ok(new

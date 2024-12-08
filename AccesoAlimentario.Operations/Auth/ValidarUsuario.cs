@@ -78,7 +78,7 @@ public static class ValidarUsuario
             {
                 HttpOnly = true,
                 Secure = true,
-                SameSite = SameSiteMode.Strict
+                SameSite = SameSiteMode.Unspecified
             });
 
             return Results.Ok(new
