@@ -26,7 +26,8 @@
           }
         },
         "environment": [
-          { "name": "ASPNETCORE_ENVIRONMENT", "value": "Production" }
+          { "name": "ASPNETCORE_ENVIRONMENT", "value": "Production" },
+          { "name": "FRONT_DOMAIN", "value": "acceso-alimentario.opsconsultingservices.com" }
         ]
       }
     ],
