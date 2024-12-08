@@ -32,10 +32,11 @@ public static class ObtenerContribucionesColaborador
         public async Task<IResult> Handle(ObtenerContribucionesColaboradorCommand request,
             CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Obtener Contribuciones Colaborador");
+            _logger.LogInformation($"Obtener contribuciones de colaborador - {request.ColaboradorId}");
             var colaborador = await _unitOfWork.ColaboradorRepository.GetByIdAsync(request.ColaboradorId);
             if (colaborador == null)
             {
+                _logger.LogWarning($"Colaborador no encontrado - {request.ColaboradorId}");
                 return Results.NotFound();
             }
 

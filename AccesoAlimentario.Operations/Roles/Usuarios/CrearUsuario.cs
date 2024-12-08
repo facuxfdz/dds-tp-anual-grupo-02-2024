@@ -24,23 +24,21 @@ public static class CrearUsuario
     public class CrearUsuarioHandler : IRequestHandler<CrearUsuarioCommand, IResult>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
         private readonly ILogger _logger;
 
-        public CrearUsuarioHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<CrearUsuarioHandler> logger)
+        public CrearUsuarioHandler(IUnitOfWork unitOfWork, ILogger<CrearUsuarioHandler> logger)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
             _logger = logger;
         }
 
         public async Task<IResult> Handle(CrearUsuarioCommand request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Creando usuario");
+            _logger.LogInformation("Crear Usuario - {PersonaId}", request.PersonaId);
             var persona = await _unitOfWork.PersonaRepository.GetByIdAsync(request.PersonaId);
             if (persona == null)
             {
-                _logger.LogWarning("Persona no encontrada");
+                _logger.LogWarning("Persona no encontrada - {PersonaId}", request.PersonaId);
                 return Results.NotFound();
             }
 
@@ -58,7 +56,6 @@ public static class CrearUsuario
 
             await _unitOfWork.UsuarioSistemaRepository.AddAsync(usuario);
             await _unitOfWork.SaveChangesAsync();
-            _logger.LogInformation("Usuario creado");
 
             var builder = new NotificacionUsuarioCreadoBuilder(usuario.UserName, request.Password);
             persona.EnviarNotificacion(builder.CrearNotificacion());

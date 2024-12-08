@@ -6,6 +6,7 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace AccesoAlimentario.Operations.Heladeras;
 
@@ -39,22 +40,26 @@ public static class ModificacionHeladera
         }
     }
 
-    public class Handler : IRequestHandler<ModificacionHeladeraCommand, IResult>
+    public class ModificacionHeladeraHandler : IRequestHandler<ModificacionHeladeraCommand, IResult>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly ILogger<ModificacionHeladeraHandler> _logger;
 
-        public Handler(IUnitOfWork unitOfWork, IMapper mapper)
+        public ModificacionHeladeraHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<ModificacionHeladeraHandler> logger)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<IResult> Handle(ModificacionHeladeraCommand request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation($"Modificación de heladera - {request.Id}");
             var heladera = await _unitOfWork.HeladeraRepository.GetByIdAsync(request.Id);
             if (heladera == null)
             {
+                _logger.LogWarning($"Heladera no encontrada - {request.Id}");
                 return Results.NotFound("La heladera no existe");
             }
 

@@ -14,10 +14,14 @@ public static class ObtenerRecomendacionUbicacionHeladera
         public float Radio { get; set; } = 0;
     }
 
-    public class ObtenerRecomendacionUbicacionHeladeraHandler : IRequestHandler<ObtenerRecomendacionUbicacionHeladeraCommand, IResult>
+    public class
+        ObtenerRecomendacionUbicacionHeladeraHandler : IRequestHandler<ObtenerRecomendacionUbicacionHeladeraCommand,
+        IResult>
     {
         private readonly ILogger _logger;
-        public ObtenerRecomendacionUbicacionHeladeraHandler(ILogger<ObtenerRecomendacionUbicacionHeladeraHandler> logger)
+
+        public ObtenerRecomendacionUbicacionHeladeraHandler(
+            ILogger<ObtenerRecomendacionUbicacionHeladeraHandler> logger)
         {
             _logger = logger;
         }
@@ -25,7 +29,8 @@ public static class ObtenerRecomendacionUbicacionHeladera
         public async Task<IResult> Handle(ObtenerRecomendacionUbicacionHeladeraCommand request,
             CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Obteniendo recomendacion de ubicacion de heladeras");
+            _logger.LogInformation(
+                $"Obtener recomendacion ubicacion heladera - {request.Latitud} - {request.Longitud}");
             var recomendador = new ConsultoraExternaApi();
             var recomendaciones = await recomendador.GetRecomendacion(request.Latitud, request.Longitud, request.Radio);
             return Results.Ok(recomendaciones);

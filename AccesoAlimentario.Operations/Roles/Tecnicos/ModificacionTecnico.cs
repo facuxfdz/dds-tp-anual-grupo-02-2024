@@ -8,6 +8,7 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace AccesoAlimentario.Operations.Roles.Tecnicos;
 
@@ -40,12 +41,13 @@ public static class ModificacionTecnico
         }
     }
     
-    public class Handler : IRequestHandler<ModificacionTecnicoCommand, IResult>
+    public class ModificacionTecnicoHandler : IRequestHandler<ModificacionTecnicoCommand, IResult>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly ILogger<ModificacionTecnicoHandler> _logger;
 
-        public Handler(IUnitOfWork unitOfWork, IMapper mapper)
+        public ModificacionTecnicoHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -53,10 +55,12 @@ public static class ModificacionTecnico
 
         public async Task<IResult> Handle(ModificacionTecnicoCommand request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation("Modificacion Tecnico - {Id}", request.Id);
             var validator = new ModificacionTecnicoValidator();
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
             if (!validationResult.IsValid)
             {
+                _logger.LogWarning("Modificacion Tecnico - Datos invalidos");
                 return Results.Problem();
             }
             
@@ -67,6 +71,7 @@ public static class ModificacionTecnico
             var tecnico = await _unitOfWork.TecnicoRepository.GetByIdAsync(request.Id);
             if (tecnico == null)
             {
+                _logger.LogWarning("Modificacion Tecnico - Tecnico no encontrado - {Id}", request.Id);
                 return Results.Problem("No se encontró el técnico");
             }
             

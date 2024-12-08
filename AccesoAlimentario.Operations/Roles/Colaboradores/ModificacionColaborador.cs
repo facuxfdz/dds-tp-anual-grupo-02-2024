@@ -7,6 +7,7 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace AccesoAlimentario.Operations.Roles.Colaboradores;
 
@@ -30,23 +31,27 @@ public static class ModificacionColaborador
         }
     }
     
-    public class Handler : IRequestHandler<ModificacionColaboradorCommand, IResult>
+    public class ModificacionColaboradorHandler : IRequestHandler<ModificacionColaboradorCommand, IResult>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly ILogger<ModificacionColaboradorHandler> _logger;
 
-        public Handler(IUnitOfWork unitOfWork, IMapper mapper)
+        public ModificacionColaboradorHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<ModificacionColaboradorHandler> logger)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<IResult> Handle(ModificacionColaboradorCommand request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation("Modificación de colaborador - {Id}", request.Id);
             var validator = new ModificacionColaboradorValidator();
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
             if (!validationResult.IsValid)
             {
+                _logger.LogWarning("Datos de modificación de colaborador inválidos");
                 return Results.Problem();
             }
             
@@ -56,6 +61,7 @@ public static class ModificacionColaborador
             var colaborador = await _unitOfWork.ColaboradorRepository.GetByIdAsync(request.Id);
             if (colaborador == null)
             {
+                _logger.LogWarning("Colaborador no encontrado - {Id}", request.Id);
                 return Results.NotFound();
             }
 

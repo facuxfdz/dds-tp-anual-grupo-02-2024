@@ -4,6 +4,7 @@ using AccesoAlimentario.Core.Entities.Premios;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace AccesoAlimentario.Operations.Contribuciones;
 
@@ -19,22 +20,24 @@ public static class ColaborarConOfertaDePremio
         public TipoRubro Rubro { get; set; }
     }
     
-    public class Handler : IRequestHandler<ColaborarConOfertaDePremioCommand, IResult>
+    public class ColaborarConOfertaDePremioHandler : IRequestHandler<ColaborarConOfertaDePremioCommand, IResult>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
+        private readonly ILogger<ColaborarConOfertaDePremioHandler> _logger;
 
-        public Handler(IUnitOfWork unitOfWork, IMapper mapper)
+        public ColaborarConOfertaDePremioHandler(IUnitOfWork unitOfWork, ILogger<ColaborarConOfertaDePremioHandler> logger)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<IResult> Handle(ColaborarConOfertaDePremioCommand request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation($"Colaborar con oferta de premio - {request.ColaboradorId} - {request.FechaContribucion}");
             var colaborador = await _unitOfWork.ColaboradorRepository.GetByIdAsync(request.ColaboradorId);
             if (colaborador == null)
             {
+                _logger.LogWarning($"Colaborador no encontrado - {request.ColaboradorId}");
                 return Results.NotFound();
             }
 

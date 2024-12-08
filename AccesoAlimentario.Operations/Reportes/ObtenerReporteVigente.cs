@@ -30,7 +30,7 @@ public static class ObtenerReporteVigente
 
         public async Task<IResult> Handle(ObtenerReporteVigenteCommand request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Obteniendo reporte vigente");
+            _logger.LogInformation($"Obtener Reporte Vigente - {request.TipoReporte}");
             var query = _unitOfWork.ReporteRepository.GetQueryable();
             query = query
                 .Where(r => r.Tipo == request.TipoReporte)
@@ -40,6 +40,7 @@ public static class ObtenerReporteVigente
 
             if (reporte == null)
             {
+                _logger.LogWarning($"Reporte no encontrado - {request.TipoReporte}");
                 return Results.NotFound();
             }
 

@@ -86,6 +86,7 @@ public static class AltaColaborador
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
             if (!validationResult.IsValid)
             {
+                _logger.LogWarning("Datos invalidos.");
                 return Results.Problem();
             }
             

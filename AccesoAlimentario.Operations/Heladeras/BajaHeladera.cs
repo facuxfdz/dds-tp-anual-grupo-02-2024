@@ -4,6 +4,7 @@ using AccesoAlimentario.Core.Entities.SuscripcionesColaboradores;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace AccesoAlimentario.Operations.Heladeras;
 
@@ -14,20 +15,24 @@ public static class BajaHeladera
         public Guid Id { get; set; } = Guid.Empty;
     }
     
-    public class Handler : IRequestHandler<BajaHeladeraCommand, IResult>
+    public class BajaHeladeraHandler : IRequestHandler<BajaHeladeraCommand, IResult>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ILogger<BajaHeladeraHandler> _logger;
 
-        public Handler(IUnitOfWork unitOfWork)
+        public BajaHeladeraHandler(IUnitOfWork unitOfWork, ILogger<BajaHeladeraHandler> logger)
         {
             _unitOfWork = unitOfWork;
+            _logger = logger;
         }
 
         public async Task<IResult> Handle(BajaHeladeraCommand request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation($"Baja heladera - {request.Id}");
             var heladera = await _unitOfWork.HeladeraRepository.GetByIdAsync(request.Id);
             if (heladera == null)
             {
+                _logger.LogWarning($"Heladera no encontrada - {request.Id}");
                 return Results.NotFound("La heladera no existe");
             }
 

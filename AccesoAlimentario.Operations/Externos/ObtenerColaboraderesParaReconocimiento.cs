@@ -19,11 +19,13 @@ public static class ObtenerColaboraderesParaReconocimiento
         /// </summary>
         [SwaggerSchema("Cantidad mínima de puntos.")]
         public int PuntosMinimos { get; set; } = 0;
+
         /// <summary>
         /// Número mínimo de donaciones de viandas realizadas en el último mes.
         /// </summary>
         [SwaggerSchema("Donaciones de viandas mínimas en el último mes.")]
         public int DonacionesViandasMinimas { get; set; } = 0;
+
         /// <summary>
         /// Número máximo de colaboradores a retornar.
         /// </summary>
@@ -31,12 +33,15 @@ public static class ObtenerColaboraderesParaReconocimiento
         public int CantidadDeColaboradores { get; set; } = 0;
     }
 
-    public class ObtenerColaboraderesParaReconocimientoHandler : IRequestHandler<ObtenerColaboraderesParaReconocimientoCommand, IResult>
+    public class
+        ObtenerColaboraderesParaReconocimientoHandler : IRequestHandler<ObtenerColaboraderesParaReconocimientoCommand,
+        IResult>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger _logger;
 
-        public ObtenerColaboraderesParaReconocimientoHandler(IUnitOfWork unitOfWork, ILogger<ObtenerColaboraderesParaReconocimientoHandler> logger)
+        public ObtenerColaboraderesParaReconocimientoHandler(IUnitOfWork unitOfWork,
+            ILogger<ObtenerColaboraderesParaReconocimientoHandler> logger)
         {
             _unitOfWork = unitOfWork;
             _logger = logger;
@@ -45,11 +50,12 @@ public static class ObtenerColaboraderesParaReconocimiento
         public async Task<IResult> Handle(ObtenerColaboraderesParaReconocimientoCommand request,
             CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Obtener colaboradores para reconocimiento");
+            _logger.LogInformation(
+                $"Obtener colaboradores para reconocimiento - {request.PuntosMinimos} - {request.DonacionesViandasMinimas} - {request.CantidadDeColaboradores}");
             var query = _unitOfWork.ColaboradorRepository.GetQueryable();
             query = query.Where(c => c.Puntos >= request.PuntosMinimos);
             var colaboradores = await _unitOfWork.ColaboradorRepository.GetCollectionAsync(query);
-            
+
             colaboradores = colaboradores.Where(
                 c => c.ContribucionesRealizadas.Any(d => d.FechaContribucion >= DateTime.UtcNow.AddDays(-30))
             );
@@ -58,7 +64,8 @@ public static class ObtenerColaboraderesParaReconocimiento
             foreach (var colaborador in colaboradores)
             {
                 var donacionesViandas = colaborador.ContribucionesRealizadas.OfType<DonacionVianda>().ToList();
-                var cantidadDonadaUltimoMes = donacionesViandas.Count(d => d.FechaContribucion >= DateTime.UtcNow.AddDays(-30));
+                var cantidadDonadaUltimoMes =
+                    donacionesViandas.Count(d => d.FechaContribucion >= DateTime.UtcNow.AddDays(-30));
                 if (cantidadDonadaUltimoMes >= request.DonacionesViandasMinimas)
                 {
                     colaboradoresValidos.Add(colaborador);

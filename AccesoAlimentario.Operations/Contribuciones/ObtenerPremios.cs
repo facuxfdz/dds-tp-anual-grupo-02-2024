@@ -32,7 +32,7 @@ public static class ObtenerPremios
 
         public async Task<IResult> Handle(ObtenerPremiosQuery request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Obtener premios");
+            _logger.LogInformation($"Obtener premios - {request.Nombre} - {request.PuntosNecesarios}");
             var query = _unitOfWork.PremioRepository.GetQueryable();
             query = query.Where(p => p.ReclamadoPor == null);
             if (!string.IsNullOrEmpty(request.Nombre))

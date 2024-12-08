@@ -2,6 +2,7 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace AccesoAlimentario.Operations.Roles.Tecnicos;
 
@@ -12,22 +13,24 @@ public static class BajaTecnico
         public Guid Id { get; set; } = Guid.Empty;
     }
 
-    public class Handler : IRequestHandler<BajaTecnicoCommand, IResult>
+    public class BajaTecnicoHandler : IRequestHandler<BajaTecnicoCommand, IResult>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
+        private readonly ILogger<BajaTecnicoHandler> _logger;
 
-        public Handler(IUnitOfWork unitOfWork, IMapper mapper)
+        public BajaTecnicoHandler(IUnitOfWork unitOfWork, ILogger<BajaTecnicoHandler> logger)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<IResult> Handle(BajaTecnicoCommand request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation("Baja Tecnico - {Id}", request.Id);
             var tecnico = await _unitOfWork.TecnicoRepository.GetByIdAsync(request.Id);
             if (tecnico == null)
             {
+                _logger.LogWarning("Tecnico no encontrado - {Id}", request.Id);
                 return Results.NotFound("El tecnico no existe");
             }
             

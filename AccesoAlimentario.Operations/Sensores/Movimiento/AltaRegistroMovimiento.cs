@@ -4,6 +4,7 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace AccesoAlimentario.Operations.Sensores.Movimiento;
 
@@ -29,33 +30,37 @@ public static class AltaRegistroMovimiento
         }
     }
     
-    public class Handler : IRequestHandler<AltaRegistroMovimientoCommand, IResult>
+    public class AltaRegistroMovimientoHandler : IRequestHandler<AltaRegistroMovimientoCommand, IResult>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
+        private readonly ILogger<AltaRegistroMovimientoHandler> _logger;
         
-        public Handler(IUnitOfWork unitOfWork, IMapper mapper)
+        public AltaRegistroMovimientoHandler(IUnitOfWork unitOfWork, ILogger<AltaRegistroMovimientoHandler> logger)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
+            _logger = logger;
         }
         
         public async Task<IResult> Handle(AltaRegistroMovimientoCommand request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation($"Alta registro movimiento - {request.SensorId} - {request.Fecha}");
             var sensor = await _unitOfWork.SensorRepository.GetByIdAsync(request.SensorId);
             if (sensor == null || sensor is not SensorMovimiento sensorMovimiento)
             {
+                _logger.LogWarning($"Sensor no encontrado - {request.SensorId}");
                 return Results.NotFound("Sensor no encontrado");
             }
             
             var registroId = sensorMovimiento.Registrar(request.Fecha, request.Movimiento);
             if (registroId == Guid.Empty)
             {
+                _logger.LogWarning("Error al registrar el movimiento");
                 return Results.BadRequest("Error al registrar el movimiento");
             }
             var registro = sensorMovimiento.RegistrosMovimiento.Find(r => r.Id == registroId);
             if (registro == null)
             {
+                _logger.LogWarning("Error al registrar el movimiento");
                 return Results.BadRequest("Error al registrar el movimiento");
             }
             

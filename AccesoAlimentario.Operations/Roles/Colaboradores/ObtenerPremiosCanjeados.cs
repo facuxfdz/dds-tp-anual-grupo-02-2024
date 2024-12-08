@@ -34,12 +34,14 @@ public static class ObtenerPremiosCanjeados
 
         public async Task<IResult> Handle(ObtenerPremiosCanjeadosCommand request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Obtener premios canjeados para el colaborador {ColaboradorId}",
+            _logger.LogInformation("Obtener Premios Canjeados - {ColaboradorId}",
                 request.ColaboradorId);
             var colaborador = await _unitOfWork.ColaboradorRepository.GetByIdAsync(request.ColaboradorId);
 
             if (colaborador == null)
             {
+                _logger.LogWarning("Colaborador no encontrado - {ColaboradorId}",
+                    request.ColaboradorId);
                 return Results.BadRequest("El colaborador no existe");
             }
 

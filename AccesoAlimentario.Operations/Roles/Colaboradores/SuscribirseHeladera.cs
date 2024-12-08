@@ -39,16 +39,18 @@ public static class SuscribirseHeladera
         public async Task<IResult> Handle(SuscribirseHeladeraCommand request,
             CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Suscribirse a heladera"); 
+            _logger.LogInformation("Suscribirse Heladera - {ColaboradorId}", request.ColaboradorId);
             var colaborador = await _unitOfWork.ColaboradorRepository.GetByIdAsync(request.ColaboradorId);
             if (colaborador == null)
             {
+                _logger.LogWarning("Colaborador no encontrado - {ColaboradorId}", request.ColaboradorId);
                 return Results.NotFound();
             }
 
             var heladera = await _unitOfWork.HeladeraRepository.GetByIdAsync(request.HeladeraId);
             if (heladera == null)
             {
+                _logger.LogWarning("Heladera no encontrada - {HeladeraId}", request.HeladeraId);
                 return Results.NotFound();
             }
             

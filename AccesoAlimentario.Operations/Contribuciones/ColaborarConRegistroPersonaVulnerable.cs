@@ -15,6 +15,7 @@ using AccesoAlimentario.Operations.Dto.Requests.Tarjetas;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace AccesoAlimentario.Operations.Contribuciones;
 
@@ -34,23 +35,29 @@ public static class ColaborarConRegistroPersonaVulnerable
         public int CantidadDeMenores { get; set; } = 0;
     }
 
-    public class Handler : IRequestHandler<ColaborarConRegistroPersonaVulnerableCommand, IResult>
+    public class ColaborarConRegistroPersonaVulnerableHandler : IRequestHandler<ColaborarConRegistroPersonaVulnerableCommand, IResult>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly ILogger<ColaborarConRegistroPersonaVulnerableHandler> _logger;
 
-        public Handler(IUnitOfWork unitOfWork, IMapper mapper)
+        public ColaborarConRegistroPersonaVulnerableHandler(IUnitOfWork unitOfWork, IMapper mapper,
+            ILogger<ColaborarConRegistroPersonaVulnerableHandler> logger)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<IResult> Handle(ColaborarConRegistroPersonaVulnerableCommand request,
             CancellationToken cancellationToken)
         {
+            _logger.LogInformation(
+                $"Colaborar con registro de persona vulnerable - {request.ColaboradorId} - {request.Tarjeta.Codigo}");
             var colaborador = await _unitOfWork.ColaboradorRepository.GetByIdAsync(request.ColaboradorId);
             if (colaborador == null)
             {
+                _logger.LogWarning($"Colaborador no encontrado - {request.ColaboradorId}");
                 return Results.NotFound();
             }
 

@@ -2,6 +2,7 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace AccesoAlimentario.Operations.Contribuciones;
 
@@ -13,33 +14,37 @@ public static class RegistrarCanjeDePremio
         public Guid PremioId { get; set; }
     }
     
-    public class Handler : IRequestHandler<RegistrarCanjeDePremioCommand, IResult>
+    public class RegistrarCanjeDePremioHandler : IRequestHandler<RegistrarCanjeDePremioCommand, IResult>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
+        private readonly ILogger<RegistrarCanjeDePremioHandler> _logger;
 
-        public Handler(IUnitOfWork unitOfWork, IMapper mapper)
+        public RegistrarCanjeDePremioHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<RegistrarCanjeDePremioHandler> logger)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<IResult> Handle(RegistrarCanjeDePremioCommand request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation($"Registrar canje de premio - {request.ColaboradorId} - {request.PremioId}");
             var colaborador = await _unitOfWork.ColaboradorRepository.GetByIdAsync(request.ColaboradorId);
             if (colaborador == null)
             {
+                _logger.LogWarning($"Colaborador no encontrado - {request.ColaboradorId}");
                 return Results.NotFound();
             }
 
             var premio = await _unitOfWork.PremioRepository.GetByIdAsync(request.PremioId);
             if (premio == null)
             {
+                _logger.LogWarning($"Premio no encontrado - {request.PremioId}");
                 return Results.NotFound();
             }
             
             if (colaborador.Puntos < premio.PuntosNecesarios)
             {
+                _logger.LogWarning($"No tiene suficientes puntos para canjear el premio - {colaborador.Puntos} - {premio.PuntosNecesarios}");
                 return Results.BadRequest("No tiene suficientes puntos para canjear el premio");
             }
 

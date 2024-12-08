@@ -45,7 +45,7 @@ public static class RegistrarUsuario
 
         public async Task<IResult> Handle(RegistrarUsuarioCommand request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Registrar usuario");
+            _logger.LogInformation($"Registrar usuario - {request.Email}");
 
             var medioContacto = request.MediosDeContacto.Count > 0
                 ? request.MediosDeContacto

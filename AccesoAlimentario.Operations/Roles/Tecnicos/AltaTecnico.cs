@@ -12,6 +12,7 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace AccesoAlimentario.Operations.Roles.Tecnicos;
 
@@ -48,25 +49,29 @@ public static class AltaTecnico
     }
 
     // Handler
-    public class Handler : IRequestHandler<AltaTecnicoCommand, IResult>
+    public class AltaTecnicoHandler : IRequestHandler<AltaTecnicoCommand, IResult>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly ISender _sender;
+        private readonly ILogger<AltaTecnicoHandler> _logger;
 
-        public Handler(IUnitOfWork unitOfWork, IMapper mapper, ISender sender)
+        public AltaTecnicoHandler(IUnitOfWork unitOfWork, IMapper mapper, ISender sender, ILogger<AltaTecnicoHandler> logger)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _sender = sender;
+            _logger = logger;
         }
 
         public async Task<IResult> Handle(AltaTecnicoCommand request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation("Alta técnico");
             var validator = new AltaTecnicoValidator();
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
             if (!validationResult.IsValid)
             {
+                _logger.LogWarning("Datos inválidos");
                 return Results.Problem();
             }
 
@@ -77,6 +82,7 @@ public static class AltaTecnico
             var email = persona.MediosDeContacto.OfType<Email>().FirstOrDefault();
             if (email == null)
             {
+                _logger.LogWarning("El técnico debe tener al menos un email de contacto");
                 return Results.BadRequest("El técnico debe tener al menos un email de contacto");
             }
 

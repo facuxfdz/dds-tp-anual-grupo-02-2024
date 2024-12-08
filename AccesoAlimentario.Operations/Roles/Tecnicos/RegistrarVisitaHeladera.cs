@@ -4,6 +4,7 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace AccesoAlimentario.Operations.Roles.Tecnicos;
 
@@ -34,35 +35,39 @@ public static class RegistrarVisitaHeladera
         }
     }
 
-    public class Handler : IRequestHandler<RegistrarVisitaHeladeraCommand, IResult>
+    public class RegistrarVisitaHeladeraHandler : IRequestHandler<RegistrarVisitaHeladeraCommand, IResult>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
+        private readonly ILogger<RegistrarVisitaHeladeraHandler> _logger;
 
-        public Handler(IUnitOfWork unitOfWork, IMapper mapper)
+        public RegistrarVisitaHeladeraHandler(IUnitOfWork unitOfWork, ILogger<RegistrarVisitaHeladeraHandler> logger)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<IResult> Handle(RegistrarVisitaHeladeraCommand request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation("Registrar Visita Heladera - {IncidenteId}", request.IncidenteId);
             var validator = new RegistrarVisitaHeladeraValidator();
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
             if (!validationResult.IsValid)
             {
+                _logger.LogWarning("Datos de visita incorrectos - {IncidenteId}", request.IncidenteId);
                 return Results.Problem();
             }
             
             var incidente = await _unitOfWork.IncidenteRepository.GetByIdAsync(request.IncidenteId);
             if (incidente == null)
             {
+                _logger.LogWarning("Incidente no encontrado - {IncidenteId}", request.IncidenteId);
                 return Results.NotFound();
             }
             
             var tecnico = await _unitOfWork.TecnicoRepository.GetByIdAsync(request.TecnicoId);
             if (tecnico == null)
             {
+                _logger.LogWarning("Tecnico no encontrado - {TecnicoId}", request.TecnicoId);
                 return Results.NotFound();
             }
             
