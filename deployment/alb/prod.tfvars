@@ -1,10 +1,10 @@
-public_subnet_name  = "acceso-alimentario-public"
-domain_zone_id      = "Z00362715JGFXPFE3OAC"
-vpc_name            = "acceso-alimentario"
-domain_record       = "acceso-alimentario.opsconsultingservices.com"
+public_subnet_name = "acceso-alimentario-public"
+domain_zone_id     = "Z00362715JGFXPFE3OAC"
+vpc_name           = "acceso-alimentario"
+domain_record      = "acceso-alimentario.opsconsultingservices.com"
 additional_records = [
-    "back.acceso-alimentario.opsconsultingservices.com",
-    "recomendaciones.acceso-alimentario.opsconsultingservices.com"
+  "back.acceso-alimentario.opsconsultingservices.com",
+  "recomendaciones.acceso-alimentario.opsconsultingservices.com"
 ]
 alb_name            = "acceso-alimentario"
 region              = "us-east-1"

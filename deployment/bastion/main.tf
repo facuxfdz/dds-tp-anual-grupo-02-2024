@@ -22,7 +22,7 @@ data "aws_subnet" "filtered" {
 # Filter private subnets by name
 locals {
   private_subnets = [for subnet in data.aws_subnet.filtered :
-    subnet.id if endswith(subnet.tags["Name"], "-private")]
+  subnet.id if endswith(subnet.tags["Name"], "-private")]
 }
 
 # Security Group for Bastion
@@ -42,7 +42,7 @@ resource "aws_security_group" "bastion_sg" {
 
 # IAM Role for EC2 Instance
 resource "aws_iam_role" "bastion_role" {
-  name               = "${var.vpc_name}-bastion-role"
+  name = "${var.vpc_name}-bastion-role"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -69,12 +69,12 @@ resource "aws_iam_instance_profile" "bastion_profile" {
 
 # EC2 Instance for Bastion
 resource "aws_instance" "bastion" {
-  ami           = var.ami_id
-  instance_type = "t2.micro" # Free tier eligible
-  subnet_id     = local.private_subnets[0]
+  ami                    = var.ami_id
+  instance_type          = "t2.micro" # Free tier eligible
+  subnet_id              = local.private_subnets[0]
   vpc_security_group_ids = [aws_security_group.bastion_sg.id]
-  iam_instance_profile = aws_iam_instance_profile.bastion_profile.name
-  user_data           = file("${path.module}/userdata.sh")
+  iam_instance_profile   = aws_iam_instance_profile.bastion_profile.name
+  user_data              = file("${path.module}/userdata.sh")
 
   tags = {
     Name = "${var.vpc_name}-bastion"

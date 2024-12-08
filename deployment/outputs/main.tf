@@ -11,7 +11,7 @@ resource "random_password" "rabbitmq" {
 }
 
 resource "aws_secretsmanager_secret_version" "rabbitmq" {
-  secret_id     = aws_secretsmanager_secret.rabbitmq.id
+  secret_id = aws_secretsmanager_secret.rabbitmq.id
   secret_string = jsonencode({
     host     = var.rabbitmq_host
     username = var.rabbitmq_username

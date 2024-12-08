@@ -43,11 +43,11 @@ resource "aws_iam_role" "task_role" {
     Version = "2012-10-17",
     Statement = [
       {
-        Effect    = "Allow",
+        Effect = "Allow",
         Principal = {
           Service = "ecs-tasks.amazonaws.com",
         },
-        Action    = "sts:AssumeRole",
+        Action = "sts:AssumeRole",
       },
     ],
   })
@@ -58,6 +58,23 @@ resource "aws_iam_role_policy_attachment" "secrets_manager" {
   role       = aws_iam_role.task_role.name
   policy_arn = aws_iam_policy.secrets_manager.arn
 }
+
+# Security group for tasks
+resource "aws_security_group" "task_sg" {
+  name        = "accesoalimentario_task_sg"
+  description = "Security group for ECS tasks"
+  vpc_id      = data.aws_vpc.vpc.id
+  tags = {
+    Name = "accesoalimentario_task_sg"
+  }
+}
+
+resource "aws_vpc_security_group_ingress_rule" "task_sg_ingress" {
+  security_group_id = aws_security_group.task_sg.id
+  ip_protocol       = "-1"
+  cidr_ipv4         = "0.0.0.0/0"
+}
+
 
 module "ecs" {
   source  = "terraform-aws-modules/ecs/aws"

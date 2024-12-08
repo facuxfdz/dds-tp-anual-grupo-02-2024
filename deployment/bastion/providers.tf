@@ -6,7 +6,7 @@ terraform {
     }
   }
   backend "s3" {
-    key    = "bastion/terraform-acceso-alimentario_releases.tfstate"
+    key = "bastion/terraform-acceso-alimentario_releases.tfstate"
   }
 }
 

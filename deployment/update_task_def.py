@@ -234,6 +234,17 @@ def get_image_env_var(env_var_name):
         raise ValueError(f"{env_var_name} environment variable is not set.")
     return image
 
+def retrieve_sgs():
+    """Retrieve security groups that are tagged with: Name: accesoalimentario_task_sg """
+    ec2_client = boto3.client('ec2', region_name=os.getenv('AWS_REGION', 'us-east-1'))
+    response = ec2_client.describe_security_groups(
+        Filters=[
+            {'Name': 'tag:Name', 'Values': ['accesoalimentario_task_sg']}
+        ]
+    )
+    if not response['SecurityGroups']:
+        raise ValueError("No security groups found with tag Name: accesoalimentario_task_sg.")
+    return [sg['GroupId'] for sg in response['SecurityGroups']]
 
 def main():
     REGION = os.getenv('AWS_REGION', 'us-east-1')
@@ -255,7 +266,7 @@ def main():
     os.environ["FRONT_IMAGE"] = get_image_env_var("FRONT_IMAGE")
     os.environ["RECOMENDACIONES_API_IMAGE"] = get_image_env_var("RECOMENDACIONES_API_IMAGE")
 
-    security_groups = ['sg-047447291c2271910']
+    security_groups = retrieve_sgs()
     NOT_EXPOSED_SERVICES = ["rabbitmq"]
     HOST_MAPPING = {
         "frontend": "acceso-alimentario.opsconsultingservices.com",
