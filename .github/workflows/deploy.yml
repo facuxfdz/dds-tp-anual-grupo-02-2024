@@ -1,7 +1,10 @@
 ﻿name: Deployment
 run-name: ${{ github.event.head_commit.message }}
 
-on: [workflow_dispatch]
+on:
+  push:
+    branches:
+      - master
 
 permissions:
   id-token: write # This is required for requesting the JWT
