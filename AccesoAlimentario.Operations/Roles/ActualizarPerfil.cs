@@ -146,6 +146,7 @@ public static class ActualizarPerfil
                 {
                     var direccion = _mapper.Map<Direccion>(personaRequest.Direccion);
                     persona.Direccion = direccion;
+                    await _unitOfWork.DireccionRepository.AddAsync(direccion);
                 }
             }
             
@@ -160,6 +161,7 @@ public static class ActualizarPerfil
                 {
                     var documentoIdentidad = _mapper.Map<DocumentoIdentidad>(personaRequest.DocumentoIdentidad);
                     persona.DocumentoIdentidad = documentoIdentidad;
+                    await _unitOfWork.DocumentoIdentidadRepository.AddAsync(documentoIdentidad);
                 }
             }
 
