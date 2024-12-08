@@ -2,7 +2,7 @@
 
 public class RabbitMQSecret
 {
-    public string HostName { get; set; } = null!;
-    public string UserName { get; set; } = null!;
-    public string Password { get; set; } = null!;
+    public string host { get; set; } = null!;
+    public string username { get; set; } = null!;
+    public string password { get; set; } = null!;
 }

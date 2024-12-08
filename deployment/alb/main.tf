@@ -111,7 +111,10 @@ module "alb" {
     ex-https = {
       port            = 443
       protocol        = "HTTPS"
-      certificate_arn = module.acm.acm_certificate_arn
+      certificate_arn = module.root_acm.acm_certificate_arn
+      additional_certificate_arns = [
+        module.acm.acm_certificate_arn
+      ]
 
       # fixed response 404
       fixed_response = {

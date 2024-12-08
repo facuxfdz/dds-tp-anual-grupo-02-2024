@@ -44,6 +44,7 @@ if (builder.Environment.IsProduction())
                            $"database={dbConnectionData.DB_NAME};" +
                            $"user={dbConnectionData.DB_USERNAME};" +
                            $"password={dbConnectionData.DB_PASSWORD};";
+        Console.WriteLine($"Connecting to database with user: {dbConnectionData.DB_USERNAME}");
     }
     else
     {
@@ -63,10 +64,10 @@ else
                            $"database={dbName};" +
                            $"user={dbUser};" +
                            $"password={dbPassword};";
+        Console.WriteLine($"Connecting to database with user: {dbUser}");
     }
 }
 
-Console.WriteLine($"Connection String: {connectionString}");
 
 builder.Services.AddDbContext<AppDbContext>((sp, options) =>
     options

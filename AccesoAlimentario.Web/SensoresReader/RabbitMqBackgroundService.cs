@@ -39,10 +39,11 @@ public class RabbitMqBackgroundService : BackgroundService
             {
                 throw new Exception("RabbitMQ secret not found");
             }
-            rabbitConfig.HostName = rabbitSecret.HostName;
-            rabbitConfig.UserName = rabbitSecret.UserName;
-            rabbitConfig.Password = rabbitSecret.Password;
+            rabbitConfig.HostName = rabbitSecret.host;
+            rabbitConfig.UserName = rabbitSecret.username;
+            rabbitConfig.Password = rabbitSecret.password;
         }
+        Console.WriteLine($"RabbitMQ Host: {rabbitConfig.HostName}");
         _consumers = new List<RabbitMqConsumer>
         {
             new RabbitMqConsumer(rabbitConfig, scopeFactory, "temperatura", tempProcessor.ProcessMessageBuffered)
