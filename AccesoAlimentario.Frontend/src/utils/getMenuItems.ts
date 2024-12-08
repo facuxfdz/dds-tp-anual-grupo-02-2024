@@ -257,11 +257,11 @@ const items: IMenuItem[] = [
         type: "item",
         url: perfilRoute(),
         icon: "fa-duotone fa-solid fa-user",
-        tecnicos: false,
-        colaboradores: false,
+        tecnicos: true,
+        colaboradores: true,
         tarjetaColaborador: false,
-        personaHumana: false,
-        personaJuridica: false,
+        personaHumana: true,
+        personaJuridica: true,
         disabled: false,
     }
 ]
