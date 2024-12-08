@@ -55,6 +55,30 @@ resource "aws_iam_role" "bastion_role" {
   })
 }
 
+# Bastion policy
+resource "aws_iam_policy" "bastion_policy" {
+  name        = "${var.vpc_name}-ssm-policy"
+  description = "Policy for SSM access"
+  policy      = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect   = "Allow",
+        Action   = [
+          "ecs:*",
+        ],
+        Resource = "*",
+      },
+    ],
+  })
+}
+
+resource "aws_iam_policy_attachment" "bastion_attachment" {
+  name       = "${var.vpc_name}-bastion-attachment"
+  roles      = [aws_iam_role.bastion_role.name]
+  policy_arn = aws_iam_policy.bastion_policy.arn
+}
+
 resource "aws_iam_policy_attachment" "ssm_policy" {
   name       = "${var.vpc_name}-ssm-attachment"
   roles      = [aws_iam_role.bastion_role.name]
