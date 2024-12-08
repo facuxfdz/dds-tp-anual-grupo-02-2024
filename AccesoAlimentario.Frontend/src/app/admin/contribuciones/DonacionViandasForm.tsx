@@ -104,7 +104,7 @@ export const DonacionViandasForm = ({
                 <TextFieldElement
                     name={"peso"}
                     label={"Peso"}
-                    placeholder={"Ingrese el peso de la comida"}
+                    placeholder={"Ingrese el peso de la comida en kg"}
                     required={true}
                     fullWidth
                     type="number"
