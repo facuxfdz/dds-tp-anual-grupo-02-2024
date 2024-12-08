@@ -95,21 +95,6 @@ jobs:
         with:
           registries: ${{ secrets.AWS_ACCOUNT_ID }}
 
-      - name: Build, tag, and push image to Amazon ECR
-        id: build-publish
-        shell: bash        
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: ${{ env.ECR_REPO_NAME }}
-          IMAGE_TAG: ${{ github.sha }}
-        run: |
-          docker build "." -f "./Dockerfile" -t "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-          docker push "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-          echo "IMAGE $IMAGE_TAG is pushed to $ECR_REGISTRY/$ECR_REPOSITORY"
-          echo "image_tag=$IMAGE_TAG"           
-          echo "BACK_IMAGE=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-          echo "BACK_IMAGE=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
-          
       - name: Build, tag, and push frontend to Amazon ECR
         id: build-publish-frontend
         shell: bash        
@@ -125,6 +110,21 @@ jobs:
           echo "FRONT_IMAGE=$ECR_REGISTRY/$ECR_REPOSITORY/front:$IMAGE_TAG"
           echo "FRONT_IMAGE=$ECR_REGISTRY/$ECR_REPOSITORY/front:$IMAGE_TAG" >> $GITHUB_ENV
         working-directory: "./AccesoAlimentario.Frontend"
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-publish
+        shell: bash        
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{ env.ECR_REPO_NAME }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build "." -f "./Dockerfile" -t "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          docker push "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          echo "IMAGE $IMAGE_TAG is pushed to $ECR_REGISTRY/$ECR_REPOSITORY"
+          echo "image_tag=$IMAGE_TAG"           
+          echo "BACK_IMAGE=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          echo "BACK_IMAGE=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
         
       - name: Build, tag, and push recomendaciones-api to Amazon ECR
         id: build-publish-recomendaciones-api
