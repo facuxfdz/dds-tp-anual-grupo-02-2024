@@ -81,6 +81,23 @@ resource "aws_vpc_security_group_egress_rule" "task_sg_egress" {
   ip_protocol       = "-1"
 }
 
+resource "aws_iam_policy" "ssmmessages" {
+  name        = "ssmmessages_policy"
+  description = "Policy to allow ECS task to send messages to SSM"
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "ssmmessages:*",
+        ],
+        Resource = "*",
+      },
+    ],
+  })
+}
+
 module "ecs" {
   source  = "terraform-aws-modules/ecs/aws"
   version = "5.11.4"
@@ -91,6 +108,7 @@ module "ecs" {
   create_task_exec_policy   = true
   task_exec_iam_role_policies = {
     logs = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
+    ssmmessages = aws_iam_policy.ssmmessages.arn
   }
   task_exec_iam_role_name = "${var.service_name}-task-exec-role"
   cluster_service_connect_defaults = {

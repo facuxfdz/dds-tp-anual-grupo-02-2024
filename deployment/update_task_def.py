@@ -310,7 +310,7 @@ def main():
     os.environ["RECOMENDACIONES_API_IMAGE"] = get_image_env_var("RECOMENDACIONES_API_IMAGE")
 
     security_groups = retrieve_sgs()
-    NOT_EXPOSED_SERVICES = ["rabbitmq"]
+    NOT_EXPOSED_SERVICES = ["rabbitmq","sensores_publisher"]
     HOST_MAPPING = {
         "frontend": "acceso-alimentario.opsconsultingservices.com",
         "backend": "back.acceso-alimentario.opsconsultingservices.com",
@@ -329,6 +329,11 @@ def main():
         },
         "recomendaciones_api": {
             "containerDefinitions.0.image": lambda: os.getenv("RECOMENDACIONES_API_IMAGE"),
+            "executionRoleArn": get_execution_role_arn,
+            "taskRoleArn": get_task_role_arn
+        },
+        "sensores_publisher": {
+            "containerDefinitions.0.image": lambda: os.getenv("SENSORES_PUBLISHER_IMAGE"),
             "executionRoleArn": get_execution_role_arn,
             "taskRoleArn": get_task_role_arn
         },
