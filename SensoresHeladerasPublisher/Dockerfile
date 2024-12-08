@@ -11,5 +11,5 @@ COPY rabbitmq_producer.py .
 # Instalar las dependencias
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Comando por defecto para ejecutar el script
-ENTRYPOINT ["python", "script.py"]
+# Mantener el contenedor en ejecución indefinidamente
+CMD ["tail", "-f", "/dev/null"]
