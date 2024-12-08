@@ -85,57 +85,6 @@ jobs:
           done
         working-directory: "./deployment"
 
-      # - name: Create ECR repo [TF apply]
-      #   shell: bash
-      #   run: |
-      #     set -eux 
-      #     terraform apply -var-file="prod.tfvars" -auto-approve
-      #   working-directory: "./deployment/ecr"
-
-      # - name: Create VPC [TF apply]
-      #   shell: bash
-      #   run: |
-      #     set -eux
-      #     terraform apply -var-file="prod.tfvars" -auto-approve
-      #   working-directory: "./deployment/vpc"
-
-      # - name: Create ALB [TF apply]
-      #   shell: bash
-      #   run: |
-      #     set -eux
-      #     terraform apply -var-file="prod.tfvars" -auto-approve
-      #   working-directory: "./deployment/alb"
-
-      # - name: Create ECS Cluster [TF apply]
-      #   id: ecs_cluster
-      #   shell: bash
-      #   run: |
-      #     set -eux
-      #     terraform apply -var-file="prod.tfvars" -auto-approve
-      #     echo "task_role_arn=$(terraform output -raw task_role_arn)" >> $GITHUB_OUTPUT
-      #     echo "task_execution_role_arn=$(terraform output -raw task_execution_role_arn)" >> $GITHUB_OUTPUT
-      #   working-directory: "./deployment/ecs"
-
-      # - name: Create RDS [TF apply]
-      #   shell: bash
-      #   run: |
-      #     set -eux
-      #     terraform apply -var-file="prod.tfvars" -auto-approve
-      #   working-directory: "./deployment/rds"
-
-      # - name: Create Bastion [TF apply]
-      #   shell: bash
-      #   run: |
-      #     set -eux
-      #     terraform apply -var-file="prod.tfvars" -auto-approve
-      #   working-directory: "./deployment/bastion"
-        
-      # - name: Create outputs [TF apply]
-      #   shell: bash
-      #   run: |
-      #     set -eux
-      #     terraform apply -var-file="prod.tfvars" -auto-approve
-      #   working-directory: "./deployment/outputs"
 #      
       - name: Login to Amazon ECR
         id: login-ecr
@@ -166,7 +115,7 @@ jobs:
           ECR_REPOSITORY: ${{ env.ECR_REPO_NAME }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build "." -f "./Dockerfile" -t "$ECR_REGISTRY/$ECR_REPOSITORY/front:$IMAGE_TAG"
+          docker build "." --build-arg NEXT_PUBLIC_API_URL="back.acceso-alimentario.opsconsultingservices.com" -f "./Dockerfile" -t "$ECR_REGISTRY/$ECR_REPOSITORY/front:$IMAGE_TAG" 
           docker push "$ECR_REGISTRY/$ECR_REPOSITORY/front:$IMAGE_TAG"
           echo "IMAGE $IMAGE_TAG is pushed to $ECR_REGISTRY/$ECR_REPOSITORY/front"
           echo "image_tag_front=$IMAGE_TAG"           
