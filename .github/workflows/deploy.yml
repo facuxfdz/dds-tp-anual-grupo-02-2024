@@ -54,7 +54,7 @@ jobs:
         shell: bash
         run: |
           set -eux
-          modules=(ecr vpc alb ecs rds outputs)
+          modules=(ecr vpc alb ecs rds bastion outputs)
 
           for module in "${modules[@]}"; do
             echo "module: $module" 
@@ -71,50 +71,71 @@ jobs:
           done            
         working-directory: "./deployment"
 
-      - name: Create ECR repo [TF apply]
-        shell: bash
-        run: |
-          set -eux 
-          terraform apply -var-file="prod.tfvars" -auto-approve
-        working-directory: "./deployment/ecr"
-
-      - name: Create VPC [TF apply]
+      - name: Create Resources [TF Apply]
         shell: bash
         run: |
           set -eux
-          terraform apply -var-file="prod.tfvars" -auto-approve
-        working-directory: "./deployment/vpc"
+          modules=(ecr vpc alb ecs rds bastion outputs)
 
-      - name: Create ALB [TF apply]
-        shell: bash
-        run: |
-          set -eux
-          terraform apply -var-file="prod.tfvars" -auto-approve
-        working-directory: "./deployment/alb"
+          for module in "${modules[@]}"; do
+            echo "module: $module" 
+            cd $module 
+            terraform apply -var-file="prod.tfvars" -auto-approve
+            cd ..
+          done
+        working-directory: "./deployment"
 
-      - name: Create ECS Cluster [TF apply]
-        id: ecs_cluster
-        shell: bash
-        run: |
-          set -eux
-          terraform apply -var-file="prod.tfvars" -auto-approve
-          echo "task_role_arn=$(terraform output -raw task_role_arn)" >> $GITHUB_OUTPUT
-          echo "task_execution_role_arn=$(terraform output -raw task_execution_role_arn)" >> $GITHUB_OUTPUT
-        working-directory: "./deployment/ecs"
+      # - name: Create ECR repo [TF apply]
+      #   shell: bash
+      #   run: |
+      #     set -eux 
+      #     terraform apply -var-file="prod.tfvars" -auto-approve
+      #   working-directory: "./deployment/ecr"
 
-      - name: Create RDS [TF apply]
-        shell: bash
-        run: |
-          set -eux
-          terraform apply -var-file="prod.tfvars" -auto-approve
-        working-directory: "./deployment/rds"
+      # - name: Create VPC [TF apply]
+      #   shell: bash
+      #   run: |
+      #     set -eux
+      #     terraform apply -var-file="prod.tfvars" -auto-approve
+      #   working-directory: "./deployment/vpc"
+
+      # - name: Create ALB [TF apply]
+      #   shell: bash
+      #   run: |
+      #     set -eux
+      #     terraform apply -var-file="prod.tfvars" -auto-approve
+      #   working-directory: "./deployment/alb"
+
+      # - name: Create ECS Cluster [TF apply]
+      #   id: ecs_cluster
+      #   shell: bash
+      #   run: |
+      #     set -eux
+      #     terraform apply -var-file="prod.tfvars" -auto-approve
+      #     echo "task_role_arn=$(terraform output -raw task_role_arn)" >> $GITHUB_OUTPUT
+      #     echo "task_execution_role_arn=$(terraform output -raw task_execution_role_arn)" >> $GITHUB_OUTPUT
+      #   working-directory: "./deployment/ecs"
+
+      # - name: Create RDS [TF apply]
+      #   shell: bash
+      #   run: |
+      #     set -eux
+      #     terraform apply -var-file="prod.tfvars" -auto-approve
+      #   working-directory: "./deployment/rds"
+
+      # - name: Create Bastion [TF apply]
+      #   shell: bash
+      #   run: |
+      #     set -eux
+      #     terraform apply -var-file="prod.tfvars" -auto-approve
+      #   working-directory: "./deployment/bastion"
         
-      - name: Create outputs [TF apply]
-        shell: bash
-        run: |
-          set -eux
-          terraform apply -var-file="prod.tfvars" -auto-approve
-        working-directory: "./deployment/outputs"
+      # - name: Create outputs [TF apply]
+      #   shell: bash
+      #   run: |
+      #     set -eux
+      #     terraform apply -var-file="prod.tfvars" -auto-approve
+      #   working-directory: "./deployment/outputs"
 #      
       - name: Login to Amazon ECR
         id: login-ecr
