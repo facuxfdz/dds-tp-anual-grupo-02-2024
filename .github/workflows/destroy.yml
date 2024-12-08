@@ -70,13 +70,14 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
         with:
-          registries: ${{ secrets.AWS_ACCOUNT_ID }}
+          registries: ${{ secrets.AWS_ACCOUNT_ID }}          
 
       - name: Pre-destroy cleanup
         shell: bash
         run: |
           set -eux
           # Delete all images in the ECR repository
+          export AWS_REGION="us-east-1"
           repos=(acceso-alimentario_releases acceso-alimentario_releases/front acceso-alimentario_releases/recomendaciones-api)
           for repo in "${repos[@]}"; do
             echo "Deleting images in $repo"
