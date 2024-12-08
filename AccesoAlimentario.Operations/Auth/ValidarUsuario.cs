@@ -78,7 +78,8 @@ public static class ValidarUsuario
             {
                 HttpOnly = true,
                 Secure = true,
-                SameSite = SameSiteMode.None
+                SameSite = SameSiteMode.None,
+                Domain = Environment.GetEnvironmentVariable("FRONT_DOMAIN") ?? "localhost"
             });
 
             return Results.Ok(new
