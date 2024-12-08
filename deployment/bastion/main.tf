@@ -59,12 +59,12 @@ resource "aws_iam_role" "bastion_role" {
 resource "aws_iam_policy" "bastion_policy" {
   name        = "${var.vpc_name}-ssm-policy"
   description = "Policy for SSM access"
-  policy      = jsonencode({
+  policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
       {
-        Effect   = "Allow",
-        Action   = [
+        Effect = "Allow",
+        Action = [
           "ecs:*",
         ],
         Resource = "*",
