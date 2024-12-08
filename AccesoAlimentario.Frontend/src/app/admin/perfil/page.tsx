@@ -26,7 +26,7 @@ import {IActualizarPerfilRequest} from "@models/requests/auth/iActualizarPerfilR
 import {useNotification} from "@components/Notifications/NotificationContext";
 import Grid from "@mui/material/Grid2";
 import {useDispatch} from "react-redux";
-import {setUserName, setUserTarjetaColaboracionId} from "@redux/features/userSlice";
+import {setUserName} from "@redux/features/userSlice";
 import {IColaboradorResponseMinimo} from "@models/responses/roles/iColaboradorResponse";
 
 export default function PerfilPage() {
@@ -87,7 +87,7 @@ export default function PerfilPage() {
             addNotification("Perfil actualizado correctamente", "success");
             dispatch(setUserName(data.nombre));
             if (user.personaTipo === "Humana" && data.codigoTarjeta != null && data.codigoTarjeta != "") {
-                dispatch(setUserTarjetaColaboracionId(data.codigoTarjeta));
+                window.location.reload();
             }
         } catch {
             addNotification("Error al actualizar el perfil", "error");
@@ -162,7 +162,7 @@ export default function PerfilPage() {
                     }
                     {
                         user.tecnicoId != "" && (
-                            <>
+                            <Grid container spacing={3} alignItems="center" mt={3}>
                                 <Grid size={4} key={"areaCoberturaLatitud"}>
                                     <TextFieldElement
                                         name={"areaCoberturaLatitud"}
@@ -208,7 +208,7 @@ export default function PerfilPage() {
                                         }
                                     />
                                 </Grid>
-                            </>
+                            </Grid>
                         )
                     }
                 </CardContent>

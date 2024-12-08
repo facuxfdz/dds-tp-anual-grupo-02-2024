@@ -108,15 +108,15 @@ export default function RegistroVisitaModal({
                                         />
                                     </LocalizationProvider>
                                 </Grid>
-                                <Grid size={12} key={"descripcion"}>
+                                <Grid size={12} key={"comentario"}>
                                     <TextFieldElement
-                                        name={"descripcion"}
-                                        label={"Descripción"}
-                                        placeholder={"Descripción"}
+                                        name={"comentario"}
+                                        label={"Comentario"}
+                                        placeholder={"Comentario"}
                                         fullWidth
                                         rules={
                                             {
-                                                required: "Por favor ingrese una descripción"
+                                                required: "Por favor ingrese un comentario"
                                             }
                                         }
                                     />
