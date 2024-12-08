@@ -4,6 +4,7 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace AccesoAlimentario.Operations.Sensores.Temperatura;
 
@@ -29,33 +30,37 @@ public static class AltaRegistroTemperatura
         }
     }
     
-    public class Handler : IRequestHandler<AltaRegistroTemperaturaCommand, IResult>
+    public class AltaRegistroTemperaturaHandler : IRequestHandler<AltaRegistroTemperaturaCommand, IResult>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
+        private readonly ILogger<AltaRegistroTemperaturaHandler> _logger;
         
-        public Handler(IUnitOfWork unitOfWork, IMapper mapper)
+        public AltaRegistroTemperaturaHandler(IUnitOfWork unitOfWork, ILogger<AltaRegistroTemperaturaHandler> logger)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
+            _logger = logger;
         }
         
         public async Task<IResult> Handle(AltaRegistroTemperaturaCommand request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation($"Alta registro temperatura - {request.SensorId} - {request.Fecha}");
             var sensor = await _unitOfWork.SensorRepository.GetByIdAsync(request.SensorId);
             if (sensor == null || sensor is not SensorTemperatura sensorTemperatura)
             {
+                _logger.LogWarning($"Sensor no encontrado - {request.SensorId}");
                 return Results.NotFound("Sensor no encontrado");
             }
             
             var id = sensorTemperatura.Registrar(request.Fecha, request.Temperatura);
             if (id == Guid.Empty)
             {
+                _logger.LogWarning("Error al registrar la temperatura");
                 return Results.BadRequest("Error al registrar la temperatura");
             }
             var registro = sensorTemperatura.RegistrosTemperatura.Find(r => r.Id == id);
             if (registro == null)
             {
+                _logger.LogWarning("Error al registrar la temperatura");
                 return Results.BadRequest("Error al registrar la temperatura");
             }
             await _unitOfWork.RegistroTemperaturaRepository.AddAsync(registro);

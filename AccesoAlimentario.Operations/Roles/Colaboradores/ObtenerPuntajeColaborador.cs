@@ -26,10 +26,11 @@ public static class ObtenerPuntajeColaborador
         public async Task<IResult> Handle(ObtenerPuntajeColaboradorCommand request,
             CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Obtener Puntaje Colaborador");
+            _logger.LogInformation("Obtener Puntaje Colaborador - {ColaboradorId}", request.ColaboradorId);
             var colaborador = await _unitOfWork.ColaboradorRepository.GetByIdAsync(request.ColaboradorId);
             if (colaborador == null)
             {
+                _logger.LogWarning("Colaborador no encontrado - {ColaboradorId}", request.ColaboradorId);
                 return Results.NotFound();
             }
 

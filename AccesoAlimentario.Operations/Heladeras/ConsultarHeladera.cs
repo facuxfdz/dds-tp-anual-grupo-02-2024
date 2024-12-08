@@ -31,11 +31,12 @@ public static class ConsultarHeladera
 
         public async Task<IResult> Handle(ConsultarHeladeraQuery request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation($"Consultar heladera - {request.Id}");
             var heladera = await _unitOfWork.HeladeraRepository.GetByIdAsync(request.Id);
 
             if (heladera == null)
             {
-                _logger.LogWarning("Heladera no encontrada");
+                _logger.LogWarning($"Heladera no encontrada - {request.Id}");
                 return Results.NotFound();
             }
 

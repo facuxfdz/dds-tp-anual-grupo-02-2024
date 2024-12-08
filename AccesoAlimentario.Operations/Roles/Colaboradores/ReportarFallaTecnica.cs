@@ -32,7 +32,7 @@ public static class ReportarFallaTecnica
 
         public async Task<IResult> Handle(ReportarFallaTecnicaCommand request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Reportar Falla Tecnica");
+            _logger.LogInformation("Reportar Falla Tecnica - {ReporteroId}", request.ReporteroId);
             var colaborador = await _unitOfWork.ColaboradorRepository.GetByIdAsync(request.ReporteroId);
 
             if (colaborador == null)

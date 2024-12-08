@@ -21,23 +21,21 @@ public static class ColaborarConDonacionMonetaria
     public class ColaborarConDonacionMonetariaHandler : IRequestHandler<ColaborarConDonacionMonetariaCommand, IResult>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
         private readonly ILogger _logger;
 
-        public ColaborarConDonacionMonetariaHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<ColaborarConDonacionMonetariaHandler> logger)
+        public ColaborarConDonacionMonetariaHandler(IUnitOfWork unitOfWork, ILogger<ColaborarConDonacionMonetariaHandler> logger)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
             _logger = logger;
         }
 
         public async Task<IResult> Handle(ColaborarConDonacionMonetariaCommand request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Colaborar con donación monetaria");
+            _logger.LogInformation($"Colaborar con donación monetaria - {request.ColaboradorId} - {request.FechaContribucion}");
             var colaborador = await _unitOfWork.ColaboradorRepository.GetByIdAsync(request.ColaboradorId);
             if (colaborador == null)
             {
-                _logger.LogWarning("Colaborador no encontrado");
+                _logger.LogWarning($"Colaborador no encontrado - {request.ColaboradorId}");
                 return Results.NotFound();
             }
 
@@ -54,7 +52,6 @@ public static class ColaborarConDonacionMonetaria
             
             await _unitOfWork.DonacionMonetariaRepository.AddAsync(donacion);
             await _unitOfWork.SaveChangesAsync();
-            _logger.LogInformation("Donación monetaria registrada");
 
             return Results.Ok();
         }

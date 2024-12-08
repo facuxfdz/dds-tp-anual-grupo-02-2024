@@ -6,6 +6,7 @@ using AccesoAlimentario.Operations.Heladeras;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace AccesoAlimentario.Operations.Contribuciones;
 
@@ -24,24 +25,26 @@ public static class ColaborarConDonacionDeHeladera
         public ModeloHeladeraRequest Modelo { get; set; } = null!;
     }
 
-    public class Handler : IRequestHandler<ColaborarConDonacionDeHeladeraCommand, IResult>
+    public class ColaborarConDonacionDeHeladeraHandler : IRequestHandler<ColaborarConDonacionDeHeladeraCommand, IResult>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
         private readonly IMediator _mediator;
+        private readonly ILogger<ColaborarConDonacionDeHeladeraHandler> _logger;
         
-        public Handler(IUnitOfWork unitOfWork, IMapper mapper, IMediator mediator)
+        public ColaborarConDonacionDeHeladeraHandler(IUnitOfWork unitOfWork, IMediator mediator, ILogger<ColaborarConDonacionDeHeladeraHandler> logger)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
             _mediator = mediator;
+            _logger = logger;
         }
         
         public async Task<IResult> Handle(ColaborarConDonacionDeHeladeraCommand request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation($"Colaborar con donación de heladera - {request.ColaboradorId} - {request.FechaContribucion}");
             var colaborador = await _unitOfWork.ColaboradorRepository.GetByIdAsync(request.ColaboradorId);
             if (colaborador == null)
             {
+                _logger.LogWarning($"Colaborador no encontrado - {request.ColaboradorId}");
                 return Results.NotFound();
             }
 

@@ -32,10 +32,11 @@ public class ObtenerSuscripciones
         public async Task<IResult> Handle(ObtenerSuscripcionesQuery request,
             CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Obteniendo suscripciones de colaborador");
+            _logger.LogInformation("Obtener Suscripciones - {ColaboradorId}", request.ColaboradorId);
             var colaborador = await _unitOfWork.ColaboradorRepository.GetByIdAsync(request.ColaboradorId);
             if (colaborador == null)
             {
+                _logger.LogWarning("Colaborador no encontrado - {ColaboradorId}", request.ColaboradorId);
                 return Results.NotFound();
             }
 

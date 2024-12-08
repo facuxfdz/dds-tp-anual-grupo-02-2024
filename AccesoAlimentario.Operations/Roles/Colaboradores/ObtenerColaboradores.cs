@@ -29,7 +29,7 @@ public static class ObtenerColaboradores
 
         public async Task<IResult> Handle(ObtenerColaboradoresCommand request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Obteniendo colaboradores");
+            _logger.LogInformation("Obtener Colaboradores");
             var query = _unitOfWork.ColaboradorRepository.GetQueryable();
             var colaboradores = await _unitOfWork.ColaboradorRepository.GetCollectionAsync(query);
 

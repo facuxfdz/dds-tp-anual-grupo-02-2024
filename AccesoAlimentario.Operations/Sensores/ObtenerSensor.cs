@@ -34,6 +34,7 @@ public static class ObtenerSensor
 
             if (sensor == null)
             {
+                _logger.LogWarning("Sensor no encontrado - {SensorId}", request.SensorId);
                 return Results.BadRequest("Sensor no encontrado");
             }
 

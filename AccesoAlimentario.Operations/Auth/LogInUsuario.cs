@@ -31,13 +31,14 @@ public static class LogInUsuario
 
         public async Task<IResult> Handle(LogInUsuarioCommand request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("LogIn usuario");
+            _logger.LogInformation($"Login usuario - {request.Username}");
             var passwordHash = PasswordManager.HashPassword(request.Password);
             var query = _unitOfWork.UsuarioSistemaRepository.GetQueryable()
                 .Where(u => u.UserName == request.Username && u.Password == passwordHash);
             var existingUser = await _unitOfWork.UsuarioSistemaRepository.GetAsync(query);
             if (existingUser == null)
             {
+                _logger.LogWarning($"Usuario no encontrado - {request.Username}");
                 return Results.Unauthorized();
             }
             

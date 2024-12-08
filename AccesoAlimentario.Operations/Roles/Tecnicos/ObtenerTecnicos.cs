@@ -29,7 +29,7 @@ public static class ObtenerTecnicos
 
         public async Task<IResult> Handle(ObtenerTecnicosCommand request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Obteniendo técnicos");
+            _logger.LogInformation("Obtener Tecnicos");
             var query = _unitOfWork.TecnicoRepository.GetQueryable();
             var tecnicos = await _unitOfWork.TecnicoRepository.GetCollectionAsync(query);
 

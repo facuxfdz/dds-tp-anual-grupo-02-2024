@@ -2,6 +2,7 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace AccesoAlimentario.Operations.Heladeras;
 
@@ -12,22 +13,24 @@ public static class ConsultarEstadoHeladera
         public Guid Id { get; set; } = Guid.Empty;
     }
 
-    public class Handler : IRequestHandler<ConsultarEstadoHeladeraCommand, IResult>
+    public class ConsultarEstadoHeladeraHandler : IRequestHandler<ConsultarEstadoHeladeraCommand, IResult>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
+        private readonly ILogger<ConsultarEstadoHeladeraHandler> _logger;
 
-        public Handler(IUnitOfWork unitOfWork, IMapper mapper)
+        public ConsultarEstadoHeladeraHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<ConsultarEstadoHeladeraHandler> logger)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<IResult> Handle(ConsultarEstadoHeladeraCommand request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation($"Consultar estado de heladera - {request.Id}");
             var heladera = await _unitOfWork.HeladeraRepository.GetByIdAsync(request.Id);
             if (heladera == null)
             {
+                _logger.LogWarning($"Heladera no encontrada - {request.Id}");
                 return Results.NotFound();
             }
 

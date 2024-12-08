@@ -30,12 +30,12 @@ public static class ValidarUsuario
 
         public async Task<IResult> Handle(ValidarUsuarioCommand request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Validar usuario");
+            _logger.LogInformation($"Validar usuario - {request.Token}");
 
             var token = request.Token;
             if (string.IsNullOrEmpty(token))
             {
-                _logger.LogError("Token es requerido");
+                _logger.LogWarning("Token es requerido");
                 return Results.BadRequest("Token es requerido");
             }
 
@@ -49,7 +49,7 @@ public static class ValidarUsuario
 
             if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(userEmail))
             {
-                _logger.LogWarning("Token inválido");
+                _logger.LogWarning("Token no es válido");
                 return Results.Unauthorized();
             }
 
@@ -62,7 +62,7 @@ public static class ValidarUsuario
 
             if (existingUser == null)
             {
-                _logger.LogInformation("Usuario no existe");
+                _logger.LogWarning($"Usuario no encontrado - {userName}");
                 return Results.Ok(new
                 {
                     userExists = false,

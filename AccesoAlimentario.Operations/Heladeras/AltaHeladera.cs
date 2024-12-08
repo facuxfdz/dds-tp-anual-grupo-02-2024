@@ -6,6 +6,7 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace AccesoAlimentario.Operations.Heladeras;
 
@@ -43,23 +44,27 @@ public static class AltaHeladera
         }
     }
 
-    public class Handler : IRequestHandler<AltaHeladeraCommand, Heladera>
+    public class AltaHeladeraHandler : IRequestHandler<AltaHeladeraCommand, Heladera>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly ILogger<AltaHeladeraHandler> _logger;
 
-        public Handler(IUnitOfWork unitOfWork, IMapper mapper)
+        public AltaHeladeraHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<AltaHeladeraHandler> logger)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<Heladera> Handle(AltaHeladeraCommand request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation($"Alta de heladera - {request.PuntoEstrategico.Nombre} - {request.FechaInstalacion}");
             var validator = new AltaHeladeraValidator();
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
             if (!validationResult.IsValid)
             {
+                _logger.LogWarning($"Validación fallida - {request.PuntoEstrategico.Nombre} - {request.FechaInstalacion}");
                 throw new ValidationException(validationResult.Errors);
             }
             

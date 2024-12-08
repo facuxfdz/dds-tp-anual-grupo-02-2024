@@ -2,16 +2,19 @@
 using Microsoft.Extensions.Hosting;
 using AccesoAlimentario.Core.Entities.Reportes;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace AccesoAlimentario.Operations.Reportes
 {
     public class CrearReportesService : BackgroundService
     {
         private readonly IServiceScopeFactory _scopeFactory;
+        private readonly ILogger<CrearReportesService> _logger;
 
-        public CrearReportesService(IServiceScopeFactory scopeFactory)
+        public CrearReportesService(IServiceScopeFactory scopeFactory, ILogger<CrearReportesService> logger)
         {
             _scopeFactory = scopeFactory;
+            _logger = logger;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -21,7 +24,7 @@ namespace AccesoAlimentario.Operations.Reportes
 
             // Calculate next Monday
             var daysUntilNextSunday = (7 - (int)now.DayOfWeek) % 7;
-            Console.WriteLine($"Days until next Sunday: {daysUntilNextSunday}");
+            _logger.LogInformation($"Days until next Sunday: {daysUntilNextSunday}");
             var nextSunday = now.Date.AddDays(daysUntilNextSunday).AddHours(0); // Midnight on Sunday
 
             // Calculate delay
@@ -49,7 +52,7 @@ namespace AccesoAlimentario.Operations.Reportes
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"An error occurred while running the task: {ex.Message}");
+                    _logger.LogError(ex, "Error al generar reportes");
                 }
 
                 // Wait for the next run
@@ -76,7 +79,7 @@ namespace AccesoAlimentario.Operations.Reportes
             
             if (reportes.Any())
             {
-                Console.WriteLine("Reportes ya generados para la semana pasada");
+                _logger.LogInformation("Reportes ya generados para la semana pasada");
                 return;
             }
             
@@ -94,7 +97,7 @@ namespace AccesoAlimentario.Operations.Reportes
             }
             
             await unitOfWork.SaveChangesAsync();
-            Console.WriteLine("Reportes generados para la semana pasada");
+            _logger.LogInformation("Reportes generados para la semana pasada");
         }
 
         public override Task StopAsync(CancellationToken stoppingToken)

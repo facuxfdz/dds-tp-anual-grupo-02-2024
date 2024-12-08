@@ -31,7 +31,7 @@ public static class BajaColaborador
 
         public async Task<IResult> Handle(BajaColaboradorCommand request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Baja Colaborador");
+            _logger.LogInformation("Baja Colaborador - {Id}", request.Id);
             var colaborador = await _unitOfWork.ColaboradorRepository.GetByIdAsync(request.Id);
             if (colaborador == null)
             {

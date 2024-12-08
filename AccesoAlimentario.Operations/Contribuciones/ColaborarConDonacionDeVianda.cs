@@ -2,9 +2,9 @@
 using AccesoAlimentario.Core.Entities.Contribuciones;
 using AccesoAlimentario.Core.Entities.Heladeras;
 using AccesoAlimentario.Core.Settings;
-using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace AccesoAlimentario.Operations.Contribuciones;
 
@@ -22,28 +22,31 @@ public static class ColaborarConDonacionDeVianda
         public EstadoVianda EstadoVianda { get; set; } = EstadoVianda.Disponible;
     }
     
-    public class Handler : IRequestHandler<ColaborarConDonacionDeViandaCommand, IResult>
+    public class ColaborarConDonacionDeViandaHandler : IRequestHandler<ColaborarConDonacionDeViandaCommand, IResult>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
+        private readonly ILogger<ColaborarConDonacionDeViandaHandler> _logger;
 
-        public Handler(IUnitOfWork unitOfWork, IMapper mapper)
+        public ColaborarConDonacionDeViandaHandler(IUnitOfWork unitOfWork, ILogger<ColaborarConDonacionDeViandaHandler> logger)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<IResult> Handle(ColaborarConDonacionDeViandaCommand request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation($"Colaborar con donación de vianda - {request.ColaboradorId} - {request.FechaContribucion}");
             var colaborador = await _unitOfWork.ColaboradorRepository.GetByIdAsync(request.ColaboradorId);
             if (colaborador == null)
             {
+                _logger.LogWarning($"Colaborador no encontrado - {request.ColaboradorId}");
                 return Results.NotFound();
             }
 
             var heladera = await _unitOfWork.HeladeraRepository.GetByIdAsync(request.HeladeraId);
             if (heladera == null)
             {
+                _logger.LogWarning($"Heladera no encontrada - {request.HeladeraId}");
                 return Results.NotFound();
             }
 

@@ -26,7 +26,7 @@ public static class DesuscribirseHeladera
         public async Task<IResult> Handle(DesuscribirseHeladeraCommand request,
             CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Desuscribiendo heladera");
+            _logger.LogInformation("Desuscribirse de heladera - Id: {0}", request.SuscripcionId);
             var suscripcion = await _unitOfWork.SuscripcionRepository.GetByIdAsync(request.SuscripcionId);
             if (suscripcion == null)
             {

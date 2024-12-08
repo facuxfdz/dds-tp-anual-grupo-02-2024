@@ -3,6 +3,7 @@ using AccesoAlimentario.Core.Entities.Autorizaciones;
 using AccesoAlimentario.Core.Entities.Tarjetas;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace AccesoAlimentario.Operations.Heladeras;
 
@@ -15,22 +16,26 @@ public static class RegistrarAperturaHeladera
         public TipoAcceso TipoAcceso { get; set; } = TipoAcceso.IngresoVianda;
     }
 
-    public class Handler : IRequestHandler<RegistrarAperturaHeladeraCommand, IResult>
+    public class RegistrarAperturaHeladeraHandler : IRequestHandler<RegistrarAperturaHeladeraCommand, IResult>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMediator _mediator;
+        private readonly ILogger<RegistrarAperturaHeladeraHandler> _logger;
 
-        public Handler(IUnitOfWork unitOfWork, IMediator mediator)
+        public RegistrarAperturaHeladeraHandler(IUnitOfWork unitOfWork, IMediator mediator, ILogger<RegistrarAperturaHeladeraHandler> logger)
         {
             _unitOfWork = unitOfWork;
             _mediator = mediator;
+            _logger = logger;
         }
 
         public async Task<IResult> Handle(RegistrarAperturaHeladeraCommand request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation($"Registrar apertura de heladera - {request.HeladeraId}");
             var tarjeta = await _unitOfWork.TarjetaRepository.GetByIdAsync(request.TarjetaId);
             if (tarjeta == null || tarjeta is not TarjetaColaboracion tarjetaColaboracion)
             {
+                _logger.LogWarning($"Tarjeta no encontrada - {request.TarjetaId}");
                 return Results.NotFound("Tarjeta no encontrada");
             }
 
@@ -43,6 +48,7 @@ public static class RegistrarAperturaHeladera
 
             if (!puedeAcceder)
             {
+                _logger.LogWarning($"No tiene permisos para abrir esta heladera - {request.HeladeraId}");
                 return Results.Problem("No tiene permisos para abrir esta heladera");
             }
 
@@ -50,12 +56,14 @@ public static class RegistrarAperturaHeladera
 
             if (heladera == null)
             {
+                _logger.LogWarning($"Heladera no encontrada - {request.HeladeraId}");
                 return Results.NotFound("Heladera no encontrada");
             }
 
             var auth = tarjetaColaboracion.TieneAutorizacion(heladera);
             if (auth == null)
             {
+                _logger.LogWarning($"No tiene autorización para abrir esta heladera - {request.HeladeraId}");
                 return Results.Problem("No tiene autorización para abrir esta heladera");
             }
 

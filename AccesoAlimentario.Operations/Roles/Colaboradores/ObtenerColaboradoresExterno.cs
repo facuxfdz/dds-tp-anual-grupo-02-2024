@@ -28,7 +28,7 @@ public static class ObtenerColaboradoresExterno
         
         public async Task<IResult> Handle(ObtenerColaboradoresExternoCommand request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Obteniendo colaboradores para servicios externos");
+            _logger.LogInformation("Obtener Colaboradores Externo");
             var query = _unitOfWork.ColaboradorRepository.GetQueryable();
             var colaboradores = await _unitOfWork.ColaboradorRepository.GetCollectionAsync(query);
             var resColaboradores = colaboradores.Select(

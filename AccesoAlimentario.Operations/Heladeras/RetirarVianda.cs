@@ -3,6 +3,7 @@ using AccesoAlimentario.Core.Entities.Autorizaciones;
 using AccesoAlimentario.Core.Entities.Tarjetas;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace AccesoAlimentario.Operations.Heladeras;
 
@@ -14,22 +15,26 @@ public static class RetirarVianda
         public Guid HeladeraId { get; set; } = Guid.Empty;
     }
     
-    public class Handler : IRequestHandler<RetirarViandaCommand, IResult>
+    public class RetirarViandaHandler : IRequestHandler<RetirarViandaCommand, IResult>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMediator _mediator;
+        private readonly ILogger<RetirarViandaHandler> _logger;
 
-        public Handler(IUnitOfWork unitOfWork, IMediator mediator)
+        public RetirarViandaHandler(IUnitOfWork unitOfWork, IMediator mediator, ILogger<RetirarViandaHandler> logger)
         {
             _unitOfWork = unitOfWork;
             _mediator = mediator;
+            _logger = logger;
         }
 
         public async Task<IResult> Handle(RetirarViandaCommand request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation($"Retirar vianda de heladera - {request.HeladeraId}");
             var tarjeta = await _unitOfWork.TarjetaRepository.GetByIdAsync(request.TarjetaId);
             if (tarjeta == null)
             {
+                _logger.LogWarning($"Tarjeta no encontrada - {request.TarjetaId}");
                 return Results.NotFound("Tarjeta no encontrada");
             }
             
@@ -42,6 +47,7 @@ public static class RetirarVianda
             
             if (!puedeAcceder)
             {
+                _logger.LogWarning($"No tiene permisos para retirar viandas de esta heladera - {request.HeladeraId}");
                 return Results.Problem("No tiene permisos para retirar viandas de esta heladera");
             }
             
@@ -49,11 +55,13 @@ public static class RetirarVianda
             
             if (heladera == null)
             {
+                _logger.LogWarning($"Heladera no encontrada - {request.HeladeraId}");
                 return Results.NotFound("Heladera no encontrada");
             }
             
             if (heladera.ObtenerCantidadDeViandas() < 1)
             {
+                _logger.LogWarning($"No hay suficientes viandas disponibles en la heladera - {request.HeladeraId}");
                 return Results.Problem("No hay suficientes viandas disponibles");
             }
 
