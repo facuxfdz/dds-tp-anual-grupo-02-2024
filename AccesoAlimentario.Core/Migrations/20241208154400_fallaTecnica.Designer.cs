@@ -3,6 +3,7 @@ using System;
 using AccesoAlimentario.Core.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AccesoAlimentario.Core.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241208154400_fallaTecnica")]
+    partial class fallaTecnica
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -357,7 +360,7 @@ namespace AccesoAlimentario.Core.Migrations
                     b.Property<Guid?>("IncidenteId")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid?>("TecnicoId")
+                    b.Property<Guid>("TecnicoId")
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id");
@@ -1152,7 +1155,9 @@ namespace AccesoAlimentario.Core.Migrations
 
                     b.HasOne("AccesoAlimentario.Core.Entities.Roles.Tecnico", "Tecnico")
                         .WithMany("VisitasTecnicas")
-                        .HasForeignKey("TecnicoId");
+                        .HasForeignKey("TecnicoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Tecnico");
                 });

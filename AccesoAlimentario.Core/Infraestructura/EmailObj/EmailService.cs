@@ -1,3 +1,4 @@
+using AccesoAlimentario.Core.Entities.Notificaciones;
 using AccesoAlimentario.Core.Settings;
 using MailKit.Net.Smtp;
 using MailKit.Security;
@@ -15,14 +16,27 @@ public class EmailService
     }
 
     public void Enviar(string from, string to, string subject, string body,
-        IEnumerable<MailAttachment>? attachments = null)
+        List<ImagenCid> imagenes = null, List<MailAttachment> attachments = null)
     {
         var message = new MimeMessage();
         message.From.Add(new MailboxAddress(from, _smtpConfig.Username));
         message.To.Add(new MailboxAddress(to, to));
         message.Subject = subject;
+        
         var builder = new BodyBuilder { HtmlBody = body };
 
+        if (imagenes != null)
+        {
+            foreach (var imagen in imagenes)
+            {
+                var img = imagen.Imagen.Contains("data:image") ? imagen.Imagen.Split(",")[1] : imagen.Imagen;
+                var imageBytes = Convert.FromBase64String(img);
+                var imageStream = new MemoryStream(imageBytes);
+                var imageAttachment = builder.LinkedResources.Add($"{imagen.Cid}.jpg", imageStream);
+                imageAttachment.ContentId = imagen.Cid;
+            }
+        }
+        
         if (attachments != null)
         {
             foreach (var attachment in attachments)

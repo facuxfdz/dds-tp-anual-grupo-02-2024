@@ -30,7 +30,8 @@ public static class DesuscribirseHeladera
             var suscripcion = await _unitOfWork.SuscripcionRepository.GetByIdAsync(request.SuscripcionId);
             if (suscripcion == null)
             {
-                return Results.NotFound();
+                _logger.LogWarning("No se encontró la suscripción - Id: {0}", request.SuscripcionId);
+                return Results.NotFound("No se encontró la suscripción");
             }
 
             await _unitOfWork.SuscripcionRepository.RemoveAsync(suscripcion);

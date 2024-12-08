@@ -17,12 +17,10 @@ public static class BajaHeladera
     public class Handler : IRequestHandler<BajaHeladeraCommand, IResult>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
 
-        public Handler(IUnitOfWork unitOfWork, IMapper mapper)
+        public Handler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
         }
 
         public async Task<IResult> Handle(BajaHeladeraCommand request, CancellationToken cancellationToken)
@@ -47,8 +45,6 @@ public static class BajaHeladera
                         break;
                 }
             }
-
-            await _unitOfWork.ViandaRepository.RemoveRangeAsync(heladera.Viandas);
 
             foreach (var suscripcion in heladera.Suscripciones)
             {
@@ -101,8 +97,20 @@ public static class BajaHeladera
                 }
                 await _unitOfWork.DistribucionViandasRepository.UpdateAsync(distribucion);
             }
+
+            foreach (var vianda in heladera.Viandas)
+            {
+                var queryV = _unitOfWork.AccesoHeladeraRepository.GetQueryable()
+                    .Where(acceso => acceso.Viandas.Any(v => v.Id == vianda.Id));
+                
+                var accesos = await _unitOfWork.AccesoHeladeraRepository.GetCollectionAsync(queryV);
+                
+                await _unitOfWork.AccesoHeladeraRepository.RemoveRangeAsync(accesos);
+            }
             
             await _unitOfWork.PuntoEstrategicoRepository.RemoveAsync(heladera.PuntoEstrategico);
+            
+            await _unitOfWork.ViandaRepository.RemoveRangeAsync(heladera.Viandas);
             
             await _unitOfWork.HeladeraRepository.RemoveAsync(heladera);
             await _unitOfWork.SaveChangesAsync();

@@ -6,7 +6,7 @@ public class VisitaTecnica
 {
     public Guid Id { get; set; } = Guid.NewGuid();
 
-    public virtual Tecnico Tecnico { get; set; } = null!;
+    public virtual Tecnico? Tecnico { get; set; } = null!;
     public string? Foto { get; set; } = null;
     public DateTime Fecha { get; set; } = DateTime.UtcNow;
     public string? Comentario { get; set; } = null;

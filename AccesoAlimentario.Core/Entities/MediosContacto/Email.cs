@@ -19,7 +19,7 @@ public class Email : MedioContacto
     public override void Enviar(Notificacion notificacion)
     {
         var e = new EmailService();
-        e.Enviar("Grupo 02", this.Direccion, notificacion.Asunto, notificacion.Mensaje);
+        e.Enviar("Grupo 02", this.Direccion, notificacion.Asunto, notificacion.Mensaje, notificacion.Imagenes);
         this.Historial.Add(notificacion);
     }
 }
