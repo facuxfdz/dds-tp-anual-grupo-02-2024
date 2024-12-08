@@ -26,6 +26,8 @@ from datetime import datetime
 def parse_args():
     parser = argparse.ArgumentParser(description="RabbitMQ Producer for Sensor Data")
     parser.add_argument('--host', type=str, default='localhost', help="RabbitMQ server host")
+    parser.add_argument('--username', type=str, default='guest', help="RabbitMQ username (default: guest)")
+    parser.add_argument('--password', type=str, default='guest', help="RabbitMQ password (default: guest)")
     parser.add_argument('--duration', type=int, required=True, help="Duration to send messages (in seconds)")
     parser.add_argument('--sensor', action='append', required=True, help="Sensor id and queue name, in the format <id>:<queue_name>")
     parser.add_argument('--mean', type=float, default=25.0, help="Mean temperature value (default is 25)")
@@ -34,8 +36,6 @@ def parse_args():
 # Function to generate right-skewed log-normal data
 def generate_temperatures(mean, size):
     # Log-normal distribution parameters (mean and sigma)
-    # We will approximate the mean of a log-normal distribution by the formula:
-    # mean = exp(mu + sigma^2 / 2), so we solve for mu and sigma.
     sigma = 0.02  # Set a reasonable standard deviation to get skewed values
     mu = np.log(mean) - (sigma ** 2) / 2
     
@@ -53,7 +53,8 @@ def main():
     sample_size = int(os.getenv("SAMPLE_SIZE", "100"))  # Default sample size
 
     # Establish RabbitMQ connection
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host=args.host))
+    credentials = pika.PlainCredentials(args.username, args.password)
+    connection = pika.BlockingConnection(pika.ConnectionParameters(host=args.host, credentials=credentials))
     channel = connection.channel()
 
     # Create a dictionary for sensor-queue mappings
@@ -88,6 +89,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 EOF
 
 sudo chmod +x /opt/rabbitmq/rabbitmq_producer.py
