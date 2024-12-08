@@ -75,6 +75,7 @@ def create_service(
             service=service_name,
             taskDefinition=task_definition_arn,
             desiredCount=1,
+            deploymentConfiguration={ 'maximumPercent': 600, 'minimumHealthyPercent': 100 },
             serviceConnectConfiguration={
                 'enabled': True,
                 'namespace': 'accesoalimentario_namespace',
@@ -112,6 +113,7 @@ def create_service(
                     'securityGroups': security_groups,
                 }
             },
+            deploymentConfiguration={ 'maximumPercent': 600, 'minimumHealthyPercent': 100 },
             serviceConnectConfiguration={
                 'enabled': True,
                 'namespace': 'accesoalimentario_namespace',
