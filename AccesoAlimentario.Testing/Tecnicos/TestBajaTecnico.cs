@@ -1,17 +1,18 @@
 ﻿using AccesoAlimentario.Core.DAL;
-using AccesoAlimentario.Operations.Heladeras;
 using AccesoAlimentario.Testing.Utils;
 using Microsoft.Extensions.DependencyInjection;
+using AccesoAlimentario.Core.Entities.Roles;
+using AccesoAlimentario.Operations.Roles.Tecnicos;
 
-namespace AccesoAlimentario.Testing.Heladeras;
+namespace AccesoAlimentario.Testing.Tecnicos;
 
-public class TestBajaHeladera
+public class TestBajaTecnico
 {
     [Test]
     
-    //TODO: Funciona pero si se corren todos los test no funca
+    // TODO: Cuando lo corro solo funcan pero si corro todo junto me tiran error 
     
-    public async Task BajaHeladeraTest()
+    public async Task BajaTecnicoTest()
     {
         var mockServices = new MockServices();
         var mediator = mockServices.GetMediator();
@@ -19,11 +20,11 @@ public class TestBajaHeladera
         using var scope = mockServices.GetScope();
         var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         
-        var heladera = context.Heladeras.First();
+        var tecnico = context.Roles.OfType<Tecnico>().First();
 
-        var command = new BajaHeladera.BajaHeladeraCommand
+        var command = new BajaTecnico.BajaTecnicoCommand
         {
-            Id = heladera.Id,
+            Id = tecnico.Id,
         };
         
         var result = await mediator.Send(command);
@@ -37,10 +38,10 @@ public class TestBajaHeladera
                 Assert.Fail($"El comando devolvió NotFound: {notFound.Value}");
                 break;
             case Microsoft.AspNetCore.Http.HttpResults.Ok:
-                Assert.Pass($"El comando devolvió Ok. Se dió de baja la heladera. ");
+                Assert.Pass($"El comando dio de baja al tecnico: {tecnico.Id}.");
                 break;
             default:
-                Assert.Fail($"El comando no devolvió ok - {result.GetType()}"); 
+                Assert.Fail($"El comando devolvió un tipo inesperado - {result.GetType()}");
                 break;
         }
     }

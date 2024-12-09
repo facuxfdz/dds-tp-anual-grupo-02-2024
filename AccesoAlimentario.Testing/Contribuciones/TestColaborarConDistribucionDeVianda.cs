@@ -10,6 +10,8 @@ namespace AccesoAlimentario.Testing.Contribuciones;
 public class TestColaborarConDistribucionDeVianda
 {
     [Test]
+    
+    //TODO: Funca si se corre solo, si corremos todos juntos no funca
     public async Task TestRegistrarConDistribucionDeVianda()
     {
         var mockServices = new MockServices();

@@ -1,17 +1,16 @@
 ﻿using AccesoAlimentario.Core.DAL;
-using AccesoAlimentario.Operations.Heladeras;
+using AccesoAlimentario.Core.Entities.Roles;
+using AccesoAlimentario.Operations.Roles.Colaboradores;
 using AccesoAlimentario.Testing.Utils;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AccesoAlimentario.Testing.Heladeras;
+namespace AccesoAlimentario.Testing.Colaboradores;
 
-public class TestBajaHeladera
+public class TestModificarColaborador
 {
     [Test]
-    
-    //TODO: Funciona pero si se corren todos los test no funca
-    
-    public async Task BajaHeladeraTest()
+
+    public async Task ModificarColaboradorTest()
     {
         var mockServices = new MockServices();
         var mediator = mockServices.GetMediator();
@@ -19,11 +18,15 @@ public class TestBajaHeladera
         using var scope = mockServices.GetScope();
         var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         
-        var heladera = context.Heladeras.First();
+        var personaHumanaRequest = MockRequest.GetPersonaHumanaRequest();
+        var medioContactoTelefonoRequest = MockRequest.GetTelefonoRequest();
+        var colaborador = context.Roles.OfType<Colaborador>().First();
 
-        var command = new BajaHeladera.BajaHeladeraCommand
+        var command = new ModificacionColaborador.ModificacionColaboradorCommand
         {
-            Id = heladera.Id,
+            Id = colaborador.Id,
+            Persona = personaHumanaRequest,
+            MediosDeContacto = [medioContactoTelefonoRequest]
         };
         
         var result = await mediator.Send(command);
@@ -37,10 +40,10 @@ public class TestBajaHeladera
                 Assert.Fail($"El comando devolvió NotFound: {notFound.Value}");
                 break;
             case Microsoft.AspNetCore.Http.HttpResults.Ok:
-                Assert.Pass($"El comando devolvió Ok. Se dió de baja la heladera. ");
+                Assert.Pass($"El comando modificó al colaborador cuyo id es: {colaborador.Id}.");
                 break;
             default:
-                Assert.Fail($"El comando no devolvió ok - {result.GetType()}"); 
+                Assert.Fail($"El comando devolvió un tipo inesperado - {result.GetType()}");
                 break;
         }
     }

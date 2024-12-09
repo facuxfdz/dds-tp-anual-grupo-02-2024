@@ -1,29 +1,30 @@
 ﻿using AccesoAlimentario.Core.DAL;
-using AccesoAlimentario.Operations.Heladeras;
+using AccesoAlimentario.Core.Entities.Reportes;
+using AccesoAlimentario.Operations.Dto.Responses.Reportes;
+using AccesoAlimentario.Operations.Reportes;
 using AccesoAlimentario.Testing.Utils;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AccesoAlimentario.Testing.Heladeras;
+namespace AccesoAlimentario.Testing.Reportes;
 
-public class TestBajaHeladera
+public class TestObtenerReporteVigente
 {
     [Test]
+
+    //TODO: No funciona parece que okResult no es de tipo ReporteResponse
     
-    //TODO: Funciona pero si se corren todos los test no funca
-    
-    public async Task BajaHeladeraTest()
+    public async Task ObtenerReporteVigenteTest()
     {
         var mockServices = new MockServices();
         var mediator = mockServices.GetMediator();
 
         using var scope = mockServices.GetScope();
         var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-        
-        var heladera = context.Heladeras.First();
 
-        var command = new BajaHeladera.BajaHeladeraCommand
+        var command = new ObtenerReporteVigente.ObtenerReporteVigenteCommand
         {
-            Id = heladera.Id,
+            TipoReporte = TipoReporte.CANTIDAD_VIANDAS_POR_COLABORADOR
         };
         
         var result = await mediator.Send(command);
@@ -36,11 +37,15 @@ public class TestBajaHeladera
             case Microsoft.AspNetCore.Http.HttpResults.NotFound<string> notFound:
                 Assert.Fail($"El comando devolvió NotFound: {notFound.Value}");
                 break;
-            case Microsoft.AspNetCore.Http.HttpResults.Ok:
-                Assert.Pass($"El comando devolvió Ok. Se dió de baja la heladera. ");
+            case Microsoft.AspNetCore.Http.HttpResults.Ok<object> okResult:
+                var registro = okResult.Value;
+                if (registro != null)
+                {
+                    Assert.Pass($"El comando devolvió el reporte de tipo");
+                }
                 break;
             default:
-                Assert.Fail($"El comando no devolvió ok - {result.GetType()}"); 
+                Assert.Fail($"Resultado inesperado del comando: {result.GetType().FullName}");
                 break;
         }
     }
