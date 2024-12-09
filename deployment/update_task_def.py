@@ -76,6 +76,7 @@ def create_service(
             taskDefinition=task_definition_arn,
             desiredCount=1,
             deploymentConfiguration={ 'maximumPercent': 600, 'minimumHealthyPercent': 100 },
+            enableExecuteCommand=True,
             serviceConnectConfiguration={
                 'enabled': True,
                 'namespace': 'accesoalimentario_namespace',

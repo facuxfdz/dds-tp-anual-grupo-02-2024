@@ -9,6 +9,9 @@
         "essential": true,
         "memory": 512,
         "cpu": 256,
+        "linuxParameters": {
+            "initProcessEnabled": true
+        },
         "portMappings": [
           {
             "name": "http",

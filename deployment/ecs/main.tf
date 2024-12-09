@@ -104,10 +104,19 @@ module "ecs" {
 
   cluster_name = var.cluster_name
 
+  cluster_configuration = {
+    execute_command_configuration = {
+      logging = "OVERRIDE"
+      log_configuration = {
+        cloud_watch_log_group_name = "/aws/ecs/${var.cluster_name}"
+      }
+    }
+  }
+
   create_task_exec_iam_role = true
   create_task_exec_policy   = true
   task_exec_iam_role_policies = {
-    logs = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
+    logs        = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
     ssmmessages = aws_iam_policy.ssmmessages.arn
   }
   task_exec_iam_role_name = "${var.service_name}-task-exec-role"
