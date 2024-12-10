@@ -81,7 +81,6 @@ jobs:
           repos=(acceso-alimentario_releases acceso-alimentario_releases/front acceso-alimentario_releases/recomendaciones-api)
           for repo in "${repos[@]}"; do
             echo "Deleting images in $repo"
-            aws ecr list-images --repository-name $repo --query 'imageIds[*]' --output json | jq
             aws ecr batch-delete-image --repository-name $repo --image-ids "$(aws ecr list-images --repository-name $repo --query 'imageIds[*]' --output json)" || true
           done
         working-directory: "./deployment"
