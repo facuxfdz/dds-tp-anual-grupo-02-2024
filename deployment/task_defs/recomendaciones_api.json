@@ -26,7 +26,7 @@
           }
         },
         "environment": [
-          { "name": "COLABORADORES_API_URL", "value": "http://backend:8085/api/colaboradores/externos" },
+          { "name": "COLABORADORES_API_URL", "value": "https://back.acceso-alimentario.opsconsultingservices.com/api/colaboradores/externos" },
           { "name": "BACKEND_API", "value": "https://accesoalimentario.internal" }
         ]
       }
